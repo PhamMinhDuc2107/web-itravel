@@ -3,12 +3,13 @@
 class Util
 {
    public static function generateCsrfToken() {
-      if (!Session::get('csrf_token') !== null) {
+      if (Session::get('csrf_token') === null) {
          $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
       }
       return $_SESSION['csrf_token'];
    }
-   public static function checkCsrfToken() {
+   public static function checkCsrfToken(): bool
+   {
       if (in_array(Request::method(), ['POST', 'PUT', 'PATCH', 'DELETE'])) {
          $token = Request::input("csrf_token") ?? "";
          $csrf_session = Session::get('csrf_token');

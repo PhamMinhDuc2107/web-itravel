@@ -26,6 +26,7 @@
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
@@ -62,7 +63,42 @@ if (file_exists($sidebarPath)) {
 <script src="<?php echo ASSET?>/admin/js/core/popper.min.js"></script>
 
 <script src="<?php echo ASSET?>/admin/js/core/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const footerFunction = document.querySelector('.footer-function');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const span = document.querySelector('.footer-text-content');
+        const closeBtn= document.querySelector('.footer-btn');
+        function toggleFooterFunction() {
+            let checkedCount = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    checkedCount++;
+                }
+            });
 
+            if (checkedCount > 0){
+                footerFunction.style.display = 'flex';
+                span.textContent = `${checkedCount}`;
+            }else{
+                footerFunction.style.display = 'none';
+            }
+        }
+        if(footerFunction && checkboxes) {
+            toggleFooterFunction();
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', toggleFooterFunction);
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                checkboxes.forEach(checkbox => checkbox.checked = false);
+                toggleFooterFunction()
+            })
+        }
+    });
+</script>
 </body>
 
 </html>

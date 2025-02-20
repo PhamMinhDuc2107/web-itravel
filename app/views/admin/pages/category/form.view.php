@@ -33,20 +33,7 @@
 
                      </ul>
                   </div>
-                  <script>
-                     let formEdit = document.querySelector('.formEdit');
-                     let inputParent = document.querySelector('.parentId');
-                     let inputValue = document.querySelector('#dropdownMenuButton1');
-                     let dropdownItems = document.querySelectorAll('.dropdown-item');
-                     dropdownItems.forEach((dropdownItem) => {
-                         dropdownItem.addEventListener('click', function (e) {
-                             let id =e.target.dataset.id;
-                             let value = e.target.dataset.value;
-                             inputValue.value = value;
-                             inputParent.value = id;
-                         })
-                     })
-                  </script>
+
                   <button type="submit" class="btn btn-primary">Submit</button>
                </form>
             </div>
@@ -54,3 +41,17 @@
       </div>
    </div>
 </div>
+<script>
+    let formEdit = document.querySelector('.formEdit');
+    let inputParent = document.querySelector('.parentId');
+    let inputValue = document.querySelector('#dropdownMenuButton1');
+    let dropdownItems = document.querySelectorAll('.dropdown-item');
+    dropdownItems.forEach((dropdownItem) => {
+        dropdownItem.addEventListener('click', function (e) {
+            let id =e.target.dataset.id;
+            let value = e.target.dataset.value;
+            inputValue.value = value;
+            inputParent.value = id;
+        })
+    })
+</script>

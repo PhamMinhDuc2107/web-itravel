@@ -4,10 +4,19 @@ class Category extends Controller
 {
    private $data = [];
    private $CategoryModel;
+   /**
+    * @var JwtUtil
+    */
+   private $jwt;
+
    function __construct(){
       $this->CategoryModel = $this->model("CategoryModel");
+      $this->jwt = new JwtUtil();
+      if(!$this->jwt->checkAuth("token_auth")) {
+         Util::redirect("cpanel/login",['invalid' => "Vui lòng đăng nhập lại","type"=>"error"]);
+      }
       if(!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/admin",['msg' => "Thất bại! Token không hợp lệ" ,"type" => "error"]);
+         Util::redirect("cpanel/category",['msg' => "Thất bại! Token không hợp lệ" ,"type" => "error"]);
       }
    }
    public function index() {
@@ -16,6 +25,7 @@ class Category extends Controller
       $this->data['title'] = "Danh mục";
       $this->data['page'] ="category/index";
       $this->data['categories'] = $categories;
+      $this->data['json'] = json_encode($categories);
       $this->render("layouts/admin_layout", $this->data);
    }
    public function create() {
@@ -74,13 +84,17 @@ class Category extends Controller
    }
    public function delete() {
       if(Request::isMethod("POST")) {
-         $id = (int)htmlspecialchars(Request::input("categoryId"));
-         if (!$id || $id <= 0) {
-            Util::redirect("cpanel/admin", ['msg'=> "ID không hợp lệ", "type" => "error"]);
+         $listID = Request::input("id");
+         if (empty($listID)) {
+            Util::redirect("cpanel/category", ['msg'=> "ID không hợp lệ", "type" => "error"]);
          }
-         $res = $this->CategoryModel->delete($id);
-         if (!$res) {
-            Util::redirect("cpanel/category", ['msg'=> "Xóa thất bại" , "type" => "error"]);
+         foreach ($listID as $id) {
+            if (!is_numeric($id) || $id < 0) {
+               Util::redirect("cpanel/category", ['msg'=> "ID không hợp lệ", "type" => "error"]);
+            }
+         }
+         foreach ($listID as $id) {
+            $this->CategoryModel->delete($id);
          }
          Util::redirect("cpanel/category", ["msg"=>"Xóa  thành công", "type" => "success"]);
       }

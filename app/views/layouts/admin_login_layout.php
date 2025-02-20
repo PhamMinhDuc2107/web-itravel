@@ -54,7 +54,6 @@
                                     <div class="mb-3">
                                         <input type="password" class="form-control form-control-lg" placeholder="Password"  name="password">
                                     </div>
-                                    <?php echo Session::get("csrf_token")?>
                                     <input type="hidden" name="csrf_token" value="<?php echo Session::get("csrf_token")?>">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="rememberMe" name="remember">

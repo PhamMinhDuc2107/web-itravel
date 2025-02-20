@@ -18,7 +18,6 @@ class Dashboard extends Controller{
          $user = $this->jwt->checkAuth("token_auth");
          if (!$user) {
             Util::redirect("cpanel/login");
-            exit;
          }
          $this->data['page']= 'index';
          $this->data['title'] = "Dashboard";
@@ -29,7 +28,6 @@ class Dashboard extends Controller{
          $admin = $this->jwt->checkAuth("token_auth");
          if ($admin) {
             Util::redirect("cpanel/");
-            exit;
          }
          $this->data['title']= 'Login';
          $this->render("layouts/admin_login_layout", $this->data);

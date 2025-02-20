@@ -4,9 +4,17 @@ class Admin extends Controller
 {
    private $data;
    private $AdminModel;
-   private $excludedMethods = ['index'];
+   /**
+    * @var JwtUtil
+    */
+   private $jwt;
+
    public function __construct() {
       $this->AdminModel = $this->model("AdminModel");
+      $this->jwt = new JwtUtil();
+      if(!$this->jwt->checkAuth("token_auth")) {
+         Util::redirect("cpanel/login",['invalid' => "Vui lòng đăng nhập lại","type"=>"error"]);
+      }
       if(!Util::checkCsrfToken()) {
          Util::redirect("cpanel/admin",['msg' => "Thất bại! Token không hợp lệ" ,"type" => "error"]);
       }
@@ -78,14 +86,21 @@ class Admin extends Controller
    }
 
    public function delete() {
+
       if(Request::isMethod("POST")) {
-         $id = (int)htmlspecialchars(Request::input("id"));
-         if (!$id || $id <= 0) {
-            Util::redirect("cpanel/admin", ['msg'=> "ID không hợp lệ", "type" => "error"]);
+         $listId = Request::input("id");;
+         if (empty($listId)) {
+            Util::redirect("cpanel/admin",['msg'=>"ID không hợp lệ", "type" => "error"]);
          }
-         $res = $this->AdminModel->delete($id);
-         if (!$res) {
-            Util::redirect("cpanel/admin", ['msg'=> "Xóa thất bại", "type" => "error"]);
+         $admin = $this->jwt->decode($_COOKIE["token_auth"]);
+         $adminId = $admin->data->id;
+         foreach ($listId as $id) {
+            if ($id == $adminId) {
+               Util::redirect("cpanel/admin",['msg'=>"Bạn không thể xóa tài khoản đang đăng nhập", "type" => "error"]);
+            }
+         }
+         foreach ($listId as $id) {
+            $this->AdminModel->delete($id);
          }
          Util::redirect("cpanel/admin", ["msg"=>"Xóa  thành công", "type"=>"success"]);
       }

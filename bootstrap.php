@@ -7,9 +7,7 @@
    require_once "core/Session.php";
    require_once "core/Util.php";
 //   created token csrf
-   if(!Session::get("csrf_token")) {
-      Util::generateCsrfToken();
-   }
+   Util::generateCsrfToken();
 
    if(!empty($_SERVER["HTTPS"]) && $_SERVER["HTPPS"] == "on") {
       $web_root = 'https://'.$_SERVER['HTTP_HOST'];

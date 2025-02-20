@@ -1,79 +1,100 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <button type="button" class=" btn btn-primary  text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-bs-toggle="modal" data-bs-target="#modalCreated">
-                        Thêm mới
-                    </button>
-
-                </div>
-               <?php if(Request::input("msg") !== null) :?>
-                   <span class="<?php echo Request::input('type') === "error"?"text-warning" :"text-success"?> card-header" style="padding-top: 5px; padding-bottom:5px"><?php echo htmlspecialchars(Request::input('msg'))?></span>
-               <?php endif;?>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Parent</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Create_at</th>
-                                <th class="text-secondary opacity-7"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $categories = $data['categories'] ??[];
-                            ?>
-                            <?php if(!empty($categories)) : ?>
-                               <?php foreach($categories as $category): ?>
+            <form action="<?php echo _WEB_ROOT."/cpanel/category-delete"?>" method="post" class="">
+                <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <button type="button" class=" btn btn-primary  text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-bs-toggle="modal" data-bs-target="#modalCreated">
+                            Thêm mới
+                        </button>
+                    </div>
+                   <?php if(Request::input("msg") !== null) :?>
+                       <span class="<?php echo Request::input('type') === "error"?"text-warning" :"text-success"?> card-header" style="padding-top: 5px; padding-bottom:5px"><?php echo htmlspecialchars(Request::input('msg'))?></span>
+                   <?php endif;?>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm"><?php echo $category["name"]?></h6>
+                                        <th class="">
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Parent</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Create_at</th>
+                                        <th class="text-secondary opacity-7"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                $categories = $data['categories'] ??[];
+                                ?>
+                                <?php if(!empty($categories)) : ?>
+                                   <?php foreach($categories as $category): ?>
+                                        <tr>
+                                            <td class= " text-center" style="width: 10px;">
+                                                <input type="checkbox" name="id[]"
+                                                       class="mx-auto"
+                                                       value="<?php echo $category['id']?>"
+                                                    style="width: 15px; height:15px"
+                                                >
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><?php echo $category["name"]?></h6>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <?php if(!empty($category['parent_id'])) :?>
-                                                <?php foreach ($categories as $item):?>
-                                                    <?php if($category['parent_id'] == $item["id"]) :?>
-                                                        <h6 class="mb-0 text-sm"><?php echo $item['name']?></h6>
-                                                    <?php endif;?>
-                                                <?php endforeach;?>
-                                            <?php endif;?>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">
-                                                <?php echo date("Y-m-d", strtotime($category['created_at']));?>
-                                            </span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <a href="<?php echo _WEB_ROOT."/cpanel/category-update/".$category['id']?>" class=" btn btn-primary  text-white font-weight-bold text-xs " style="margin-bottom: 0;"
-                                                    id="btnEdit"
-                                                    >
-                                                Edit
-                                            </a>
-                                            <form action="<?php echo _WEB_ROOT."/cpanel/category-delete"?>" method="post" class="d-inline-block">
-                                                <input type="hidden" name="categoryId" value="<?php echo $category['id']; ?>">
-                                                <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
-                                                <button type="submit" class=" btn btn-danger text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-toggle="tooltip" data-original-title="Edit user"
-                                                        onclick="alert('Bạn có muốn xóa tài khoản này không?')">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    </tr>
-                               <?php endforeach; ?>
-                            <?php endif; ?>
-                            </tbody>
-                        </table>
+                                            </td>
+                                            <td>
+                                                <?php if(!empty($category['parent_id'])) :?>
+                                                    <?php foreach ($categories as $item):?>
+                                                        <?php if($category['parent_id'] == $item["id"]) :?>
+                                                            <h6 class="mb-0 text-sm"><?php echo $item['name']?></h6>
+                                                        <?php endif;?>
+                                                    <?php endforeach;?>
+                                                <?php endif;?>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">
+                                                    <?php echo date("Y-m-d", strtotime($category['created_at']));?>
+                                                </span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="<?php echo _WEB_ROOT."/cpanel/category-update/".$category['id']?>" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
+                                                        id="btnEdit"
+                                                        >
+                                                    Edit
+                                                </a>
+
+                                            </td>
+                                        </tr>
+                                        </tr>
+                                   <?php endforeach; ?>
+                                <?php endif; ?>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                </div>
+                <div class="footer-function gap-2 mt-2 p-2 position-sticky bottom-1 bg-white">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div class="footer-text w-25 d-flex gap-2 align-items-center">
+                            <span class="footer-text-content"></span> selected
+                            <span class="footer-btn d-flex justify-content-center align-items-center rounded-circle" style="width: 20px; height: 20px">
+                                <i class="fa fa-close " style="width: 100%; height: 100%;"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <button type="submit" class=" btn btn-danger text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-toggle="tooltip" data-original-title="Edit user"
+                                    onclick="alert('Bạn có muốn xóa tài khoản này không?')">
+                                Delete
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+            </form>
         </div>
     </div>
 </div>
@@ -132,3 +153,4 @@
         });
     })
 </script>
+
