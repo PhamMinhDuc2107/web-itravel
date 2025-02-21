@@ -48,9 +48,12 @@ class Category extends Controller
    }
    public function update($id) {
       $category = $this->CategoryModel->find(htmlspecialchars($id));
+      if(empty($category)) {
+         Util::redirect("cpanel/category",['msg'=>"Id không tồn tại", "type"=>"error"]);
+      }
       $categories = $this->CategoryModel->all();
       $parentId = $category["parent_id"];
-      if (!empty($parentId)) {
+      if ($parentId > 0 && is_numeric($parentId)) {
          $parent = $this->CategoryModel->find($parentId);
          $this->data['parent'] = $parent['name'];
       }
@@ -84,7 +87,7 @@ class Category extends Controller
    }
    public function delete() {
       if(Request::isMethod("POST")) {
-         $listID = Request::input("id");
+         $listID = Request::input("id") ?? [];
          if (empty($listID)) {
             Util::redirect("cpanel/category", ['msg'=> "ID không hợp lệ", "type" => "error"]);
          }

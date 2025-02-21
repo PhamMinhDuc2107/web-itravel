@@ -1,7 +1,6 @@
 <?php
    class App {
       private $__controller, $__action,$__params, $__routes;
-
       public function __construct() {
          global $routes;
          $this->__routes = new Route();
@@ -55,11 +54,12 @@
                $this->__controller = new $this->__controller();
                unset($urlArr[0]);
             } else {
-                $this->loadError();
+               Util::loadError("404");
             }
         } else {
-            $this->loadError();
-        }
+            $this->data['path'] = "/";
+            Util::loadError("404");
+         }
          if(!empty($urlArr[1])){
             $this->__action = $urlArr[1];
             unset($urlArr[1]);
@@ -69,7 +69,8 @@
          if(method_exists($this->__controller, $this->__action)) {
             call_user_func_array([ $this->__controller, $this->__action ], $this->__params);
          }else {
-            $this->loadError();
+            $this->data['path'] = "/";
+            Util::loadError("404");
          }
       }
       public function getUrl():string {
@@ -79,9 +80,6 @@
             $url = "/";
          }
          return $url;
-      }
-      public function loadError($name ="404") {
-         require_once "app/errors/".$name.".php";
       }
    }
 ?>

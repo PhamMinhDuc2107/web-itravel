@@ -51,6 +51,9 @@ class Admin extends Controller
    }
    public function update($id) {
       $admin = $this->AdminModel->find(htmlspecialchars($id));
+      if($admin) {
+
+      }
       $this->data['title'] = "Edit Admin";
       $this->data['heading']="Edit Admin";
       $this->data['page'] ="admin/form";
@@ -88,7 +91,7 @@ class Admin extends Controller
    public function delete() {
 
       if(Request::isMethod("POST")) {
-         $listId = Request::input("id");;
+         $listId = Request::input("id") ?? [];
          if (empty($listId)) {
             Util::redirect("cpanel/admin",['msg'=>"ID không hợp lệ", "type" => "error"]);
          }

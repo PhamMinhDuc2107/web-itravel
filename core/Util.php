@@ -45,4 +45,10 @@ class Util
       print_r($arr);
       echo "</pre>";
    }
+   public static function loadError($type='404', $arr= []) {
+      $folder = "app/errors/".$type.".php";
+      if (file_exists($folder)) {
+         require_once $folder;
+      }
+   }
 }

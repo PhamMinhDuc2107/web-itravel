@@ -53,7 +53,12 @@ if (file_exists($sidebarPath)) {
     <div class="container-fluid py-4">
         <div class="row">
            <?php if(isset($data['page'])) {
-              require_once _DIR_ROOT."/app/views/admin/pages/".$data['page'].".view.php";
+               $folder = _DIR_ROOT."/app/views/admin/pages/".$data['page'].".view.php";
+               if (file_exists($folder)) {
+                  require_once $folder;
+               }else {
+                  require_once _DIR_ROOT."/app/views/admin/pages/404/404.view.php";
+               }
            }?>
         </div>
     </div>
