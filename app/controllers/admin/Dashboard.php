@@ -13,15 +13,14 @@ class Dashboard extends Controller{
             Util::redirect("cpanel/login",['invalid' => "Thất bại! Token không hợp lệ"]);
          }
       }
-
       public function index() {
-         $user = $this->jwt->checkAuth("token_auth");
-         if (!$user) {
-            Util::redirect("cpanel/login");
+         $admin = $this->jwt->checkAuth("token_auth");
+         if (!$admin) {
+            Util::redirect("cpanel/login",['invalid' => "Vui lòng đăng nhập lại","type"=>"error"]);
          }
          $this->data['page']= 'index';
          $this->data['title'] = "Dashboard";
-         $this->data['admin'] = $user->data;
+         $this->data['admin'] = $admin->data;
          $this->render("layouts/admin_layout", $this->data);
       }
       public function login() {
@@ -44,7 +43,6 @@ class Dashboard extends Controller{
             if(empty($admin) || !password_verify($password, $admin['password'])) {
                Util::redirect("cpanel/login", ["invalid" => "Tài khoản mật khẩu sai"]);
             }
-
             $payload = $this->jwt->generatePayload($admin, $remember);
             $token = $this->jwt->encode($payload);
 

@@ -10,7 +10,7 @@
     <div class="" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="<?php echo _WEB_ROOT?>/cpanel">
+                <a class="nav-link" href="<?php echo _WEB_ROOT?>/cpanel">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
                     </div>
@@ -22,7 +22,18 @@
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Admin</span>
+                    <span class="nav-link-text ms-1">Quản lý Admin</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Tour</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="<?php echo _WEB_ROOT.'/cpanel/category'?>">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Quản lý danh mục tour</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -30,27 +41,45 @@
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Danh Mục</span>
+                    <span class="nav-link-text ms-1">Quản lý tour</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="../pages/virtual-reality.html">
+                <a class="nav-link " href="<?php echo _WEB_ROOT.'/cpanel/category'?>">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-app text-dark text-sm opacity-10"></i>
+                        <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Virtual Reality</span>
+                    <span class="nav-link-text ms-1">Quản lý điểm đến tour</span>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/rtl.html">
+            </li><li class="nav-item">
+                <a class="nav-link " href="<?php echo _WEB_ROOT.'/cpanel/category'?>">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
+                        <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">RTL</span>
+                    <span class="nav-link-text ms-1">Quản lý mục lục tour</span>
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Tin tức</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="<?php echo _WEB_ROOT.'/cpanel/blog'?>">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-app text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Quản lý tin tức</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link "href="<?php echo _WEB_ROOT.'/cpanel/blogCategory'?>">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Danh mục tin tức</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Tài khoản</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="../pages/profile.html">
@@ -61,15 +90,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="../pages/sign-in.html">
+                <a class="nav-link " href="<?php echo _WEB_ROOT?>/cpanel/logout">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Sign In</span>
-                </a>
-            </li>
-            <li class="nav-item text-center">
-                <a class=" btn btn-primary color-white" href="<?php echo _WEB_ROOT?>/cpanel/logout">
                     <span class="nav-link-text ms-1">Logout</span>
                 </a>
             </li>

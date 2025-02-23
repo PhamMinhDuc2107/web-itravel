@@ -3,7 +3,54 @@
         <div class="col-12">
             <form action="<?php echo _WEB_ROOT.'/cpanel/admin-delete'?>" method="post" class="d-inline">
                 <div class="card mb-4">
-                    <div class="card-header pb-0">
+                    <div class="card-header d-flex justify-content-between align-items-center pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center gap-1">
+                                <span>Sắp xếp:</span>
+                                <div class="dropdown"
+                                     style="
+                                     height: 30px;
+                                     line-height: 30px;
+                                     padding: 0 10px;
+                                     border-radius: 10px;
+                                     border: 1px solid #dee2e6;
+                                     margin-right: 10px;
+                                     border-radius: 10px;
+
+                                ">
+                                    <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <?php echo Request::input('sortBy') ?? "asc"?>
+                                    </span>
+                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
+                                        margin-top: 10px!important;">
+                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderByUrl()?>" >Tăng dần</a></li>
+                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderByUrl("desc")?>" >Giảm dần</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center gap-1">
+                                <span>Cột:</span>
+                                <div class="dropdown"
+                                     style="
+                                     height: 30px;
+                                     line-height: 30px;
+                                     padding: 0 10px;
+                                     border-radius: 10px;
+                                     border: 1px solid #dee2e6;
+                                     margin-right: 10px;
+                                     border-radius: 10px;
+                                ">
+                                    <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <?php echo Request::input('sortCol') ?? "id"?>
+                                    </span>
+                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
+                                        margin-top: 10px!important;">
+                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("id");?>" >Sắp xếp theo id</a></li>
+                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("username")?>" >Sắp xếp theo tên</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         <button type="button" class=" btn btn-primary  text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-bs-toggle="modal" data-bs-target="#modalCreated">
                             Thêm mới
                         </button>
@@ -20,6 +67,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
                                     <th class="text-secondary opacity-7"></th>
                                 </tr>
@@ -61,6 +109,9 @@
                                             <span class="badge badge-sm bg-gradient-secondary">inactive</span>
                                         <?php endif;?>
                                     </td>
+                                    <td class="align-middle text-center text-sm">
+                                      <?php echo  $admin['phone']?>
+                                    </td>
                                     <td class="align-middle text-center">
                                         <span class="text-secondary text-xs font-weight-bold">
                                             <?php echo date("Y-m-d", strtotime($admin['created_at']));?>
@@ -82,6 +133,51 @@
                         </div>
                     </div>
                 </div>
+               <?php $page = Request::input("page") ?? 1;
+                $totalPages = $data['totalPages'] ?? 0;
+               ?>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end" style="border-radius: 10px">
+                    <span>Items per page:</span>
+                    <div class="dropdown"
+                         style="
+                         height: 30px;
+                         line-height: 30px;
+                         padding: 0 15px;
+                         border-radius: 10px;
+                         border: 1px solid #dee2e6;
+                         margin-right: 10px;
+                         border-radius: 10px;
+                    ">
+                        <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
+                            <?php echo Request::input('limit') ?? 10?>
+                        </span>
+                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
+                        margin-top: 10px!important;">
+                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(10)?>" >10</a></li>
+                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(25)?>" >25</a></li>
+                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(50)?>" >50</a></li>
+                        </ul>
+                    </div>
+                    <ul class="pagination">
+                        <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
+                            <a class="page-link" href="<?php echo Util::buildPageUrl(max(1, $page - 1)) ?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                       <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                           <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
+                               <a class="page-link" href="<?php  echo Util::buildPageUrl($i); ?>"><?php echo $i; ?></a>
+                           </li>
+                       <?php endfor; ?>
+                        <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
+                            <a class="page-link" href="<?php echo Util::buildPageUrl(min($totalPages, $page + 1)); ?>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
                 <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
                 <div class="footer-function gap-2 mt-2 p-2 position-sticky bottom-1 bg-white">
                     <div class="d-flex justify-content-between align-items-center w-100">
@@ -125,9 +221,12 @@
                     <input type="email" class="form-control" id="email" name="email" value="">
                 </div>
                 <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" value="">
+                </div>
+                <div class="mb-3">
                     <label for="status" class="form-label">Trạng thái</label>
                     <input type="radio" name="status" id="createStatus" value="1">
-
                     <label for="createStatus" id="status" name="status" class="form-label badge badge-sm bg-gradient-success">
                         Active
                     </label>

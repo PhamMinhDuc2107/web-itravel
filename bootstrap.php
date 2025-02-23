@@ -3,23 +3,24 @@
    //load env
    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
    $dotenv->load();
+
    const _DIR_ROOT = __DIR__;
    require_once "core/Session.php";
    require_once "core/Util.php";
 //   created token csrf
    Util::generateCsrfToken();
-
    if(!empty($_SERVER["HTTPS"]) && $_SERVER["HTPPS"] == "on") {
       $web_root = 'https://'.$_SERVER['HTTP_HOST'];
    }else {
       $web_root = 'http://'.$_SERVER['HTTP_HOST'];
    }
    $folder = basename(_DIR_ROOT);
-
    $web_root = $web_root."/".$folder;
    define(  "_WEB_ROOT", $web_root);
    $assets = $web_root."/public/assets";
    define("ASSET", $assets);
+   $upload = $web_root."/public/uploads";
+   define("UPLOAD", $upload);
    // auto load routers
    $router_path = scandir("routers");
    if(!empty($router_path)) {

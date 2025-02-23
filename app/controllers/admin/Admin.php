@@ -20,17 +20,21 @@ class Admin extends Controller
       }
    }
    public function index() {
-      $admins = $this->AdminModel->all();
+      Util::setBaseModel($this->AdminModel);
+      $totalPages =$this->AdminModel->getTotalPages();
+      $admins = $this->AdminModel->get();
       $this->data['title'] = "List Admin";
       $this->data['heading']="Admin";
       $this->data['page'] ="admin/index";
       $this->data['admins'] = $admins;
+      $this->data['totalPages'] = $totalPages;
       $this->render("layouts/admin_layout", $this->data);
    }
    public function create() {
       if (Request::isMethod("POST")) {
          $username = htmlspecialchars(Request::input("username"));
          $password = htmlspecialchars(Request::input("password"));
+
          $userExit = $this->AdminModel->find($username, "username");
          if ($userExit) {
             Util::Redirect("cpanel/admin", ['msg'=> "Thất bại! Tài khoản đã tồn tại","type" => "error"]);
@@ -38,10 +42,11 @@ class Admin extends Controller
          $password = password_hash($password, PASSWORD_DEFAULT);
          $email = htmlspecialchars(Request::input("email"));
          $status = (int)htmlspecialchars(Request::input("status"));
+         $phone = htmlspecialchars(Request::input("phone")) ??null;
          if($username == "" || $password == "" || $status == "") {
             Util::Redirect("cpanel/admin", ['msg'=> "Vui lòng điền đầy đủ thông tin","type" => "error"]);
          }
-         $data = ["username" => $username, "password" => $password, "email" => $email, "status" => $status];
+         $data = ["username" => $username, "password" => $password, "email" => $email,"phone"=>$phone, "status" => $status];
          $res =  $this->AdminModel->insert($data);
          if (!$res) {
             Util::Redirect("cpanel/admin", ['msg'=> "Thêm không thành công","type" => "error"]);
@@ -51,8 +56,8 @@ class Admin extends Controller
    }
    public function update($id) {
       $admin = $this->AdminModel->find(htmlspecialchars($id));
-      if($admin) {
-
+      if(!$admin) {
+         Util::redirect("cpanel/admin", ["msg"=>"Không tìm thấy admin này", "type" => "error"]);
       }
       $this->data['title'] = "Edit Admin";
       $this->data['heading']="Edit Admin";
@@ -66,16 +71,15 @@ class Admin extends Controller
          if ($id <= 0) {
             Util::Redirect("cpanel/category", ['msg' => "ID không hợp lệ"]);
          }
-         $username =htmlspecialchars(Request::input("name"));
+         $username =htmlspecialchars(Request::input("username"));
          $password = htmlspecialchars(Request::input("password"));
-         if ($username == "") {
-            Util::redirect("cpanel/admin-update/".$id, ['msg'=>"Vui lòng điền đầy đủ thông tin", "type" => "error"]);
-         }
          $email = htmlspecialchars(Request::input("email"));
+         $phone  =htmlspecialchars(Request::input("phone"));
          $status = (int)htmlspecialchars(Request::input("status"));
          $update_at = Util::formatTimeFull(time());
 
-         $data = ["username" =>$username,"email" => $email,"status"=>$status,"updated_at"=>$update_at];
+         $data = ["username" =>$username,"email" => $email,"phone"=>$phone,"status"=>$status,"updated_at"=>$update_at];
+         var_dump($data);
          if ($password !== "") {
             $password = password_hash($password, PASSWORD_DEFAULT);
             $data['password'] = $password;

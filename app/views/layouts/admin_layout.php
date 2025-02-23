@@ -33,6 +33,46 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- CSS Files -->
     <link id="pagestyle" href="<?php echo ASSET?>/admin/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
+
+    <link href="<?php echo ASSET?>/admin/css/froala_editor.pkgd.min.css" rel="stylesheet">
+    <script src="<?php echo ASSET?>/admin/js/froala_editor.pkgd.min.js"></script>
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            gap: 2px;
+            margin-bottom: unset;
+            margin-right: 5px;
+            .page-item {
+                .page-link {
+                    width: 100%;
+                    border-radius: 8px !important;
+                    margin-left: unset;
+                    height: 30px;
+                    width: 30px;
+                }
+            }
+        }
+        .page-item.disabled {
+            opacity: 0.5;
+        }
+        .page-item.active .page-link {
+            color: #fff;
+        }
+        .hiddenText {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width:100%;
+            max-width: 100%;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+    </style>
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -66,7 +106,7 @@ if (file_exists($sidebarPath)) {
 </main>
 <!--   Core JS Files   -->
 <script src="<?php echo ASSET?>/admin/js/core/popper.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="<?php echo ASSET?>/admin/js/core/bootstrap.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {

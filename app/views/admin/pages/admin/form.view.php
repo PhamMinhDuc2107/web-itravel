@@ -24,6 +24,10 @@
                         <label for="email" class="form-label">Email address</label>
                         <input type="email" class="form-control" name="email" value="<?php echo $data['admin']['email'] ?? "";?>">
                      </div>
+                      <div class="mb-3">
+                          <label for="phone" class="form-label">Phone</label>
+                          <input type="text" class="form-control" name="phone" value="<?php echo $data['admin']['phone'] ?? "";?>">
+                      </div>
                      <div class="mb-3">
                         <label for="status" class="form-label">Trạng thái</label>
 

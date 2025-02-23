@@ -4,7 +4,10 @@ class Model extends Database
 {
    protected $table;
    protected $allowedColumns = [];
-
+   protected  $limit = 10;
+   protected  $colOrderBy = "id";
+   protected $order = "ASC";
+   protected $offset = 0;
    /**
     * @throws Exception
     */
@@ -13,10 +16,12 @@ class Model extends Database
       parent::__construct();
    }
 
-   public function all() {
+   public function all()
+   {
       try {
-         $sql = "SELECT * FROM $this->table";
-         $stmt = $this->_query($sql);
+         $sql = "SELECT * FROM $this->table ORDER BY $this->colOrderBy $this->order";
+         $params = [];
+         $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (PDOException $e) {
          error_log("Database Error: " . $e->getMessage());
@@ -24,6 +29,18 @@ class Model extends Database
       }
    }
 
+   public function get()
+   {
+      try {
+         $sql = "SELECT * FROM $this->table ORDER BY $this->colOrderBy $this->order LIMIT $this->limit OFFSET $this->offset";
+         $params = [];
+         $stmt = $this->_query($sql, $params);
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      } catch (PDOException $e) {
+         error_log("Database Error: " . $e->getMessage());
+         return [];
+      }
+   }
    public function find($value, $column = "id") {
       try {
          if (!$this->isAllowedColumn($column)) {
@@ -48,11 +65,9 @@ class Model extends Database
          $columns = implode(",", array_keys($data));
          $placeholders = ":" . implode(",:", array_keys($data));
          $sql = "INSERT INTO $this->table ($columns) VALUES ($placeholders)";
-
          foreach ($data as $key => $value) {
             $params[":$key"] = $value;
          }
-
          $stmt = $this->_query($sql, $params);
          return (bool)$stmt;
       } catch (PDOException $e) {
@@ -61,7 +76,7 @@ class Model extends Database
       }
    }
 
-   public function update(array $data, $id, $column = "id"): bool {
+   public function update(array $data, $val, $column = "id"): bool {
       try {
          if (empty($data)) {
             return false;
@@ -74,7 +89,9 @@ class Model extends Database
          }
          $setClause = rtrim($setClause, ", ");
          $sql = "UPDATE $this->table SET $setClause WHERE $column = :$column";
-         $params[":$column"] = $id;
+         var_dump($sql);
+
+         $params[":$column"] = $val;
          $stmt = $this->_query($sql, $params);
          return $stmt->rowCount() > 0;
       } catch (PDOException $e) {
@@ -98,5 +115,38 @@ class Model extends Database
    public function isAllowedColumn($column): bool
    {
       return in_array($column, $this->allowedColumns);
+   }
+   public function setLimit(int $limit)
+   {
+      $this->limit = $limit;
+   }
+
+   public function setOffset(int $offset)
+   {
+      $this->offset = ($offset - 1) * $this->limit;
+   }
+
+   public function setColOrderBy(string $colOrderBy)
+   {
+      $this->colOrderBy = $colOrderBy;
+   }
+   public function setOrderBy(string $orderBy)
+   {
+      $this->order = $orderBy;
+   }
+
+   public function getCount(): int
+   {
+      try {
+         $sql = "SELECT COUNT(*) FROM $this->table";
+         $stmt = $this->_query($sql);
+         return (int)$stmt->fetchColumn();
+      } catch (PDOException $e) {
+         error_log("Count Error: " . $e->getMessage());
+         return 0;
+      }
+   }
+   public function getTotalPages():int  {
+      return ceil($this->getCount() / $this->limit);
    }
 }

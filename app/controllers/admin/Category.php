@@ -19,24 +19,30 @@ class Category extends Controller
          Util::redirect("cpanel/category",['msg' => "Thất bại! Token không hợp lệ" ,"type" => "error"]);
       }
    }
-   public function index() {
-      $categories = $this->CategoryModel->all();
+   public function index(): void
+   {
+      Util::setBaseModel($this->CategoryModel);
+      $totalPages =$this->CategoryModel->getTotalPages();
+      $categories = $this->CategoryModel->get();
+      $getCategories = $this->CategoryModel->all();
+      $this->data['totalPages'] = $totalPages;
       $this->data['page']= 'index';
       $this->data['title'] = "Danh mục";
       $this->data['page'] ="category/index";
       $this->data['categories'] = $categories;
-      $this->data['json'] = json_encode($categories);
+      $this->data['getCategories'] = $getCategories;
       $this->render("layouts/admin_layout", $this->data);
    }
-   public function create() {
+   public function create(): void
+   {
       if (Request::isMethod("POST")) {
-         $name = htmlspecialchars(Request::input("title"));
-         $parentId = htmlspecialchars(Request::input("createdParentId"));
+         $name = htmlspecialchars(Request::input("title")) ?? "";
+         $parentId = (int)htmlspecialchars(Request::input("createdParentId")) ?? "";
          if ($name === "") {
             Util::Redirect("cpanel/category", ['msg'=> "Vui lòng điền đầy đủ thông tin", "type" => "error"]);
          }
          $data = ["name" => $name];
-         if (!empty($parentId)) {
+         if ($parentId !== "") {
             $data["parent_id"] = $parentId;
          }
          $res =  $this->CategoryModel->insert($data);
@@ -51,7 +57,7 @@ class Category extends Controller
       if(empty($category)) {
          Util::redirect("cpanel/category",['msg'=>"Id không tồn tại", "type"=>"error"]);
       }
-      $categories = $this->CategoryModel->all();
+      $categories = $this->CategoryModel->get();
       $parentId = $category["parent_id"];
       if ($parentId > 0 && is_numeric($parentId)) {
          $parent = $this->CategoryModel->find($parentId);
@@ -85,7 +91,8 @@ class Category extends Controller
          Util::redirect("cpanel/category", ["msg"=>"Cập nhật thông tin thành công", "type"=>"success"]);
       }
    }
-   public function delete() {
+   public function delete(): void
+   {
       if(Request::isMethod("POST")) {
          $listID = Request::input("id") ?? [];
          if (empty($listID)) {
