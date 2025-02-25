@@ -35,19 +35,20 @@ class Location  extends Controller{
       $pathAsset = '/public/uploads/location/';
       $checkCreateImgPath = Util::createImagePath("image", $pathAsset);
       if (!$checkCreateImgPath["success"]) {
-         Util::redirect('cpanel/location', ErrorResponse::badRequest($checkCreateImgPath['message']));
+         Util::redirect('cpanel/location', ErrorResponse::badRequest($checkCreateImgPath['msg']));
       }
       $thumb = $checkCreateImgPath['name'];
       $data = $this->prepareLocationData();
       $data['image'] = $thumb;
       $res = $this->LocationModel->insert($data);
+      $id = $this->LocationModel->getLastInsertId();
       if (!$res) {
          Util::redirect("cpanel/location", ErrorResponse::internalServerError("Thêm không thanhf công"));
       }
       $checkUpload = Util::uploadImage("image", $thumb);
       if (!$checkUpload["success"]) {
-         $this->LocationModel->delete($res);
-         Util::redirect('cpanel/location', ErrorResponse::badRequest($checkUpload['message']));
+         $this->LocationModel->delete($id);
+         Util::redirect('cpanel/location', ErrorResponse::badRequest($checkUpload['msg']));
       }
       Util::redirect('cpanel/location', ['msg' => "Thêm thành công " , 'type' => "success"]);
    }
@@ -76,34 +77,34 @@ class Location  extends Controller{
        }
        $data = $this->prepareLocationData();
        $img = Request::file("image");
+       $oldImagePath = $location['image'];
+
+       $newImagePath = null;
       if ($img && !empty($img['name'])) {
          $pathAsset = '/public/uploads/location/';
          $checkCreateImgPath = Util::createImagePath("image", $pathAsset);
 
          if (!$checkCreateImgPath["success"]) {
-            Util::redirect('cpanel/location', ErrorResponse::badRequest($checkCreateImgPath['message']));
+            Util::redirect('cpanel/location', ErrorResponse::badRequest($checkCreateImgPath['msg']));
          }
-
          $newImagePath = $checkCreateImgPath['name'];
-         $uploadSuccess = Util::uploadImage("image", $newImagePath);
 
-         if (!$uploadSuccess["success"]) {
-            Util::redirect('cpanel/location', ErrorResponse::badRequest($uploadSuccess['message']));
-         }
-
-         $oldImagePath = _DIR_ROOT . $location['image'];
-         $checkDeleteImg = Util::deleteImage($oldImagePath);
-         if (!$checkDeleteImg["success"]) {
-            Util::redirect('cpanel/location', ['msg' => $checkDeleteImg["msg"], 'type' => "error"]);
-         }
          $data['image'] = $newImagePath;
       }
       $res = $this->LocationModel->update($data, $id);
-
       if (!$res) {
          Util::redirect("cpanel/location", ErrorResponse::internalServerError("Cập nhật không thành công"));
       }
-
+      if($newImagePath !== null) {
+         $uploadSuccess = Util::uploadImage("image", $newImagePath);
+         if (!$uploadSuccess["success"]) {
+            Util::redirect('cpanel/location', ErrorResponse::badRequest($uploadSuccess['msg']));
+         }
+         $checkDeleteImg = Util::deleteImage(_DIR_ROOT.$oldImagePath);
+         if (!$checkDeleteImg["success"]) {
+            Util::redirect('cpanel/location',ErrorResponse::badRequest($checkDeleteImg['msg']));
+         }
+      }
       Util::redirect("cpanel/location", ["msg" => "Cập nhật thành công", "type" => "success"]);
    }
    public function delete(): void

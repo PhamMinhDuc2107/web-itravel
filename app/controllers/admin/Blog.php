@@ -53,12 +53,13 @@ class Blog extends Controller
       $data = $this->prepareBlogData();
       $data['thumbnail'] = $thumb;
       $res = $this->BlogModel->insert($data);
+      $id = $this->BlogModel->getLastInsertId();
       if (!$res) {
          Util::redirect("cpanel/blog", ['msg' => "Thêm không thành công", "type" => "error"]);
       }
       $checkUpload = Util::uploadImage("image", $thumb);
       if (!$checkUpload["success"]) {
-         $this->BlogModel->delete($res);
+         $this->BlogModel->delete($id);
          Util::redirect('cpanel/blog', ['msg' => "Thêm thành công, nhưng tải ảnh thất bại: " . $checkUpload["msg"], 'type' => "warning"]);
       }
       Util::redirect('cpanel/blog', ['msg' => "Thêm thành công " , 'type' => "success"]);
@@ -87,7 +88,7 @@ class Blog extends Controller
    }
    public function updatePost() {
       if (!Request::isMethod("POST")) {
-          return;
+         Util::Redirect("cpanel/location", ErrorResponse::methodNotAllowed("Phương thức không được phép"));
       }
       $id = (int)(Request::input("id") ?? 0);
       $blog = $this->BlogModel->find($id);
@@ -98,7 +99,8 @@ class Blog extends Controller
   
       $data = $this->prepareBlogData(true);
       $thumb = Request::file("image");
-  
+      $oldImagePath = $blog["thumbnail"];
+      $newImagePath = null;
       if ($thumb && !empty($thumb['name'])) {
           $pathAsset = '/public/uploads/blog/';
           $checkCreateImgPath = Util::createImagePath("image", $pathAsset);
@@ -108,26 +110,25 @@ class Blog extends Controller
           }
   
           $newImagePath = $checkCreateImgPath['name'];
-          $uploadSuccess = Util::uploadImage("image", $newImagePath);
-         
-          if (!$uploadSuccess["success"]) {
-              Util::redirect('cpanel/blog', ['msg' => $uploadSuccess["msg"], 'type' => "error"]);
-          }
-  
-          $oldImagePath = _DIR_ROOT . $blog["thumbnail"];
-          if (file_exists($oldImagePath)) {
-              unlink($oldImagePath);
-          }
-  
+
           $data['thumbnail'] = $newImagePath;
       }
-  
-      $res = $this->BlogModel->update($data, $id);
 
+      $res = $this->BlogModel->update($data, $id);
       if (!$res) {
           Util::redirect("cpanel/blog", ['msg' => "Cập nhật không thành công", "type" => "error"]);
       }
-
+      if($newImagePath !== null) {
+         $uploadSuccess = Util::uploadImage("image", $newImagePath);
+         if (!$uploadSuccess["success"]) {
+            $this->BlogModel->update(["thumbnail" => $oldImagePath], $id);
+            Util::redirect('cpanel/blog', ['msg' => $uploadSuccess["msg"], 'type' => "error"]);
+         }
+         $checkDeleteImg = Util::deleteImage(_DIR_ROOT.$oldImagePath);
+         if (!$checkDeleteImg["success"]) {
+            Util::redirect('cpanel/location',ErrorResponse::badRequest($checkDeleteImg['msg']));
+         }
+      }
       Util::redirect("cpanel/blog", ["msg" => "Cập nhật thành công", "type" => "success"]);
   }
   

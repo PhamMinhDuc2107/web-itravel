@@ -11,7 +11,7 @@
    $routes['cpanel/login-post'] = 'admin/dashboard/loginPost';
    $routes['cpanel/logout'] = 'admin/dashboard/logout';
 
-   $adminModules = ['admin', 'category', 'blog', 'blogCategory','location'];
+   $adminModules = ['admin', 'category', 'blog', 'blogCategory','location',"tour"];
    foreach ($adminModules as $module) {
       $routes["cpanel/$module"] = "admin/$module/index";
       $routes["cpanel/$module-update/(.+)"] = "admin/$module/update/$1";

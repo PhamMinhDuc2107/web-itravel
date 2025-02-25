@@ -55,7 +55,20 @@ class Model extends Database
          return null;
       }
    }
-
+   public function where($value, $column = "id") {
+      try {
+         if (!$this->isAllowedColumn($column)) {
+            throw new Exception("Invalid column: $column");
+         }
+         $sql = "SELECT * FROM $this->table WHERE $column = :value";
+         $params = [":value" => $value];
+         $stmt = $this->_query($sql, $params);
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      } catch (Exception $e) {
+         error_log("Error: " . $e->getMessage());
+         return null;
+      }
+   }
    public function insert(array $data): bool {
       try {
          if (empty($data)) {
@@ -111,7 +124,10 @@ class Model extends Database
          return false;
       }
    }
-
+   public function getLastInsertId()
+   {
+      return $this->lastInsertId();
+   }
    public function isAllowedColumn($column): bool
    {
       return in_array($column, $this->allowedColumns);
