@@ -13,10 +13,10 @@ class Category extends Controller
       $this->CategoryModel = $this->model("CategoryModel");
       $this->jwt = new JwtUtil();
       if(!$this->jwt->checkAuth("token_auth")) {
-         Util::redirect("cpanel/login",['invalid' => "Vui lòng đăng nhập lại","type"=>"error"]);
+         Util::redirect("cpanel/login",ErrorResponse::unauthorized("Vui lòng đăng nhập lại"));
       }
       if(!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category",['msg' => "Thất bại! Token không hợp lệ" ,"type" => "error"]);
+         Util::redirect("cpanel/category",ErrorResponse::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
    public function index(): void

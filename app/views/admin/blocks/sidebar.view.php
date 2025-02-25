@@ -45,7 +45,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="<?php echo _WEB_ROOT.'/cpanel/category'?>">
+                <a class="nav-link " href="<?php echo _WEB_ROOT.'/cpanel/location'?>">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
                     </div>

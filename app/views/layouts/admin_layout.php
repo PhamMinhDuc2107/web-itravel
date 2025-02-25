@@ -144,6 +144,28 @@ if (file_exists($sidebarPath)) {
         }
     });
 </script>
+<script>
+    function showImage(image, show) {
+        let img = document.getElementById(`${image}`);
+        if(img) {
+            img.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function() {
+                    document.getElementById(`${show}`).src = reader.result;
+                }
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+                document.getElementById(`${show}`).style.height = `100%`;
+                document.getElementById(`${show}`).style.width = `100%`;
+            });
+        }
+    }
+    showImage("image", "previewImage");
+    showImage("imageCreateBlog", "previewImageBlog");
+
+</script>
 </body>
 
 </html>

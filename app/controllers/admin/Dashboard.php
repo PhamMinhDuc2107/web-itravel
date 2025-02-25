@@ -1,6 +1,7 @@
 <?php
 
 
+
 class Dashboard extends Controller{
       private $data;
       private $AdminModel;
@@ -10,13 +11,13 @@ class Dashboard extends Controller{
          $this->AdminModel = $this->model("AdminModel");
          $this->jwt = new JwtUtil();
          if(!Util::checkCsrfToken()) {
-            Util::redirect("cpanel/login",['invalid' => "Thất bại! Token không hợp lệ"]);
+            Util::redirect("cpanel/category",ErrorResponse::forbidden("Thất bại! Token không hợp lệ"));
          }
       }
       public function index() {
          $admin = $this->jwt->checkAuth("token_auth");
          if (!$admin) {
-            Util::redirect("cpanel/login",['invalid' => "Vui lòng đăng nhập lại","type"=>"error"]);
+            Util::redirect("cpanel/login",ErrorResponse::unauthorized("Vui lòng đăng nhập lại"));
          }
          $this->data['page']= 'index';
          $this->data['title'] = "Dashboard";
@@ -46,8 +47,7 @@ class Dashboard extends Controller{
             $payload = $this->jwt->generatePayload($admin, $remember);
             $token = $this->jwt->encode($payload);
 
-            setcookie('token_auth', $token, $remember ? time() + (30 * 24 * 60 * 60) : 0, '/', null, true, true);
-            Session::set("username", $admin['username']);
+            setcookie('token_auth', $token, $payload['exp'], '/', null, true, true);
             Util::redirect("cpanel");
          }
       }

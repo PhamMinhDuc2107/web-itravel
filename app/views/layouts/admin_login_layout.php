@@ -45,7 +45,7 @@
                             <div class="card-header pb-0 text-start">
                                 <h4 class="font-weight-bolder">Sign In</h4>
                                 <p class="mb-0">Enter your email and password to sign in</p>
-                                <span class="text-danger text-center"><?php echo Request::has("invalid", "get") ? htmlspecialchars(Request::input("invalid")) :"" ?></span>
+                                <span class="text-danger text-center"><?php echo Request::has("msg", "get") ? htmlspecialchars(Request::input("msg")) :"" ?></span>
                             </div>
                             <div class="card-body">
                                 <form role="form" method="post" action="<?php echo _WEB_ROOT?>/cpanel/login-post">

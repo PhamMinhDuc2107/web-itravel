@@ -35,12 +35,7 @@ class JwtUtil
       }
    }
 
-   public function isTokenExpired(string $jwt): bool {
-      $decoded = $this->decode($jwt);
-      if (!$decoded) return true;
 
-      return $decoded->exp < time();
-   }
 
    public function generatePayload(array $user, int $remember) {
       return [
@@ -62,5 +57,11 @@ class JwtUtil
          return false;
       }
       return $this->decode($token);
+   }
+   private function isTokenExpired(string $jwt): bool {
+      $decoded = $this->decode($jwt);
+      if (!$decoded) return true;
+
+      return $decoded->exp < time();
    }
 }

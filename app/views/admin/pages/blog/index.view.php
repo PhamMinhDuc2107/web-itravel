@@ -17,7 +17,6 @@
                                      border: 1px solid #dee2e6;
                                      margin-right: 10px;
                                      border-radius: 10px;
-
                                 ">
                                     <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
                                         <?php echo Request::input('sortBy') ?? "asc"?>
@@ -104,11 +103,11 @@
                                   </td>
                                   <td class ='col-1'>
                                       <div class="d-flex px-2 py-1">
-                                              <img src="<?php echo _WEB_ROOT."/".$item["thumbnail"]?>" alt="<?php echo $item['slug']?>" class="card-img img-fluid">
+                                              <img src="<?php echo _WEB_ROOT."/".$item["thumbnail"]?>" alt="<?php echo $item['slug']?>" class="rounded-3" style="width:95px; height: 95px;">
                                       </div>
                                   </td>
                                   <td class ='col-3 '>
-                                      <div class="d-flex px-2 py-1 ">
+                                      <div class="d-flex px-2 py-1 overflow-hidden" style="height: 62px;">
                                           <div class="mb-0 text-sm hiddenText"><?php echo $item["content"]?></div>
                                       </div>
                                   </td>
@@ -238,8 +237,11 @@
                  <input type="text" class="form-control" id="slug" name="slug" aria-describedby="usernameHelp" value="">
              </div>
              <div class="mb-3">
-                 <label for="images" class="form-label">Hình ảnh</label>
-                 <input type="file" class="form-control" id="image" name="image" aria-describedby="usernameHelp" value="">
+                 <label for="images" class="form-label d-block">Hình ảnh</label>
+                 <input type="file" class="form-control" id="imageCreateBlog" name="image" aria-describedby="usernameHelp" value="" style="display: none">
+                 <label for="imageCreateBlog" style=" width: 250px;height: 250px;" class="d-flex justify-content-center align-items-center flex-column circle text-primary border border-2 rounded-2 position-relative">
+                     <img src="<?php echo ASSET?>/admin/img/upload-6699084_640.webp" id="previewImageBlog" alt="" style="height: 100px; object-fit: cover;">
+                 </label>
              </div>
             <?php
             $admins = $data["admins"] ?? [];
@@ -248,7 +250,7 @@
              <div class="mb-3">
                  <label for="parent" class="form-label">Danh mục tin tức</label>
                  <div class="dropdown">
-                     <input class="form-control" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" placeholder="Vui lòng chọn" readonly/>
+                     <input class="form-control" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" placeholder="Chọn danh mục" readonly/>
                      <input type="hidden" name="category_id" class="parentId" value="">
                      <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="max-height: 250px;overflow-y:scroll">
                         <?php if(!empty($blogCategories)) : ?>
@@ -262,7 +264,7 @@
              <div class="mb-3">
                  <label for="parent" class="form-label">Tác giả</label>
                  <div class="dropdown">
-                     <input class="form-control" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" readonly/>
+                     <input class="form-control" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" placeholder="Chọn tác giả" readonly/>
                      <input type="hidden" name="author_id" class="parentId" value="">
                      <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="max-height: 250px;overflow-y:scroll">
                         <?php if(!empty($admins)) : ?>

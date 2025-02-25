@@ -149,21 +149,20 @@ class Util
 
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
-   public static function checkImage($file, $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'], $maxSize = 5 * 1024 * 1024) {
-      if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
-         return ['success' => false, 'msg' => 'Lỗi tải file lên.'];
+   public static function checkImage(string $fileName,array $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'],int $maxSize = 5 * 1024 * 1024): array {
+      $file = Request::file($fileName);
+      if (!$file|| $file['error'] !== UPLOAD_ERR_OK ) {
+            return ['success' => false, 'msg' => 'Lỗi tải file lên.'];
       }
-
       if ($file['size'] > $maxSize) {
          return ['success' => false, 'msg' => 'File quá lớn.'];
-      }
+      } 
 
       $fileInfo = pathinfo($file['name']);
       $fileExtension = strtolower($fileInfo['extension']);
       if (!in_array($fileExtension, $allowedTypes)) {
          return ['success' => false, 'msg' => 'Loại file không được hỗ trợ.'];
       }
-
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
       $mime = finfo_file($finfo, $file['tmp_name']);
       finfo_close($finfo);
@@ -179,11 +178,11 @@ class Util
       $uniqueName = md5(uniqid(rand(), true)) . '.' . $fileInfo['extension'];
       return $uniqueName;
    }
-   public static function createImagePath($file, $destination ):array {
-      $file = Request::file("$file");
-      $checkImg = Util::checkImage($file);
+   public static function createImagePath($fileName, $destination):array {
+      $file = Request::file($fileName);
+      $checkImg = Util::checkImage($fileName);
       if (!$checkImg['success']) {
-         Util::redirect('cpanel/blog',['msg' => $checkImg['msg'], 'type' => "error"]);
+         return ['msg' => $checkImg['msg'], 'type' => "error"];
       }
       $newFileName = self::generateUniqueImageName($file['name']);
       $destinationPath = rtrim($destination, '/') . '/' . $newFileName;

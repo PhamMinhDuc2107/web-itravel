@@ -25,21 +25,8 @@
 
                       <input type="file" class="form-control" id="image" name="image" aria-describedby="usernameHelp" value="" style="display: none" accept="image/*">
                       <label for="image">
-                          <img src="<?php echo _WEB_ROOT . '/' . $blog['thumbnail'] ?>" alt="<?php echo $blog['title'] ?>" class="img-fluid img-responsive img-thumbnail" style="width: 400px;" id="previewImage">
+                          <img src="<?php echo _WEB_ROOT . $blog['thumbnail']  ?>" alt="<?php echo $blog['title'] ?>" class="img-fluid img-responsive img-thumbnail" style="width: 400px;" id="previewImage">
                       </label>
-
-                      <script>
-                          document.getElementById('image').addEventListener('change', function(event) {
-                              const file = event.target.files[0];
-                              const reader = new FileReader();
-                              reader.onload = function() {
-                                  document.getElementById('previewImage').src = reader.result;
-                              }
-                              if (file) {
-                                  reader.readAsDataURL(file);
-                              }
-                          });
-                      </script>
                   </div>
                   <?php
                   $admins = $data["admins"] ?? [];
@@ -74,20 +61,40 @@
                      </div>
                   </div>
                   <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
-                  <div id="froala-editor">
-                     <?php echo $blog['content']?>
-                  </div>
+                  <div id="froala-editor"><?php echo $blog['content']?></div>
                   <input type="hidden" id="content" name="content">
-                  <script>
-                      const editor = new FroalaEditor('#froala-editor', {
-                          height: 400,
-                          toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'insertLink', 'insertImage', 'insertTable', 'undo', 'redo']
-                      });
-                      document.querySelector('.form-update').addEventListener('submit', function (event) {
-                          const content = editor.html.get();
-                          document.getElementById('content').value = content;
-                      });
-                  </script>
+                   <script>
+                       document.addEventListener('DOMContentLoaded', function() {
+                           const editor = new FroalaEditor('#froala-editor', {
+                               height: 400,
+                               toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'insertLink', 'insertImage', 'insertTable', 'undo', 'redo'],
+                               //imageUploadURL: "<?php //echo _WEB_ROOT?>///cpanel/blog/upload-img-detail",
+                               //imageUploadMethod: 'POST',
+                               //imageUploadMultiple: true,
+                               //imageUploadParams: {
+                               //    "csrf_token": document.querySelector('input[name="csrf_token"]').value,
+                               //},
+                               //imageUploadHeaders: {
+                               //    'X-CSRF-TOKEN': document.querySelector('input[name="csrf_token"]').value
+                               //},
+                               //events: {
+                               //    'image.uploaded': function (response) {
+                               //        console.log(response);
+                               //    },
+                               //    'image.uploadedMultiple': function (response) {
+                               //        console.log(response);
+                               //    },
+                               //    'image.error': function (error, response) {
+                               //        console.log(error);
+                               //    }
+                               //}
+                           });
+                           document.querySelector('.form-update').addEventListener('submit', function (event) {
+                               const content = editor.html.get();
+                               document.getElementById('content').value = content;
+                           });
+                       });
+                   </script>
                   <div class="mt-3">
                      <label for="status" class="form-label">Trạng thái</label>
                      <input type="radio" name="status" id="createStatus" value="0" <?php echo $blog['status'] === 'draft' ? "checked" :""?>>

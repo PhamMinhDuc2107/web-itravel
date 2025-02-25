@@ -5,10 +5,8 @@
    $dotenv->load();
 
    const _DIR_ROOT = __DIR__;
-   require_once "core/Session.php";
-   require_once "core/Util.php";
-//   created token csrf
-   Util::generateCsrfToken();
+
+
    if(!empty($_SERVER["HTTPS"]) && $_SERVER["HTPPS"] == "on") {
       $web_root = 'https://'.$_SERVER['HTTP_HOST'];
    }else {
@@ -21,7 +19,8 @@
    define("ASSET", $assets);
    $upload = $web_root."/public/uploads";
    define("UPLOAD", $upload);
-   // auto load routers
+
+
    $router_path = scandir("routers");
    if(!empty($router_path)) {
       foreach($router_path as $file) {
@@ -30,6 +29,10 @@
          }
       }
    }
+   require_once "core/Session.php";
+   require_once "core/Util.php";
+   require_once "core/ErrorResponse.php";
+
    //load route class
    require_once "core/Route.php";
    // load app
@@ -40,5 +43,6 @@
 
    //load base controller
    require_once "core/Request.php";
+
    require_once "core/Controller.php";
    require_once "core/JwtUtil.php";
