@@ -17,9 +17,7 @@ class JwtUtil
       }
    }
 
-   public function encode(array $payload, $exp = 3600) {
-      $payload['iat'] = time();
-      $payload['exp'] = time() + $exp;
+   public function encode(array $payload) {
       return JWT::encode($payload, $this->secretKey, 'HS256');
    }
 

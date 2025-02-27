@@ -5,10 +5,14 @@
 class Dashboard extends Controller{
       private $data;
       private $AdminModel;
+      private $BookingModel;
+      private $ConsultationModel;
       private $jwt;
       public function __construct()
       {
          $this->AdminModel = $this->model("AdminModel");
+         $this->BookingModel = $this->model("BookingModel");
+         $this->ConsultationModel = $this->model("ConsultationModel");
          $this->jwt = new JwtUtil();
          if(!Util::checkCsrfToken()) {
             Util::redirect("cpanel/category",Response::forbidden("Thất bại! Token không hợp lệ"));
@@ -19,9 +23,15 @@ class Dashboard extends Controller{
          if (!$admin['success']) {
             Util::redirect("cpanel/login",Response::unauthorized($admin['msg']));
          }
+         $totalPriceMonth = $this->BookingModel->getMonthlyBookingSummary();
+         $totalPriceDay = $this->BookingModel->getDailyBookingRevenue();
+         $totalConsultation = $this->ConsultationModel->getTotalConsultation();
          $this->data['page']= 'index';
          $this->data['title'] = "Dashboard";
          $this->data['admin'] = $admin['payload'];
+         $this->data['totalPriceMonth'] = $totalPriceMonth;
+         $this->data['totalPriceDay'] = $totalPriceDay;
+         $this->data['totalConsultation'] = $totalConsultation;
          $this->render("layouts/admin_layout", $this->data);
       }
       public function login() {
@@ -45,7 +55,7 @@ class Dashboard extends Controller{
                Util::redirect("cpanel/login", Response::badRequest("Tài khoản hoặc mật khẩu sai"));
             }
             $payload = $this->jwt->generatePayload($admin, $remember);
-            $token = $this->jwt->encode($payload);
+            $token = $this->jwt->encode($payload, $payload['exp']);
             setcookie('token_auth', $token, $payload['exp'], '/', null, true, true);
             Util::redirect("cpanel");
          }

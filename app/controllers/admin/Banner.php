@@ -61,7 +61,7 @@ class Banner extends Controller
       $id = $this->BannerModel->getLastInsertId();
       $checkUpload = Util::uploadImage($file, $thumb);
       if (!$checkUpload["success"]) {
-         $this->LocationModel->delete($id);
+         $this->BannerModel->delete($id);
          Util::redirect('cpanel/banner', Response::badRequest($checkUpload['msg']));
       }
       Util::redirect('cpanel/banner', Response::success("Tạo thành công"));
@@ -76,7 +76,7 @@ class Banner extends Controller
       }
       $this->data['page'] = 'index';
       $this->data['title'] = "Sửa thông tin của banner";
-      $this->data['page'] = "location/form";
+      $this->data['page'] = "banner/form";
       $this->data['banner'] = $banner;
       $this->render("layouts/admin_layout", $this->data);
    }
@@ -84,45 +84,49 @@ class Banner extends Controller
    public function updatePost()
    {
       if (!Request::isMethod("POST")) {
-         Util::Redirect("cpanel/location", Response::methodNotAllowed("Phương thức không được phép"));
+         Util::Redirect("cpanel/banner", Response::methodNotAllowed("Phương thức không được phép"));
       }
 
       $id = (int)(Request::input("id") ?? 0);
-      $location = $this->LocationModel->find($id);
-      if (!$location) {
-         Util::redirect("cpanel/location", Response::badRequest("Không tìm thấy ID"));
+      $banner = $this->BannerModel->find($id);
+      if (!$banner) {
+         Util::redirect("cpanel/banner", Response::badRequest("Không tìm thấy ID"));
       }
-      $data = $this->prepareLocationData();
-      $img = Request::file("image");
-      $oldImagePath = $location['image'];
+      $title = htmlspecialchars(Request::input("title") ?? "");
+      $status = (int)htmlspecialchars(Request::input("status") === "1" ? 1 : 0);
+      $order = (int)htmlspecialchars(Request::input("sort_order")?? "");
+      $data =["title" => $title, "status" => $status, "sort_order" => $order];
+      $data = Util::removeEmptyValues($data);
 
+      $img = Request::file("image");
+      $oldImagePath = $banner['image'];
       $newImagePath = null;
       if ($img && !empty($img['name'])) {
-         $pathAsset = '/public/uploads/location/';
+         $pathAsset = '/public/uploads/banner/';
          $checkCreateImgPath = Util::createImagePath($img, $pathAsset);
 
          if (!$checkCreateImgPath["success"]) {
-            Util::redirect('cpanel/location', Response::badRequest($checkCreateImgPath['msg']));
+            Util::redirect('cpanel/banner', Response::badRequest($checkCreateImgPath['msg']));
          }
          $newImagePath = $checkCreateImgPath['name'];
 
          $data['image'] = $newImagePath;
       }
-      $res = $this->LocationModel->update($data, $id);
+      $res = $this->BannerModel->update($data, $id);
       if (!$res) {
-         Util::redirect("cpanel/location", Response::internalServerError("Cập nhật không thành công"));
+         Util::redirect("cpanel/banner", Response::internalServerError("Cập nhật không thành công"));
       }
       if ($newImagePath !== null) {
          $uploadSuccess = Util::uploadImage($img, $newImagePath);
          if (!$uploadSuccess["success"]) {
-            Util::redirect('cpanel/location', Response::badRequest($uploadSuccess['msg']));
+            Util::redirect('cpanel/banner', Response::badRequest($uploadSuccess['msg']));
          }
          $checkDeleteImg = Util::deleteImage(_DIR_ROOT . $oldImagePath);
          if (!$checkDeleteImg["success"]) {
-            Util::redirect('cpanel/location', Response::badRequest($checkDeleteImg['msg']));
+            Util::redirect('cpanel/banner', Response::badRequest($checkDeleteImg['msg']));
          }
       }
-      Util::redirect("cpanel/location", Response::success("Cập nhật thành công"));
+      Util::redirect("cpanel/banner", Response::success("Cập nhật thành công"));
    }
 
    public function delete(): void

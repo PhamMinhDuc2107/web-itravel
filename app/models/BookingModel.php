@@ -31,7 +31,30 @@ class BookingModel extends Model
          return [];
       }
    }
-
+   public function getMonthlyBookingSummary() {
+      try {
+         $sql = "SELECT COUNT(id) AS total_order_monthly,SUM(total_price) AS total_price_monthly
+                FROM $this->table
+                WHERE MONTH($this->table.booking_date) = MONTH(CURDATE()) AND YEAR($this->table.booking_date) =YEAR(CURDATE())";
+         $params = [];
+         $stmt = $this->_query($sql, $params);
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      } catch (PDOException $e) {
+         error_log("Database Error: " . $e->getMessage());
+         return [];
+      }
+   }
+   public function getDailyBookingRevenue () {
+      try {
+         $sql = "SELECT DATE(booking_date) AS ngay, SUM(total_price) AS total_price_day FROM $this->table WHERE MONTH(booking_date) = MONTH(CURDATE()) AND YEAR(booking_date) = YEAR(CURDATE()) GROUP BY DATE(booking_date);";
+         $params = [];
+         $stmt = $this->_query($sql, $params);
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      } catch (PDOException $e) {
+         error_log("Database Error: " . $e->getMessage());
+         return [];
+      }
+   }
    public function getColumns(): array
    {
       return $this->allowedColumns;
