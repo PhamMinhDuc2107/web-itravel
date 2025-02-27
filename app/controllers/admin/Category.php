@@ -12,11 +12,12 @@ class Category extends Controller
    function __construct(){
       $this->CategoryModel = $this->model("CategoryModel");
       $this->jwt = new JwtUtil();
-      if(!$this->jwt->checkAuth("token_auth")) {
-         Util::redirect("cpanel/login",ErrorResponse::unauthorized("Vui lòng đăng nhập lại"));
+      $checkAuth = $this->jwt->checkAuth("token_auth");
+      if(!$checkAuth['success']) {
+         Util::redirect("cpanel/login",Response::unauthorized($checkAuth['msg']));
       }
       if(!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category",ErrorResponse::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("cpanel/category",Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
    public function index(): void
@@ -35,27 +36,28 @@ class Category extends Controller
    }
    public function create(): void
    {
-      if (Request::isMethod("POST")) {
-         $name = htmlspecialchars(Request::input("title")) ?? "";
-         $parentId = (int)htmlspecialchars(Request::input("createdParentId")) ?? "";
-         if ($name === "") {
-            Util::Redirect("cpanel/category", ['msg'=> "Vui lòng điền đầy đủ thông tin", "type" => "error"]);
-         }
-         $data = ["name" => $name];
-         if ($parentId !== "") {
-            $data["parent_id"] = $parentId;
-         }
-         $res =  $this->CategoryModel->insert($data);
-         if (!$res) {
-            Util::Redirect("cpanel/category", ['msg'=> "Thêm danh mục không thành công" , "type" => "error"]);
-         }
-         Util::redirect("cpanel/category", ["msg"=>"Thêm danh mục thành công" , "type" => "success"]);
+      if (!Request::isMethod("POST")) {
+         Util::redirect("cpanel/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
+      $name = htmlspecialchars(Request::input("title")) ?? "";
+      $parentId = (int)htmlspecialchars(Request::input("createdParentId")) ?? "";
+      if ($name === "") {
+         Util::Redirect("cpanel/category", Response::badRequest("Vui lòng điền đẩy đủ thông tin"));
+      }
+      $data = ["name" => $name];
+      if ($parentId !== "") {
+         $data["parent_id"] = $parentId;
+      }
+      $res =  $this->CategoryModel->insert($data);
+      if (!$res) {
+         Util::Redirect("cpanel/category", Response::internalServerError("Tạo không thành công"));
+      }
+      Util::redirect("cpanel/category", Response::success("Tạo thành công"));
    }
    public function update($id) {
       $category = $this->CategoryModel->find(htmlspecialchars($id));
       if(empty($category)) {
-         Util::redirect("cpanel/category",['msg'=>"Id không tồn tại", "type"=>"error"]);
+         Util::redirect("cpanel/category",Response::notFound("Không tìm thấy"));
       }
       $categories = $this->CategoryModel->get();
       $parentId = $category["parent_id"];
@@ -71,42 +73,45 @@ class Category extends Controller
       $this->render("layouts/admin_layout", $this->data);
    }
    public function updatePost() {
-      if(Request::isMethod("POST")) {
-         $id = (int)htmlspecialchars(Request::input("id"));
-         if ($id <= 0) {
-            Util::Redirect("cpanel/admin", ['msg' => "ID không hợp lệ", "type" => "error"]);
-         }
-         $name =htmlspecialchars(Request::input("title"));
-         $parentId = htmlspecialchars(Request::input("parent"));
-         $update_at = Util::formatTimeFull(time());
-
-         $data = ["name" =>$name,"updated_at"=>$update_at];
-         if ($parentId !== "") {
-            $data['parent_id'] = $parentId;
-         }
-         $res = $this->CategoryModel->update($data, $id);
-         if (!$res) {
-            Util::Redirect("cpanel/category", ['msg'=> "Cập nhật thông tin không thành công", "type" => "error"]);
-         }
-         Util::redirect("cpanel/category", ["msg"=>"Cập nhật thông tin thành công", "type"=>"success"]);
+      if(!Request::isMethod("POST")) {
+         Util::redirect("cpanel/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
+      $id = htmlspecialchars(Request::input("id"));
+      if ($id <= 0 || !is_numeric($id)) {
+         Util::Redirect("cpanel/category", Response::badRequest("Id không hợp lệ"));
+      }
+      $name =htmlspecialchars(Request::input("title"));
+      $parentId = htmlspecialchars(Request::input("parent"));
+      $update_at = Util::formatTimeFull(time());
+
+      $data = ["name" =>$name,"updated_at"=>$update_at];
+      if ($parentId !== "") {
+         $data['parent_id'] = $parentId;
+      }
+      $res = $this->CategoryModel->update($data, $id);
+      if (!$res) {
+         Util::Redirect("cpanel/category", Response::internalServerError("Cập nhật không thành công"));
+      }
+      Util::redirect("cpanel/category", Response::success("cập nhật thành cồng"));
+
    }
    public function delete(): void
    {
-      if(Request::isMethod("POST")) {
-         $listID = Request::input("id") ?? [];
-         if (empty($listID)) {
-            Util::redirect("cpanel/category", ['msg'=> "ID không hợp lệ", "type" => "error"]);
-         }
-         foreach ($listID as $id) {
-            if (!is_numeric($id) || $id < 0) {
-               Util::redirect("cpanel/category", ['msg'=> "ID không hợp lệ", "type" => "error"]);
-            }
-         }
-         foreach ($listID as $id) {
-            $this->CategoryModel->delete($id);
-         }
-         Util::redirect("cpanel/category", ["msg"=>"Xóa  thành công", "type" => "success"]);
+      if(!Request::isMethod("POST")) {
+         Util::redirect("cpanel/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
+      $listID = Request::input("id") ?? [];
+      if (empty($listID)) {
+         Util::redirect("cpanel/category", Response::notFound("Không tìm thấy ID"));
+      }
+      foreach ($listID as $id) {
+         if (!is_numeric($id) || $id < 0) {
+            Util::redirect("cpanel/category", Response::badRequest("ID Không hợp lệ"));
+         }
+      }
+      foreach ($listID as $id) {
+         $this->CategoryModel->delete($id);
+      }
+      Util::redirect("cpanel/category", Response::success("Xóa thành công"));
    }
 }

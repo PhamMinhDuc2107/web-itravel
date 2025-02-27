@@ -30,12 +30,15 @@
     <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- CSS Files -->
     <link id="pagestyle" href="<?php echo ASSET?>/admin/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
 
     <link href="<?php echo ASSET?>/admin/css/froala_editor.pkgd.min.css" rel="stylesheet">
     <script src="<?php echo ASSET?>/admin/js/froala_editor.pkgd.min.js"></script>
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <style>
         .pagination {
             display: flex;
@@ -108,6 +111,17 @@ if (file_exists($sidebarPath)) {
 <script src="<?php echo ASSET?>/admin/js/core/popper.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="<?php echo ASSET?>/admin/js/core/bootstrap.min.js"></script>
+
+
+<script>
+    let iconNav = document.getElementById("iconNavbarSidenav");
+    let mainContent = document.querySelector(".main-content");
+    let sideNav = document.querySelector(".sidenav");
+    iconNav.addEventListener("click", function (e) {
+        mainContent.classList.toggle("ms-0");
+        sideNav.classList.toggle("d-none");
+    })
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const footerFunction = document.querySelector('.footer-function');
@@ -164,8 +178,8 @@ if (file_exists($sidebarPath)) {
     }
     showImage("image", "previewImage");
     showImage("imageCreateBlog", "previewImageBlog");
-
 </script>
+
 </body>
 
 </html>

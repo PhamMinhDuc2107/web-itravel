@@ -63,33 +63,40 @@ class Util
    {
       return date('Y-m-d H:i:s', $time);
    }
-   static function generateSlug($string):string {
-      $string = mb_strtolower($string, 'UTF-8');
-      $string = str_replace(
-         ['à', 'á', 'ả', 'ã', 'ạ', 'ă', 'ắ', 'ằ', 'ẳ', 'ẵ', 'ặ', 'â', 'ấ', 'ầ', 'ẩ', 'ẫ', 'ậ',
-            'è', 'é', 'ẻ', 'ẽ', 'ẹ', 'ê', 'ế', 'ề', 'ể', 'ễ', 'ệ',
-            'ì', 'í', 'ỉ', 'ĩ', 'ị',
-            'ò', 'ó', 'ỏ', 'õ', 'ọ', 'ô', 'ố', 'ồ', 'ổ', 'ỗ', 'ộ', 'ơ', 'ớ', 'ờ', 'ở', 'ỡ', 'ợ',
-            'ù', 'ú', 'ủ', 'ũ', 'ụ', 'ư', 'ứ', 'ừ', 'ử', 'ữ', 'ự',
-            'ỳ', 'ý', 'ỷ', 'ỹ', 'ỵ',
-            'đ'],
-         ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
-            'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e',
-            'i', 'i', 'i', 'i', 'i',
-            'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o',
-            'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u',
-            'y', 'y', 'y', 'y', 'y',
-            'd'],
-         $string
-      );
-
-      $string = preg_replace('/[^a-z0-9\s-]/', '', $string);
-      $string = preg_replace('/\s+/', '-', trim($string));
-      return $string;
+   function generateCode($length = 15) {
+      $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      $charactersLength = strlen($characters);
+      $randomString = '';
+      for ($i = 0; $i < $length; $i++) {
+         $randomString .= $characters[rand(0, $charactersLength - 1)];
+      }
+      return $randomString;
    }
+   public static function generateSlug(string $string): string {
+         $map = [
+            'à' => 'a', 'á' => 'a', 'ả' => 'a', 'ã' => 'a', 'ạ' => 'a', 'ă' => 'a', 'ắ' => 'a', 'ằ' => 'a', 'ẳ' => 'a', 'ẵ' => 'a', 'ặ' => 'a', 'â' => 'a', 'ấ' => 'a', 'ầ' => 'a', 'ẩ' => 'a', 'ẫ' => 'a', 'ậ' => 'a',
+            'è' => 'e', 'é' => 'e', 'ẻ' => 'e', 'ẽ' => 'e', 'ẹ' => 'e', 'ê' => 'e', 'ế' => 'e', 'ề' => 'e', 'ể' => 'e', 'ễ' => 'e', 'ệ' => 'e',
+            'ì' => 'i', 'í' => 'i', 'ỉ' => 'i', 'ĩ' => 'i', 'ị' => 'i',
+            'ò' => 'o', 'ó' => 'o', 'ỏ' => 'o', 'õ' => 'o', 'ọ' => 'o', 'ô' => 'o', 'ố' => 'o', 'ồ' => 'o', 'ổ' => 'o', 'ỗ' => 'o', 'ộ' => 'o', 'ơ' => 'o', 'ớ' => 'o', 'ờ' => 'o', 'ở' => 'o', 'ỡ' => 'o', 'ợ' => 'o',
+            'ù' => 'u', 'ú' => 'u', 'ủ' => 'u', 'ũ' => 'u', 'ụ' => 'u', 'ư' => 'u', 'ứ' => 'u', 'ừ' => 'u', 'ử' => 'u', 'ữ' => 'u', 'ự' => 'u',
+            'ỳ' => 'y', 'ý' => 'y', 'ỷ' => 'y', 'ỹ' => 'y', 'ỵ' => 'y',
+            'đ' => 'd',
+            'À' => 'A', 'Á' => 'A', 'Ả' => 'A', 'Ã' => 'A', 'Ạ' => 'A', 'Ă' => 'A', 'Ắ' => 'A', 'Ằ' => 'A', 'Ẳ' => 'A', 'Ẵ' => 'A', 'Ặ' => 'A', 'Â' => 'A', 'Ấ' => 'A', 'Ầ' => 'A', 'Ẩ' => 'A', 'Ẫ' => 'A', 'Ậ' => 'A',
+            'È' => 'E', 'É' => 'E', 'Ẻ' => 'E', 'Ẽ' => 'E', 'Ẹ' => 'E', 'Ê' => 'E', 'Ế' => 'E', 'Ề' => 'E', 'Ể' => 'E', 'Ễ' => 'E', 'Ệ' => 'E',
+            'Ì' => 'I', 'Í' => 'I', 'Ỉ' => 'I', 'Ĩ' => 'I', 'Ị' => 'I',
+            'Ò' => 'O', 'Ó' => 'O', 'Ỏ' => 'O', 'Õ' => 'O', 'Ọ' => 'O', 'Ô' => 'O', 'Ố' => 'O', 'Ồ' => 'O', 'Ổ' => 'O', 'Ỗ' => 'O', 'Ộ' => 'O', 'Ơ' => 'O', 'Ớ' => 'O', 'Ờ' => 'O', 'Ở' => 'O', 'Ỡ' => 'O', 'Ợ' => 'O',
+            'Ù' => 'U', 'Ú' => 'U', 'Ủ' => 'U', 'Ũ' => 'U', 'Ụ' => 'U', 'Ư' => 'U', 'Ứ' => 'U', 'Ừ' => 'U', 'Ử' => 'U', 'Ữ' => 'U', 'Ự' => 'U',
+            'Ỳ' => 'Y', 'Ý' => 'Y', 'Ỷ' => 'Y', 'Ỹ' => 'Y', 'Ỵ' => 'Y',
+            'Đ' => 'D'
+         ];
 
+         $string = strtr($string, $map);
 
-
+         $string = strtolower($string);
+         $string = preg_replace('/[^a-z0-9\s-]/', '', $string);
+         $string = preg_replace('/\s+/', '-', trim($string));
+         return trim($string, '-');
+   }
    public static function printArr($arr)
    {
       echo "<pre>";
@@ -140,7 +147,7 @@ class Util
    }
    public static function buildOrderColByUrl($col="id"): string
    {
-      $isAllowedColumn = ['id',"name","title","username", "slug"];
+      $isAllowedColumn = ['id',"name","title","username", "slug", "created_at","booking_date"];
       if (!in_array($col, $isAllowedColumn)) {
          $col = "id";
       }
@@ -149,9 +156,8 @@ class Util
 
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
-   public static function checkImage(string $fileName,array $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'],int $maxSize = 5 * 1024 * 1024): array {
-      $file = Request::file($fileName);
-      if (!$file|| $file['error'] !== UPLOAD_ERR_OK ) {
+   public static function checkImage(array $file,array $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'],int $maxSize = 5 * 1024 * 1024): array {
+      if (empty($file)|| $file['error'] !== UPLOAD_ERR_OK ) {
             return ['success' => false, 'msg' => 'Lỗi tải file lên.'];
       }
       if ($file['size'] > $maxSize) {
@@ -173,24 +179,25 @@ class Util
 
       return ['success' => true, 'msg' => 'File hợp lệ.'];
    }
-   public static function generateUniqueImageName($fileName):string {
+   public static function generateUniqueFileName(string $fileName):string {
       $fileInfo = pathinfo($fileName);
-      $uniqueName = md5(uniqid(rand(), true)) . '.' . $fileInfo['extension'];
-      return $uniqueName;
+      $originalName = $fileInfo['filename'];
+      $extension = isset($fileInfo['extension']) ? '.' . $fileInfo['extension'] : '';
+
+      $uniqueId = md5(uniqid(rand(), true));
+      return $originalName . '_' . $uniqueId . $extension;
    }
-   public static function createImagePath($fileName, $destination):array {
-      $file = Request::file($fileName);
-      $checkImg = Util::checkImage($fileName);
+   public static function createImagePath(array $file,string $destination):array {
+      $checkImg = Util::checkImage($file);
       if (!$checkImg['success']) {
          return ['msg' => $checkImg['msg'], 'type' => "error"];
       }
-      $newFileName = self::generateUniqueImageName($file['name']);
+      $newFileName = self::generateUniqueFileName($file['name']);
       $destinationPath = rtrim($destination, '/') . '/' . $newFileName;
       return ['success' => true, 'name' => $destinationPath];
    }
-   public static function uploadImage($file, $destination): array
+   public static function uploadImage(array $file,string $destination): array
    {
-      $file = Request::file($file);
       $path = _DIR_ROOT.$destination;
       if (move_uploaded_file($file['tmp_name'], $path)) {
          return ['success' => true, 'msg' => 'Tải file lên thành công.'];
@@ -200,15 +207,12 @@ class Util
    }
    public static function deleteImage($filePath): array
    {
-      if (file_exists($filePath)) {
-         if (unlink($filePath)) {
-            return ['success'=>true, "msg" => "Xóa ảnh thành công"];
-         } else {
-            return ['success'=>false, "msg" => "Xóa ảnh không thành công"];
-
-         }
-      } else {
+      if (!file_exists($filePath)) {
          return ['success'=>false, "msg" => "file ảnh không tồn tại"];
       }
+      if (!unlink($filePath)) {
+         return ['success'=>false, "msg" => "Xóa ảnh không thành công"];
+      }
+      return ['success'=>true, "msg" => "Xóa ảnh thành công"];
    }
 }

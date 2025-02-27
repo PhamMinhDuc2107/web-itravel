@@ -47,6 +47,7 @@
                                         margin-top: 10px!important;">
                                         <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("id");?>" >Sắp xếp theo id</a></li>
                                         <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("username")?>" >Sắp xếp theo tên</a></li>
+                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("created_at")?>" >Sắp xếp theo thời gian</a></li>
                                     </ul>
                                 </div>
                             </div>

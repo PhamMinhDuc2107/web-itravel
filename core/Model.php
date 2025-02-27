@@ -113,10 +113,10 @@ class Model extends Database
       }
    }
 
-   public function delete($id): bool {
+   public function delete($id, $col = "id"): bool {
       try {
-         $sql = "DELETE FROM $this->table WHERE id = :id";
-         $params = [":id" => $id];
+         $sql = "DELETE FROM $this->table WHERE $col = :id";
+         $params = [":$col" => $id];
          $stmt = $this->_query($sql, $params);
          return (bool)$stmt;
       } catch (PDOException $e) {

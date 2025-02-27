@@ -13,11 +13,12 @@ class Blog extends Controller
       $this->BlogCategoryModel = $this->model("BlogCategoryModel");
 
       $this->jwt = new JwtUtil();
-      if(!$this->jwt->checkAuth("token_auth")) {
-         Util::redirect("cpanel/login",ErrorResponse::unauthorized("Vui lòng đăng nhập lại"));
+      $checkAuth = $this->jwt->checkAuth("token_auth");
+      if(!$checkAuth['success']) {
+         Util::redirect("cpanel/login",Response::unauthorized($checkAuth['msg']));
       }
       if(!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category",ErrorResponse::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("cpanel/category",Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
    public function index() {
@@ -38,16 +39,17 @@ class Blog extends Controller
    public function create(): void
    {
       if (!Request::isMethod("post")) {
-         Util::redirect("cpanel/location",['msg' => "Lỗi khng thể tạo", "type" => "error"]);
+         Util::redirect("cpanel/location",Response::methodNotAllowed("Phương thức không hợp lệ"));
 
       }
       if(!Request::file("image") && empty(Request::file("image")['name'])) {
-         Util::redirect("cpanel/location",['msg' => "Vui lòng chọn ảnh", "type" => "error"]);
+         Util::redirect("cpanel/location",Response::badRequest("Vui lòng chọn ảnh"));
       }
       $pathAsset = '/public/uploads/blog/';
-      $check = Util::createImagePath("image", $pathAsset);
+      $file = Request::file("image");
+      $check = Util::createImagePath($file, $pathAsset);
       if (!$check["success"]) {
-         Util::redirect('cpanel/blog', ['msg' => $check["msg"], 'type' => "error"]);
+         Util::redirect('cpanel/blog', Response::badRequest($check["msg"]));
       }
       $thumb = $check['name'];
       $data = $this->prepareBlogData();
@@ -55,14 +57,14 @@ class Blog extends Controller
       $res = $this->BlogModel->insert($data);
       $id = $this->BlogModel->getLastInsertId();
       if (!$res) {
-         Util::redirect("cpanel/blog", ['msg' => "Thêm không thành công", "type" => "error"]);
+         Util::redirect("cpanel/blog", Response::internalServerError("Thêm không thành công"));
       }
-      $checkUpload = Util::uploadImage("image", $thumb);
+      $checkUpload = Util::uploadImage($file, $thumb);
       if (!$checkUpload["success"]) {
          $this->BlogModel->delete($id);
-         Util::redirect('cpanel/blog', ['msg' => "Thêm thành công, nhưng tải ảnh thất bại: " . $checkUpload["msg"], 'type' => "warning"]);
+         Util::redirect('cpanel/blog', Response::badRequest("Thêm thành công, nhưng tải ảnh thất bại: " . $checkUpload["msg"]));
       }
-      Util::redirect('cpanel/blog', ['msg' => "Thêm thành công " , 'type' => "success"]);
+      Util::redirect('cpanel/blog', Response::success("Thêm thành công "));
    }
 
    public function update($id): void
@@ -74,7 +76,7 @@ class Blog extends Controller
       $categoryName  = $this->BlogCategoryModel->find($blog['category_id'])['name'];
       $authorName = $this->AdminModel->find($blog['author_id'])["username"];
       if(empty($blog)) {
-         Util::redirect("cpanel/blog",['msg'=>"không tìm thấy tin tức", "type"=>"error"]);
+         Util::redirect("cpanel/blog",Response::notFound("không tìm thấy tin tức"));
       }
       $this->data['page']= 'index';
       $this->data['title'] = "Sửa thông tin tin tức";
@@ -88,22 +90,21 @@ class Blog extends Controller
    }
    public function updatePost() {
       if (!Request::isMethod("POST")) {
-         Util::Redirect("cpanel/location", ErrorResponse::methodNotAllowed("Phương thức không được phép"));
+         Util::Redirect("cpanel/location", Response::methodNotAllowed("Phương thức không được phép"));
       }
       $id = (int)(Request::input("id") ?? 0);
       $blog = $this->BlogModel->find($id);
-  
       if (!$blog) {
-          Util::redirect("cpanel/blog", ['msg' => "Không tìm thấy blog", "type" => "error"]);
+          Util::redirect("cpanel/blog", Response::notFound("Không tìm thấy blog"));
       }
-  
       $data = $this->prepareBlogData(true);
       $thumb = Request::file("image");
       $oldImagePath = $blog["thumbnail"];
       $newImagePath = null;
       if ($thumb && !empty($thumb['name'])) {
           $pathAsset = '/public/uploads/blog/';
-          $checkCreateImgPath = Util::createImagePath("image", $pathAsset);
+          
+          $checkCreateImgPath = Util::createImagePath($thumb, $pathAsset);
   
           if (!$checkCreateImgPath["success"]) {
               Util::redirect('cpanel/blog', ['msg' => $checkCreateImgPath["msg"], 'type' => "error"]);
@@ -116,46 +117,47 @@ class Blog extends Controller
 
       $res = $this->BlogModel->update($data, $id);
       if (!$res) {
-          Util::redirect("cpanel/blog", ['msg' => "Cập nhật không thành công", "type" => "error"]);
+          Util::redirect("cpanel/blog", Response::internalServerError("Cập nhật không thành công"));
       }
       if($newImagePath !== null) {
-         $uploadSuccess = Util::uploadImage("image", $newImagePath);
+         $uploadSuccess = Util::uploadImage($thumb, $newImagePath);
          if (!$uploadSuccess["success"]) {
             $this->BlogModel->update(["thumbnail" => $oldImagePath], $id);
-            Util::redirect('cpanel/blog', ['msg' => $uploadSuccess["msg"], 'type' => "error"]);
+            Util::redirect('cpanel/blog', Response::badRequest($uploadSuccess["msg"]));
          }
          $checkDeleteImg = Util::deleteImage(_DIR_ROOT.$oldImagePath);
          if (!$checkDeleteImg["success"]) {
-            Util::redirect('cpanel/location',ErrorResponse::badRequest($checkDeleteImg['msg']));
+            Util::redirect('cpanel/location',Response::badRequest($checkDeleteImg['msg']));
          }
       }
-      Util::redirect("cpanel/blog", ["msg" => "Cập nhật thành công", "type" => "success"]);
+      Util::redirect("cpanel/blog", Response::success("Cập nhật thành công"));
   }
   
 
    public function delete(): void
    {
-      if(Request::isMethod("POST")) {
-         $listID = Request::input("id") ?? [];
-         if (empty($listID)) {
-            Util::redirect("cpanel/blog", ['msg'=> "ID không hợp lệ", "type" => "error"]);
-         }
-         foreach ($listID as $id) {
-            if (!is_numeric($id) || $id < 0) {
-               Util::redirect("cpanel/blog", ['msg'=> "ID không hợp lệ", "type" => "error"]);
-            }
-         }
-         foreach ($listID as $id) {
-            $blog = $this->BlogModel->find($id);
-            $pathImg = _DIR_ROOT.'/'.$blog["thumbnail"];
-            $checkDeleteImg = Util::deleteImage($pathImg);
-            if(!$checkDeleteImg['success']) {
-               Util::redirect("cpanel/blog",['msg'=>$checkDeleteImg['msg'], "type" => "error"]);
-            }
-            $this->BlogModel->delete($id);
-         }
-         Util::redirect("cpanel/blog", ["msg"=>"Xóa  thành công", "type" => "success"]);
+      if(!Request::isMethod("POST")) {
+         Util::redirect("cpanel/blog", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
+      $listID = Request::input("id") ?? [];
+      if (empty($listID)) {
+         Util::redirect("cpanel/blog", Response::badRequest("ID không hợp lệ"));
+      }
+      foreach ($listID as $id) {
+         if (!is_numeric($id) || $id < 0) {
+            Util::redirect("cpanel/blog", Response::badRequest("ID không hợp lệ"));
+         }
+      }
+      foreach ($listID as $id) {
+         $blog = $this->BlogModel->find($id);
+         $pathImg = _DIR_ROOT.'/'.$blog["thumbnail"];
+         $checkDeleteImg = Util::deleteImage($pathImg);
+         if(!$checkDeleteImg['success']) {
+            Util::redirect("cpanel/blog", Response::badRequest($checkDeleteImg['msg']));
+         }
+         $this->BlogModel->delete($id);
+      }
+      Util::redirect("cpanel/blog", Response::success("Xóa thành công"));
    }
    private function prepareBlogData($isUpdate = false): array
    {

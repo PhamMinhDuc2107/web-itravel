@@ -31,7 +31,7 @@
    }
    require_once "core/Session.php";
    require_once "core/Util.php";
-   require_once "core/ErrorResponse.php";
+   require_once "core/Response.php";
 
    //load route class
    require_once "core/Route.php";

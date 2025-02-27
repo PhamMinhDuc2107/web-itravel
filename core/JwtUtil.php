@@ -53,14 +53,26 @@ class JwtUtil
 
    public function checkAuth(string $nameToken) {
       $token = $_COOKIE[$nameToken] ?? null;
-      if (!$token || $this->isTokenExpired($token)) {
-         return false;
+      if (!$token) {
+         return ['success' => false, 'msg' => 'Token không tồn tại'];
       }
-      return $this->decode($token);
+
+      $decoded = $this->decode($token);
+      if (!$decoded) {
+         return ['success' => false, 'msg' => 'Token không hợp lệ'];
+      }
+
+      if ($this->isTokenExpired($decoded)) {
+         return ['success' => false, 'msg' => 'Token hết hạn'];
+      }
+
+      return ['success' => true, 'payload' => $decoded];
    }
-   private function isTokenExpired(string $jwt): bool {
-      $decoded = $this->decode($jwt);
-      if (!$decoded) return true;
+
+   private function isTokenExpired($decoded): bool {
+      if (!isset($decoded->exp)) {
+         return true;
+      }
 
       return $decoded->exp < time();
    }

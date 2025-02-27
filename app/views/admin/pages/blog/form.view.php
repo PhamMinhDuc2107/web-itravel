@@ -24,7 +24,7 @@
                      <label for="images" class="form-label d-block">Hình ảnh</label>
 
                       <input type="file" class="form-control" id="image" name="image" aria-describedby="usernameHelp" value="" style="display: none" accept="image/*">
-                      <label for="image">
+                      <label for="image" style="width: 250px; height: 250px">
                           <img src="<?php echo _WEB_ROOT . $blog['thumbnail']  ?>" alt="<?php echo $blog['title'] ?>" class="img-fluid img-responsive img-thumbnail" style="width: 400px;" id="previewImage">
                       </label>
                   </div>
@@ -68,26 +68,6 @@
                            const editor = new FroalaEditor('#froala-editor', {
                                height: 400,
                                toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'insertLink', 'insertImage', 'insertTable', 'undo', 'redo'],
-                               //imageUploadURL: "<?php //echo _WEB_ROOT?>///cpanel/blog/upload-img-detail",
-                               //imageUploadMethod: 'POST',
-                               //imageUploadMultiple: true,
-                               //imageUploadParams: {
-                               //    "csrf_token": document.querySelector('input[name="csrf_token"]').value,
-                               //},
-                               //imageUploadHeaders: {
-                               //    'X-CSRF-TOKEN': document.querySelector('input[name="csrf_token"]').value
-                               //},
-                               //events: {
-                               //    'image.uploaded': function (response) {
-                               //        console.log(response);
-                               //    },
-                               //    'image.uploadedMultiple': function (response) {
-                               //        console.log(response);
-                               //    },
-                               //    'image.error': function (error, response) {
-                               //        console.log(error);
-                               //    }
-                               //}
                            });
                            document.querySelector('.form-update').addEventListener('submit', function (event) {
                                const content = editor.html.get();

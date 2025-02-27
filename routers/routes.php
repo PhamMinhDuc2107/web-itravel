@@ -11,7 +11,7 @@
    $routes['cpanel/login-post'] = 'admin/dashboard/loginPost';
    $routes['cpanel/logout'] = 'admin/dashboard/logout';
 
-   $adminModules = ['admin', 'category', 'blog', 'blogCategory','location',"tour"];
+   $adminModules = ['admin', 'category', 'blog', 'blogCategory','location',"tour","tourItinerary",'booking',"consultation","banner"];
    foreach ($adminModules as $module) {
       $routes["cpanel/$module"] = "admin/$module/index";
       $routes["cpanel/$module-update/(.+)"] = "admin/$module/update/$1";
@@ -19,3 +19,5 @@
       $routes["cpanel/$module-create"] = "admin/$module/create";
       $routes["cpanel/$module-delete"] = "admin/$module/delete";
    }
+   $routes['cpanel/booking-export-data']= 'admin/booking/exportBookingToExcel';
+   $routes['cpanel/consultation-export-excel']= 'admin/consultation/exportConsultationToExcel';

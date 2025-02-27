@@ -9,11 +9,12 @@ class BlogCategory extends Controller
    {
       $this->BlogCategoryModel = $this->Model("BlogCategoryModel");
       $this->jwt = new JwtUtil();
-      if(!$this->jwt->checkAuth("token_auth")) {
-         Util::redirect("cpanel/login",ErrorResponse::unauthorized("Vui lòng đăng nhập lại"));
+      $checkAuth = $this->jwt->checkAuth("token_auth");
+      if(!$checkAuth['success']) {
+         Util::redirect("cpanel/login",Response::unauthorized($checkAuth['msg']));
       }
       if(!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category",ErrorResponse::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("cpanel/category",Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
 
