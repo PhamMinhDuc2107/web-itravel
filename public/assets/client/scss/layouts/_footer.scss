@@ -1,0 +1,104 @@
+.footer {
+  background-color: $blue-color;
+  padding-top: 4rem;
+  &__container {
+    
+  }
+  &__list {
+    @include flex(start, space-between);
+    color: $white-color;
+  }
+  &__item {
+    width: 33.3333%;
+    .row {
+      margin-bottom: 1.6rem;
+      line-height: 2rem;
+      strong {
+        display: block;
+        font-weight: bolder;
+      }
+      a {
+        color: $white-color;
+        transition: all 0.3s linear;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      i {
+        margin-right: 1rem;
+        font-size: 2.3rem;
+        cursor: pointer;
+      }
+      form {
+        position: relative;
+      }
+      input {
+        line-height: 4rem;
+        background-color: $white-color;
+        padding: 0 4.5rem 0  2rem;
+        width: 100%;
+        outline: none;
+        border: none;
+      }
+      button {
+        position: absolute;
+        z-index: 2;
+        top: 0.3rem;
+        right: 0.3rem;
+        width: 3.4rem;
+        height: 3.4rem;
+        outline: none;
+        border: none;
+        background-color: $blue-color;
+        color: $white-color;
+        i {
+          display: block;
+          padding:0.1rem 0.6rem;
+          margin: unset;
+          font-size: 1.5rem;
+        }
+      }
+      p {
+        margin: 1rem 0;
+      }
+    }
+  }
+  &__title {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .copyright {
+    text-align: center;
+    color: $white-color;
+    padding: 1rem 0;
+    margin-top: 4rem;
+    border-top: 0.1rem solid $white-color;
+    font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: $breakpoint-lg) {
+  .footer {
+    &__list {
+      flex-wrap: wrap;
+    }
+    &__item {
+      width: 50%;
+    }
+  }
+}
+@media screen and (max-width: $breakpoint-md) {
+  .footer {
+    &__list {
+      flex-wrap: wrap;
+    }
+    &__item {
+      width: 100%;
+    }
+    &__title {
+      
+    }
+  }
+}

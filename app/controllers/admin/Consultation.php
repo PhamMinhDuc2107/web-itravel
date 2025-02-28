@@ -15,10 +15,10 @@ class Consultation extends Controller
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
       if (!$checkAuth['success']) {
-         Util::redirect("cpanel/login", Response::unauthorized($checkAuth['msg']));
+         Util::redirect("dashboard/login", Response::unauthorized($checkAuth['msg']));
       }
       if (!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/consultation", Response::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("dashboard/consultation", Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
 
@@ -38,37 +38,37 @@ class Consultation extends Controller
 
       $id = (int)$id ?? 0;
       if($id <=0 || ! is_numeric($id)) {
-         Util::redirect("cpanel/consultation", Response::badRequest("ID không hợp lệ"));
+         Util::redirect("dashboard/consultation", Response::badRequest("ID không hợp lệ"));
       }
       $consultation = $this->ConsultationModel->find($id);
       if(!$consultation) {
-         Util::redirect("cpanel/consultation", Response::notFound("Không tìm thấy"));
+         Util::redirect("dashboard/consultation", Response::notFound("Không tìm thấy"));
       }
       $data=  ['status' => 1];
       $res = $this->ConsultationModel->update($data, $id);
       if (!$res) {
-         Util::redirect("cpanel/consultation", Response::internalServerError("Cập nhật không thành công"));
+         Util::redirect("dashboard/consultation", Response::internalServerError("Cập nhật không thành công"));
       }
-      Util::redirect("cpanel/consultation", Response::success("Cập nhật thành công"));
+      Util::redirect("dashboard/consultation", Response::success("Cập nhật thành công"));
    }
    public function delete(): void
    {
       if(!Request::isMethod("POST")) {
-         Util::redirect('cpanel/consultation', Response::methodNotAllowed("Phương thức không hợp lệ"));
+         Util::redirect('dashboard/consultation', Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
       $listID = Request::input("id") ?? [];
       if (empty($listID)) {
-         Util::redirect("cpanel/consultation", Response::badRequest("Id không hợp lệ"));
+         Util::redirect("dashboard/consultation", Response::badRequest("Id không hợp lệ"));
       }
       foreach ($listID as $id) {
          if (!is_numeric($id) || $id < 0) {
-            Util::redirect("cpanel/consultation", Response::badRequest("Id không hợp lệ"));
+            Util::redirect("dashboard/consultation", Response::badRequest("Id không hợp lệ"));
          }
       }
       foreach ($listID as $id) {
          $this->ConsultationModel->delete($id);
       }
-      Util::redirect("cpanel/consultation",Response::success("Xóa thành công"));
+      Util::redirect("dashboard/consultation",Response::success("Xóa thành công"));
    }
    public function exportConsultationToExcel()
    {

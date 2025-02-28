@@ -1,0 +1,50 @@
+@mixin size($width, $height: $width) {
+   width: $width;
+   height: $height;
+ }
+ @mixin hiddenScroll() {
+   -ms-overflow-style: none;
+   scrollbar-width: none;
+   &::-webkit-scrollbar {
+     display: none;
+   }
+ }
+ @mixin absoluteCenter($direction) {
+   position: absolute;
+   @if $direction == "center" {
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+   }
+   @if $direction == "left" {
+     left: 50%;
+     transform: translateX(-50%);
+   }
+   @if $direction == "top" {
+     top: 50%;
+     transform: translatey(-50%);
+   }
+ }
+@mixin flex($align: start, $justify: start, $direction: row, $wrap: nowrap) {
+   display: flex;
+   align-items: $align;
+   justify-content: $justify;
+   flex-direction: $direction;
+   flex-wrap: $wrap;
+}
+@mixin hiddenText($row, $size: 100%) {
+   display: -webkit-box;
+   -webkit-line-clamp: $row;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   width: $size;
+   max-width: $size;
+   white-space: pre-wrap;
+   word-break: break-word;
+ }
+@mixin hidden() {
+   opacity: 0;
+   visibility: hidden;
+   transition: all 0.3s linear;
+}

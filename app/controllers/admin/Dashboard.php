@@ -15,20 +15,25 @@ class Dashboard extends Controller{
          $this->ConsultationModel = $this->model("ConsultationModel");
          $this->jwt = new JwtUtil();
          if(!Util::checkCsrfToken()) {
-            Util::redirect("cpanel/category",Response::forbidden("Thất bại! Token không hợp lệ"));
+            Util::redirect("dashboard/category",Response::forbidden("Thất bại! Token không hợp lệ"));
          }
       }
       public function index() {
          $admin = $this->jwt->checkAuth("token_auth");
          if (!$admin['success']) {
-            Util::redirect("cpanel/login",Response::unauthorized($admin['msg']));
+            Util::redirect("dashboard/login",Response::unauthorized($admin['msg']));
          }
-         $totalPriceMonth = $this->BookingModel->getMonthlyBookingSummary();
-         $totalPriceDay = $this->BookingModel->getDailyBookingRevenue();
+         $month =htmlspecialchars(Request::input("month"));
+         if($month > date('m') || !is_numeric($month)) {
+            $month = date('m');
+         }
+         $totalPriceMonth = $this->BookingModel->getMonthlyBookingSummary($month);
+         $totalPriceDay = $this->BookingModel->getDailyBookingRevenue($month);
          $totalConsultation = $this->ConsultationModel->getTotalConsultation();
          $this->data['page']= 'index';
          $this->data['title'] = "Dashboard";
          $this->data['admin'] = $admin['payload'];
+         $this->data['month'] = $month;
          $this->data['totalPriceMonth'] = $totalPriceMonth;
          $this->data['totalPriceDay'] = $totalPriceDay;
          $this->data['totalConsultation'] = $totalConsultation;
@@ -37,7 +42,7 @@ class Dashboard extends Controller{
       public function login() {
          $admin = $this->jwt->checkAuth("token_auth");
          if ($admin['success']) {
-            Util::redirect("cpanel/");
+            Util::redirect("dashboard/");
          }
          $this->data['title']= 'Login';
          $this->render("layouts/admin_login_layout", $this->data);
@@ -49,20 +54,21 @@ class Dashboard extends Controller{
             $remember = isset($_POST['remember']) ? 1 : 0;
             $admin = $this->AdminModel->find($username, "username");
             if ($admin['status'] != 1) {
-               Util::redirect("cpanel/login", Response::badRequest("Tài khoản của bạn chưa kích hoạt vui lòng liên hệ admin"));
+               Util::redirect("dashboard/login", Response::badRequest("Tài khoản của bạn chưa kích hoạt vui lòng liên hệ admin"));
             }
             if(empty($admin) || !password_verify($password, $admin['password'])) {
-               Util::redirect("cpanel/login", Response::badRequest("Tài khoản hoặc mật khẩu sai"));
+               Util::redirect("dashboard/login", Response::badRequest("Tài khoản hoặc mật khẩu sai"));
             }
             $payload = $this->jwt->generatePayload($admin, $remember);
             $token = $this->jwt->encode($payload, $payload['exp']);
             setcookie('token_auth', $token, $payload['exp'], '/', null, true, true);
-            Util::redirect("cpanel");
+            Util::redirect("dashboard");
          }
       }
       public function logout() {
          setcookie('token_auth', '', time() - 30 * 24 * 60 *60, '/', "", true, true);
-         Util::redirect("cpanel/login");
+         Util::redirect("dashboard/login");
       }
+
    }
 ?>

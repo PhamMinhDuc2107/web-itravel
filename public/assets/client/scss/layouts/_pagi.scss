@@ -1,0 +1,26 @@
+.pagi {
+  margin-top: 3rem;
+  &__list {
+    @include flex(center,center);
+    gap: 1rem;
+  }
+  &__item {
+    &--link {
+      @include size(3.5rem);
+      @include flex(center,center);
+      border: 0.1rem solid $blue-color;
+      transition: all 0.3s linear;
+      border-radius: 0.8rem;
+      color: $blue-color;
+      &.active {
+        background-color: $blue-color;
+        border-color: $blue-color;
+        color: $white-color;
+      }
+      &:hover {
+        background-color: $blue-color;
+        color: $white-color;
+      }
+    }
+  }
+}

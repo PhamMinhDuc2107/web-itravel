@@ -9,7 +9,7 @@
                <?php endif;?>
             </div>
             <div class="card-body">
-               <form method="post" action="<?php echo _WEB_ROOT."/cpanel/blogCategory-update-post"?>">
+               <form method="post" action="<?php echo _WEB_ROOT."/dashboard/blogCategory-update-post"?>">
                   <input type="hidden" name="csrf_token" value="<?php echo Session::get("csrf_token")?>">
                   <input type="hidden" name="id" value="<?php echo $data['blogCategory']['id'] ?? ""?>">
                   <div class="mb-3">

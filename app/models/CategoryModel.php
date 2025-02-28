@@ -3,5 +3,5 @@
 class CategoryModel extends Model
 {
    protected $table = 'categories'   ;
-   protected $allowedColumns = ['id', 'name', 'parent_id', "created_at", "updated_at", "deleted_at"];
+   protected $allowedColumns = ['id', 'name', 'parent_id',"display_home", "created_at", "updated_at", "deleted_at"];
 }

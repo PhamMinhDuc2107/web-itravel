@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?php echo $data['title'] ?? "Not Found"?></title>
+    <title><?php echo $data['title'] ?? "Not Found Page"?></title>
+    <meta name="description" content="Not Found Page">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -55,7 +56,7 @@
 </head>
 <body>
 <section class="notfound">
-    <img src="<?php echo ASSET.'/admin/img/404.png'?>" alt="">
+    <img src="<?php echo ASSET.'/admin/img/404.png'?>" alt="Not Found">
     <h1>Không tìm thấy nội dung 😓</h1>
     <p>URL của nội dung này đã bị thay đổi hoặc không còn tồn tại.</p>
     <p>Nếu bạn đang lưu URL này, hãy thử truy cập lại từ trang chủ thay vì dùng URL đã lưu.</p>

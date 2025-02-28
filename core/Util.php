@@ -133,7 +133,18 @@ class Util
       $queryParams['page'] = 1;
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
+   public static function buildMonthUrl($month = null): string
+   {
+      $queryParams = $_GET ?? [];
 
+      if ($month !== null) {
+         $queryParams['month'] = $month;
+      } else {
+         unset($queryParams['month']);
+      }
+
+      return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
+   }
    public static function buildOrderByUrl($order = "asc"): string
    {
       $isAllowed = ["asc", "desc"];

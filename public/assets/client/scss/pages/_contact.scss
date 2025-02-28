@@ -1,0 +1,96 @@
+.contact {
+  &__container {
+
+  }
+  &__list {
+    @include flex(start,space-between);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  &__item {
+    border-radius: 1.6rem;
+    border: 0.1rem solid $gray-light-color;
+    width: 33.3333%;
+    padding: 3.5rem 1.5rem;
+    @include flex(center,center, column);
+    text-align: center;
+    i {
+      margin-bottom: 1rem;
+      font-size: 6rem;
+      color: $blue-color;
+    }
+    p {
+      margin-bottom: 0.8rem;
+      font-weight: bold;
+      font-size: 2.8rem;
+    }
+    span {
+      line-height: 2.1rem;
+      color: $gray-color;
+      height: 4.2rem;
+      
+    }
+  }
+  .map-container {
+    width: 50%;
+    height: 31.5rem;
+  }
+  .row {
+    gap: 3rem;
+    @include flex(start,space-between);
+    margin-bottom: 4rem;
+    .contact__form {
+      gap: 1.5rem;
+      @include flex(center, space-between, column);
+      width: 50%;
+      input {
+        width: 100%;
+        outline: none;
+        border-radius: 0.8rem;
+        padding: 1rem 2rem;
+        border: 0.1rem solid $gray-light-color;
+      }
+      textarea {
+        height: 10rem;
+        width: 100%;
+        outline: none;
+        border: 0.1rem solid $gray-light-color;
+        padding: 1rem 2rem;
+      }
+    }
+  }
+}
+@media screen and (max-width: $breakpoint-xl) {
+  .contact {
+    
+  }
+}
+@media screen and (max-width: $breakpoint-lg) {
+  .contact {
+    
+  }
+}
+@media screen and (max-width: $breakpoint-md) {
+  .contact {
+      &__list {
+        flex-wrap: wrap;
+      }
+      &__item {
+        width:calc(50% - 1rem);
+      }
+      .row {
+        flex-direction: column;
+        .map-container {
+          width: 100%;
+        }
+        .contact__form {
+          width: 100%;
+        }
+      }
+  }
+}
+@media screen and (max-width: $breakpoint-sm) {
+  .contact {
+
+  }
+}

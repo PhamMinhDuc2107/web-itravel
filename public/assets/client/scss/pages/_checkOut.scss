@@ -1,0 +1,229 @@
+.booking {
+   &__container {
+      @include flex(start);
+      gap: 2rem;
+
+   }
+   &__title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      line-height: 3rem;
+   }
+   &__right {
+      width: 40%;
+      position: sticky;
+      top: 2rem;
+   }
+   &__left {
+      width: 60%;
+   }
+   &__content--item {
+      margin-bottom: 3rem;
+      .row {
+         @include flex(start, space-between, row, wrap);
+         gap: 2rem;
+         margin-bottom: 1rem;
+         &.left {
+            width: 50%;
+            p {
+               font-weight: 600;
+               display: block;
+            }
+         }
+         &.right {
+            width: 50%;
+         }
+      }
+      .column {
+         width: calc(50% - 2rem);
+         @include flex(start,start, column);
+         &.border-line {
+            border:0.1rem solid #171717;
+            border-radius: 0.8rem;
+            padding: 1rem 1rem 1rem 2rem;
+            @include flex(center,space-between);
+            
+         }
+         .right {
+            @include flex(center,space-between);
+            input {
+               padding: 0;
+               text-align: center;
+               max-width: 5rem;
+               background-color: transparent;
+            }
+            i {
+               @include size(4rem);
+               flex-shrink: 0;
+               @include flex(center,center);
+               transition: all 0.3s linear;
+               border-radius: 0.8rem;  
+               &:hover {
+                  background-color: $blue-color;
+                  color: $white-color;
+               }
+            }
+            
+         }
+         .left {
+            p {
+               font-size: 1.6rem;
+
+            }
+            span {
+               display: block;
+               line-height: 3rem;
+            }
+         }
+         &.border-r {
+            border-right: 0.1rem $blue-color;
+         }
+         p {
+            font-weight: 600; 
+         }
+         label {
+            font-size: 1.6rem;
+            font-weight: 700;
+         }
+         span {
+            color: $red-color;
+            line-height: 2rem;
+         }
+         input {
+            padding: 1rem 1rem 1rem 0;
+            border: none;
+            width: 100%;
+         }
+      }
+   }
+   &__content---note {
+      width: 100%;   
+      padding: 2rem;
+      border-radius: 0.8rem;
+      border: 0.1rem solid #b1b1b1;
+      background-color: #e6f4ff;
+      textarea {
+         width: 100%;
+         height: 10rem;
+         border: none;
+         outline: none;
+         font-size: 1.5rem;
+         background-color: #e6f4ff;
+      }
+   }
+}
+.cart {
+   &__wrap {
+   background-color: #e6f4ff;
+   padding: 2rem;
+   border-radius: 1.6rem;
+   }
+   &__head {
+      @include flex(center, space-between);
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 0.2rem solid #e5e5e5;
+      img {
+         width: 30%;
+         border-radius: 0.8rem;
+      }
+      
+      h4 {
+         @include hiddenText(4);
+         line-height: 2rem;
+         font-size: 1.6rem;
+      }
+   }
+   &__body {
+      .row {
+         @include flex(center, space-between);
+         line-height: 2.6rem;
+      }
+      .col-50 {
+         width: 50%;
+         @include flex(center);
+            i {
+               margin-right: 1rem;
+            }
+            p {
+               span {
+                  color: $blue-color;
+                  font-weight: bold;
+               }
+            }
+      }
+      .price__list {
+         padding: 1rem 0;
+         margin: 1rem 0;
+         border-bottom: 0.2rem solid #e5e5e5;
+         border-top: 0.2rem solid #e5e5e5;
+         h4 {margin-bottom: unset;}
+         .row {
+            .left {
+               @include flex(center);
+               i {
+                  margin-right: 1rem;
+               }
+            }
+            .right {
+               .amount {
+                  color: $red-color;
+               }
+            }
+         }
+      }
+   }
+   &__title {
+      font-size: 1.6rem;
+      font-weight: 600;
+   }
+   &__footer {
+      &--price {
+         @include flex(center,space-between);
+      .left {
+         font-size: 2.1rem;
+         font-weight: 600;
+      }
+      .right {
+         font-size: 2.6rem;
+         color: $red-color;
+         font-weight: 600;
+      }
+      }
+      button {
+         font-weight: 600;
+         font-size: 1.8rem;
+      }
+   }
+}
+@media screen and (max-width: $breakpoint-lg) {
+   .booking{
+      &__container {
+         flex-direction: column;
+         margin-bottom: 4rem;
+      }
+      &__right {
+         width: 100%;
+      }
+      &__left {
+         width: 100%;
+      }
+   }
+ }
+ @media screen and (max-width: $breakpoint-md) {
+   .booking{
+      &__container {
+         flex-direction: column;
+         margin-bottom: 4rem;
+      }
+      .booking__content--item .column {
+         width: 100%;
+      }
+      .booking__content--item{
+         margin-bottom: 1rem;
+      }
+   }
+ }

@@ -1,0 +1,402 @@
+// ttopber
+.topbar {
+   background-color: #f5f5f5;
+   &__container {
+      @include flex(center, flex-end);
+      padding: 0.5rem 0;
+      position: relative;
+   }
+
+   &__search {
+      height: 4rem;
+      line-height: 4rem;
+      border-radius: 0.4rem;
+      position: relative;
+      overflow: hidden;
+      &--icon {
+         display: none;
+      }
+      & input {
+         height: 100%;
+         border: none;
+         outline: none;
+         border: 0.1rem solid $border-color;
+         padding: 0 5.5rem 0 1rem;
+         font-size: 1.6rem;
+      }
+      &--btn {
+         position: absolute;
+         padding: 0.1rem 0.6rem;
+         width: 4.5rem;
+         height: 100%;
+         top: 0;
+         right: 0;
+         & i {
+            display: inline-block;
+            font-size: 1.8rem;
+         }
+      }
+   }
+   &__cart {
+      position: relative;
+      &--icon {
+         @include flex(center, center);
+         width: 3rem;
+         height: 3rem;
+         cursor: pointer;
+         & i {
+            font-size: 3rem;
+            display: inline-block;
+            color: $red-color;
+         }
+      }
+      &--number {
+         position: absolute;
+         top: -0.5rem;
+         right: -0.8rem;
+         @include flex(center, center);
+         width: 1.8rem;
+         height: 1.8rem;
+         background-color: $red-color;
+         border-radius: 50%;
+         color: $white-color;
+      }
+      &::after {
+         content: "";
+         position: absolute;
+         background-color: transparent;
+         width: 4rem;
+         height: 0.5rem;
+         right: 0;
+      }
+   }
+   &__menu--icon {
+      display: none;
+   }
+   &__logo {
+      display: none;
+   }
+}
+// nav
+.nav {
+   @include flex(center, space-evenly);
+   height: 7rem;
+   font-size: 1.6rem;
+   text-transform: uppercase;
+   border-bottom: 1px solid $border-color;
+   &__item {
+      &--link {
+         display: inline-block;
+         cursor: pointer;
+         transition: all 0.2s linear;
+         img {
+            width: 200px;
+         }
+         &:hover {
+            color: $blue-color;
+         }
+      }
+   }
+}
+.header__menu {
+   @include flex(center, space-evenly, row, wrap);
+   line-height: 5rem;
+   height: 5rem;
+   &--item {
+      height: 100%;
+      padding: 0 1.5rem;
+      position: relative;
+      &::before {
+         content: "";
+         position: absolute;
+         min-width: 10rem;
+         height: 2rem;
+         color: red;
+         z-index: 100;
+         top: 4rem;
+      }
+      &:hover {
+         > .dropdown__lv1 {
+            opacity: 1;
+            visibility: visible;
+            transform: perspective(600px) rotateX(0deg);
+            -webkit-transform: perspective(600px) rotateX(0deg);
+         }
+         .header__menu--link {
+            color: $blue-color;
+            + i {
+               color: $blue-color;
+               transform:translateY(-50%) rotateZ(180deg);
+               -webkit-transform: translateY(-50%) rotateZ(180deg);
+               -moz-transform: translateY(-50%) rotateZ(180deg);   
+               -ms-transform: translateY(-50%) rotateZ(180deg); 
+               -o-transform: translateY(-50%) rotateZ(180deg);
+            }
+         }
+      }
+      i {
+         position: absolute;
+         top: 50%;
+         right: 0;
+         transform: translateY(-50%);
+         z-index: 2;
+         transition: all 0.5s linear;
+         display: block;
+      }
+   }
+   &--link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      line-height: 5rem;
+      font-weight: 500;
+      font-size: 1.6rem;
+      transition: all 0.2s linear;
+      
+   }
+   // dropdown menu
+
+   & .dropdown__menu {
+      top: 5.4rem;
+      background-color: $white-color;
+      box-shadow: 0 0.4rem 0.5rem rgba(0, 0, 0, 0.2);
+      border-bottom-right-radius: 0.2rem;
+      border-bottom-left-radius: 0.2rem;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 99;
+      border-radius: 0.2rem;
+      transition: transform 0.3s linear, opacity 0.2s linear;
+      -webkit-transition: -webkit-transform 0.3s linear, opacity 0.2s linear;
+      &--item {
+         @include flex(center,space-between);
+         padding: 0.35rem 1rem;
+         transition: all 0.3s linear;
+         position: relative;
+         &:not(:last-child) {
+            border-bottom: 0.1rem solid $border-color;
+         }
+         &:hover > .dropdown__lv2 {
+            transform: perspective(600px) rotateY(-90deg);
+            -webkit-transform: perspective(600px) rotateY(-90deg);
+            -moz-transform: perspective(600px) rotateY(-90deg);   
+            -ms-transform: perspective(600px) rotateY(-90deg); 
+            -o-transform: perspective(600px) rotateY(-90deg);
+            opacity: 1;
+            visibility: visible;
+         }
+         & i {
+            display: block;
+            color: $text-color;
+            right: 1rem;
+         }
+         &:hover {
+            > i {
+            color: $blue-color;
+            transform: translateY(-50%) rotateZ(180deg);
+            -webkit-transform:  translateY(-50%) rotateZ(180deg);
+            -moz-transform:  translateY(-50%) rotateZ(180deg);   
+            -ms-transform:  translateY(-50%) rotateZ(180deg); 
+            -o-transform:  translateY(-50%) rotateZ(180deg);
+            }
+            > a {
+               color: $blue-color;
+            }
+         }
+      }
+
+      & a {
+         font-size: 1.4rem;
+         display: block;
+         transition: all 0.2s linear;
+         width: 100%;
+         height: 100%;
+         color: $text-color;
+         font-weight: 400;
+      }
+   }
+   .dropdown__lv1 {
+      position: absolute;
+      line-height: 3.2rem;
+      left: 0;
+      min-width: 23rem;
+      -webkit-transform: perspective(600px) rotateX(-90deg);
+      -moz-transform: perspective(600px) rotateX(-90deg);
+      -ms-transform: perspective(600px) rotateX(-90deg);
+      -o-transform: perspective(600px) rotateX(-90deg);
+      transform: perspective(600px) rotateX(-90deg);
+      -webkit-transform-origin: top center;
+      -moz-transform-origin: top center;
+      -ms-transform-origin: top center;
+      -o-transform-origin: top center;
+      transform-origin: top center;
+      z-index: 999;
+   }
+   
+   .dropdown__lv2 {
+      position: absolute;
+      left:100%;
+      top: 0;
+      min-width: 30rem;
+      padding: 0 1.5rem 2rem;
+      -webkit-transform: perspective(600px) rotateY(90deg);
+      -moz-transform: perspective(600px) rotateY(90deg);
+      -ms-transform: perspective(600px) rotateY(90deg);
+      -o-transform: perspective(600px) rotateY(90deg);
+      transform: perspective(600px) rotateY(90deg);      
+      -webkit-transform-origin: left center;
+      -moz-transform-origin: left center;
+      -ms-transform-origin: left center;
+      -o-transform-origin: left center;
+      transform-origin: left center;
+      @include flex(start, space-between);
+      width: 54rem;
+      z-index: 999;
+      &--item {
+         @include flex(start, space-between, row,wrap);
+         width: calc((100% - 35%) / 2);
+         padding: 0 1rem;
+         &:first-child {
+            width: 35%;
+         }
+         & span {
+            display: block;
+            width: 100%;
+            color: $blue-color;
+            font-size: 1.6rem;
+            font-weight: 500;
+         }
+         & a {
+            width: 100%;
+            transition: all 0.3s linear;
+            &:hover {
+               color: $blue-color;
+            }
+         }
+         & .w-50 {
+            width: 50%;
+         }
+      }
+   }
+   
+   .dropdown__menu--item:hover > .dropdown__lv2 {
+      opacity: 1;
+      visibility: visible;
+      transform: perspective(600px) rotateY(0deg);
+   }
+}
+.form-search {
+   position: absolute;
+   top: 6rem;
+   width: 100%;
+   z-index: 10;
+   height: 0rem;
+   overflow: hidden;
+   transition: all 0.3s linear;
+   & input {
+      width: 100%;
+      line-height: 4rem;
+      padding: 0 5.5rem 0 1rem;
+      font-size: 1.8rem;
+      position: relative;
+      outline: none;
+      border: 1px solid $border-color;
+   }
+   & button {
+      position: absolute;
+      height: 100%;
+      right: 0;
+      background-color: $blue-color;
+      color: $white-color;
+      width: 4.5rem;
+      padding: 0.1rem 0.6rem;
+      outline: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+   }
+}
+.active__height {
+}
+.swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
+.swiper-pagination-horizontal.swiper-pagination-bullets
+   .swiper-pagination-bullet {
+   border-radius: unset;
+   width: 2.5rem;
+   background-color: $gray-color;
+}
+
+.swiper-pagination-bullet-active {
+   width: 4.5rem !important;
+   background-color: rgb(111, 100, 100) !important;
+}
+// responsive
+@media screen and (max-width: $breakpoint-xl) {
+   .topbar {
+      &__cart:hover > .cart__mini {
+         display: none;
+      }
+   }
+   .header__menu {
+      height: unset;
+      justify-content: center;
+      gap: 0 0.5rem;
+   }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+   .nav {
+      display: none;
+   }
+   .header__menu {
+      display: none;
+   }
+   .topbar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      &__container {
+         justify-content: space-between;
+         height: 6rem;
+      }
+
+      &__search {
+         display: none;
+         cursor: pointer;
+         &--icon {
+            display: block;
+            font-size: 2.2rem;
+            color: $text-color;
+            padding: 0 1rem;
+            cursor: pointer;
+            & i {
+               pointer-events: none;
+            }
+         }
+      }
+      &__logo {
+         display: block;
+         width: 180px;
+         & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+      }
+      &__menu--icon {
+         display: block;
+         font-size: 2rem;
+         cursor: pointer;
+         padding: 0 1rem;
+         margin-left: -1rem;
+         & i {
+            pointer-events: none;
+         }
+      }
+      &__right {
+         @include flex(center);
+      }
+   }
+}

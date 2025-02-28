@@ -10,7 +10,7 @@
             </div>
             <?php $blog = $data['blog'] ?? []?>
             <div class="card-body">
-               <form method="post" class="form-update" action="<?php echo _WEB_ROOT."/cpanel/blog-update-post"?>" enctype="multipart/form-data">
+               <form method="post" class="form-update" action="<?php echo _WEB_ROOT."/dashboard/blog-update-post"?>" enctype="multipart/form-data">
                    <input type="hidden" name="id" value="<?php echo $blog['id'] ?>">
                   <div class="mb-3">
                      <label for="title" class="form-label">Tiêu đề tin tức</label>

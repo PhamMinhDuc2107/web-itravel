@@ -9,7 +9,7 @@
                <?php endif;?>
             </div>
             <div class="card-body">
-               <form id="form-submit" method="post" action="<?php echo _WEB_ROOT."/cpanel/tourItinerary-update-post"?>">
+               <form id="form-submit" method="post" action="<?php echo _WEB_ROOT."/dashboard/tourItinerary-update-post"?>">
                   <input type="hidden" name="csrf_token" value="<?php echo Session::get("csrf_token")?>">
                   <input type="hidden" name="id" value="<?php echo $data['tourItinerary']['id'] ?? ""?>">
                   <div class="dropdown mb-3">

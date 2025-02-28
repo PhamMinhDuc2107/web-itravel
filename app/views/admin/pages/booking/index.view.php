@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12 ">
-            <form action="<?php echo _WEB_ROOT . "/cpanel/blogCategory-delete" ?>" method="post" class="">
+            <form action="<?php echo _WEB_ROOT . "/dashboard/blogCategory-delete" ?>" method="post" class="">
                 <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
                 <div class="card mb-4">
                     <div class="d-flex justify-content-between align-items-center card-header pb-0">
@@ -62,7 +62,7 @@
                         </div>
 
                         <div>
-                            <a href="<?php echo _WEB_ROOT . '/cpanel/booking-export-data' ?>"
+                            <a href="<?php echo _WEB_ROOT . '/dashboard/booking-export-data' ?>"
                                class="btn btn-success     text-white font-weight-bold text-xs "
                                style="margin-bottom: 0;">
                                 Xuất Excel
@@ -220,7 +220,7 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="<?php echo _WEB_ROOT . "/cpanel/booking-update/" . $item['id'] ?>"
+                                                <a href="<?php echo _WEB_ROOT . "/dashboard/booking-update/" . $item['id'] ?>"
                                                    class="text-secondary font-weight-bold text-xs "
                                                    style="margin-bottom: 0;"
                                                    id="btnEdit"

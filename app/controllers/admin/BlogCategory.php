@@ -11,10 +11,10 @@ class BlogCategory extends Controller
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
       if(!$checkAuth['success']) {
-         Util::redirect("cpanel/login",Response::unauthorized($checkAuth['msg']));
+         Util::redirect("dashboard/login",Response::unauthorized($checkAuth['msg']));
       }
       if(!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category",Response::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("dashboard/category",Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
 
@@ -35,25 +35,25 @@ class BlogCategory extends Controller
          $name = htmlspecialchars(Request::input("name"));
          $checkName= $this->BlogCategoryModel->find($name,"name");
          if ($checkName) {
-            Util::Redirect("cpanel/blogCategory", ['msg' => "Tên danh mục không được dể giống nhau", "type" => "error"]);
+            Util::Redirect("dashboard/blogCategory", ['msg' => "Tên danh mục không được dể giống nhau", "type" => "error"]);
          }
          $slug = Util::generateSlug($name);
          $data = ["name" => $name, "slug" => $slug];
 
          $res =  $this->BlogCategoryModel->insert($data);
          if (!$res) {
-            Util::Redirect("cpanel/blogCategory", ['msg'=> "Thêm danh mục không thành công" , "type" => "error"]);
+            Util::Redirect("dashboard/blogCategory", ['msg'=> "Thêm danh mục không thành công" , "type" => "error"]);
          }
-         Util::redirect("cpanel/blogCategory", ["msg"=>"Thêm danh mục thành công" , "type" => "success"]);
+         Util::redirect("dashboard/blogCategory", ["msg"=>"Thêm danh mục thành công" , "type" => "success"]);
       }
    }
    public function update($id) {
       if ($id <= 0 || !is_numeric($id)) {
-         Util::Redirect("cpanel/blogCategory", ['msg' => "ID không hợp lệ", "type" => "error"]);
+         Util::Redirect("dashboard/blogCategory", ['msg' => "ID không hợp lệ", "type" => "error"]);
       }
       $blogCategory = $this->BlogCategoryModel->find(htmlspecialchars($id)) ??[];
       if(empty($blogCategory)) {
-         Util::redirect("cpanel/blogCategory",['msg'=>"Id không tồn tại", "type"=>"error"]);
+         Util::redirect("dashboard/blogCategory",['msg'=>"Id không tồn tại", "type"=>"error"]);
       }
       $this->data['page']= 'index';
       $this->data['title'] = "Sửa thông tin danh mục tin tức";
@@ -68,14 +68,14 @@ class BlogCategory extends Controller
          $slug = Util::generateSlug($name);
          $checkName = $this->BlogCategoryModel->find($name, "name");
          if ($checkName) {
-            Util::Redirect("cpanel/blogCategory", ['msg' => "name hoặc slug đã tồn tại", "type" => "error"]);
+            Util::Redirect("dashboard/blogCategory", ['msg' => "name hoặc slug đã tồn tại", "type" => "error"]);
          }
          $data = ["name" =>$name,"slug" => $slug];
          $res = $this->BlogCategoryModel->update($data, $id);
          if (!$res) {
-            Util::Redirect("cpanel/blogCategory", ['msg'=> "Cập nhật thông tin không thành công", "type" => "error"]);
+            Util::Redirect("dashboard/blogCategory", ['msg'=> "Cập nhật thông tin không thành công", "type" => "error"]);
          }
-         Util::redirect("cpanel/blogCategory", ["msg"=>"Cập nhật thông tin thành công", "type"=>"success"]);
+         Util::redirect("dashboard/blogCategory", ["msg"=>"Cập nhật thông tin thành công", "type"=>"success"]);
       }
    }
    public function delete(): void
@@ -83,17 +83,17 @@ class BlogCategory extends Controller
       if(Request::isMethod("POST")) {
          $listID = Request::input("id") ?? [];
          if (empty($listID)) {
-            Util::redirect("cpanel/blogCategory", ['msg'=> "ID không hợp lệ", "type" => "error"]);
+            Util::redirect("dashboard/blogCategory", ['msg'=> "ID không hợp lệ", "type" => "error"]);
          }
          foreach ($listID as $id) {
             if (!is_numeric($id) || $id < 0) {
-               Util::redirect("cpanel/blogCategory", ['msg'=> "ID không hợp lệ", "type" => "error"]);
+               Util::redirect("dashboard/blogCategory", ['msg'=> "ID không hợp lệ", "type" => "error"]);
             }
          }
          foreach ($listID as $id) {
               $this->BlogCategoryModel->delete($id);
          }
-         Util::redirect("cpanel/blogCategory", ["msg"=>"Xóa  thành công", "type" => "success"]);
+         Util::redirect("dashboard/blogCategory", ["msg"=>"Xóa  thành công", "type" => "success"]);
       }
    }
 }

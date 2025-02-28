@@ -20,10 +20,10 @@ class Booking extends Controller
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
       if (!$checkAuth['success']) {
-         Util::redirect("cpanel/login", Response::unauthorized($checkAuth['msg']));
+         Util::redirect("dashboard/login", Response::unauthorized($checkAuth['msg']));
       }
       if (!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category", Response::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("dashboard/category", Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
 
@@ -45,7 +45,7 @@ class Booking extends Controller
    {
       $booking = $this->BookingModel->find(htmlspecialchars($id));
       if (empty($booking)) {
-         Util::redirect("cpanel/booking",Response::notFound("Khoogn tìm thấy booking"));
+         Util::redirect("dashboard/booking",Response::notFound("Khoogn tìm thấy booking"));
       }
       $tours = $this->TourModel->getNameTours();
 
@@ -60,15 +60,15 @@ class Booking extends Controller
    public function updatePost()
    {
       if (!Request::isMethod("POST")) {
-         Util::redirect("cpanel/booking", Response::methodNotAllowed("Phương thức không hợp lệ"));
+         Util::redirect("dashboard/booking", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
       $id = Request::input("id");
       if ($id <=  0 || !is_numeric($id)) {
-         Util::Redirect("cpanel/booking", Response::badRequest("Id không hợp lệ"));
+         Util::Redirect("dashboard/booking", Response::badRequest("Id không hợp lệ"));
       }
       $checkId = $this->BookingModel->find($id);
       if (!$checkId) {
-         Util::Redirect("cpanel/booking", Response::notFound("Không tìm thấy booking này"));
+         Util::Redirect("dashboard/booking", Response::notFound("Không tìm thấy booking này"));
       }
       $tourId = htmlspecialchars(Request::input("tour_id") ?? "");
       $customerName = htmlspecialchars(Request::input("customer_name") ?? "");
@@ -92,29 +92,29 @@ class Booking extends Controller
 
       $res = $this->BookingModel->update($data, $id);
       if (!$res) {
-         Util::Redirect("cpanel/booking", Response::internalServerError("Cập nhật không thành công"));
+         Util::Redirect("dashboard/booking", Response::internalServerError("Cập nhật không thành công"));
       }
-      Util::redirect("cpanel/booking", Response::success("Cập nhật thành công"));
+      Util::redirect("dashboard/booking", Response::success("Cập nhật thành công"));
    }
 
    public function delete(): void
    {
       if (Request::isMethod("POST")) {
-         Util::redirect('cpanel/booking');
+         Util::redirect('dashboard/booking');
       }
       $listID = Request::input("id") ?? [];
       if (empty($listID)) {
-         Util::redirect("cpanel/booking", Response::badRequest("ID không hợp lệ"));
+         Util::redirect("dashboard/booking", Response::badRequest("ID không hợp lệ"));
       }
       foreach ($listID as $id) {
          if (!is_numeric($id) || $id < 0) {
-            Util::redirect("cpanel/booking", Response::badRequest("ID không hợp lệ"));
+            Util::redirect("dashboard/booking", Response::badRequest("ID không hợp lệ"));
          }
       }
       foreach ($listID as $id) {
          $this->BookingModel->delete($id);
       }
-      Util::redirect("cpanel/booking", Response::badRequest("Xóa thành công"));
+      Util::redirect("dashboard/booking", Response::badRequest("Xóa thành công"));
    }
    private function getStatus($status): string {
       return match ($status) {

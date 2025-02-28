@@ -10,7 +10,7 @@
             </div>
             <?php $tour = $data['tour'] ?? []?>
             <div class="card-body">
-                <form method="post" action="<?php echo _WEB_ROOT."/cpanel/tour-update-post"?>" class="" enctype="multipart/form-data">
+                <form method="post" action="<?php echo _WEB_ROOT."/dashboard/tour-update-post"?>" class="" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Tên tour</label>
                                 <input type="text" class="form-control" id="name" name="name" value="<?php echo $tour['name']?>">

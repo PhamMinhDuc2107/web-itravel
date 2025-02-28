@@ -18,11 +18,11 @@ class Tour  extends Controller{
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
       if(!$checkAuth['success']) {
-         Util::redirect("cpanel/login",Response::unauthorized($checkAuth['msg']));
+         Util::redirect("dashboard/login",Response::unauthorized($checkAuth['msg']));
       }
 
       if(!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category",Response::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("dashboard/category",Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
    public function index() {
@@ -45,25 +45,25 @@ class Tour  extends Controller{
    }
    public function create() {
       if(!Request::isMethod("POST")) {
-         Util::Redirect("cpanel/tour", Response::methodNotAllowed("Phương thức khoogn được phép"));
+         Util::Redirect("dashboard/tour", Response::methodNotAllowed("Phương thức khoogn được phép"));
       }
       $dataTour =$this->prepareTourData();
 
       $res = $this->TourModel->insert($dataTour);
       $idLastInsert = $this->TourModel->getLastInsertId();
       if (!$res) {
-         Util::redirect("cpanel/tour", Response::internalServerError("Thêm không thành công"));
+         Util::redirect("dashboard/tour", Response::internalServerError("Thêm không thành công"));
       }
       $dataPrice = $this->prepareTourPriceData();
       $checkInsertPrice = $this->processTourPrice($idLastInsert,$dataPrice);
       if(!$checkInsertPrice['success']) {
-         Util::redirect("cpanel/tour", Response::internalServerError("Đã thêm tour thành công nhưng ".$checkInsertPrice['msg']));
+         Util::redirect("dashboard/tour", Response::internalServerError("Đã thêm tour thành công nhưng ".$checkInsertPrice['msg']));
       }
       $checkInsertTourImg = $this->processTourImg($idLastInsert);
       if(!$checkInsertPrice['success']) {
-         Util::redirect("cpanel/tour", Response::internalServerError("Đã thêm tour thành công nhưng ".$checkInsertTourImg['msg']));
+         Util::redirect("dashboard/tour", Response::internalServerError("Đã thêm tour thành công nhưng ".$checkInsertTourImg['msg']));
       }
-      Util::redirect('cpanel/tour',Response::success("Thêm thành công"));
+      Util::redirect('dashboard/tour',Response::success("Thêm thành công"));
    }
 
 
@@ -83,17 +83,17 @@ class Tour  extends Controller{
    }
    public function updatePost() {
       if(!Request::isMethod("POST")) {
-         Util::redirect("cpanel/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
+         Util::redirect("dashboard/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
       }
       $id = (int)(Request::input("id") ?? 0);
       $tour = $this->TourModel->find($id);
       if (!$tour) {
-         Util::redirect("cpanel/tour", Response::notFound("Không tìm thấy tour có id là ".$id));
+         Util::redirect("dashboard/tour", Response::notFound("Không tìm thấy tour có id là ".$id));
       }
       $dataTour =$this->prepareTourData();
       $res = $this->TourModel->update($dataTour, $id);
       if(!$res) {
-         Util::redirect("cpanel/tour", Response::internalServerError("Cập nhật không thành công"));
+         Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật không thành công"));
       }
 
       if(!empty(Request::input("date")[0]) && !empty(Request::input("price_adult")[0]) &&
@@ -101,29 +101,29 @@ class Tour  extends Controller{
          $dataPrice = $this->prepareTourPriceData();
          $checkInsertPrice = $this->processTourPrice($id,$dataPrice, true);
          if(!$checkInsertPrice['success']) {
-            Util::redirect("cpanel/tour", Response::internalServerError("Cập nhật thành công nhưng ".$checkInsertPrice['msg']));
+            Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng ".$checkInsertPrice['msg']));
          }
       }
 
       if(isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
          $checkInsertImg = $this->processTourImg($id, true);
          if(!$checkInsertImg['success']) {
-            Util::redirect("cpanel/tour", Response::internalServerError("Cập nhật thành công nhưng ".$checkInsertImg['msg']));
+            Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng ".$checkInsertImg['msg']));
          }
       }
-      Util::redirect('cpanel/tour',Response::success("Cập nhật thành công"));
+      Util::redirect('dashboard/tour',Response::success("Cập nhật thành công"));
    }
    public function delete() {
       if(!Request::isMethod("POST")) {
-         Util::redirect("cpanel/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
+         Util::redirect("dashboard/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
       }
       $listID = Request::input("id") ?? [];
       if (empty($listID)) {
-         Util::redirect("cpanel/tour", Response::badRequest("ID không hợp lệ"));
+         Util::redirect("dashboard/tour", Response::badRequest("ID không hợp lệ"));
       }
       foreach ($listID as $id) {
          if (!is_numeric($id) || $id < 0) {
-            Util::redirect("cpanel/tour", Response::badRequest("ID không hợp lệ"));
+            Util::redirect("dashboard/tour", Response::badRequest("ID không hợp lệ"));
          }
       }
       foreach ($listID as $id) {
@@ -133,12 +133,12 @@ class Tour  extends Controller{
             $pathImg = _DIR_ROOT.$img["image"];
             $checkDeleteImg = Util::deleteImage($pathImg);
             if(!$checkDeleteImg['success']) {
-               Util::redirect("cpanel/tour",Response::badRequest($checkDeleteImg['msg']));
+               Util::redirect("dashboard/tour",Response::badRequest($checkDeleteImg['msg']));
             }
          }
          $this->TourModel->delete($id);
       }
-      Util::redirect('cpanel/tour',Response::success("Xóa thành công"));
+      Util::redirect('dashboard/tour',Response::success("Xóa thành công"));
    }
 
    private function prepareTourData($isUpdate = false): array

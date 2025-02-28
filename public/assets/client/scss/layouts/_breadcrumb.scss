@@ -1,0 +1,19 @@
+.breadcrumb {
+  padding: 1rem 0;
+  line-height: 3rem;
+  background-color: $blue-color;
+  margin-bottom: 3rem;
+  .row {
+    @include flex(center);
+    gap: 1rem;
+    cursor: pointer;
+    a {
+      color: $white-color;
+      display: block;
+    }
+    i {
+      color: $white-color;
+    }
+  }
+  
+}

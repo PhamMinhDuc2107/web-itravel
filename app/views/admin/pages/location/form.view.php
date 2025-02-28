@@ -10,7 +10,7 @@
             </div>
             <?php $location = $data['location'] ?? []?>
             <div class="card-body">
-               <form method="post" class="form-update" action="<?php echo _WEB_ROOT."/cpanel/location-update-post"?>" enctype="multipart/form-data">
+               <form method="post" class="form-update" action="<?php echo _WEB_ROOT."/dashboard/location-update-post"?>" enctype="multipart/form-data">
                <div class="mb-3">
                     <label for="title" class="form-label">Tên địa điểm</label>
                     <input type="text" class="form-control" id="title" name="title" aria-describedby="usernameHelp" value="<?php echo $location['name']?>">

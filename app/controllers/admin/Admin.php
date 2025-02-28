@@ -14,10 +14,10 @@ class Admin extends Controller
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
       if(!$checkAuth['success']) {
-         Util::redirect("cpanel/login",Response::unauthorized($checkAuth['msg']));
+         Util::redirect("dashboard/login",Response::unauthorized($checkAuth['msg']));
       }
       if(!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category",Response::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("dashboard/category",Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
    public function index() {
@@ -33,33 +33,33 @@ class Admin extends Controller
    }
    public function create() {
       if (!Request::isMethod("POST")) {
-         Util::redirect("cpanel/admin", Response::methodNotAllowed("Phương thức không hợp lệ"));
+         Util::redirect("dashboard/admin", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
       $username = htmlspecialchars(Request::input("username") ?? "");
       $password = htmlspecialchars(Request::input("password") ?? "");
 
       $userExit = $this->AdminModel->find($username, "username");
       if ($userExit) {
-         Util::Redirect("cpanel/admin", Response::badRequest("Tài khoản đã tồn tại"));
+         Util::Redirect("dashboard/admin", Response::badRequest("Tài khoản đã tồn tại"));
       }
       $password = password_hash($password, PASSWORD_DEFAULT);
       $email = htmlspecialchars(Request::input("email"));
       $status = (int)htmlspecialchars(Request::input("status"));
       $phone = htmlspecialchars(Request::input("phone")) ??null;
       if($username == "" || $password == "" || $status == "") {
-         Util::Redirect("cpanel/admin", Response::badRequest("Vui lòng điền đầy đủ thông tin"));
+         Util::Redirect("dashboard/admin", Response::badRequest("Vui lòng điền đầy đủ thông tin"));
       }
       $data = ["username" => $username, "password" => $password, "email" => $email,"phone"=>$phone, "status" => $status];
       $res =  $this->AdminModel->insert($data);
       if (!$res) {
-         Util::Redirect("cpanel/admin", Response::badRequest("Tạo không thành công"));
+         Util::Redirect("dashboard/admin", Response::badRequest("Tạo không thành công"));
       }
-         Util::redirect("cpanel/admin", Response::success("Tạo thành công"));
+         Util::redirect("dashboard/admin", Response::success("Tạo thành công"));
    }
    public function update($id) {
       $admin = $this->AdminModel->find(htmlspecialchars($id));
       if(!$admin) {
-         Util::redirect("cpanel/admin", Response::notFound("Không tìm thấy Id"));
+         Util::redirect("dashboard/admin", Response::notFound("Không tìm thấy Id"));
       }
       $this->data['title'] = "Edit Admin";
       $this->data['heading']="Edit Admin";
@@ -69,11 +69,11 @@ class Admin extends Controller
    }
    public function updatePost() {
       if(!Request::isMethod("POST")) {
-         Util::Redirect("cpanel/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
+         Util::Redirect("dashboard/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
       $id = htmlspecialchars(Request::input("id"));
       if ($id <= 0 || !is_numeric($id)) {
-         Util::Redirect("cpanel/category", Response::badRequest("ID không hợp lệ"));
+         Util::Redirect("dashboard/category", Response::badRequest("ID không hợp lệ"));
       }
       $username =htmlspecialchars(Request::input("username"));
       $password = htmlspecialchars(Request::input("password"));
@@ -90,30 +90,30 @@ class Admin extends Controller
       }
       $res = $this->AdminModel->update($data, $id);
       if (!$res) {
-         Util::Redirect("cpanel/admin", Response::internalServerError("Tạo không thành công"));
+         Util::Redirect("dashboard/admin", Response::internalServerError("Tạo không thành công"));
       }
-      Util::redirect("cpanel/admin", Response::success("Tạo thành công"));
+      Util::redirect("dashboard/admin", Response::success("Tạo thành công"));
    }
 
    public function delete() {
 
       if(!Request::isMethod("POST")) {
-         Util::Redirect("cpanel/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
+         Util::Redirect("dashboard/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
          $listId = Request::input("id") ?? [];
          if (empty($listId)) {
-            Util::redirect("cpanel/admin",Response::badRequest("ID không hợp lẹ"));
+            Util::redirect("dashboard/admin",Response::badRequest("ID không hợp lẹ"));
          }
          $admin = $this->jwt->decode($_COOKIE["token_auth"]);
          $adminId = $admin->data->id;
          foreach ($listId as $id) {
             if ($id == $adminId) {
-               Util::redirect("cpanel/admin",Response::badRequest("Bạn không thể xóa tài khoản đang đăng nhập"));
+               Util::redirect("dashboard/admin",Response::badRequest("Bạn không thể xóa tài khoản đang đăng nhập"));
             }
          }
          foreach ($listId as $id) {
             $this->AdminModel->delete($id);
          }
-         Util::redirect("cpanel/admin", Response::success("Bạn xóa tài khoản thành công"));
+         Util::redirect("dashboard/admin", Response::success("Bạn xóa tài khoản thành công"));
    }
 }

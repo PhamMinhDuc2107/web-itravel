@@ -1,0 +1,199 @@
+.cart {
+   margin-bottom: 4rem;
+   &__title {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+   }
+   &__wrapper {
+      border: solid 1px #ebebeb;
+   }
+   &__header {
+      @include flex(center, flex-start);
+      width: 100%;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 1.6rem;
+      padding: 0.8rem 0;
+      line-height: 1.3;
+      border-bottom: solid 1px #ebebeb;
+      & div:nth-child(1) {
+         width: 52%;
+         padding-left: 1rem;
+      }
+      & div:nth-child(2) {
+         text-align: center;
+         width: 16%;
+      }
+      & div:nth-child(3) {
+         text-align: center;
+         width: 16%;
+      }
+      & div:nth-child(4) {
+         text-align: center;
+         width: 16%;
+      }
+   }
+   &__row {
+      @include flex(center);
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #ebebeb;
+   }
+   &__info {
+      @include flex(center);
+      &--img {
+         display: inline-block;
+         width: 11rem;
+         height: 11rem;
+         flex-shrink: 0;
+      }
+      &--name {
+         a {
+            padding-right: 1rem;
+            display: block;
+            font-size: 1.3rem;
+            line-height: 1.8rem;
+            margin-bottom: 0.5rem;
+            max-width: 25rem;
+            font-weight: 400;
+            @include hiddenText(2);
+            &:hover {
+               color: $gray-color;
+            }
+         }
+         span {
+            display: inline-block;
+            font-weight: 1.3rem;
+         }
+         & .cart__info--remove {
+            display: block;
+            color: #ff0000;
+         }
+      }
+   }
+   &__info {
+      width: 52%;
+   }
+   &__price,
+   &__quantity,
+   &__total {
+      @include flex(center, center);
+      width: 16%;
+   }
+   &__price,
+   &__total {
+      font-size: 1.4rem;
+      color: #ff0000;
+      font-weight: bold;
+   }
+   &__quantity {
+      & i {
+         @include flex(center, center);
+         border: 0.1rem solid $black-color;
+         width: 2.8rem;
+         height: 2.8rem;
+      }
+      & span {
+         border-top: 0.1rem solid $black-color;
+         border-bottom: 0.1rem solid $black-color;
+         @include flex(center, center);
+         width: 3.5rem;
+         height: 2.8rem;
+      }
+      & .cart__price {
+         display: none;
+      }
+   }
+   &__bottom {
+      width: 33.33333%;
+      margin-left: 66.66667%;
+      margin-top: 2rem;
+      & .cart__price--total {
+         display: flex;
+         align-items: center;
+         font-size: 1.5rem;
+         margin-bottom: 2rem;
+         & span {
+            display: inline-block;
+            width: 50%;
+            text-align: right;
+            color: #ff0000;
+            font-weight: bold;
+         }
+         & p {
+            width: 50%;
+         }
+      }
+   }
+   &__checkout {
+      width: 100%;
+      & button {
+         outline: none;
+         border: none;
+         background-color: $black-color;
+         color: $white-color;
+         font-size: 1.6rem;
+         padding: 0 0, 6rem;
+         height: 4.2rem;
+         width: 100%;
+      }
+   }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+   .cart {
+      padding-top: 8rem;
+   }
+}
+@media screen and (max-width: $breakpoint-md) {
+   .cart {
+      padding-top: 8rem;
+      &__header,
+      &__price,
+      &__total {
+         display: none;
+      }
+      &__info {
+         flex-shrink: 0;
+         width: 80%;
+      }
+      &__quantity {
+         width: 20%;
+         flex-wrap: wrap;
+         & .cart__price {
+            margin-top: 0.5rem;
+            @include flex(center, center);
+            width: 100%;
+            & span {
+               border: none;
+            }
+         }
+      }
+      &__bottom {
+         width: 100%;
+         margin-left: unset;
+      }
+   }
+}
+@media screen and (max-width: $breakpoint-sm) {
+   .cart {
+      &__quantity {
+         width: 30%;
+         justify-content: end;
+         & .cart__price {
+            justify-content: end;
+            flex-shrink: 0;
+            & span {
+               justify-content: end;
+               flex-shrink: 0;
+            }
+         }
+      }
+      &__info {
+         width: 70%;
+         &--img a {
+            width: 8rem;
+            height: 8rem;
+         }
+      }
+   }
+}

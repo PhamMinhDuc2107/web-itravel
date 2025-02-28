@@ -6,18 +6,19 @@
    // .+-(\d+) => trả về số trong dãy đáy tin-tuc/asdmaskdjksad-1 => 1
    $routes['tin-tuc/(.+)'] = 'news/category/$1';
 
-   $routes['cpanel'] = 'admin/dashboard/index';
-   $routes['cpanel/login'] = 'admin/dashboard/login';
-   $routes['cpanel/login-post'] = 'admin/dashboard/loginPost';
-   $routes['cpanel/logout'] = 'admin/dashboard/logout';
+   $routes['dashboard'] = 'admin/dashboard/index';
+   $routes['dashboard/login'] = 'admin/dashboard/login';
+   $routes['dashboard/login-post'] = 'admin/dashboard/loginPost';
+   $routes['dashboard/logout'] = 'admin/dashboard/logout';
+
 
    $adminModules = ['admin', 'category', 'blog', 'blogCategory','location',"tour","tourItinerary",'booking',"consultation","banner"];
    foreach ($adminModules as $module) {
-      $routes["cpanel/$module"] = "admin/$module/index";
-      $routes["cpanel/$module-update/(.+)"] = "admin/$module/update/$1";
-      $routes["cpanel/$module-update-post"] = "admin/$module/updatePost";
-      $routes["cpanel/$module-create"] = "admin/$module/create";
-      $routes["cpanel/$module-delete"] = "admin/$module/delete";
+      $routes["dashboard/$module"] = "admin/$module/index";
+      $routes["dashboard/$module-update/(.+)"] = "admin/$module/update/$1";
+      $routes["dashboard/$module-update-post"] = "admin/$module/updatePost";
+      $routes["dashboard/$module-create"] = "admin/$module/create";
+      $routes["dashboard/$module-delete"] = "admin/$module/delete";
    }
-   $routes['cpanel/booking-export-data']= 'admin/booking/exportBookingToExcel';
-   $routes['cpanel/consultation-export-excel']= 'admin/consultation/exportConsultationToExcel';
+   $routes['dashboard/booking-export-data']= 'admin/booking/exportBookingToExcel';
+   $routes['dashboard/consultation-export-excel']= 'admin/consultation/exportConsultationToExcel';

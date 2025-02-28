@@ -11,7 +11,7 @@ $totalConsultation =  $data['totalConsultation'][0] ?? [];
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Tổng tiền của tháng</p>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Tổng tiền của tháng <?php echo $data['month']?></p>
                                 <h5 class="font-weight-bolder">
                                     <?php echo number_format($totalPriceMonth['total_price_monthly'], 0, '.', ',');?>
                                 </h5>
@@ -21,9 +21,9 @@ $totalConsultation =  $data['totalConsultation'][0] ?? [];
                                 </p>
                             </div>
                         </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                        <div class="col-4 d-flex justify-content-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle ">
+                                <i class="fa-solid fa-money-check-dollar" style="font-size: 20px;"></i>
                             </div>
                         </div>
                     </div>
@@ -46,9 +46,9 @@ $totalConsultation =  $data['totalConsultation'][0] ?? [];
                                 </p>
                             </div>
                         </div>
-                        <div class="col-4 text-end">
+                        <div class="col-4 d-flex justify-content-end">
                             <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                <i class="ni ni-basket text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="fa-solid fa-cart-shopping text-white" style="font-size: 20px"></i>
                             </div>
                         </div>
                     </div>
@@ -95,9 +95,9 @@ $totalConsultation =  $data['totalConsultation'][0] ?? [];
                                 </p>
                             </div>
                         </div>
-                        <div class="col-4 text-end">
+                        <div class="col-4 d-flex justify-content-end">
                             <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="fa-solid fa-comment-medical" style="font-size: 20px"></i>
                             </div>
                         </div>
                     </div>
@@ -110,15 +110,20 @@ $totalConsultation =  $data['totalConsultation'][0] ?? [];
             <div class="card z-index-2 h-100">
                 <div class="card-header pb-0 pt-3 bg-transparent">
                     <h6 class="text-capitalize">Bảng thống kê</h6>
-                    <p class="text-sm mb-0">
-                        <span class="font-weight-bold">
-                           tháng
-                            <?php $timestamp = time();
-                            $month = date('m', $timestamp);
-                            echo$month;
-                            ?>
-                        </span>
-                    </p>
+                    <div class="mb-3 col-1">
+                        <div class="dropdown">
+                           <?php
+                           $month = $data['month'];
+                           ?>
+                            <input class="form-control" type="text" value="<?php echo "Tháng ".$month?>" data-month="<?php echo $month?>" placeholder=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" />
+                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="max-height: 250px;overflow-y:scroll">
+                                  <?php for($i = 1; $i <= date('m'); $i++):?>
+                                       <li><a href="<?php echo Util::buildMonthUrl($i)?>" class="dropdown-item" data-value="<?php echo $i?>"><?php echo "Tháng ".$i?></a></li>
+                                  <?php endfor;?>
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="card-body p-3">
                     <div class="chart">
@@ -224,3 +229,20 @@ $totalConsultation =  $data['totalConsultation'][0] ?? [];
     });
 </script>
 <script src="<?php echo ASSET?>/admin/js/argon-dashboard.min.js?v=2.1.0"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll(".dropdown").forEach((dropdown) => {
+            let input = dropdown.querySelector('input');
+            let dropdownMenu = dropdown.querySelector(".dropdown-menu");
+            if(dropdownMenu) {
+                dropdownMenu.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('dropdown-item')) {
+                       input.dataset.month = e.target.dataset.value;
+                        input.value = e.target.textContent;
+
+                    }
+                });
+            }
+        });
+    })
+</script>

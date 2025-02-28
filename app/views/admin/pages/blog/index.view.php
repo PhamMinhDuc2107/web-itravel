@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
    <div class="row">
       <div class="col-12">
-         <form action="<?php echo _WEB_ROOT."/cpanel/blog-delete"?>" method="post" class="">
+         <form action="<?php echo _WEB_ROOT."/dashboard/blog-delete"?>" method="post" class="">
             <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
             <div class="card mb-4">
                <div class="d-flex justify-content-between align-items-center card-header pb-0">
@@ -137,7 +137,7 @@
                                       </span>
                                   </td>
                                  <td class="align-middle text-center">
-                                    <a href="<?php echo _WEB_ROOT."/cpanel/blog-update/".$item['id']?>" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
+                                    <a href="<?php echo _WEB_ROOT."/dashboard/blog-update/".$item['id']?>" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
                                        id="btnEdit"
                                     >
                                        Edit
@@ -220,7 +220,7 @@
    </div>
 </div>
 <div class="modal fade" id="modalCreated" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:10000">
-   <form method="post" action="<?php echo _WEB_ROOT."/cpanel/blog-create"?>" class="modal-dialog modal-xl" style="
+   <form method="post" action="<?php echo _WEB_ROOT."/dashboard/blog-create"?>" class="modal-dialog modal-xl" style="
     height: 850px; overflow-y: scroll;" enctype="multipart/form-data">
        <div class="modal-content">
          <div class="modal-header ">

@@ -1,0 +1,87 @@
+.menu {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: rgba(0, 0, 0, 0.8);
+   z-index: 9999;
+   opacity: 0;
+   visibility: hidden;
+   transform: all linear 0.4s;
+   &__title {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      margin-left: -2rem;
+   }
+   &__list {
+      transition: all 0.3s linear;
+      transform: translateX(-100%);
+      width: 25rem;
+      height: 100%;
+      background-color: $white-color;
+      padding: 0.8rem;
+      padding-left: 1rem;
+      font-size: 1.6rem;
+   }
+   &__item {
+      line-height: 2.4rem;
+      width: 100%;
+      
+      &--link {
+         width: 100%;
+         display: inline-block;
+         line-height: 2.4rem;
+         
+      }
+      a {
+         display: inline-block;
+         padding: 0.6rem 0 ;
+         &:hover {
+            color: $blue-color;
+            + i {
+               color: $blue-color;
+            }
+         }
+      }
+   }
+}
+.menu2 {
+   list-style: circle;
+   padding-left: 1rem;
+   & a {
+      display: inline-block;
+      width: 100%;
+   }
+   & li a:hover {
+      color: $blue-color;
+   }
+}
+.dropdown {
+   position: relative;
+   i {
+      position: absolute;
+      top: 1rem;
+      right: 0.5rem;
+      z-index: 10;
+   }
+}
+.submenu-1, .submenu-2 {
+   display: none;
+   list-style: none;
+}
+.submenu-1 {
+   padding-left: 2rem;
+}
+.submenu-2 {
+   padding-left: 2.5rem;
+}
+.active__menu {
+   opacity: 1;
+   visibility: visible;
+}
+.active__menu .menu__list {
+   transform: translateX(0);
+}

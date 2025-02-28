@@ -48,7 +48,7 @@
                                 <span class="text-danger text-center"><?php echo Request::has("msg", "get") ? htmlspecialchars(Request::input("msg")) :"" ?></span>
                             </div>
                             <div class="card-body">
-                                <form role="form" method="post" action="<?php echo _WEB_ROOT?>/cpanel/login-post">
+                                <form role="form" method="post" action="<?php echo _WEB_ROOT?>/dashboard/login-post">
                                     <div class="mb-3">
                                         <input type="text" class="form-control form-control-lg" placeholder="Username"  name="username">
                                     </div>

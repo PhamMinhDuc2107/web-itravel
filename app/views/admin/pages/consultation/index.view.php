@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <form action="<?php echo _WEB_ROOT . "/cpanel/consultation-delete" ?>" method="post" class="">
+            <form action="<?php echo _WEB_ROOT . "/dashboard/consultation-delete" ?>" method="post" class="">
                 <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
                 <div class="card mb-4">
                     <div class="d-flex justify-content-between align-items-center card-header pb-0">
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="<?php echo _WEB_ROOT.'/cpanel/consultation-export-excel'?>" class=" btn btn-success  text-white font-weight-bold text-xs "
+                        <a href="<?php echo _WEB_ROOT.'/dashboard/consultation-export-excel'?>" class=" btn btn-success  text-white font-weight-bold text-xs "
                                 style="margin-bottom: 0;" >
                             Export Excel
                         </a>
@@ -163,10 +163,11 @@
                                                 </div>
                                             </td>
                                              <td>
-                                                <a href="<?php echo _WEB_ROOT.'/cpanel/consultation-update/'.$item['id']?>"
-                                                  class="btn text-white btn-success  font-weight-bold text-xs "
+                                                <a href="<?php echo $item['status'] === "1" ?  _WEB_ROOT.'/dashboard/consultation-update/'.$item['id'] : "#"?>"
+                                                  class="btn text-white btn-success  font-weight-bold text-xs <?php echo $item['status'] === 1? "d-none" :"" ?>"
                                                   style="margin-bottom: 0;"
                                                   id="btnEdit"
+
                                                 >
                                                    Hoàn thành
                                                 </a>

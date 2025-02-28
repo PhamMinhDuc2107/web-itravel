@@ -12,10 +12,10 @@ class Banner extends Controller
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
       if (!$checkAuth['success']) {
-         Util::redirect("cpanel/login", Response::unauthorized($checkAuth['msg']));
+         Util::redirect("dashboard/login", Response::unauthorized($checkAuth['msg']));
       }
       if (!Util::checkCsrfToken()) {
-         Util::redirect("cpanel/category", Response::forbidden("Thất bại! Token không hợp lệ"));
+         Util::redirect("dashboard/category", Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
 
@@ -35,16 +35,16 @@ class Banner extends Controller
    public function create()
    {
       if (!Request::isMethod("post")) {
-         Util::Redirect("cpanel/banner", Response::methodNotAllowed("Phương thức khoogn được phép"));
+         Util::Redirect("dashboard/banner", Response::methodNotAllowed("Phương thức khoogn được phép"));
       }
       $file = Request::file("image") ?? [];
       if (!$file && empty($file['name'])) {
-         Util::redirect("cpanel/banner", Response::badRequest("Vui lòng điền đầy đủ thông tin"));
+         Util::redirect("dashboard/banner", Response::badRequest("Vui lòng điền đầy đủ thông tin"));
       }
       $pathAsset = '/public/uploads/banner/';
       $checkCreateImgPath = Util::createImagePath($file, $pathAsset);
       if (!$checkCreateImgPath["success"]) {
-         Util::redirect('cpanel/banner', Response::badRequest($checkCreateImgPath['msg']));
+         Util::redirect('dashboard/banner', Response::badRequest($checkCreateImgPath['msg']));
       }
 
       $thumb = $checkCreateImgPath['name'];
@@ -56,15 +56,15 @@ class Banner extends Controller
       $res = $this->BannerModel->insert($data);
       Util::printArr($res);
       if (!$res) {
-         Util::redirect("cpanel/banner", Response::internalServerError("Thêm không thành công"));
+         Util::redirect("dashboard/banner", Response::internalServerError("Thêm không thành công"));
       }
       $id = $this->BannerModel->getLastInsertId();
       $checkUpload = Util::uploadImage($file, $thumb);
       if (!$checkUpload["success"]) {
          $this->BannerModel->delete($id);
-         Util::redirect('cpanel/banner', Response::badRequest($checkUpload['msg']));
+         Util::redirect('dashboard/banner', Response::badRequest($checkUpload['msg']));
       }
-      Util::redirect('cpanel/banner', Response::success("Tạo thành công"));
+      Util::redirect('dashboard/banner', Response::success("Tạo thành công"));
    }
 
    public function update($id): void
@@ -72,7 +72,7 @@ class Banner extends Controller
       $id = (int)$id;
       $banner = $this->BannerModel->find($id);
       if (empty($banner)) {
-         Util::redirect("cpanel/banner", Response::notFound("Không tìm thấy Id"));
+         Util::redirect("dashboard/banner", Response::notFound("Không tìm thấy Id"));
       }
       $this->data['page'] = 'index';
       $this->data['title'] = "Sửa thông tin của banner";
@@ -84,13 +84,13 @@ class Banner extends Controller
    public function updatePost()
    {
       if (!Request::isMethod("POST")) {
-         Util::Redirect("cpanel/banner", Response::methodNotAllowed("Phương thức không được phép"));
+         Util::Redirect("dashboard/banner", Response::methodNotAllowed("Phương thức không được phép"));
       }
 
       $id = (int)(Request::input("id") ?? 0);
       $banner = $this->BannerModel->find($id);
       if (!$banner) {
-         Util::redirect("cpanel/banner", Response::badRequest("Không tìm thấy ID"));
+         Util::redirect("dashboard/banner", Response::badRequest("Không tìm thấy ID"));
       }
       $title = htmlspecialchars(Request::input("title") ?? "");
       $status = (int)htmlspecialchars(Request::input("status") === "1" ? 1 : 0);
@@ -106,7 +106,7 @@ class Banner extends Controller
          $checkCreateImgPath = Util::createImagePath($img, $pathAsset);
 
          if (!$checkCreateImgPath["success"]) {
-            Util::redirect('cpanel/banner', Response::badRequest($checkCreateImgPath['msg']));
+            Util::redirect('dashboard/banner', Response::badRequest($checkCreateImgPath['msg']));
          }
          $newImagePath = $checkCreateImgPath['name'];
 
@@ -114,33 +114,33 @@ class Banner extends Controller
       }
       $res = $this->BannerModel->update($data, $id);
       if (!$res) {
-         Util::redirect("cpanel/banner", Response::internalServerError("Cập nhật không thành công"));
+         Util::redirect("dashboard/banner", Response::internalServerError("Cập nhật không thành công"));
       }
       if ($newImagePath !== null) {
          $uploadSuccess = Util::uploadImage($img, $newImagePath);
          if (!$uploadSuccess["success"]) {
-            Util::redirect('cpanel/banner', Response::badRequest($uploadSuccess['msg']));
+            Util::redirect('dashboard/banner', Response::badRequest($uploadSuccess['msg']));
          }
          $checkDeleteImg = Util::deleteImage(_DIR_ROOT . $oldImagePath);
          if (!$checkDeleteImg["success"]) {
-            Util::redirect('cpanel/banner', Response::badRequest($checkDeleteImg['msg']));
+            Util::redirect('dashboard/banner', Response::badRequest($checkDeleteImg['msg']));
          }
       }
-      Util::redirect("cpanel/banner", Response::success("Cập nhật thành công"));
+      Util::redirect("dashboard/banner", Response::success("Cập nhật thành công"));
    }
 
    public function delete(): void
    {
       if (!Request::isMethod("POST")) {
-         Util::redirect("cpanel/banner", Response::methodNotAllowed("Phương thức không được phép"));
+         Util::redirect("dashboard/banner", Response::methodNotAllowed("Phương thức không được phép"));
       }
       $listID = Request::input("id") ?? [];
       if (empty($listID)) {
-         Util::redirect("cpanel/banner", Response::badRequest("Id không hợp lệ"));
+         Util::redirect("dashboard/banner", Response::badRequest("Id không hợp lệ"));
       }
       foreach ($listID as $id) {
          if (!is_numeric($id) || $id < 0) {
-            Util::redirect("cpanel/banner", Response::badRequest("Id không hợp lệ"));
+            Util::redirect("dashboard/banner", Response::badRequest("Id không hợp lệ"));
          }
       }
       foreach ($listID as $id) {
@@ -148,11 +148,11 @@ class Banner extends Controller
          $pathImg = _DIR_ROOT . '/' . $blog["image"];
          $checkDeleteImg = Util::deleteImage($pathImg);
          if (!$checkDeleteImg['success']) {
-            Util::redirect("cpanel/banner", Response::badRequest($checkDeleteImg['message']));
+            Util::redirect("dashboard/banner", Response::badRequest($checkDeleteImg['message']));
          }
          $this->BannerModel->delete($id);
       }
-      Util::redirect("cpanel/banner", Response::success("Xóa thành công"));
+      Util::redirect("dashboard/banner", Response::success("Xóa thành công"));
    }
 
 }

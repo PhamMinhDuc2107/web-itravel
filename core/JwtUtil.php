@@ -40,7 +40,7 @@ class JwtUtil
          'iss' => 'your_domain.com',
          'sub' => $user['id'],
          'iat' => time(),
-         'exp' => $remember === 1 ? time() + (30 * 24 * 60 * 60) : time() + (24 * 60 * 60),
+         'exp' => $remember === 1 ? time() + (7 * 24 * 60 * 60) : time() + (24 * 60 * 60),
          'data' => [
             'id' => $user['id'],
             'username' => $user['username'],

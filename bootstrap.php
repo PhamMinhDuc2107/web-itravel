@@ -7,7 +7,7 @@
    const _DIR_ROOT = __DIR__;
 
 
-   if(!empty($_SERVER["HTTPS"]) && $_SERVER["HTPPS"] == "on") {
+   if(!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
       $web_root = 'https://'.$_SERVER['HTTP_HOST'];
    }else {
       $web_root = 'http://'.$_SERVER['HTTP_HOST'];

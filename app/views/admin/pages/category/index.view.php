@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <form action="<?php echo _WEB_ROOT."/cpanel/category-delete"?>" method="post" class="">
+            <form action="<?php echo _WEB_ROOT."/dashboard/category-delete"?>" method="post" class="">
                 <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
                 <div class="card mb-4">
                     <div class="d-flex justify-content-between align-items-center card-header pb-0">
@@ -108,7 +108,7 @@
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="<?php echo _WEB_ROOT."/cpanel/category-update/".$category['id']?>" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
+                                                <a href="<?php echo _WEB_ROOT."/dashboard/category-update/".$category['id']?>" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
                                                         id="btnEdit"
                                                         >
                                                     Edit
@@ -191,7 +191,7 @@
     </div>
 </div>
 <div class="modal fade" id="modalCreated" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form method="post" action="<?php echo _WEB_ROOT."/cpanel/category-create"?>" class="modal-dialog">  <div class="modal-content">
+    <form method="post" action="<?php echo _WEB_ROOT."/dashboard/category-create"?>" class="modal-dialog">  <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm danh mục</h1>
                 <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -216,7 +216,10 @@
                             <?php endif;?>
                         </ul>
                     </div>
-
+                </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Hiển thị ở trang home</label>
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="usernameHelp" value="" placeholder="Chọn số từ 1->">
                 </div>
             </div>
             <div class="modal-footer">
