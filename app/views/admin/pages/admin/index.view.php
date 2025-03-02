@@ -4,50 +4,32 @@
             <form action="<?php echo _WEB_ROOT.'/dashboard/admin-delete'?>" method="post" class="d-inline">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center pb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center gap-1">
+                        <div class="d-flex justify-content-between col-2 col-md-2 gap-2 align-items-center">
+                            <div class="d-flex gap-1 flex-column col-6">
                                 <span>Sắp xếp:</span>
-                                <div class="dropdown"
-                                     style="
-                                     height: 30px;
-                                     line-height: 30px;
-                                     padding: 0 10px;
-                                     border-radius: 10px;
-                                     border: 1px solid #dee2e6;
-                                     margin-right: 10px;
-                                     border-radius: 10px;
-
-                                ">
-                                    <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <?php echo Request::input('sortBy') ?? "asc"?>
+                                <div class="dropdown col-12 border-radius-md border border-1 py-1">
+                                    <span class="d-block text-center sortBy" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <?php echo Request::input('sortBy') ?? "asc" ?>
                                     </span>
-                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                                        margin-top: 10px!important;">
-                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderByUrl()?>" >Tăng dần</a></li>
-                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderByUrl("desc")?>" >Giảm dần</a></li>
+                                    <ul class="dropdown-menu w-100 sort-options">
+                                        <li><a class="dropdown-item" data-value="asc" href="<?php echo Util::buildOrderByUrl()?>">Tăng dần</a></li>
+                                        <li><a class="dropdown-item" data-value="desc" href="<?php echo Util::buildOrderByUrl("desc")?>">Giảm dần</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center gap-1">
+                            <div class="d-flex gap-1 flex-column col-6">
                                 <span>Cột:</span>
-                                <div class="dropdown"
-                                     style="
-                                     height: 30px;
-                                     line-height: 30px;
-                                     padding: 0 10px;
-                                     border-radius: 10px;
-                                     border: 1px solid #dee2e6;
-                                     margin-right: 10px;
-                                     border-radius: 10px;
-                                ">
-                                    <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <?php echo Request::input('sortCol') ?? "id"?>
+                                <div class="dropdown col-12 border-radius-md border border-1 py-1">
+                                    <span class="d-block text-center sortCol" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <?php echo Request::input('sortCol') ?? "id" ?>
                                     </span>
-                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                                        margin-top: 10px!important;">
-                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("id");?>" >Sắp xếp theo id</a></li>
-                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("username")?>" >Sắp xếp theo tên</a></li>
-                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("created_at")?>" >Sắp xếp theo thời gian</a></li>
+                                    <ul class="dropdown-menu w-100 column-options">
+                                        <li><a class="dropdown-item" data-value="id" href="<?php echo Util::buildOrderColByUrl()?>">Sắp xếp theo ID</a></li>
+                                        <li><a class="dropdown-item" data-value="username" href="<?php echo Util::buildOrderColByUrl("name")?>">Sắp xếp theo Tên</a>
+                                        </li>
+                                        <li><a class="dropdown-item" data-value="created_at" href="<?php echo Util::buildOrderColByUrl("status")?>">Sắp xếp theo trạng thái</a></li>
+                                        <li><a class="dropdown-item" data-value="created_at" href="<?php echo Util::buildOrderColByUrl("created_at")?>">Sắp xếp theo Thời
+                                                gian</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -73,61 +55,61 @@
                                     <th class="text-secondary opacity-7"></th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="table-body">
                                 <?php
-                                    $admins = $data['admins'] ??[];
+                                $admins = $data['admins'] ??[];
                                 ?>
 
                                 <?php if(!empty($admins)) : ?>
-                                <?php foreach($admins as $admin): ?>
-                                <tr>
-                                    <td class= " text-center" style="width: 10px;">
-                                        <input type="checkbox" name="id[]"
-                                               class="mx-auto"
-                                               value="<?php echo $admin['id']?>"
-                                               style="width: 15px; height:15px"
-                                        >
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="<?php echo ASSET?>/admin/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?php echo $admin["username"]?></h6>
-                                                <p class="text-xs text-secondary mb-0"><?php echo $admin["email"]?></p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                        <p class="text-xs text-secondary mb-0">Organization</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <?php if($admin["status"] == 1):?>
-                                            <span class="badge badge-sm bg-gradient-success">active</span>
-                                        <?php else:?>
-                                            <span class="badge badge-sm bg-gradient-secondary">inactive</span>
-                                        <?php endif;?>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                      <?php echo  $admin['phone']?>
-                                    </td>
-                                    <td class="align-middle text-center">
+                                   <?php foreach($admins as $admin): ?>
+                                        <tr>
+                                            <td class= " text-center" style="width: 10px;">
+                                                <input type="checkbox" name="id[]"
+                                                       class="mx-auto input-checkbox"
+                                                       value="<?php echo $admin['id']?>"
+                                                       style="width: 15px; height:15px"
+                                                >
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="<?php echo ASSET?>/admin/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm"><?php echo $admin["username"]?></h6>
+                                                        <p class="text-xs text-secondary mb-0"><?php echo $admin["email"]?></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">Manager</p>
+                                                <p class="text-xs text-secondary mb-0">Organization</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                               <?php if($admin["status"] == 1):?>
+                                                   <span class="badge badge-sm bg-gradient-success">active</span>
+                                               <?php else:?>
+                                                   <span class="badge badge-sm bg-gradient-secondary">inactive</span>
+                                               <?php endif;?>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                               <?php echo  $admin['phone']?>
+                                            </td>
+                                            <td class="align-middle text-center">
                                         <span class="text-secondary text-xs font-weight-bold">
                                             <?php echo date("Y-m-d", strtotime($admin['created_at']));?>
                                         </span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                            <a href="<?php echo _WEB_ROOT."/dashboard/admin-update/".$admin['id']?>"  class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;" >
-                                                Edit
-                                            </a>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="<?php echo _WEB_ROOT."/dashboard/admin-update/".$admin['id']?>"  class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;" >
+                                                    Edit
+                                                </a>
 
-                                    </td>
+                                            </td>
 
-                                </tr>
-                                </tr>
-                                <?php endforeach; ?>
+                                        </tr>
+                                        </tr>
+                                   <?php endforeach; ?>
                                 <?php endif; ?>
                                 </tbody>
                             </table>
@@ -135,7 +117,7 @@
                     </div>
                 </div>
                <?php $page = Request::input("page") ?? 1;
-                $totalPages = $data['totalPages'] ?? 0;
+               $totalPages = $data['totalPages'] ?? 0;
                ?>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end" style="border-radius: 10px">
                     <span>Items per page:</span>
@@ -180,7 +162,7 @@
                     </ul>
                 </nav>
                 <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
-                <div class="footer-function gap-2 mt-2 p-2 position-sticky bottom-1 bg-white">
+                <div class="footer-function gap-2 mt-2 p-2 position-sticky bottom-1 bg-white d-none">
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <div class="footer-text w-25 d-flex gap-2 align-items-center">
                             <span class="footer-text-content"></span> selected

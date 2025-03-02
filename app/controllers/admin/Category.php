@@ -22,7 +22,7 @@ class Category extends Controller
    }
    public function index(): void
    {
-      Util::setBaseModel($this->CategoryModel);
+      $this->CategoryModel->setBaseModel();
       $totalPages =$this->CategoryModel->getTotalPages();
       $categories = $this->CategoryModel->get();
       $getCategories = $this->CategoryModel->all();

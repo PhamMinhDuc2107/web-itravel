@@ -26,9 +26,8 @@ class Tour  extends Controller{
       }
    }
    public function index() {
-      Util::setBaseModel($this->TourModel);
+      $this->TourModel->setBaseModel();
       $totalPages =$this->TourModel->getTotalPages();
-
       $departures = $this->LocationModel->where(1, "is_departure");
       $destinations = $this->LocationModel->where(1, "is_destination");
       $categories = $this->CategoryModel->where(0, "parent_id");

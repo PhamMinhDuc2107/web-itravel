@@ -18,8 +18,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo ASSET ?>/client/images/itravel.png">
-    <link rel="icon" type="image/png" href="<?php echo ASSET ?>/client/images/itravel.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo ASSET ?>/client/images/itravel_resize-1.png">
+    <link rel="icon" type="image/png" href="<?php echo ASSET ?>/client/images/itravel_resize-1.png">
     <title>
        <?php echo $data['title'] ?? "Dashboard" ?>
     </title>
@@ -35,9 +35,19 @@
     <link href="<?php echo ASSET ?>/admin/css/froala_editor.pkgd.min.css" rel="stylesheet">
     <script src="<?php echo ASSET ?>/admin/js/froala_editor.pkgd.min.js"></script>
     <!-- Flatpickr -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="<?php echo ASSET ?>/admin/css/flatpickr.min.css">
+    <script src="<?php echo ASSET ?>/admin/js/flatpickr.min.js"></script>
+    <script>
+        const debounce = (fn, delay) => {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), delay);
+            };
+        };
+    </script>
+    <script src="<?php echo ASSET ?>/admin/js/jquery-3.6.0.min.js" defer></script>
+
     <style>
         .pagination {
             display: flex;
@@ -109,11 +119,28 @@ if (file_exists($sidebarPath)) {
     </div>
 
 </main>
-<!--   Core JS Files   -->
-<script src="<?php echo ASSET ?>/admin/js/core/popper.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="<?php echo ASSET ?>/admin/js/core/bootstrap.min.js"></script>
+<!-- Overlay loading -->
+<style>
+    #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        display: none;
+    }
 
+</style>
+<div id="loading-overlay">
+    <div class="spinner-border text-success " role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
 <script>
     let iconNav = document.getElementById("iconNavbarSidenav");
     let mainContent = document.querySelector(".main-content");
@@ -123,44 +150,7 @@ if (file_exists($sidebarPath)) {
         sideNav.classList.toggle("d-none");
     })
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const footerFunction = document.querySelector('.footer-function');
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        const span = document.querySelector('.footer-text-content');
-        const closeBtn = document.querySelector('.footer-btn');
 
-        function toggleFooterFunction() {
-            let checkedCount = 0;
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    checkedCount++;
-                }
-            });
-
-            if (checkedCount > 0) {
-                footerFunction.style.display = 'flex';
-                span.textContent = `${checkedCount}`;
-            } else {
-                footerFunction.style.display = 'none';
-            }
-        }
-
-        if (footerFunction && checkboxes) {
-            toggleFooterFunction();
-
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', toggleFooterFunction);
-            });
-        }
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function () {
-                checkboxes.forEach(checkbox => checkbox.checked = false);
-                toggleFooterFunction()
-            })
-        }
-    });
-</script>
 <script>
     function showImage(image, show) {
         let img = document.getElementById(`${image}`);
@@ -183,6 +173,60 @@ if (file_exists($sidebarPath)) {
     showImage("image", "previewImage");
     showImage("imageCreateBlog", "previewImageBlog");
 </script>
+<!--   Core JS Files   -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const footerFunction = document.querySelector('.footer-function');
+        const span = document.querySelector('.footer-text-content');
+        const closeBtn = document.querySelector('.footer-btn');
+        const tableBody = document.querySelector('.table-body');
+
+        function countCheckedCheckboxes() {
+            const checkboxes = tableBody.querySelectorAll('.input-checkbox');
+            let checkedCount = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    checkedCount += 1;
+                }
+            });
+            return checkedCount;
+        }
+
+        function updateFooterFunction() {
+            const checkedCount = countCheckedCheckboxes();
+            if (checkedCount > 0) {
+                footerFunction.classList.add("d-flex");
+                footerFunction.classList.remove("d-none")
+
+                span.textContent = `${checkedCount}`;
+            } else {
+                footerFunction.classList.toggle("d-none")
+                footerFunction.classList.remove("d-flex")
+            }
+        }
+        if (tableBody) {
+            tableBody.addEventListener('change', function (e) {
+                if (e.target && e.target.matches('.input-checkbox')) {
+                    updateFooterFunction();
+                }
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                const checkboxes = tableBody.querySelectorAll('.input-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                updateFooterFunction();
+            });
+        }
+    });
+</script>
+<script src="<?php echo ASSET ?>/admin/js/core/popper.min.js"></script>
+<script src="<?php echo ASSET ?>/admin/js/core/bootstrap.min.js"></script>
+<script src="<?php echo ASSET ?>/admin/js/app.js"></script>
+
 </body>
 
 </html>

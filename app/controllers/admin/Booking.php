@@ -29,7 +29,7 @@ class Booking extends Controller
 
    public function index(): void
    {
-      Util::setBaseModel($this->BookingModel);
+      $this->BookingModel->setBaseModel();
       $totalPages = $this->BookingModel->getTotalPages();
       $bookings = $this->BookingModel->getBookings();
       $tours = $this->TourModel->getNameTours();

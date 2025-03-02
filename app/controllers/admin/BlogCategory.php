@@ -20,7 +20,7 @@ class BlogCategory extends Controller
 
 
    function index() {
-      Util::setBaseModel($this->BlogCategoryModel);
+      $this->BlogCategoryModel->setBaseModel();
       $totalPages =$this->BlogCategoryModel->getTotalPages();
       $blogCategories = $this->BlogCategoryModel->get();
       $this->data['totalPages'] = $totalPages;

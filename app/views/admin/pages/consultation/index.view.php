@@ -5,66 +5,33 @@
                 <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
                 <div class="card mb-4">
                     <div class="d-flex justify-content-between align-items-center card-header pb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center gap-1">
+                        <div class="d-flex justify-content-between col-2 col-md-2 gap-2 align-items-center">
+                            <div class="d-flex gap-1 flex-column col-6">
                                 <span>Sắp xếp:</span>
-                                <div class="dropdown"
-                                     style="
-                                     height: 30px;
-                                     line-height: 30px;
-                                     padding: 0 10px;
-                                     border-radius: 10px;
-                                     border: 1px solid #dee2e6;
-                                     margin-right: 10px;
-                                     border-radius: 10px;
-
-                                ">
-                                    <span class="d-block text-center" type="text" value="" id="dropdownMenuButton1"
-                                          data-bs-toggle="dropdown" aria-expanded="true">
+                                <div class="dropdown col-12 border-radius-md border border-1 py-1">
+                                    <span class="d-block text-center sortBy" data-bs-toggle="dropdown" aria-expanded="true">
                                         <?php echo Request::input('sortBy') ?? "asc" ?>
                                     </span>
-                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                                        margin-top: 10px!important;">
-                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderByUrl() ?>">Tăng
-                                                dần</a></li>
-                                        <li><a class="dropdown-item" href="<?php echo Util::buildOrderByUrl("desc") ?>">Giảm
-                                                dần</a></li>
+                                    <ul class="dropdown-menu w-100 sort-options">
+                                        <li><a class="dropdown-item" data-value="asc" href="<?php echo Util::buildOrderByUrl()?>">Tăng dần</a></li>
+                                        <li><a class="dropdown-item" data-value="desc" href="<?php echo Util::buildOrderByUrl("desc")?>">Giảm dần</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center gap-1">
+                            <div class="d-flex gap-1 flex-column col-6">
                                 <span>Cột:</span>
-                                <div class="dropdown"
-                                     style="
-                                     height: 30px;
-                                     line-height: 30px;
-                                     padding: 0 10px;
-                                     border-radius: 10px;
-                                     border: 1px solid #dee2e6;
-                                     margin-right: 10px;
-                                     border-radius: 10px;
-                                ">
-                                    <span class="d-block text-center" type="text" value="" id="dropdownMenuButton1"
-                                          data-bs-toggle="dropdown" aria-expanded="true">
+                                <div class="dropdown col-12 border-radius-md border border-1 py-1">
+                                    <span class="d-block text-center sortCol" data-bs-toggle="dropdown" aria-expanded="true">
                                         <?php echo Request::input('sortCol') ?? "id" ?>
                                     </span>
-                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                                        margin-top: 10px!important;">
-                                        <li><a class="dropdown-item"
-                                               href="<?php echo Util::buildOrderColByUrl("id"); ?>">Sắp xếp theo id</a>
+                                    <ul class="dropdown-menu w-100 column-options">
+                                        <li><a class="dropdown-item" data-value="id" href="<?php echo Util::buildOrderColByUrl()?>">Sắp xếp id</a></li>
+                                        <li><a class="dropdown-item" data-value="username" href="<?php echo Util::buildOrderColByUrl("name")?>">Sắp xếp tên</a>
                                         </li>
-                                        <li>
-                                           <a class="dropdown-item"
-                                               href="<?php echo Util::buildOrderColByUrl("status") ?>">
-                                              Sắp xếp theo trạng thái
-                                           </a>
+                                        <li><a class="dropdown-item" data-value="username" href="<?php echo Util::buildOrderColByUrl("status")?>">Sắp xếp trạng thái</a>
                                         </li>
-                                       <li>
-                                          <a class="dropdown-item"
-                                             href="<?php echo Util::buildOrderColByUrl("name") ?>">
-                                             Sắp xếp theo tên
-                                          </a>
-                                       </li>
+                                        <li><a class="dropdown-item" data-value="created_at" href="<?php echo Util::buildOrderColByUrl("created_at")?>">Sắp xếp thời
+                                                gian</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -106,7 +73,7 @@
                                     <th class="text-secondary opacity-7"></th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="table-body">
                                 <?php
                                 $consultations = $data['consultations'] ?? [];
                                 ?>
@@ -115,7 +82,7 @@
                                         <tr>
                                             <td class=" text-center" style="width: 10px;">
                                                 <input type="checkbox" name="id[]"
-                                                       class="mx-auto"
+                                                       class="mx-auto input-checkbox"
                                                        value="<?php echo $item['id'] ?>"
                                                        style="width: 15px; height:15px"
                                                 >
@@ -163,7 +130,7 @@
                                                 </div>
                                             </td>
                                              <td>
-                                                <a href="<?php echo $item['status'] === "1" ?  _WEB_ROOT.'/dashboard/consultation-update/'.$item['id'] : "#"?>"
+                                                <a href="<?php echo (int)$item['status'] === 1 ?  _WEB_ROOT.'/dashboard/consultation-update/'.$item['id'] : "#"?>"
                                                   class="btn text-white btn-success  font-weight-bold text-xs <?php echo $item['status'] === 1? "d-none" :"" ?>"
                                                   style="margin-bottom: 0;"
                                                   id="btnEdit"
@@ -229,7 +196,7 @@
                         </li>
                     </ul>
                 </nav>
-                <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white">
+                <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white d-none">
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <div class="footer-text w-25 d-flex gap-2 align-items-center">
                             <span class="footer-text-content"></span> selected

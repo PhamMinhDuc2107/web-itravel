@@ -2,7 +2,7 @@
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="<?php echo _DIR_ROOT?>/dashboard">
-            <img src="<?php echo ASSET?>/admin/img/logo-ct-dark.png" width="26px" height="26px" class="navbar-brand-img h-100" alt="main_logo">
+            <img src="<?php echo ASSET?>/client/images/itravel_resize-1.png" width="30px" height="30px" class="navbar-brand-img h-100" alt="main_logo">
             <span class="ms-1 font-weight-bold"><?php echo $data['heading'] ?? "Dashboard"?></span>
         </a>
     </div>
@@ -15,15 +15,6 @@
                         <i class="fa-solid fa-display text-dark text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?php echo _WEB_ROOT?>/dashboard/setting-homepage">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fa-solid fa-gear text-dark text-sm opacity-10"></i>
-
-                    </div>
-                    <span class="nav-link-text ms-1">Quản lý trang home</span>
                 </a>
             </li>
             <li class="nav-item">

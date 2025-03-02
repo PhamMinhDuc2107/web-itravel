@@ -21,14 +21,15 @@ class Banner extends Controller
 
    public function index()
    {
-      Util::setBaseModel($this->BannerModel);
+      $this->BannerModel->setBaseModel();
+
+      $data = $this->BannerModel->get();
       $totalPages = $this->BannerModel->getTotalPages();
-      $banners = $this->BannerModel->get();
+      $this->data['data'] = $data;
       $this->data['totalPages'] = $totalPages;
       $this->data['page'] = 'index';
       $this->data['title'] = "Quản lý banner";
       $this->data['page'] = "banner/index";
-      $this->data['banners'] = $banners;
       $this->render("layouts/admin_layout", $this->data);
    }
 

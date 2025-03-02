@@ -2,8 +2,7 @@
    $routes["default_controller"] = "home";
    $routes['san-pham'] = 'product/index';
    $routes['trang-chu'] = 'home/index';
-   // (.+) => trả về $1
-   // .+-(\d+) => trả về số trong dãy đáy tin-tuc/asdmaskdjksad-1 => 1
+
    $routes['tin-tuc/(.+)'] = 'news/category/$1';
 
    $routes['dashboard'] = 'admin/dashboard/index';
@@ -19,6 +18,7 @@
       $routes["dashboard/$module-update-post"] = "admin/$module/updatePost";
       $routes["dashboard/$module-create"] = "admin/$module/create";
       $routes["dashboard/$module-delete"] = "admin/$module/delete";
+      $routes["dashboard/$module-search"] = "admin/$module/search";
    }
    $routes['dashboard/booking-export-data']= 'admin/booking/exportBookingToExcel';
    $routes['dashboard/consultation-export-excel']= 'admin/consultation/exportConsultationToExcel';

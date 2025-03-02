@@ -22,15 +22,15 @@ class Blog extends Controller
       }
    }
    public function index() {
-      Util::setBaseModel($this->BlogModel);
-      $totalPages =$this->BlogModel->getTotalPages();
-      $blogs = $this->BlogModel->getBlogs();
+      $this->BlogModel->setBaseModel();
+      $data = $this->BlogModel->getBlogs();
+      $totalPages = $this->BlogModel->getTotalPages();
       $blogCategories = $this->BlogCategoryModel->all();
       $admins = $this->AdminModel->all();
-      $this->data['totalPages'] = $totalPages;
       $this->data['title'] = "Quản lý tin tức";
+      $this->data['totalPages'] = $totalPages;
+      $this->data['blogs'] = $data;
       $this->data['page'] ="blog/index";
-      $this->data['blogs'] = $blogs;
       $this->data['admins'] = $admins;
       $this->data['blogCategories'] = $blogCategories;
       $this->render("layouts/admin_layout", $this->data);
@@ -161,7 +161,8 @@ class Blog extends Controller
    {
       $title = htmlspecialchars(Request::input("title")) ?? "";
       $slug = htmlspecialchars(Request::input("slug")) ?? "";
-      $slug = Util::generateSlug($slug);
+      $checkSlug = $this->BlogModel->find($slug ."slug");
+      $slug = Util::generateSlug($slug,$checkSlug);
       $content = Request::input("content");
       $category_id = (int)htmlspecialchars(Request::input("category_id")) ?? "";
       $author_id =(int)htmlspecialchars(Request::input("author_id")) ?? "";
@@ -187,5 +188,4 @@ class Blog extends Controller
          default => "draft"
       };
    }
-
 }

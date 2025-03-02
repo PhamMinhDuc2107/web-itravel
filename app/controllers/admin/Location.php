@@ -21,7 +21,7 @@ class Location extends Controller
 
    public function index()
    {
-      Util::setBaseModel($this->LocationModel);
+      $this->LocationModel->setBaseModel();
       $totalPages = $this->LocationModel->getTotalPages();
       $locations = $this->LocationModel->get();
       $this->data['totalPages'] = $totalPages;

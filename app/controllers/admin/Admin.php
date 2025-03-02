@@ -21,14 +21,14 @@ class Admin extends Controller
       }
    }
    public function index() {
-      Util::setBaseModel($this->AdminModel);
-      $totalPages =$this->AdminModel->getTotalPages();
-      $admins = $this->AdminModel->get();
-      $this->data['title'] = "List Admin";
+      $this->AdminModel->setBaseModel();
+      $data = $this->AdminModel->get();
+      $totalPages = $this->AdminModel->getTotalPages();
+      $this->data['title'] = "Danh sách admin";
       $this->data['heading']="Admin";
       $this->data['page'] ="admin/index";
-      $this->data['admins'] = $admins;
       $this->data['totalPages'] = $totalPages;
+      $this->data['admins'] = $data;
       $this->render("layouts/admin_layout", $this->data);
    }
    public function create() {
@@ -61,8 +61,8 @@ class Admin extends Controller
       if(!$admin) {
          Util::redirect("dashboard/admin", Response::notFound("Không tìm thấy Id"));
       }
-      $this->data['title'] = "Edit Admin";
-      $this->data['heading']="Edit Admin";
+      $this->data['title'] = "Chỉnh sửa thông tin admin";
+      $this->data['heading']="Chỉnh sửa thông tin admin";
       $this->data['page'] ="admin/form";
       $this->data["admin"] = $admin;
       $this->render("layouts/admin_layout", $this->data);
@@ -116,4 +116,5 @@ class Admin extends Controller
          }
          Util::redirect("dashboard/admin", Response::success("Bạn xóa tài khoản thành công"));
    }
+
 }

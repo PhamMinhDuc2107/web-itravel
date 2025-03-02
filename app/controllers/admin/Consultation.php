@@ -24,7 +24,7 @@ class Consultation extends Controller
 
    public function index(): void
    {
-      Util::setBaseModel($this->ConsultationModel);
+      $this->ConsultationModel->setBaseModel();
       $totalPages = $this->ConsultationModel->getTotalPages();
       $consultations = $this->ConsultationModel->get();
       $this->data['totalPages'] = $totalPages;

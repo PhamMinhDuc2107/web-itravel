@@ -24,4 +24,5 @@ class BlogModel extends Model
       }
    }
 
+
 }

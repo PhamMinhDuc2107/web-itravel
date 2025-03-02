@@ -4,58 +4,42 @@
          <form action="<?php echo _WEB_ROOT."/dashboard/blog-delete"?>" method="post" class="">
             <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
             <div class="card mb-4">
-               <div class="d-flex justify-content-between align-items-center card-header pb-0">
-                  <div class="d-flex justify-content-between align-items-center">
-                     <div class="d-flex justify-content-between align-items-center gap-1">
-                        <span>Sắp xếp:</span>
-                        <div class="dropdown"
-                             style="
-                                     height: 30px;
-                                     line-height: 30px;
-                                     padding: 0 10px;
-                                     border-radius: 10px;
-                                     border: 1px solid #dee2e6;
-                                     margin-right: 10px;
-                                     border-radius: 10px;
-                                ">
-                                    <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <?php echo Request::input('sortBy') ?? "asc"?>
+                <div class="card-header d-flex justify-content-between align-items-center pb-0">
+                    <div class="d-flex justify-content-between align-items-center col-2 col-md-2 col-sm-6 gap-2">
+                        <div class="d-flex gap-1 flex-column col-6">
+                            <span>Sắp xếp:</span>
+                            <div class="dropdown col-12 border-radius-md border border-1 py-1">
+                                    <span class="d-block text-center sortBy" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <?php echo Request::input('sortBy') ?? "asc" ?>
                                     </span>
-                           <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                                        margin-top: 10px!important;">
-                              <li><a class="dropdown-item" href="<?php echo Util::buildOrderByUrl()?>" >Tăng dần</a></li>
-                              <li><a class="dropdown-item" href="<?php echo Util::buildOrderByUrl("desc")?>" >Giảm dần</a></li>
-                           </ul>
+                                <ul class="dropdown-menu w-100 sort-options">
+                                    <li><a class="dropdown-item" data-value="asc" href="<?php echo Util::buildOrderByUrl()?>">Tăng dần</a></li>
+                                    <li><a class="dropdown-item" data-value="desc" href="<?php echo Util::buildOrderByUrl("desc")?>">Giảm dần</a></li>
+                                </ul>
+                            </div>
                         </div>
-                     </div>
-                     <div class="d-flex justify-content-between align-items-center gap-1">
-                        <span>Cột:</span>
-                        <div class="dropdown"
-                             style="
-                                     height: 30px;
-                                     line-height: 30px;
-                                     padding: 0 10px;
-                                     border-radius: 10px;
-                                     border: 1px solid #dee2e6;
-                                     margin-right: 10px;
-                                     border-radius: 10px;
-                                ">
-                                    <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <?php echo Request::input('sortCol') ?? "id"?>
+                        <div class="d-flex gap-1 flex-column col-6">
+                            <span>Cột:</span>
+                            <div class="dropdown col-12 border-radius-md border border-1 py-1">
+                                    <span class="d-block text-center sortCol" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <?php echo Request::input('sortCol') ?? "id" ?>
                                     </span>
-                           <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                                        margin-top: 10px!important;">
-                              <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl();?>" >Sắp xếp theo id</a></li>
-                               <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("title")?>" >Sắp xếp theo tên</a></li>
-                               <li><a class="dropdown-item" href="<?php echo Util::buildOrderColByUrl("slug")?>" >Sắp xếp theo slug</a></li>
-                           </ul>
+                                <ul class="dropdown-menu w-100 column-options">
+                                    <li><a class="dropdown-item" data-value="id" href="<?php echo Util::buildOrderColByUrl()?>">Sắp xếp theo ID</a></li>
+                                    <li><a class="dropdown-item" data-value="title" href="<?php echo Util::buildOrderColByUrl("name")?>">Sắp xếp tên</a>
+                                    </li>
+                                    <li><a class="dropdown-item" data-value="slug" href="<?php echo Util::buildOrderColByUrl("status")?>">Sắp xếp trạng thái</a></li>
+                                    <li><a class="dropdown-item" data-value="created_at" href="#">Sắp xếp theo Thời
+                                            gian</a></li>
+
+                                </ul>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-                  <button type="button" class=" btn btn-primary  text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-bs-toggle="modal" data-bs-target="#modalCreated">
-                     Thêm mới
-                  </button>
-               </div>
+                    </div>
+                    <button type="button" class=" btn btn-primary  text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-bs-toggle="modal" data-bs-target="#modalCreated">
+                        Thêm mới
+                    </button>
+                </div>
                <?php if(Request::input("msg") !== null) :?>
                   <span class="<?php echo Request::input('type') === "error"?"text-warning" :"text-success"?> card-header" style="padding-top: 5px; padding-bottom:5px"><?php echo htmlspecialchars(Request::input('msg'))?></span>
                <?php endif;?>
@@ -73,11 +57,10 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity- col-1">category_id</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7col-1">author_id</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">status</th>
-
                            <th class="text-secondary opacity-7"></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="table-body">
                         <?php
                         $blogs = $data['blogs'] ??[];
                         ?>
@@ -86,7 +69,7 @@
                               <tr>
                                  <td class= "text-center" style="width: 10px;">
                                     <input type="checkbox" name="id[]"
-                                           class="mx-auto"
+                                           class="mx-auto input-checkbox"
                                            value="<?php echo $item['id']?>"
                                            style="width: 15px; height:15px"
                                     >
@@ -136,6 +119,13 @@
                                          <?php echo $item['status']?>
                                       </span>
                                   </td>
+<!--                                  <td class="align-middle text-center">-->
+<!--                                    <span class="text-secondary text-xs font-weight-bold">-->
+<!--                                    <i class='--><?php //echo $item["status_hot"] === "1" ? "fa-solid fa-circle-check" : "" ?><!--'-->
+<!--                                       style="display: block; font-size: 20px; color:#83f28f;"-->
+<!--                                    ></i>-->
+<!--                                    </span>-->
+<!--                                  </td>-->
                                  <td class="align-middle text-center">
                                     <a href="<?php echo _WEB_ROOT."/dashboard/blog-update/".$item['id']?>" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
                                        id="btnEdit"
@@ -144,7 +134,6 @@
                                     </a>
 
                                  </td>
-                              </tr>
                               </tr>
                            <?php endforeach; ?>
                         <?php endif; ?>
@@ -158,26 +147,25 @@
             ?>
             <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end" style="border-radius: 10px">
                <span>Items per page:</span>
-               <div class="dropdown"
-                    style="
+                <div class="dropdown"
+                     style="
                          height: 30px;
                          line-height: 30px;
                          padding: 0 15px;
                          border-radius: 10px;
                          border: 1px solid #dee2e6;
                          margin-right: 10px;
-                         border-radius: 10px;
                     ">
-                        <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
-                            <?php echo Request::input('limit') ?? 10?>
+                        <span class="d-block text-center dropdown-toggle limit" id="dropdownMenuButton1"
+                              data-bs-toggle="dropdown" aria-expanded="true" >
+                           <?php echo Request::input('limit') ?? 10 ?>
                         </span>
-                  <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                        margin-top: 10px!important;">
-                     <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(10)?>" >10</a></li>
-                     <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(25)?>" >25</a></li>
-                     <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(50)?>" >50</a></li>
-                  </ul>
-               </div>
+                    <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1" style="margin-top: 10px!important;">
+                        <li><a class="dropdown-item limit-option" data-value="10" href="#">10</a></li>
+                        <li><a class="dropdown-item limit-option" data-value="25" href="#">25</a></li>
+                        <li><a class="dropdown-item limit-option" data-value="50" href="#">50</a></li>
+                    </ul>
+                </div>
                <ul class="pagination">
                   <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
                      <a class="page-link" href="<?php echo Util::buildPageUrl(max(1, $page - 1)) ?>" aria-label="Previous">
@@ -198,7 +186,7 @@
                   </li>
                </ul>
             </nav>
-            <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white">
+            <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white d-none">
                <div class="d-flex justify-content-between align-items-center w-100">
                   <div class="footer-text w-25 d-flex gap-2 align-items-center">
                      <span class="footer-text-content"></span> selected
@@ -214,7 +202,6 @@
                   </div>
                </div>
             </div>
-
          </form>
       </div>
    </div>
@@ -315,20 +302,81 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll(".dropdown").forEach((dropdown) => {
-            let input = dropdown.querySelector('input');
-            let dropdownMenu = dropdown.querySelector(".dropdown-menu");
-            let inputParent = dropdown.querySelector('.parentId');
-            if(dropdownMenu) {
-                dropdownMenu.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('dropdown-item')) {
-                        inputParent.value = e.target.dataset.value;
-                        input.value = e.target.textContent;
-                    }
-                });
-            }
+        const blog = new TableManager({
+            apiUrl: '<?php echo _WEB_ROOT ?>/dashboard/blog-search',
+            loadingOverlaySelector: '#loading-overlay',
+            tableBodySelector: '.table-body',
+            paginationSelector: '.pagination',
+            searchInputSelector: '.input-serch',
+            sortOptionsSelector: '.sort-options',
+            columnOptionsSelector: '.column-options',
+            limitOptionsSelector: '.limit-options',
+            sortBySelector: '.sortBy',
+            sortColSelector: '.sortCol',
+            limitSelector: '.limit',
+            renderRow: (item) => `
+                                                                <tr>
+                                 <td class= "text-center" style="width: 10px;">
+                                    <input type="checkbox" name="id[]"
+                                           class="mx-auto input-checkbox"
+                                           value="${item.id}"
+                                           style="width: 15px; height:15px"
+                                    >
+                                 </td>
+                                 <td class ='col-2'>
+                                    <div class="d-flex px-2 py-1">
+                                          <h6 class="mb-0 text-sm hiddenText">${item.title}</h6>
+                                    </div>
+                                 </td>
+                                  <td class ='col-2'>
+                                      <div class="d-flex px-2 py-1">
+                                              <h6 class="mb-0 text-sm hiddenText">${item.slug}</h6>
+                                      </div>
+                                  </td>
+                                  <td class ='col-1'>
+                                      <div class="d-flex px-2 py-1">
+                                              <img src="<?php echo _WEB_ROOT."/"?>${item.thumbnail}" alt="${item.title}" class="rounded-3" style="width:95px; height: 95px;">
+                                      </div>
+                                  </td>
+                                  <td class ='col-3 '>
+                                      <div class="d-flex px-2 py-1 overflow-hidden" style="height: 62px;">
+                                          <div class="mb-0 text-sm hiddenText">${item.content}</div>
+                                      </div>
+                                  </td>
+                                  <td class ='col-1'>
+                                      <div class="d-flex px-2 py-1">
+                                          <div class="d-flex flex-column justify-content-center">
+                                              <h6 class="mb-0 text-sm">${item.category_name}</h6>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td class ='col-1'>
+                                      <div class="d-flex px-2 py-1">
+                                          <div class="d-flex flex-column justify-content-center">
+                                              <h6 class="mb-0 text-sm">${item.admin_username}</h6>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td class="align-middle text-center text-sm">
+                                      <span class="badge badge-sm
+                                      ${(item.status === 'draft') ? "bg-gradient-warning" :
+                ((item.status === 'published') ? "bg-gradient-success" : "bg-gradient-secondary")}
+                                        ">
+                                         ${item.status}
+                                      </span>
+                                  </td>
+                                 <td class="align-middle text-center">
+                                    <a href="<?php echo _WEB_ROOT."/dashboard/blog-update/"?>${item.id}" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
+                                       id="btnEdit"
+                                    >
+                                       Edit
+                                    </a>
+
+                                 </td>
+                              </tr>
+                              </tr>
+                       `,
         });
     })
 </script>
-
 

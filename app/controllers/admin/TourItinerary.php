@@ -21,7 +21,7 @@ class TourItinerary extends Controller
    }
    public function index()
    {
-      Util::setBaseModel($this->TourItineraryModel);
+      $this->TourItineraryModel->setBaseModel();
       $totalPages =$this->TourItineraryModel->getTotalPages();
       $tourItineraries = $this->TourItineraryModel->get();
       $tours = $this->TourModel->getNameTours();
