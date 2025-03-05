@@ -40,6 +40,15 @@
     @include flex(start,space-between);
     margin-bottom: 4rem;
     .contact__form {
+      div {
+        width: 100%;
+      }
+      p  {
+        display: block;
+        margin: 0.5rem 0 0.5rem 0.5rem;
+        color: #c22020;
+
+      }
       gap: 1.5rem;
       @include flex(center, space-between, column);
       width: 50%;

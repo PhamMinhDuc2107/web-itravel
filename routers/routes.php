@@ -2,7 +2,12 @@
    $routes["default_controller"] = "home";
    $routes['san-pham'] = 'product/index';
    $routes['trang-chu'] = 'home/index';
+   $routes['gioi-thieu'] = 'introduce/index';
+   $routes['lien-he'] = 'contact/index';
+   $routes['lien-he/gui-yeu-cau'] = 'contact/handleContactForm';
+   $routes['gioi-thieu'] = 'introduce/index';
 
+   $routes['thong-bao-ket-qua'] = "result/index";
    $routes['tin-tuc/(.+)'] = 'news/category/$1';
 
    $routes['dashboard'] = 'admin/dashboard/index';

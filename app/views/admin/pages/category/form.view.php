@@ -32,6 +32,10 @@
                         <?php endif;?>
 
                      </ul>
+                      <div class="mb-3">
+                          <label for="display_home" class="form-label">Hiển thị ở trang home</label>
+                          <input type="text" class="form-control" id="display_home" name="display_home" aria-describedby="usernameHelp" value="<?php echo $data['category']['display_home']?>" placeholder="Chọn số từ 1->">
+                      </div>
                   </div>
 
                   <button type="submit" class="btn btn-primary">Submit</button>

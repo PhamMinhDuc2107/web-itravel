@@ -3,13 +3,13 @@
     <div class="swiper-button-prev"></div>
     <ul class="home__slider--list swiper-wrapper">
         <li class="home__slider--item">
-            <img src="./assets/images/banner1.webp" alt="" />
+            <img src="<?php echo ASSET?>/client/images/banner.jpg" alt="" />
         </li>
         <li class="home__slider--item swiper-slide">
-            <img src="./assets/images/banner1.webp" alt="" />
+            <img src="<?php echo ASSET?>/client/images/banner.jpg" alt="" />
         </li>
         <li class="home__slider--item swiper-slide">
-            <img src="./assets/images/banner1.webp" alt="" />
+            <img src="<?php echo ASSET?>/client/images/banner.jpg" alt="" />
         </li>
     </ul>
     <div class="swiper-button-next"></div>
@@ -61,7 +61,7 @@
             <div class="tour__list swiper-wrapper">
                 <div class="tour__item swiper-slide">
                     <div class="tour__img">
-                        <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                        <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                         <div class="tour__info--transport">
                             <i class="fa-solid fa-plane"></i>
                             <i class="fa-solid fa-bus"></i>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="tour__item swiper-slide">
                     <div class="tour__img">
-                        <img src="./assets/images/Ốc đảo Bahariya_0.jpg" alt="">
+                        <img src="<?php echo ASSET?>/client/images/Ốc đảo Bahariya_0.jpg" alt="">
                         <div class="tour__info--transport">
                             <i class="fa-solid fa-bus"></i>
                         </div>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="tour__item swiper-slide">
                     <div class="tour__img">
-                        <img src="./assets/images/1_20.png" alt="">
+                        <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                         <div class="tour__info--transport">
                             <i class="fa-solid fa-plane"></i>
                         </div>
@@ -182,7 +182,7 @@
                 </div>
                 <div class="tour__item swiper-slide">
                     <div class="tour__img">
-                        <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                        <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                         <div class="tour__info--transport">
                             <i class="fa-solid fa-plane"></i>
                         </div>
@@ -222,7 +222,7 @@
                 </div>
                 <div class="tour__item swiper-slide">
                     <div class="tour__img">
-                        <img src="./assets/images/1_20.png" alt="">
+                        <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                         <div class="tour__info--transport">
                             <i class="fa-solid fa-bus"></i>
                         </div>
@@ -262,7 +262,7 @@
                 </div>
                 <div class="tour__item swiper-slide">
                     <div class="tour__img">
-                        <img src="./assets/images/1_20.png" alt="">
+                        <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                         <div class="tour__info--transport">
                             <i class="fa-solid fa-train-tram"></i>
                         </div>
@@ -302,7 +302,7 @@
                 </div>
                 <div class="tour__item swiper-slide">
                     <div class="tour__img">
-                        <img src="./assets/images/1_20.png" alt="">
+                        <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                         <div class="tour__info--transport">
                             <i class="fa-solid fa-train-tram"></i>
                         </div>
@@ -371,7 +371,7 @@
                 <div class="tour__list swiper-wrapper tab--content tab__content--active" data-tab="1">
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                                 <i class="fa-solid fa-bus"></i>
@@ -412,7 +412,7 @@
                     </div>
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Ốc đảo Bahariya_0.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Ốc đảo Bahariya_0.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-bus"></i>
                             </div>
@@ -452,7 +452,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                             </div>
@@ -492,7 +492,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                             </div>
@@ -532,7 +532,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-bus"></i>
                             </div>
@@ -572,7 +572,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-train-tram"></i>
                             </div>
@@ -612,7 +612,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-train-tram"></i>
                             </div>
@@ -658,7 +658,7 @@
                 <div class="tour__list swiper-wrapper tab--content" data-tab="2">
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                                 <i class="fa-solid fa-bus"></i>
@@ -699,7 +699,7 @@
                     </div>
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Ốc đảo Bahariya_0.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Ốc đảo Bahariya_0.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-bus"></i>
                             </div>
@@ -739,7 +739,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                             </div>
@@ -785,7 +785,7 @@
                 <div class="tour__list swiper-wrapper tab--content" data-tab="3">
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                                 <i class="fa-solid fa-bus"></i>
@@ -826,7 +826,7 @@
                     </div>
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Ốc đảo Bahariya_0.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Ốc đảo Bahariya_0.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-bus"></i>
                             </div>
@@ -898,7 +898,7 @@
                 <div class="tour__list swiper-wrapper tab--content tab__content--active " data-tab="4">
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                                 <i class="fa-solid fa-bus"></i>
@@ -939,7 +939,7 @@
                     </div>
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Ốc đảo Bahariya_0.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Ốc đảo Bahariya_0.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-bus"></i>
                             </div>
@@ -979,7 +979,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                             </div>
@@ -1019,7 +1019,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                             </div>
@@ -1059,7 +1059,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-bus"></i>
                             </div>
@@ -1099,7 +1099,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-train-tram"></i>
                             </div>
@@ -1139,7 +1139,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-train-tram"></i>
                             </div>
@@ -1185,7 +1185,7 @@
                 <div class="tour__list swiper-wrapper tab--content" data-tab="5">
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                                 <i class="fa-solid fa-bus"></i>
@@ -1226,7 +1226,7 @@
                     </div>
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Ốc đảo Bahariya_0.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Ốc đảo Bahariya_0.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-bus"></i>
                             </div>
@@ -1266,7 +1266,7 @@
                     </div>
                     <div class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/1_20.png" alt="">
+                            <img src="<?php echo ASSET?>/client/images/1_20.png" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                             </div>
@@ -1312,7 +1312,7 @@
                 <div class="tour__list swiper-wrapper tab--content" data-tab="6">
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-plane"></i>
                                 <i class="fa-solid fa-bus"></i>
@@ -1353,7 +1353,7 @@
                     </div>
                     <div  class="tour__item swiper-slide">
                         <div class="tour__img">
-                            <img src="./assets/images/Ốc đảo Bahariya_0.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Ốc đảo Bahariya_0.jpg" alt="">
                             <div class="tour__info--transport">
                                 <i class="fa-solid fa-bus"></i>
                             </div>
@@ -1418,7 +1418,7 @@
                             <a href="#">Combo du lịch Ý</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                     <div class="favorite__item">
@@ -1426,7 +1426,7 @@
                             <a href="#">Combo du lịch Ý</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                     <div class="favorite__item">
@@ -1434,7 +1434,7 @@
                             <a href="#">Combo du lịch Ý</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -1444,7 +1444,7 @@
                             <a>Hà Nội</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                     <div class="favorite__item">
@@ -1452,7 +1452,7 @@
                             <a>Bangkok</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                     <div class="favorite__item">
@@ -1460,7 +1460,7 @@
                             <a>Phú Quốc</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                     <div class="favorite__item">
@@ -1468,7 +1468,7 @@
                             <a>Nhật Bản</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                     <div class="favorite__item">
@@ -1476,7 +1476,7 @@
                             <a>Pháp</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                     <div class="favorite__item">
@@ -1484,7 +1484,7 @@
                             <a>Đằ Nẵng</a>
                         </div>
                         <div class="favorite__item--img">
-                            <img src="./assets/images/Monaco.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Monaco.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -1545,7 +1545,7 @@
                         <i class="fa-solid fa-star"></i>
                     </div>
                     <div class="info">
-                        <img src="./assets/images/best-product 1.png" alt="">
+                        <img src="<?php echo ASSET?>/client/images/best-product 1.png" alt="">
                         <span>Moon</span>
                     </div>
                 </div>
@@ -1561,7 +1561,7 @@
                         <i class="fa-solid fa-star"></i>
                     </div>
                     <div class="info">
-                        <img src="./assets/images/404.png" alt="">
+                        <img src="<?php echo ASSET?>/client/images/404.png" alt="">
                         <span>Moon</span>
                     </div>
                 </div>
@@ -1577,7 +1577,7 @@
                         <i class="fa-solid fa-star"></i>
                     </div>
                     <div class="info">
-                        <img src="./assets/images/404.png" alt="">
+                        <img src="<?php echo ASSET?>/client/images/404.png" alt="">
                         <span>Moon</span>
                     </div>
                 </div>
@@ -1593,7 +1593,7 @@
                         <i class="fa-solid fa-star"></i>
                     </div>
                     <div class="info">
-                        <img src="./assets/images/404.png" alt="">
+                        <img src="<?php echo ASSET?>/client/images/404.png" alt="">
                         <span>Moon</span>
                     </div>
                 </div>
@@ -1618,7 +1618,7 @@
                 <div class="blog__list">
                     <div class="blog__item blog__item--full">
                         <div class="detail">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="info">
                                 <a href="">Top 5 địa điểm hấp dẫn nhất định phải tới khi đi tour Đài Loan</a>
                                 <span>01/20/2025 - 10:01</span>
@@ -1627,7 +1627,7 @@
                     </div>
                     <div class="blog__item">
                         <div class="detail">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="info">
                                 <a href="">Top 5 địa điểm hấp dẫn nhất định phải tới khi đi tour Đài Loan</a>
                                 <span>01/20/2025 - 10:01</span>
@@ -1636,7 +1636,7 @@
                     </div>
                     <div class="blog__item">
                         <div class="detail">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="info">
                                 <a href="">Top 5 địa điểm hấp dẫn nhất định phải tới khi đi tour Đài Loan</a>
                                 <span>01/20/2025 - 10:01</span>
@@ -1645,7 +1645,7 @@
                     </div>
                     <div class="blog__item">
                         <div class="detail">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="info">
                                 <a href="">Top 5 địa điểm hấp dẫn nhất định phải tới khi đi tour Đài Loan</a>
                                 <span>01/20/2025 - 10:01</span>
@@ -1656,7 +1656,7 @@
                 <div class="blog__list blog__list--full">
                     <div class="blog__item ">
                         <div class="detail">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="info">
                                 <a href="">Top 5 địa điểm hấp dẫn nhất định phải tới khi đi tour Đài Loan</a>
                                 <span>01/20/2025 - 10:01</span>
@@ -1665,7 +1665,7 @@
                     </div>
                     <div class="blog__item ">
                         <div class="detail">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="info">
                                 <a href="">Top 5 địa điểm hấp dẫn nhất định phải tới khi đi tour Đài Loan</a>
                                 <span>01/20/2025 - 10:01</span>
@@ -1674,7 +1674,7 @@
                     </div>
                     <div class="blog__item ">
                         <div class="detail">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="info">
                                 <a href="">Top 5 địa điểm hấp dẫn nhất định phải tới khi đi tour Đài Loan</a>
                                 <span>01/20/2025 - 10:01</span>
@@ -1683,7 +1683,7 @@
                     </div>
                     <div class="blog__item ">
                         <div class="detail">
-                            <img src="./assets/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
+                            <img src="<?php echo ASSET?>/client/images/Du-lịch-Thổ-Nhĩ-Kỳ-mùa-nào-đẹp-nhất-2.jpg" alt="">
                             <div class="info">
                                 <a href="">Top 5 địa điểm hấp dẫn nhất định phải tới khi đi tour Đài Loan</a>
                                 <span>01/20/2025 - 10:01</span>
@@ -1705,14 +1705,14 @@
             </h3>
             <div class="swiper brand-swiper">
                 <div class="brand__list swiper-wrapper">
-                    <img class="swiper-slide" src="./assets/images/logo_brand1.webp" alt="">
-                    <img class="swiper-slide" src="./assets/images/logo_brand2.webp" alt="">
-                    <img class="swiper-slide" src="./assets/images/logo_brand1.webp" alt="">
-                    <img class="swiper-slide" src="./assets/images/logo_brand2.webp" alt="">
-                    <img class="swiper-slide" src="./assets/images/logo_brand1.webp" alt="">
-                    <img class="swiper-slide" src="./assets/images/logo_brand2.webp" alt="">
-                    <img class="swiper-slide" src="./assets/images/logo_brand1.webp" alt="">
-                    <img class="swiper-slide" src="./assets/images/logo_brand2.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand1.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand2.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand1.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand2.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand1.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand2.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand1.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand2.webp" alt="">
                 </div>
             </div>
         </div>

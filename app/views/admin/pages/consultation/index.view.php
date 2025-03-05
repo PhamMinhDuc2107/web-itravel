@@ -130,7 +130,7 @@
                                                 </div>
                                             </td>
                                              <td>
-                                                <a href="<?php echo (int)$item['status'] === 1 ?  _WEB_ROOT.'/dashboard/consultation-update/'.$item['id'] : "#"?>"
+                                                <a href="<?php echo (int)$item['status'] === 0 ?  _WEB_ROOT.'/dashboard/consultation-update/'.$item['id'] : "#"?>"
                                                   class="btn text-white btn-success  font-weight-bold text-xs <?php echo $item['status'] === 1? "d-none" :"" ?>"
                                                   style="margin-bottom: 0;"
                                                   id="btnEdit"

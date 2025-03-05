@@ -24,7 +24,7 @@ class Admin extends Controller
       $this->AdminModel->setBaseModel();
       $data = $this->AdminModel->get();
       $totalPages = $this->AdminModel->getTotalPages();
-      $this->data['title'] = "Danh sách admin";
+      $this->data['title'] = "Quản lý admin";
       $this->data['heading']="Admin";
       $this->data['page'] ="admin/index";
       $this->data['totalPages'] = $totalPages;

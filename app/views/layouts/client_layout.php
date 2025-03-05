@@ -23,7 +23,7 @@
                     "@type": "ContactPoint",
                     "telephone": "0989150732",
                     "contactType": "customer service"
-                },
+                }
             }
         </script>
         <link
@@ -41,8 +41,8 @@
                 href="https://unpkg.com/swiper/swiper-bundle.min.css"
         />
         <!-- Flatpickr -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <link rel="stylesheet" href="<?php echo ASSET ?>/admin/css/flatpickr.min.css">
+        <script src="<?php echo ASSET ?>/admin/js/flatpickr.min.js"></script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
         <!-- css -->
         <link rel="stylesheet" href="<?php echo ASSET?>/client/css/reset.css">
@@ -51,17 +51,26 @@
 </head>
 <body>
    <div class="wrapper">
-      <?php require_once _DIR_ROOT . "/app/views/client/blocks/header.php" ?>
-
+      <?php require_once _DIR_ROOT . "/app/views/client/blocks/header.view.php" ?>
+      <?php
+        if(isset($data['breadcrumbs']) ) {
+            require_once _DIR_ROOT . "/app/views/client/blocks/breadcrumb.view.php";
+        }
+      ?>
       <?php
       if(isset($data['page'])) {
          require_once _DIR_ROOT."/app/views/client/pages/".$data['page'].".view.php";
       }
       ?>
-      <?php require_once _DIR_ROOT . "/app/views/client/blocks/footer.php" ?>
+      <?php require_once _DIR_ROOT . "/app/views/client/blocks/footer.view.php" ?>
    </div>
 </body>
 <script src="<?php echo ASSET?>/client/js/app.js"></script>
 <script src="<?php echo ASSET?>/client/js/home.js"></script>
+<?php
+if(isset($data['js'])) {
+   echo "<script src=".ASSET."/client/js/".$data['js']."></script>";
+}
+?>
 </html>
 

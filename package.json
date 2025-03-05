@@ -1,0 +1,12 @@
+{
+   "name": "twitter",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "sass": "sass ./public/assets/client/scss/app.scss ./public/assets/client/css/app.css --watch"
+   },
+   "author": "",
+   "license": "ISC"
+}

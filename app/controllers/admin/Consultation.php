@@ -28,7 +28,7 @@ class Consultation extends Controller
       $totalPages = $this->ConsultationModel->getTotalPages();
       $consultations = $this->ConsultationModel->get();
       $this->data['totalPages'] = $totalPages;
-      $this->data['title'] = "Danh sách khách hàng cần tư vấn";
+      $this->data['title'] = "Quản lý khách hàng cần tư vấn";
       $this->data['page'] = "consultation/index";
       $this->data['consultations'] = $consultations;
       $this->render("layouts/admin_layout", $this->data);

@@ -26,7 +26,7 @@ class TourItinerary extends Controller
       $tourItineraries = $this->TourItineraryModel->get();
       $tours = $this->TourModel->getNameTours();
       $this->data['totalPages'] = $totalPages;
-      $this->data['title'] = "Quản lý hành trình các tour";
+      $this->data['title'] = "Quản lý hành trình tour";
       $this->data['page'] ="itineraries/index";
       $this->data['tourItineraries'] = $tourItineraries;
       $this->data['tours'] = $tours;

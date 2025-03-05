@@ -39,13 +39,13 @@
                             <input type="radio" name="status"
                                    id="is_departure" <?php echo $banner['status'] === 0 ? "checked" : ""; ?> value="0">
                             <label for="is_departure" id="status" name="status"
-                                   class="form-label badge badge-sm bg-gradient-success">
+                                   class="form-label badge badge-sm bg-gradient-secondary">
                                 Inactive
                             </label>
                             <input type="radio" name="status"
                                    id="is_destination" <?php echo $banner['status'] === 1 ? "checked" : ""; ?> value="1">
                             <label for="is_destination" id="status" name="status"
-                                   class="form-label badge badge-sm bg-gradient-secondary">
+                                   class="form-label badge badge-sm  bg-gradient-success">
                                 Active
                             </label>
                         </div>

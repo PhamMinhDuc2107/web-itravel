@@ -9,19 +9,19 @@
                     </h3>
                     <div class="row">
                         <strong>Địa chỉ</strong>
-                        <span>Tòa HDMI, 103 Núi Trúc,Ba Đình, Hà Nội</span>
+                        <span>Số 21-23 Nguyễn Công Hoan, phường Ngọc Khánh, quận Ba Đình Hà Nội</span>
                     </div>
                     <div class="row">
                         <strong>Email</strong>
-                        <span>email@gmail.com</span>
+                        <span>info@dulichitravel.com.vn</span>
                     </div>
                     <div class="row">
                         <strong>Hotline</strong>
-                        <span>123456789</span>
+                        <span>0978953543</span>
                     </div>
                     <div class="row">
                         <strong>Thời gian hỗ trợ</strong>
-                        <span>08:30 - 21:30 các ngày trong tuần</span>
+                        <span>7:00 - 23:00 các ngày trong tuần</span>
                     </div>
                 </div>
 

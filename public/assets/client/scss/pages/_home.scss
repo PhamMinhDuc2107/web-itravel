@@ -1,5 +1,5 @@
 .home__slider {
-   height: 75rem;
+   height: 55rem;
    &--list {
    }
    &--item {
@@ -42,7 +42,7 @@
          @include flex(center,center);
          font-size: 2rem;
          color: $blue-color;
-         background-color: #e6f4ff;
+         background-color: rgb(147 232 211 / 27%);
          border-radius: 1.5rem;
       }
       input {
@@ -165,7 +165,7 @@
          font-size: 1.7rem;
          padding: 0 1.5rem;
          transition: all 0.3s linear;
-         background-color: #82c2f746;
+         background-color: rgb(147 232 211 / 27%);
          border-radius: 0.8rem;
          color: $blue-color;
          &:hover {

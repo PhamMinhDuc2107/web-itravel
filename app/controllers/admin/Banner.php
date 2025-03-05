@@ -55,7 +55,6 @@ class Banner extends Controller
       $data =["image" => $thumb, "title" => $title, "status" => $status, "sort_order" => $order];
       var_dump($data);
       $res = $this->BannerModel->insert($data);
-      Util::printArr($res);
       if (!$res) {
          Util::redirect("dashboard/banner", Response::internalServerError("Thêm không thành công"));
       }

@@ -1,0 +1,34 @@
+.dropdown {
+  width: 100%;
+  position: relative;
+
+  &_list {
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+    top: 5rem;
+    background-color: $white-color;
+    border:0.1rem solid $gray-light-color;
+    border-radius: 0.6rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s linear;
+    height: 0px;
+    &.dropdown-active {
+      height: unset;
+      opacity: 1;
+      visibility: visible;
+    }
+    .dropdown-item-active {
+      background-color: #b0f7ec73;
+    }
+  }
+  &_item {
+    padding: 1.2rem 1rem;
+    transition: all 0.3s linear;
+    &:hover {
+      background-color: #b0f7ec73;
+    }
+  }
+
+}

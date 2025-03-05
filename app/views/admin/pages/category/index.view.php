@@ -204,8 +204,8 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="title" class="form-label">Hiển thị ở trang home</label>
-                    <input type="text" class="form-control" id="title" name="title" aria-describedby="usernameHelp" value="" placeholder="Chọn số từ 1->">
+                    <label for="display_home" class="form-label">Hiển thị ở trang home</label>
+                    <input type="text" class="form-control" id="display_home" name="display_home" aria-describedby="usernameHelp" value="" placeholder="Chọn số từ 1->">
                 </div>
             </div>
             <div class="modal-footer">
