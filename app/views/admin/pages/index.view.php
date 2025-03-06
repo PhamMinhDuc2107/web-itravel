@@ -115,7 +115,7 @@ $totalConsultation =  $data['totalConsultation'][0] ?? [];
                            <?php
                            $month = $data['month'];
                            ?>
-                            <input class="form-control" type="text" value="<?php echo "Tháng ".$month?>" data-month="<?php echo $month?>" placeholder=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" />
+                            <input class="form-control" type="text" value="<?php echo "Tháng ".$month?>" data-month="<?php echo $month?>" placeholder=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" style="min-width: 100px"/>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="max-height: 250px;overflow-y:scroll">
                                   <?php for($i = 1; $i <= date('m'); $i++):?>
                                        <li><a href="<?php echo Util::buildMonthUrl($i)?>" class="dropdown-item" data-value="<?php echo $i?>"><?php echo "Tháng ".$i?></a></li>

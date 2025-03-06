@@ -93,7 +93,7 @@
             width: 200px;
          }
          &:hover {
-            color: $blue-color;
+            color: $primary-color;
          }
       }
    }
@@ -123,9 +123,9 @@
             -webkit-transform: perspective(600px) rotateX(0deg);
          }
          .header__menu--link {
-            color: $blue-color;
+            color: $primary-color;
             + i {
-               color: $blue-color;
+               color: $primary-color;
                transform:translateY(-50%) rotateZ(180deg);
                -webkit-transform: translateY(-50%) rotateZ(180deg);
                -moz-transform: translateY(-50%) rotateZ(180deg);   
@@ -192,7 +192,7 @@
          }
          &:hover {
             > i {
-            color: $blue-color;
+            color: $primary-color;
             transform: translateY(-50%) rotateZ(180deg);
             -webkit-transform:  translateY(-50%) rotateZ(180deg);
             -moz-transform:  translateY(-50%) rotateZ(180deg);   
@@ -200,7 +200,7 @@
             -o-transform:  translateY(-50%) rotateZ(180deg);
             }
             > a {
-               color: $blue-color;
+               color: $primary-color;
             }
          }
       }
@@ -262,7 +262,7 @@
          & span {
             display: block;
             width: 100%;
-            color: $blue-color;
+            color: $primary-color;
             font-size: 1.6rem;
             font-weight: 500;
          }
@@ -270,7 +270,7 @@
             width: 100%;
             transition: all 0.3s linear;
             &:hover {
-               color: $blue-color;
+               color: $primary-color;
             }
          }
          & .w-50 {
@@ -306,7 +306,7 @@
       position: absolute;
       height: 100%;
       right: 0;
-      background-color: $blue-color;
+      background-color: $primary-color;
       color: $white-color;
       width: 4.5rem;
       padding: 0.1rem 0.6rem;

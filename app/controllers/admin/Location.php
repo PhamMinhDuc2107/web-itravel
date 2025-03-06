@@ -4,10 +4,12 @@ class Location extends Controller
 {
    private $data;
    private $LocationModel;
+   private $CategoryModel;
    private $jwt;
 
    public function __construct()
    {
+      $this->CategoryModel = $this->model("CategoryModel");
       $this->LocationModel = $this->model("LocationModel");
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
@@ -23,12 +25,14 @@ class Location extends Controller
    {
       $this->LocationModel->setBaseModel();
       $totalPages = $this->LocationModel->getTotalPages();
-      $locations = $this->LocationModel->get();
+      $locations = $this->LocationModel->getLocations();
+      $categories = $this->CategoryModel->all();
       $this->data['totalPages'] = $totalPages;
       $this->data['page'] = 'index';
       $this->data['title'] = "Quản lý địa điểm tour";
       $this->data['page'] = "location/index";
       $this->data['locations'] = $locations;
+      $this->data['categories'] = $categories;
       $this->render("layouts/admin_layout", $this->data);
    }
 
@@ -53,7 +57,7 @@ class Location extends Controller
       $res = $this->LocationModel->insert($data);
       $id = $this->LocationModel->getLastInsertId();
       if (!$res) {
-         Util::redirect("dashboard/location", Response::internalServerError("Thêm không thanhf công"));
+         Util::redirect("dashboard/location", Response::internalServerError("Tạo không thành công"));
       }
       $checkUpload = Util::uploadImage($file, $thumb);
       if (!$checkUpload["success"]) {
@@ -70,10 +74,14 @@ class Location extends Controller
       if (empty($location)) {
          Util::redirect("dashboard/location", Response::notFound("Không tìm thấy địa điểm để cập nhật"));
       }
+      $categories = $this->CategoryModel->all();
+      $category= $this->CategoryModel->find($location['category']);
       $this->data['page'] = 'index';
       $this->data['title'] = "Sửa thông tin địa điểm của tour";
       $this->data['page'] = "location/form";
       $this->data['location'] = $location;
+      $this->data['category'] = $category;
+      $this->data['categories'] = $categories;
       $this->render("layouts/admin_layout", $this->data);
    }
 
@@ -123,7 +131,7 @@ class Location extends Controller
 
    public function delete(): void
    {
-      if (Request::isMethod("POST")) {
+      if (!Request::isMethod("POST")) {
          Util::redirect("dashboard/location", Response::methodNotAllowed("Phương thức không được phép"));
       }
       $listID = Request::input("id") ?? [];
@@ -155,10 +163,11 @@ class Location extends Controller
       }
       $slug = Util::generateSlug($name);
       $desc = htmlspecialchars(Request::input("description")) ?? "";
+      $category = htmlspecialchars(Request::input("category")) ?? "";
       $isDeparture = Request::input("is_departure") ? 1 : 0;
       $isDestination = Request::input("is_destination") ? 1 : 0;
       $data = [
-         "name" => $name, "slug" => $slug, "is_departure" => $isDeparture, "is_destination" => $isDestination, "description" => $desc
+         "name" => $name, "slug" => $slug,"category"=>$category, "is_departure" => $isDeparture, "is_destination" => $isDestination, "description" => $desc
       ];
       return $data;
    }

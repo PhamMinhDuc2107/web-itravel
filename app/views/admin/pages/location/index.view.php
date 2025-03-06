@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <form action="<?php echo _WEB_ROOT."/dashboard/category-delete"?>" method="post" class="">
+            <form action="<?php echo _WEB_ROOT . "/dashboard/location-delete" ?>" method="post" class="">
                 <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
                 <div class="card mb-4">
                     <div class="d-flex justify-content-between align-items-center card-header pb-0">
@@ -9,114 +9,149 @@
                             <div class="d-flex gap-1 flex-column col-6">
                                 <span>Sắp xếp:</span>
                                 <div class="dropdown col-12 border-radius-md border border-1 py-1">
-                                    <span class="d-block text-center sortBy" data-bs-toggle="dropdown" aria-expanded="true">
+                                    <span class="d-block text-center sortBy" data-bs-toggle="dropdown"
+                                          aria-expanded="true">
                                         <?php echo Request::input('sortBy') ?? "asc" ?>
                                     </span>
                                     <ul class="dropdown-menu w-100 sort-options">
-                                        <li><a class="dropdown-item" data-value="asc" href="<?php echo Util::buildOrderByUrl()?>">Tăng dần</a></li>
-                                        <li><a class="dropdown-item" data-value="desc" href="<?php echo Util::buildOrderByUrl("desc")?>">Giảm dần</a></li>
+                                        <li><a class="dropdown-item" data-value="asc"
+                                               href="<?php echo Util::buildOrderByUrl() ?>">Tăng dần</a></li>
+                                        <li><a class="dropdown-item" data-value="desc"
+                                               href="<?php echo Util::buildOrderByUrl("desc") ?>">Giảm dần</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="d-flex gap-1 flex-column col-6">
                                 <span>Cột:</span>
                                 <div class="dropdown col-12 border-radius-md border border-1 py-1">
-                                    <span class="d-block text-center sortCol" data-bs-toggle="dropdown" aria-expanded="true">
+                                    <span class="d-block text-center sortCol" data-bs-toggle="dropdown"
+                                          aria-expanded="true">
                                         <?php echo Request::input('sortCol') ?? "id" ?>
                                     </span>
                                     <ul class="dropdown-menu w-100 column-options">
-                                        <li><a class="dropdown-item" data-value="id" href="<?php echo Util::buildOrderColByUrl()?>">Sắp xếp theo ID</a></li>
-                                        <li><a class="dropdown-item" data-value="username" href="<?php echo Util::buildOrderColByUrl("name")?>">Sắp xếp theo Tên</a>
+                                        <li><a class="dropdown-item" data-value="id"
+                                               href="<?php echo Util::buildOrderColByUrl() ?>">Sắp xếp theo ID</a></li>
+                                        <li><a class="dropdown-item" data-value="username"
+                                               href="<?php echo Util::buildOrderColByUrl("name") ?>">Sắp xếp theo
+                                                Tên</a>
                                         </li>
-                                        <li><a class="dropdown-item" data-value="created_at" href="<?php echo Util::buildOrderColByUrl("created_at")?>">Sắp xếp theo Thời
+                                        <li><a class="dropdown-item" data-value="created_at"
+                                               href="<?php echo Util::buildOrderColByUrl("created_at") ?>">Sắp xếp theo
+                                                Thời
                                                 gian</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class=" btn btn-primary  text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-bs-toggle="modal" data-bs-target="#modalCreated">
+                        <button type="button" class=" btn btn-primary  text-white font-weight-bold text-xs "
+                                style="margin-bottom: 0;" data-bs-toggle="modal" data-bs-target="#modalCreated">
                             Thêm mới
                         </button>
                     </div>
-                   <?php if(Request::input("msg") !== null) :?>
-                       <span class="<?php echo Request::input('type') === "error"?"text-warning" :"text-success"?> card-header" style="padding-top: 5px; padding-bottom:5px"><?php echo htmlspecialchars(Request::input('msg'))?></span>
-                   <?php endif;?>
-                        <div class="card-body px-0 pt-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                <thead >
-                                    <tr>
-                                        <th class="">
-                                        </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Slug</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mô tả</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">hình ảnh</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">điểm khởi hành</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">điểm đến</th>
-                                        <th class="text-secondary opacity-7"></th>
-                                    </tr>
+                   <?php if (Request::input("msg") !== null) : ?>
+                       <span class="<?php echo Request::input('type') === "error" ? "text-warning" : "text-success" ?> card-header"
+                             style="padding-top: 5px; padding-bottom:5px"><?php echo htmlspecialchars(Request::input('msg')) ?></span>
+                   <?php endif; ?>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="">
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Tên
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Slug
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Mô tả
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        hình ảnh
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Danh mục
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        điểm khởi hành
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        điểm đến
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
                                 </thead>
                                 <tbody class="table-body">
                                 <?php
-                                $locations = $data['locations'] ??[];
+                                $locations = $data['locations'] ?? [];
                                 ?>
-                                <?php if(!empty($locations)) : ?>
-                                   <?php foreach($locations as $item): ?>
+                                <?php if (!empty($locations)) : ?>
+                                   <?php foreach ($locations as $item): ?>
                                         <tr>
-                                            <td class= " text-center" style="width: 10px;">
+                                            <td class=" text-center" style="width: 10px;">
                                                 <input type="checkbox" name="id[]"
-                                                   class="input-checkbox mx-auto"
-                                                   value="<?php echo $item['id']?>" style="width: 15px; height:15px"
+                                                       class="input-checkbox mx-auto"
+                                                       value="<?php echo $item['id'] ?>"
+                                                       style="width: 15px; height:15px"
                                                 >
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm"><?php echo $item["name"]?></h6>
+                                                        <h6 class="mb-0 text-sm"><?php echo $item["name"] ?></h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm"><?php echo $item["slug"]?></h6>
+                                                        <h6 class="mb-0 text-sm"><?php echo $item["slug"] ?></h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm"><?php echo $item["description"]?></h6>
+                                                    <h6 class="mb-0 text-sm"><?php echo $item["description"] ?></h6>
                                                 </div>
                                             </td>
                                             <td class="d-flex align-content-center justify-content-center">
-                                                  <?php
-                                                    $pathImg = ASSET."/admin/img/images-notfound.png";
-                                                    $img = $item['image'];
-                                                    if(file_exists(_DIR_ROOT.$img)) {
-                                                      $pathImg = _WEB_ROOT.$img;
-                                                    }
-                                                  ?>
-                                                    <img src="<?php echo $pathImg?>" alt="" style="width:95px; height: 95px;">
+                                               <?php
+                                               $pathImg = ASSET . "/admin/img/images-notfound.png";
+                                               $img = $item['image'];
+                                               if (file_exists(_DIR_ROOT . $img)) {
+                                                  $pathImg = _WEB_ROOT . $img;
+                                               }
+                                               ?>
+                                                <img src="<?php echo $pathImg ?>" alt=""
+                                                     style="width:95px; height: 95px;">
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?php echo $item["category_name"] ?></h6>
+                                                </div>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
-                                                  <i class='<?php echo $item["is_departure"] === 1 ? "fa-solid fa-circle-check":""?>'
-                                                    style="display: block; font-size: 20px; color:#83f28f;"
+                                                  <i class='<?php echo $item["is_departure"] === 1 ? "fa-solid fa-circle-check" : "" ?>'
+                                                     style="display: block; font-size: 20px; color:#83f28f;"
                                                   ></i>
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
-                                                <i class='<?php echo $item["is_destination"] === 1 ? "fa-solid fa-circle-check":""?>'
-                                                    style="display: block; font-size: 20px; color:#83f28f;"
-                                                  ></i>
+                                                <i class='<?php echo $item["is_destination"] === 1 ? "fa-solid fa-circle-check" : "" ?>'
+                                                   style="display: block; font-size: 20px; color:#83f28f;"
+                                                ></i>
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="<?php echo _WEB_ROOT."/dashboard/location-update/".$item['id']?>" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
-                                                        id="btnEdit"
-                                                        >
+                                                <a href="<?php echo _WEB_ROOT . "/dashboard/location-update/" . $item['id'] ?>"
+                                                   class="text-secondary font-weight-bold text-xs "
+                                                   style="margin-bottom: 0;"
+                                                   id="btnEdit"
+                                                >
                                                     Edit
                                                 </a>
 
@@ -127,11 +162,11 @@
                                 <?php endif; ?>
                                 </tbody>
                             </table>
-                            </div>
                         </div>
+                    </div>
                 </div>
                <?php $page = Request::input("page") ?? 1;
-                $totalPages = $data['totalPages'] ?? 0;
+               $totalPages = $data['totalPages'] ?? 0;
                ?>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end"
                      style="border-radius: 10px">
@@ -146,13 +181,17 @@
                          margin-right: 10px;
                     ">
                         <span class="d-block text-center dropdown-toggle limit" id="dropdownMenuButton1"
-                              data-bs-toggle="dropdown" aria-expanded="true" >
+                              data-bs-toggle="dropdown" aria-expanded="true">
                            <?php echo Request::input('limit') ?? 10 ?>
                         </span>
-                        <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1" style="margin-top: 10px!important;">
-                            <li><a class="dropdown-item limit-option" data-value="10" href="<?php echo Util::buildLimitUrl(10)?>">10</a></li>
-                            <li><a class="dropdown-item limit-option" data-value="25" href="<?php echo Util::buildLimitUrl(25)?>">25</a></li>
-                            <li><a class="dropdown-item limit-option" data-value="50" href="<?php echo Util::buildLimitUrl  (50)?>">50</a></li>
+                        <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1"
+                            style="margin-top: 10px!important;">
+                            <li><a class="dropdown-item limit-option" data-value="10"
+                                   href="<?php echo Util::buildLimitUrl(10) ?>">10</a></li>
+                            <li><a class="dropdown-item limit-option" data-value="25"
+                                   href="<?php echo Util::buildLimitUrl(25) ?>">25</a></li>
+                            <li><a class="dropdown-item limit-option" data-value="50"
+                                   href="<?php echo Util::buildLimitUrl(50) ?>">50</a></li>
                         </ul>
                     </div>
                     <ul class="pagination">
@@ -201,36 +240,58 @@
     </div>
 </div>
 <div class="modal fade" id="modalCreated" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form method="post" action="<?php echo _WEB_ROOT."/dashboard/location-create"?>" class="modal-dialog" enctype="multipart/form-data">
+    <form method="post" action="<?php echo _WEB_ROOT . "/dashboard/location-create" ?>" class="modal-dialog"
+          enctype="multipart/form-data">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm địa điểm</h1>
                 <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" >
+            <div class="modal-body">
                 <div class="mb-3">
                     <label for="title" class="form-label">Tên địa điểm</label>
-                    <input type="text" class="form-control" id="title" name="title" aria-describedby="usernameHelp" value="">
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="usernameHelp"
+                           value="">
                 </div>
                 <div class="mb-3">
                     <label for="title" class="form-label">Mô tả</label>
-                    <textarea type="text" class="form-control " id="description" name="description" aria-describedby="usernameHelp" style="height: 100px;"></textarea>
+                    <textarea type="text" class="form-control " id="description" name="description"
+                              aria-describedby="usernameHelp" style="height: 100px;"></textarea>
                 </div>
                 <div class="mb-3">
-                 <label for="images" class="form-label d-block">Hình ảnh</label>
-                 <input type="file" class="form-control" id="imageCreateBlog" name="image" aria-describedby="usernameHelp" value="" style="display: none">
-                 <label for="imageCreateBlog" style=" width: 250px;height: 250px;" class="d-flex justify-content-center align-items-center flex-column circle text-primary border border-2 rounded-2 position-relative">
-                     <img src="<?php echo ASSET?>/admin/img/upload-6699084_640.webp" id="previewImageBlog" alt="" style="height: 100px; object-fit: cover;">
-                 </label>
-             </div>
+                    <label for="images" class="form-label d-block">Hình ảnh</label>
+                    <input type="file" class="form-control" id="imageCreateBlog" name="image"
+                           aria-describedby="usernameHelp" value="" style="display: none">
+                    <label for="imageCreateBlog" style=" width: 250px;height: 250px;"
+                           class="d-flex justify-content-center align-items-center flex-column circle text-primary border border-2 rounded-2 position-relative">
+                        <img src="<?php echo ASSET ?>/admin/img/upload-6699084_640.webp" id="previewImageBlog" alt=""
+                             style="height: 100px; object-fit: cover;">
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="parent" class="form-label">Danh mục</label>
+                    <div class="dropdown">
+                        <input class="form-control" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" placeholder="Chọn danh mục" readonly/>
+                        <input type="hidden" name="category" class="parentId" value="">
+                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="max-height: 250px;overflow-y:scroll">
+                           <?php if(!empty($data['categories'])) : ?>
+                              <?php foreach ($data['categories'] as $item):?>
+                                   <li><a class="dropdown-item" data-value="<?php echo$item['id']?>"><?php echo$item['name']?></a></li>
+                              <?php endforeach;?>
+                           <?php endif;?>
+                        </ul>
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Chọn</label>
                     <input type="checkbox" name="is_departure" id="is_departure">
-                    <label for="is_departure" id="status" name="is_departure" class="form-label badge badge-sm bg-gradient-success">
+                    <label for="is_departure" id="status" name="is_departure"
+                           class="form-label badge badge-sm bg-gradient-success">
                         Là điểm khởi hành
                     </label>
                     <input type="checkbox" name="is_destination" id="is_destination">
-                    <label for="is_destination" id="status" name="is_destination" class="form-label badge badge-sm bg-gradient-secondary">
+                    <label for="is_destination" id="status" name="is_destination"
+                           class="form-label badge badge-sm bg-gradient-secondary">
                         Là điểm đến
                     </label>
                 </div>
@@ -238,7 +299,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                >Close</button>
+                >Close
+                </button>
                 <button type="submit" class="btn btn-primary">Tạo</button>
             </div>
         </div>

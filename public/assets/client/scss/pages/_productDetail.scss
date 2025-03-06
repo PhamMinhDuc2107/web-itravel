@@ -41,7 +41,7 @@
       object-fit: cover;
    }
    .swiper-slide-thumb-active img { 
-      border-color: $blue-color; 
+      border-color: $primary-color; 
    }
    &__right {
       position: sticky;
@@ -60,7 +60,7 @@
       p{
          margin: 2rem 0;
          span {
-            color: $blue-color;
+            color: $primary-color;
             font-size: 3.2rem;
             font-weight: 600;
          }
@@ -80,13 +80,13 @@
             @include flex(center,center);
          }
          span {
-            color: $blue-color;
+            color: $primary-color;
             margin: 0.5rem 0;
          }
          input {
             width: 100%;
             border-radius: 0.8rem;
-            border:0.1rem solid $blue-color;
+            border:0.1rem solid $primary-color;
             padding: 0 1rem;
          }
       }
@@ -106,7 +106,7 @@
       width: calc(70% - 1rem);
       &--list {
          @include flex(start);
-         border-bottom: 0.2rem solid $blue-color;
+         border-bottom: 0.2rem solid $primary-color;
       }
       &--item {
          padding: 0 2rem;
@@ -115,7 +115,7 @@
          border-top-right-radius: 0.8rem;
          &.tab--active {
             color: $white-color;
-            background-color: $blue-color;
+            background-color: $primary-color;
          }
       }
       &--content {
@@ -142,7 +142,7 @@
             @include flex(center,center);
             background-color:$blue-light-color;
             border-radius: 0.8rem;
-            color: $blue-color;
+            color: $primary-color;
          }
          h3 {
             font-size: 1.8rem;

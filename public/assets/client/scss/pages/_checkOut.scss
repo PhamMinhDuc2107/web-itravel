@@ -61,7 +61,7 @@
                transition: all 0.3s linear;
                border-radius: 0.8rem;  
                &:hover {
-                  background-color: $blue-color;
+                  background-color: $primary-color;
                   color: $white-color;
                }
             }
@@ -78,7 +78,7 @@
             }
          }
          &.border-r {
-            border-right: 0.1rem $blue-color;
+            border-right: 0.1rem $primary-color;
          }
          p {
             font-weight: 600; 
@@ -150,7 +150,7 @@
             }
             p {
                span {
-                  color: $blue-color;
+                  color: $primary-color;
                   font-weight: bold;
                }
             }

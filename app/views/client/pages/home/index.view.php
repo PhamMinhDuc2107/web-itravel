@@ -1705,14 +1705,16 @@
             </h3>
             <div class="swiper brand-swiper">
                 <div class="brand__list swiper-wrapper">
-                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand1.webp" alt="">
-                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand2.webp" alt="">
-                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand1.webp" alt="">
-                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand2.webp" alt="">
-                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand1.webp" alt="">
-                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand2.webp" alt="">
-                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand1.webp" alt="">
-                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/logo_brand2.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_1.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_2.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_3.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_4.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_5.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_6.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_7.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_8.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_9.webp" alt="">
+                    <img class="swiper-slide" src="<?php echo ASSET?>/client/images/accompany_10.webp" alt="">
                 </div>
             </div>
         </div>
@@ -1731,7 +1733,6 @@
             });
             budgetDropdown.addEventListener("click", function(e) {
                 if(e.target.classList.contains("budget__item")) {
-                    console.log(e.target)
                     budget.setAttribute("value", e.target.textContent);
                     budgetDropdown.classList.remove("active__dropdown");
                     [...budgetList].forEach((item)=> {
@@ -1830,7 +1831,6 @@
         },
     });
     const brandSwiper = new Swiper('.brand-swiper', {
-        slidesPerView: 6,
         spaceBetween: 20,
         rewind: true,
         autoplay: {
@@ -1839,7 +1839,7 @@
         },
         breakpoints: {
             990: {
-                slidesPerView: 6,
+                slidesPerView: 7,
 
             },
             765: {

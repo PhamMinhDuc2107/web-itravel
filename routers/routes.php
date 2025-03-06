@@ -6,9 +6,10 @@
    $routes['lien-he'] = 'contact/index';
    $routes['lien-he/gui-yeu-cau'] = 'contact/handleContactForm';
    $routes['gioi-thieu'] = 'introduce/index';
+   $routes['tin-tuc'] = 'blog/index';
+   $routes['tin-tuc/(.+)'] = 'blog/detail/$1';
 
    $routes['thong-bao-ket-qua'] = "result/index";
-   $routes['tin-tuc/(.+)'] = 'news/category/$1';
 
    $routes['dashboard'] = 'admin/dashboard/index';
    $routes['dashboard/login'] = 'admin/dashboard/login';

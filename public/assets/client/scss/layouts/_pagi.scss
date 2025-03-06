@@ -8,17 +8,17 @@
     &--link {
       @include size(3.5rem);
       @include flex(center,center);
-      border: 0.1rem solid $blue-color;
+      border: 0.1rem solid $primary-color;
       transition: all 0.3s linear;
       border-radius: 0.8rem;
-      color: $blue-color;
+      color: $primary-color;
       &.active {
-        background-color: $blue-color;
-        border-color: $blue-color;
+        background-color: $primary-color;
+        border-color: $primary-color;
         color: $white-color;
       }
       &:hover {
-        background-color: $blue-color;
+        background-color: $primary-color;
         color: $white-color;
       }
     }

@@ -30,19 +30,19 @@
                         Hướng dẫn
                     </h3>
                     <div class="row">
-                        <a href="">Trang chủ</a>
+                        <a href="<?php echo _WEB_ROOT?>">Trang chủ</a>
                     </div>
                     <div class="row">
-                        <a href="">Giới thiệu</a>
+                        <a href="<?php echo _WEB_ROOT?>/gioi-thieu">Giới thiệu</a>
                     </div>
                     <div class="row">
-                        <a href="">Tour du lịch</a>
+                        <a href="<?php echo _WEB_ROOT?>/collections/all">Tour du lịch</a>
                     </div>
                     <div class="row">
-                        <a href="">Tin tức</a>
+                        <a href="<?php echo _WEB_ROOT?>/tin-tuc">Tin tức</a>
                     </div>
                     <div class="row">
-                        <a href="">Liên hệ</a>
+                        <a href="<?php echo _WEB_ROOT?>/lien-he">Liên hệ</a>
                     </div>
                 </div>
                 <div class="footer__item">

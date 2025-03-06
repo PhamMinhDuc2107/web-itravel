@@ -23,6 +23,23 @@ class BlogModel extends Model
          return [];
       }
    }
+   public function getBlogById($id) {
+      try {
+         $sql = "SELECT b.*, bc.name AS category_name, a.username AS admin_username
+                FROM {$this->table} AS b
+                LEFT JOIN blog_categories AS bc ON b.category_id = bc.id
+                LEFT JOIN admins AS a ON b.author_id = a.id
+                WHERE b.id = :id";
+
+         $params = [":id" => $id];
+         $stmt = $this->_query($sql, $params);
+         return $stmt->fetch(PDO::FETCH_ASSOC);
+      } catch (PDOException $e) {
+         error_log("Database Error: " . $e->getMessage());
+         return [];
+      }
+   }
+
 
 
 }

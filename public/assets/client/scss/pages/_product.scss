@@ -84,23 +84,23 @@
             padding: 1rem 0;
             border-radius: 0.8rem;
             border:0.1rem  solid $gray-light-color;
-            color: $blue-color;
+            color: $primary-color;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s linear;
             &:hover {
-               background-color: $blue-color;
+               background-color: $primary-color;
                color: $white-color;
-               border-color: $blue-color;
+               border-color: $primary-color;
             }
             input {
                display: none;
             }
          }
          &--active {
-            background-color: $blue-color;
+            background-color: $primary-color;
             color: $white-color;
-            border-color: $blue-color;
+            border-color: $primary-color;
          }
       }
       &__filter {
@@ -120,7 +120,7 @@
                width: 0.4rem;
             }
             &::-webkit-scrollbar-thumb {
-               background: $blue-color;
+               background: $primary-color;
                border-radius: 1rem;
                overflow: hidden;
             }
@@ -130,9 +130,9 @@
             line-height: 2.85rem;
             &:hover {
                label {
-                  color: $blue-color;
+                  color: $primary-color;
                   &::before {
-                     border-color: $blue-color;
+                     border-color: $primary-color;
                   }
                }
             }
@@ -143,7 +143,7 @@
                   visibility: visible;
                }
                &:checked + label::before {
-                  background-color: $blue-color;
+                  background-color: $primary-color;
                }
             }
             label {
@@ -212,7 +212,7 @@
       display: block;
       position: absolute;
       @include size(4rem);
-      background-color: $blue-color;
+      background-color: $primary-color;
       color: $white-color;
       border-top-left-radius: 0.8rem;
       border-bottom-left-radius: 0.8rem;

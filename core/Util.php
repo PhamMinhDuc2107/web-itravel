@@ -110,9 +110,16 @@ class Util
       $folder = "app/errors/" . $type . ".php";
       if (file_exists($folder)) {
          require_once $folder;
+         exit();
       }
    }
+   public static function formatDate($date, $format ="d-m-Y"): string
+   {
+      $date = new DateTime($date);
+      $formattedDate = $date->format($format);
+      return $formattedDate;
 
+   }
 
    public static function buildPageUrl($newPage): string
    {
@@ -157,7 +164,7 @@ class Util
 
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
-   public static function checkImage(array $file,array $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'],int $maxSize = 5 * 1024 * 1024): array {
+   public static function checkImage(array $file,array $allowedTypes = ['webp'],int $maxSize = 5 * 1024 * 1024): array {
       if (empty($file)|| $file['error'] !== UPLOAD_ERR_OK ) {
             return ['success' => false, 'msg' => 'Lỗi tải file lên.'];
       }
@@ -168,7 +175,7 @@ class Util
       $fileInfo = pathinfo($file['name']);
       $fileExtension = strtolower($fileInfo['extension']);
       if (!in_array($fileExtension, $allowedTypes)) {
-         return ['success' => false, 'msg' => 'Loại file không được hỗ trợ.'];
+         return ['success' => false, 'msg' => 'Loại file không được hỗ trợ.Chỉ hỗ trợ webp'];
       }
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
       $mime = finfo_file($finfo, $file['tmp_name']);

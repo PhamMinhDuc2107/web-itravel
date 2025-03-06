@@ -4,7 +4,7 @@
       
     }
     &__list {
-      @include flex(start,space-between, row, wrap);
+      @include flex(start,start, row, wrap);
       gap: 3rem;
       width: 100%;
     }

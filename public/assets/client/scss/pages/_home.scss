@@ -29,7 +29,7 @@
       @include flex(center, space-between);
       padding: 2.5rem 2rem;
       border-radius: 1.6rem;
-      border: 0.2rem solid $blue-color;
+      border: 0.2rem solid $primary-color;
       gap: 1.5rem;
    }
    &__group {
@@ -41,7 +41,7 @@
          @include size(4.4rem);
          @include flex(center,center);
          font-size: 2rem;
-         color: $blue-color;
+         color: $primary-color;
          background-color: rgb(147 232 211 / 27%);
          border-radius: 1.5rem;
       }
@@ -50,7 +50,7 @@
          width: calc(100% - 4.4rem - 1.5rem);
          line-height: 4.4rem;
          outline: none;
-         border: 0.1rem solid $blue-color;
+         border: 0.1rem solid $primary-color;
          border-radius: 1rem;
          padding: 0 1rem;
          position: relative;
@@ -95,9 +95,9 @@
       box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
       transition: all 0.3s linear;
       .active__item {
-         background-color: $blue-color;
+         background-color: $primary-color;
          color: $white-color;
-         border-color: $blue-color;
+         border-color: $primary-color;
       }
    }
    &__item {
@@ -167,9 +167,9 @@
          transition: all 0.3s linear;
          background-color: rgb(147 232 211 / 27%);
          border-radius: 0.8rem;
-         color: $blue-color;
+         color: $primary-color;
          &:hover {
-            background-color: $blue-color;
+            background-color: $primary-color;
             color: $white-color;
          }
       }
@@ -185,7 +185,7 @@
       
    }
    .tab--active {
-      background-color: $blue-color;
+      background-color: $primary-color;
       border-radius: 0.8rem;
       color: $white-color;
    }
@@ -234,7 +234,7 @@
          height: 4rem;
          color: $text-color;
          &:hover {
-            color: $blue-color;
+            color: $primary-color;
          }
       }
    }
@@ -295,12 +295,12 @@
          }
       }
       &--price {
-         color: $blue-color;
+         color: $primary-color;
          font-weight:600;
          font-size: 1.6rem;
       }
       .color-red {
-         color: $blue-color;
+         color: $primary-color;
       }
    }
 }
@@ -314,7 +314,7 @@
       margin-bottom:4rem ;
       i {
          display: block;
-         color: $blue-color;
+         color: $primary-color;
       }
    }
    &__block {
@@ -437,7 +437,7 @@
       border:0.1rem solid $gray-light-color;
       transition:  all 0.3s linear;
       &:hover {
-         border-color: $blue-color;
+         border-color: $primary-color;
       }
       p {
          margin-bottom: 1.6rem;
@@ -471,7 +471,7 @@
       & .swiper-button-next, & .swiper-button-prev {
          border-radius: 50%;font-size: 1rem;
          @include size(3rem);
-         box-shadow: 0 0.0rem 0.4rem 0$blue-color;
+         box-shadow: 0 0.0rem 0.4rem 0$primary-color;
          
       }
       & .swiper-button-next::after, & .swiper-button-prev::after {
@@ -492,7 +492,7 @@
          margin-bottom: unset ;
       }
       i {
-         color: $blue-color;
+         color: $primary-color;
       }
    }
    &__wrap {
