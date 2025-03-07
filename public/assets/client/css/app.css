@@ -49,6 +49,35 @@ body {
   margin-top: 3rem;
 }
 
+.social__links {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  position: fixed;
+  bottom: 3rem;
+  right: 2rem;
+  z-index: 9999;
+}
+.social__links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 5rem;
+  height: 5rem;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 0.1rem solid #e9e9e9;
+  overflow: hidden;
+}
+.social__links a img {
+  width: 3rem;
+  height: 3rem;
+}
+
 @media screen and (max-width: 1200px) {
   .container {
     max-width: 99.2rem;

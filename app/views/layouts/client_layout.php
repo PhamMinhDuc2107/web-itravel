@@ -64,6 +64,13 @@
       ?>
       <?php require_once _DIR_ROOT . "/app/views/client/blocks/footer.view.php" ?>
    </div>
+    <div class="social__links">
+        <div class="social__item">
+            <a href="https:\\m.me/634496929737829">
+                <img src="<?php echo ASSET.'/client/images/messenger.png'?>" alt="">
+            </a>
+        </div>
+    </div>
 </body>
 <script src="<?php echo ASSET?>/client/js/app.js"></script>
 <script src="<?php echo ASSET?>/client/js/home.js"></script>

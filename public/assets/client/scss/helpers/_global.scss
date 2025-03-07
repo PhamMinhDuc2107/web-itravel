@@ -36,6 +36,27 @@ body {
 .page {
    margin-top: 3rem;
 }
+.social {
+   &__links {
+      @include  flex(start,start,column);
+      position: fixed;
+      bottom: 3rem;
+      right: 2rem;
+      z-index: 9999;
+      a {
+         @include flex(center,center);
+         @include  size(5rem);
+         background-color: $white-color;
+         border-radius: 50%;
+         border: 0.1rem solid $gray-light-color;
+         overflow: hidden;
+         img {
+            @include size(3rem);
+         }
+      }
+   }
+
+}
 
 @media screen and (max-width: $breakpoint-xl) {
    .container {
