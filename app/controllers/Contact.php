@@ -5,16 +5,20 @@ class Contact extends Controller
    private $data;
    private $CategoryModel;
    private $ConsultationModel;
+   private $LocationModel;
    public function __construct() {
       $this->CategoryModel = $this->model('CategoryModel');
       $this->ConsultationModel = $this->model('ConsultationModel');
+      $this->LocationModel = $this->model("LocationModel");
    }
    public function index(){
-      $category = $this->CategoryModel->where(0, "parent_id");
+      $categories = $this->CategoryModel->all();
+      $locations = $this->LocationModel->where(1,"is_destination");
       $breadcrumbs =[
          ['name'=> "Liên hệ", "link"=>"lien-he"],
       ];
-      $this->data['categories'] = $category;
+      $this->data['locations'] = $locations;
+      $this->data['categories'] = $categories;
       $this->data["title"] = "Thông tin liên hệ";
       $this->data['heading'] = "Liên hệ";
       $this->data['breadcrumbs'] = $breadcrumbs;

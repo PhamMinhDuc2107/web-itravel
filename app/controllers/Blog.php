@@ -11,8 +11,11 @@ class Blog extends Controller{
    }
    public function index(): void
    {
+      $this->BlogModel->setLimit(9);
+      $this->BlogModel->setBaseModel();
       $totalPages = $this->BlogModel->getTotalPages();
-      $blogs = $this->BlogModel->get();
+      
+      $blogs = $this->BlogModel->getBlogByStatus("published");
       $categories = $this->CategoryModel->all();
       $locations = $this->LocationModel->where(1,"is_destination");
       $breadcrumbs =[

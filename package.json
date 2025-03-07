@@ -8,5 +8,8 @@
       "sass": "sass ./public/assets/client/scss/app.scss ./public/assets/client/css/app.css --watch"
    },
    "author": "",
-   "license": "ISC"
+   "license": "ISC",
+   "dependencies": {
+      "sass": "^1.85.1"
+   }
 }

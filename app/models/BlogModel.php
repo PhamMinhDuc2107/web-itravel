@@ -9,13 +9,30 @@ class BlogModel extends Model
       ];
    public function getBlogs() {
       try {
-         $sql = "SELECT $this->table.*, blog_categories.name AS category_name, admins.username AS admin_username
+         $sql = "SELECT $this->table.*, blog_categories.name AS category_name, admins.username AS admin_username, blog_categories.slug as category_slug
                 FROM {$this->table}
                 LEFT JOIN blog_categories ON $this->table.category_id = blog_categories.id
                 LEFT JOIN admins ON $this->table.author_id = admins.id
                 ORDER BY {$this->colOrderBy} {$this->order}
                 LIMIT {$this->limit} OFFSET {$this->offset}";
          $params = [];
+         $stmt = $this->_query($sql, $params);
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      } catch (PDOException $e) {
+         error_log("Database Error: " . $e->getMessage());
+         return [];
+      }
+   }
+   public function getBlogByStatus($status) {
+      try {
+         $sql = "SELECT $this->table.*, blog_categories.name AS category_name, admins.username AS admin_username, blog_categories.slug as category_slug
+                FROM {$this->table}
+                LEFT JOIN blog_categories ON $this->table.category_id = blog_categories.id
+                LEFT JOIN admins ON $this->table.author_id = admins.id
+                Where $this->table.status = :status
+                ORDER BY {$this->colOrderBy} {$this->order}
+                LIMIT {$this->limit} OFFSET {$this->offset}";
+         $params = [":status" => $status];
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (PDOException $e) {

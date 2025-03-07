@@ -114,7 +114,7 @@
             },
             "time": "2025-01-23T05:11:06+00:00",
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Firebase\\JWT\\": "src"
@@ -172,7 +172,7 @@
             },
             "time": "2024-07-20T21:45:45+00:00",
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "GrahamCampbell\\ResultType\\": "src/"
@@ -409,17 +409,17 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "4.0.0",
-            "version_normalized": "4.0.0.0",
+            "version": "4.1.0",
+            "version_normalized": "4.1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "2d4b9f3582102aafb6b1378fff8a20eeeacfb31c"
+                "reference": "6ff18c3a8df3a945492f75ce455d77f7ad55dd5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/2d4b9f3582102aafb6b1378fff8a20eeeacfb31c",
-                "reference": "2d4b9f3582102aafb6b1378fff8a20eeeacfb31c",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/6ff18c3a8df3a945492f75ce455d77f7ad55dd5c",
+                "reference": "6ff18c3a8df3a945492f75ce455d77f7ad55dd5c",
                 "shasum": ""
             },
             "require": {
@@ -465,7 +465,7 @@
                 "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
                 "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
             },
-            "time": "2025-02-08T02:28:25+00:00",
+            "time": "2025-03-02T06:52:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -511,7 +511,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/4.0.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/4.1.0"
             },
             "install-path": "../phpoffice/phpspreadsheet"
         },
@@ -548,7 +548,7 @@
                     "dev-master": "1.9-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "PhpOption\\": "src/PhpOption/"
@@ -848,7 +848,7 @@
                     "name": "symfony/polyfill"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -930,7 +930,7 @@
                     "name": "symfony/polyfill"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -1007,7 +1007,7 @@
                     "name": "symfony/polyfill"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -1107,7 +1107,7 @@
                     "dev-master": "5.6-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Dotenv\\": "src/"

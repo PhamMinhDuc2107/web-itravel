@@ -2814,14 +2814,27 @@ body {
   gap: 3rem;
   width: 100%;
 }
+.page-blog .blog__list .blog__item--category {
+  background-color: #edebf5;
+  display: inline-block;
+  padding: 0.5rem 2rem;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  height: unset;
+  display: unset;
+}
 .page-blog .blog__item {
   width: calc(33.3333% - 2rem);
   border-top-left-radius: 0.8rem;
   border-top-right-radius: 0.8rem;
   overflow: hidden;
+  margin-bottom: 1.5rem;
 }
 .page-blog .blog__item img {
-  height: 18rem;
+  display: block;
+  margin-bottom: 1.5rem;
+  height: 22rem;
   width: 100%;
   object-fit: cover;
 }
