@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
     if(dropdownInput) {
         dropdownInput.addEventListener("click", function(e ) {
             dropdownList.classList.toggle('dropdown-active')
-            console.log(e.target);
         })
     }
     if(dropdownItem) {

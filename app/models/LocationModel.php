@@ -3,7 +3,7 @@
 class LocationModel extends Model
 {
    protected $table = 'locations'   ;
-   protected $allowedColumns = ['id', 'name', 'slug',"description","image","category","is_departure","is_destination", "created_at", "updated_at"];
+   protected $allowedColumns = ['id', 'name', 'slug',"description","image","category","display_home",'hot',"is_departure","is_destination", "created_at", "updated_at"];
    public function getLocations() {
       try {
          $sql = "SELECT $this->table.*, categories.name AS category_name

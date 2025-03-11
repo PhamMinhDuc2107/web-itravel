@@ -5,7 +5,7 @@ class BlogModel extends Model
    protected $table = 'blogs';
    protected $allowedColumns =
       [
-         "id", "title","slug", "thumbnail", "content", "category_id","author_id","created_at","updated_at","status"
+         "id", "title","slug", "thumbnail", "content", "category_id","author_id",'status_hot',"created_at","updated_at","status"
       ];
    public function getBlogs() {
       try {
@@ -23,6 +23,7 @@ class BlogModel extends Model
          return [];
       }
    }
+
    public function getBlogByStatus($status) {
       try {
          $sql = "SELECT $this->table.*, blog_categories.name AS category_name, admins.username AS admin_username, blog_categories.slug as category_slug

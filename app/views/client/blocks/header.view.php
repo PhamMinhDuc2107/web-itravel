@@ -67,6 +67,11 @@
             <!-- nav -->
             <!--header__menu -->
             <ul class="header__menu">
+                <li class="header__menu--item">
+                    <a href="<?php echo _WEB_ROOT.'/collections/all'?>" class="header__menu--link"
+                        >Tất cả tour</a
+                    >
+                </li>
                <?php if (isset($data['categories'])) : ?>
                   <?php foreach ($data['categories'] as $category) : ?>
                      <?php if ($category['parent_id'] == 0) : ?>

@@ -14,7 +14,7 @@ class Blog extends Controller{
       $this->BlogModel->setLimit(9);
       $this->BlogModel->setBaseModel();
       $totalPages = $this->BlogModel->getTotalPages();
-      
+
       $blogs = $this->BlogModel->getBlogByStatus("published");
       $categories = $this->CategoryModel->all();
       $locations = $this->LocationModel->where(1,"is_destination");
@@ -39,8 +39,14 @@ class Blog extends Controller{
       }
       $blog = $this->BlogModel->getBlogById($checkBlog['id']);
       $categories = $this->CategoryModel->all();
-      $relatedNews = $this->BlogModel->where($blog['category_id'], "category_id");
-      $locations = $this->LocationModel->where(1,"is_destination");
+      $relatedNews = $this->BlogModel->where(["category_id"=> $blog['category_id']]);
+
+      foreach($relatedNews as $i =>  $item) {
+         if($item['id'] === $checkBlog['id']) {
+            unset($relatedNews[$i]);
+         }
+      }
+      $locations = $this->LocationModel->where(["is_destination"=>1]);
       $breadcrumbs =[
          ['name'=> "Tin tức", "link"=>"tin-tuc"],
          ['name'=> $blog['title'], "link"=>"tin-tuc/$slug"],

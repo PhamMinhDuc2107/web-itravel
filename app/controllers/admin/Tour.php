@@ -67,7 +67,6 @@ class Tour  extends Controller{
 
 
    public function update($id) {
-      Util::setBaseModel($this->TourModel);
       $locations = $this->LocationModel->all();
       $categories = $this->CategoryModel->where(0, "parent_id");
       $imgs = $this->TourImgModel->where($id, "tour_id");
@@ -228,7 +227,7 @@ class Tour  extends Controller{
    private function processTourPrice($id, $dataPrice, $isUpdate = false): array
    {
       if($isUpdate) {
-         $listPrice = $this->TourPriceCalendarModel->where($id, "tour_id");
+         $listPrice = $this->TourPriceCalendarModel->where(['tour_id'=>$id]);
          foreach ($listPrice as $price) {
             $this->TourPriceCalendarModel->delete($price["id"]);
          }

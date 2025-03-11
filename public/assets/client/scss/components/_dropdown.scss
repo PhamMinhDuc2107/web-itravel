@@ -1,11 +1,10 @@
 .dropdown {
   width: 100%;
   position: relative;
-
   &_list {
     width: 100%;
     position: absolute;
-    z-index: 10;
+    z-index: 999;
     top: 5rem;
     background-color: $white-color;
     border:0.1rem solid $gray-light-color;
@@ -13,9 +12,10 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.2s linear;
+    overflow: auto;
     height: 0px;
     &.dropdown-active {
-      height: unset;
+      height: 20rem;
       opacity: 1;
       visibility: visible;
     }

@@ -25,7 +25,7 @@
                                     </span>
                                     <ul class="dropdown-menu w-100 column-options">
                                         <li><a class="dropdown-item" data-value="id" href="<?php echo Util::buildOrderColByUrl()?>">Sắp xếp theo ID</a></li>
-                                        <li><a class="dropdown-item" data-value="username" href="<?php echo Util::buildOrderColByUrl("name")?>">Sắp xếp theo Tên</a>
+                                        <li><a class="dropdown-item" data-value="username" href="<?php echo Util::buildOrderColByUrl("username")?>">Sắp xếp theo Tên</a>
                                         </li>
                                         <li><a class="dropdown-item" data-value="created_at" href="<?php echo Util::buildOrderColByUrl("status")?>">Sắp xếp theo trạng thái</a></li>
                                         <li><a class="dropdown-item" data-value="created_at" href="<?php echo Util::buildOrderColByUrl("created_at")?>">Sắp xếp theo Thời
@@ -43,7 +43,7 @@
                    <?php endif;?>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                            <table class="table align-items-center mb-0 min-vh-50">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -117,9 +117,10 @@
                     </div>
                 </div>
                <?php $page = Request::input("page") ?? 1;
-               $totalPages = $data['totalPages'] ?? 0;
+               $totalPages = $data['totalPages'] ?? 1;
                ?>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end" style="border-radius: 10px">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end"
+                     style="border-radius: 10px">
                     <span>Items per page:</span>
                     <div class="dropdown"
                          style="
@@ -129,40 +130,40 @@
                          border-radius: 10px;
                          border: 1px solid #dee2e6;
                          margin-right: 10px;
-                         border-radius: 10px;
                     ">
-                        <span  class="d-block text-center" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
-                            <?php echo Request::input('limit') ?? 10?>
+                        <span class="d-block text-center dropdown-toggle limit" id="dropdownMenuButton1"
+                              data-bs-toggle="dropdown" aria-expanded="true" >
+                           <?php echo Request::input('limit') ?? 10 ?>
                         </span>
-                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                        margin-top: 10px!important;">
-                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(10)?>" >10</a></li>
-                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(25)?>" >25</a></li>
-                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(50)?>" >50</a></li>
+                        <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1" style="margin-top: 10px!important;">
+                            <li><a class="dropdown-item limit-option" data-value="10" href="<?php echo Util::buildLimitUrl(10)?>">10</a></li>
+                            <li><a class="dropdown-item limit-option" data-value="25" href="<?php echo Util::buildLimitUrl(25)?>">25</a></li>
+                            <li><a class="dropdown-item limit-option" data-value="50" href="<?php echo Util::buildLimitUrl(50)?>">50</a></li>
                         </ul>
                     </div>
                     <ul class="pagination">
                         <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
-                            <a class="page-link" href="<?php echo Util::buildPageUrl(max(1, $page - 1)) ?>" aria-label="Previous">
+                            <a class="page-link" href="<?php echo Util::buildPageUrl(max(1, $page - 1)) ?>"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span class="sr-only">Previous</span>
                             </a>
                         </li>
                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                            <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
-                               <a class="page-link" href="<?php  echo Util::buildPageUrl($i); ?>"><?php echo $i; ?></a>
+                               <a class="page-link" href="<?php echo Util::buildPageUrl($i); ?>"><?php echo $i; ?></a>
                            </li>
                        <?php endfor; ?>
                         <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
-                            <a class="page-link" href="<?php echo Util::buildPageUrl(min($totalPages, $page + 1)); ?>" aria-label="Next">
+                            <a class="page-link" href="<?php echo Util::buildPageUrl(min($totalPages, $page + 1)); ?>"
+                               aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                                 <span class="sr-only">Next</span>
                             </a>
                         </li>
                     </ul>
                 </nav>
-                <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
-                <div class="footer-function gap-2 mt-2 p-2 position-sticky bottom-1 bg-white d-none">
+                <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white d-none">
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <div class="footer-text w-25 d-flex gap-2 align-items-center">
                             <span class="footer-text-content"></span> selected
@@ -172,12 +173,13 @@
                         </div>
                         <div>
                             <button type="submit" class=" btn btn-danger text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-toggle="tooltip" data-original-title="Edit user"
-                                    onclick="alert('Bạn có muốn xóa không?')">
+                                    onclick="alert('Bạn có muốn xóa tài khoản này không?')">
                                 Delete
                             </button>
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
             </form>
         </div>
     </div>

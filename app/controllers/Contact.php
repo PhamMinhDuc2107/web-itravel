@@ -35,10 +35,10 @@ class Contact extends Controller
       }
       $customer_name= htmlspecialchars(Request::input("name"));
       $customer_email = htmlspecialchars(Request::input("email"));
-      $tour_reference = htmlspecialchars(Request::input("reference"));
+      $tour_preference = htmlspecialchars(Request::input("reference"));
       $customer_phone = htmlspecialchars(Request::input("phone"));
       $message = htmlspecialchars(Request::input("content"));
-      $data = ['customer_name'=>$customer_name, 'customer_email'=>$customer_email, 'tour_reference'=>$tour_reference, 'customer_phone'=>$customer_phone, 'message'=>$message];
+      $data = ['customer_name'=>$customer_name, 'customer_email'=>$customer_email, 'tour_preference'=>$tour_preference, 'customer_phone'=>$customer_phone, 'message'=>$message];
       $res = $this->ConsultationModel->insert($data);
       if (!$res) {
          Util::redirect("lien-he", Response::internalServerError("Gửi yêu cầu thaats bại"));

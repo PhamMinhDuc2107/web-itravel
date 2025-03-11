@@ -164,6 +164,7 @@ class Blog extends Controller
       $checkSlug = $this->BlogModel->find($slug ."slug");
       $slug = Util::generateSlug($slug,$checkSlug);
       $content = Request::input("content");
+      $status_hot = Request::input("hot") ? 1 : 0;
       $category_id = (int)htmlspecialchars(Request::input("category_id")) ?? "";
       $author_id =(int)htmlspecialchars(Request::input("author_id")) ?? "";
       $status = htmlspecialchars(Request::input("status")) ?? "";
@@ -174,7 +175,8 @@ class Blog extends Controller
          "category_id" => $category_id,
          "author_id" => $author_id,
          "status" => $status,
-         "content" => $content
+         "content" => $content,
+         "status_hot" => $status_hot
       ];
       if ($isUpdate) {
          $data = Util::removeEmptyValues($data);

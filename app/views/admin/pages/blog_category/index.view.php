@@ -41,7 +41,7 @@
                <?php endif;?>
                <div class="card-body px-0 pt-0 pb-2">
                   <div class="table-responsive p-0">
-                     <table class="table align-items-center mb-0">
+                     <table class="table align-items-center mb-0 min-vh-50">
                         <thead>
                         <tr>
                            <th class="">
@@ -93,7 +93,7 @@
                </div>
             </div>
             <?php $page = Request::input("page") ?? 1;
-            $totalPages = $data['totalPages'] ?? 0;
+            $totalPages = $data['totalPages'] ?? 1;
             ?>
              <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end"
                   style="border-radius: 10px">
@@ -112,9 +112,9 @@
                            <?php echo Request::input('limit') ?? 10 ?>
                         </span>
                      <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1" style="margin-top: 10px!important;">
-                         <li><a class="dropdown-item limit-option" data-value="10" href="#">10</a></li>
-                         <li><a class="dropdown-item limit-option" data-value="25" href="#">25</a></li>
-                         <li><a class="dropdown-item limit-option" data-value="50" href="#">50</a></li>
+                         <li><a class="dropdown-item limit-option" data-value="10" href="<?php echo Util::buildLimitUrl(10)?>">10</a></li>
+                         <li><a class="dropdown-item limit-option" data-value="25" href="<?php echo Util::buildLimitUrl(25)?>">25</a></li>
+                         <li><a class="dropdown-item limit-option" data-value="50" href="<?php echo Util::buildLimitUrl(50)?>">50</a></li>
                      </ul>
                  </div>
                  <ul class="pagination">
@@ -180,7 +180,6 @@
          </div>
       </div>
    </form>
-
 </div>
 
 

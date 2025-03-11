@@ -57,7 +57,7 @@ body {
   flex-wrap: nowrap;
   position: fixed;
   bottom: 3rem;
-  right: 2rem;
+  right: 3rem;
   z-index: 9999;
 }
 .social__links a {
@@ -72,12 +72,27 @@ body {
   border-radius: 50%;
   border: 0.1rem solid #e9e9e9;
   overflow: hidden;
+  animation: pulse 3s infinite alternate ease-in-out;
 }
 .social__links a img {
   width: 3rem;
   height: 3rem;
 }
 
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(62, 142, 255, 0.7), 0 0 0 0 rgba(62, 142, 255, 0.5), 0 0 0 0 rgba(62, 142, 255, 0.3);
+  }
+  15% {
+    box-shadow: 0 0 0 3.5rem rgba(62, 142, 255, 0), 0 0 0 0 rgba(62, 142, 255, 0.5), 0 0 0 0 rgba(62, 142, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 4rem rgba(62, 142, 255, 0), 0 0 0 10px rgba(62, 142, 255, 0), 0 0 0 0 rgba(62, 142, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 4.5rem rgba(62, 142, 255, 0), 0 0 0 10px rgba(62, 142, 255, 0), 0 0 0 5px rgba(62, 142, 255, 0);
+  }
+}
 @media screen and (max-width: 1200px) {
   .container {
     max-width: 99.2rem;
@@ -154,6 +169,20 @@ body {
   color: #fff;
 }
 
+.btn-booking {
+  padding: 0.5rem 1rem;
+  border-radius: 0.6rem;
+  border: 0.1rem solid #23bda4;
+  background-color: transparent;
+  color: #23bda4;
+  transition: all 0.3s linear;
+}
+.btn-booking:hover {
+  background-color: #23bda4;
+  color: #fff;
+  border-color: transparent;
+}
+
 .btn-submit-contact {
   line-height: 4rem;
   padding: 0 2rem;
@@ -186,7 +215,7 @@ body {
 .dropdown_list {
   width: 100%;
   position: absolute;
-  z-index: 10;
+  z-index: 999;
   top: 5rem;
   background-color: #fff;
   border: 0.1rem solid #e9e9e9;
@@ -194,10 +223,11 @@ body {
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s linear;
+  overflow: auto;
   height: 0px;
 }
 .dropdown_list.dropdown-active {
-  height: unset;
+  height: 20rem;
   opacity: 1;
   visibility: visible;
 }
@@ -1084,7 +1114,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   line-height: 4rem;
   margin-left: 1.6rem;
   gap: 1rem;
@@ -1218,21 +1248,25 @@ body {
 }
 .tour__detail--top {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  flex-direction: row;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
   flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+.tour__detail--top i {
+  opacity: 0.7;
 }
 .tour__detail--depart {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: start;
   flex-direction: row;
   flex-wrap: nowrap;
 }
 .tour__detail--depart > div {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: start;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -1241,12 +1275,11 @@ body {
 }
 .tour__detail--depart > div > span {
   font-size: 1.4rem;
-  font-weight: 600;
   display: block;
 }
 .tour__detail--bottom {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -1259,7 +1292,7 @@ body {
 .tour__detail--bottom i {
   margin-right: 0.5rem;
 }
-.tour__detail--price {
+.tour__detail--price span {
   color: #23bda4;
   font-weight: 600;
   font-size: 1.6rem;
@@ -1333,6 +1366,9 @@ body {
 }
 .favorite .row-1 .favorite__item {
   width: 33.3333%;
+}
+.favorite .row-1 .favorite__item--img {
+  height: 30rem;
 }
 .favorite .row-2 .favorite__item--img {
   height: 24.5rem;
@@ -1515,12 +1551,13 @@ body {
   width: 100%;
   display: flex;
   align-items: start;
-  justify-content: space-between;
+  justify-content: start;
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 2.5rem;
 }
 .blog__list--full .blog__item .detail img {
+  width: 15rem;
   height: 12rem;
   object-fit: cover;
   border-radius: 1.6rem;
@@ -1563,11 +1600,30 @@ body {
 }
 .blog__item--full {
   width: 100%;
+  position: relative;
+  height: 100%;
 }
-.blog__item--full img {
+.blog__item--full .detail img {
   width: 100%;
   object-fit: cover;
-  height: 28.5rem;
+  margin-bottom: unset;
+  height: 52.5rem;
+}
+.blog__item--full .detail .info {
+  border-bottom-left-radius: 1.6rem;
+  border-bottom-right-radius: 1.6rem;
+  overflow: hidden;
+  padding: 1rem 2rem;
+  position: absolute;
+  width: 100%;
+  bottom: 0rem;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.blog__item--full .detail .info a {
+  color: #fff;
+}
+.blog__item--full .detail .info span {
+  color: #fff;
 }
 
 .brand__container {
@@ -1912,8 +1968,10 @@ body {
 }
 .product .tour__list {
   display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 2rem;
 }
 .product .tour__item {
@@ -2598,7 +2656,7 @@ body {
   padding: 2rem;
   border-radius: 0.8rem;
   border: 0.1rem solid #b1b1b1;
-  background-color: #e6f4ff;
+  background-color: rgba(130, 194, 247, 0.2745098039);
 }
 .booking__content---note textarea {
   width: 100%;
@@ -2606,11 +2664,11 @@ body {
   border: none;
   outline: none;
   font-size: 1.5rem;
-  background-color: #e6f4ff;
+  background-color: transparent;
 }
 
 .cart__wrap {
-  background-color: #e6f4ff;
+  background-color: rgba(130, 194, 247, 0.2745098039);
   padding: 2rem;
   border-radius: 1.6rem;
 }
@@ -2658,8 +2716,8 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
 }
-.cart__body .col-50 i {
-  margin-right: 1rem;
+.cart__body .col-50 p {
+  margin-left: 0.5rem;
 }
 .cart__body .col-50 p span {
   color: #23bda4;
@@ -2681,8 +2739,8 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
 }
-.cart__body .price__list .row .left i {
-  margin-right: 1rem;
+.cart__body .price__list .row .left svg {
+  margin-right: 0.5rem;
 }
 .cart__body .price__list .row .right .amount {
   color: #da2128;

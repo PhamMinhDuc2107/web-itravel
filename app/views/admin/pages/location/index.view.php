@@ -54,7 +54,7 @@
                    <?php endif; ?>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                            <table class="table align-items-center mb-0 min-vh-50">
                                 <thead>
                                 <tr>
                                     <th class="">
@@ -73,6 +73,12 @@
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Danh mục
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Hiển thị trang home
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Điểm đến hot
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         điểm khởi hành
@@ -134,6 +140,20 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">
+                                                <i class='<?php echo $item["display_home"] === 1 ? "fa-solid fa-circle-check" : "" ?>'
+                                                   style="display: block; font-size: 20px; color:#83f28f;"
+                                                ></i>
+                                                </span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">
+                                                <i class='<?php echo $item["hot"] === 1 ? "fa-solid fa-circle-check" : "" ?>'
+                                                   style="display: block; font-size: 20px; color:#83f28f;"
+                                                ></i>
+                                                </span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">
                                                   <i class='<?php echo $item["is_departure"] === 1 ? "fa-solid fa-circle-check" : "" ?>'
                                                      style="display: block; font-size: 20px; color:#83f28f;"
                                                   ></i>
@@ -166,7 +186,7 @@
                     </div>
                 </div>
                <?php $page = Request::input("page") ?? 1;
-               $totalPages = $data['totalPages'] ?? 0;
+               $totalPages = $data['totalPages'] ?? 1;
                ?>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end"
                      style="border-radius: 10px">
@@ -181,35 +201,29 @@
                          margin-right: 10px;
                     ">
                         <span class="d-block text-center dropdown-toggle limit" id="dropdownMenuButton1"
-                              data-bs-toggle="dropdown" aria-expanded="true">
+                              data-bs-toggle="dropdown" aria-expanded="true" >
                            <?php echo Request::input('limit') ?? 10 ?>
                         </span>
-                        <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1"
-                            style="margin-top: 10px!important;">
-                            <li><a class="dropdown-item limit-option" data-value="10"
-                                   href="<?php echo Util::buildLimitUrl(10) ?>">10</a></li>
-                            <li><a class="dropdown-item limit-option" data-value="25"
-                                   href="<?php echo Util::buildLimitUrl(25) ?>">25</a></li>
-                            <li><a class="dropdown-item limit-option" data-value="50"
-                                   href="<?php echo Util::buildLimitUrl(50) ?>">50</a></li>
+                        <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1" style="margin-top: 10px!important;">
+                            <li><a class="dropdown-item limit-option" href="<?php echo Util::buildLimitUrl(10)?>">10</a></li>
+                            <li><a class="dropdown-item limit-option" href="<?php echo Util::buildLimitUrl(25)?>">25</a></li>
+                            <li><a class="dropdown-item limit-option" href="<?php echo Util::buildLimitUrl(50)?>">50</a></li>
                         </ul>
                     </div>
                     <ul class="pagination">
                         <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
-                            <a class="page-link" href="<?php echo Util::buildPageUrl(max(1, $page - 1)) ?>"
-                               aria-label="Previous">
+                            <a class="page-link" href="<?php echo Util::buildPageUrl(max(1, $page - 1)) ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span class="sr-only">Previous</span>
                             </a>
                         </li>
                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                            <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
-                               <a class="page-link" href="<?php echo Util::buildPageUrl($i); ?>"><?php echo $i; ?></a>
+                               <a class="page-link" href="<?php  echo Util::buildPageUrl($i); ?>"><?php echo $i; ?></a>
                            </li>
                        <?php endfor; ?>
                         <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
-                            <a class="page-link" href="<?php echo Util::buildPageUrl(min($totalPages, $page + 1)); ?>"
-                               aria-label="Next">
+                            <a class="page-link" href="<?php echo Util::buildPageUrl(min($totalPages, $page + 1)); ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                                 <span class="sr-only">Next</span>
                             </a>
@@ -234,7 +248,6 @@
                         </div>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -271,16 +284,23 @@
                 <div class="mb-3">
                     <label for="parent" class="form-label">Danh mục</label>
                     <div class="dropdown">
-                        <input class="form-control" type="text" value=""  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true" placeholder="Chọn danh mục" readonly/>
+                        <input class="form-control" type="text" value="" id="dropdownMenuButton1"
+                               data-bs-toggle="dropdown" aria-expanded="true" placeholder="Chọn danh mục" readonly/>
                         <input type="hidden" name="category" class="parentId" value="">
-                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="max-height: 250px;overflow-y:scroll">
-                           <?php if(!empty($data['categories'])) : ?>
-                              <?php foreach ($data['categories'] as $item):?>
-                                   <li><a class="dropdown-item" data-value="<?php echo$item['id']?>"><?php echo$item['name']?></a></li>
-                              <?php endforeach;?>
-                           <?php endif;?>
+                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1"
+                            style="max-height: 250px;overflow-y:scroll">
+                           <?php if (!empty($data['categories'])) : ?>
+                              <?php foreach ($data['categories'] as $item): ?>
+                                   <li><a class="dropdown-item" href="#"
+                                          data-value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></a></li>
+                              <?php endforeach; ?>
+                           <?php endif; ?>
                         </ul>
                     </div>
+                </div>
+                <div class="mb-3">
+                    <label for="display_home" class="form-label">Hiển thị ở trang home</label>
+                    <input type="text" class="form-control" id="display_home" name="display_home" aria-describedby="usernameHelp" value="" placeholder="Chọn số từ 1->">
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Chọn</label>
@@ -293,6 +313,14 @@
                     <label for="is_destination" id="status" name="is_destination"
                            class="form-label badge badge-sm bg-gradient-secondary">
                         Là điểm đến
+                    </label>
+                </div>
+                <div class="mt-3">
+                    <label for="hot" class="form-label">Địa điểm hot</label>
+                    <input type="checkbox" name="hot" id="hot">
+                    <label for="hot" id="hot" name="status"
+                           class="form-label badge badge-sm bg-gradient-warning">
+                        Hot
                     </label>
                 </div>
                 <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
@@ -309,3 +337,20 @@
 </div>
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll(".dropdown").forEach((dropdown) => {
+            let input = dropdown.querySelector('input');
+            let dropdownMenu = dropdown.querySelector(".dropdown-menu");
+            let inputParent = dropdown.querySelector('.parentId');
+            if (dropdownMenu) {
+                dropdownMenu.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('dropdown-item')) {
+                        inputParent.value = e.target.dataset.value;
+                        input.value = e.target.textContent;
+                    }
+                });
+            }
+        });
+    })
+</script>

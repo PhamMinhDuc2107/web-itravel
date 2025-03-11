@@ -10,7 +10,7 @@
         <meta name="robots" content="index, follow"/>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link rel="icon" type="image/png" href="<?php echo ASSET?>./client/images/itravel_resize-1.png">
+        <link rel="icon" type="image/png" href="<?php echo ASSET?>/client/images/itravel_resize-1.png">
         <meta property="og:title" content="Du lịch Hà Nội | Đặt Tour Hà Nội trọn gói giá ưu đãi cùng Vietravel.">
         <script type="application/ld+json">
             {
@@ -18,7 +18,7 @@
                 "@type": "Organization",
                 "name": "Itravel",
                 "url": "https://itravel.io.vn/",
-                "logo": "<?php echo ASSET?>./client/images/itravel.png",
+                "logo": "<?php echo ASSET?>/client/images/itravel.png",
                 "contactPoint": {
                     "@type": "ContactPoint",
                     "telephone": "0989150732",

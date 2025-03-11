@@ -164,10 +164,12 @@ class Location extends Controller
       $slug = Util::generateSlug($name);
       $desc = htmlspecialchars(Request::input("description")) ?? "";
       $category = htmlspecialchars(Request::input("category")) ?? "";
+      $displayHome  = htmlspecialchars(Request::input("display_home")) ?? "";
+      $hot = htmlspecialchars(Request::input("hot")) ? 1 : 0;
       $isDeparture = Request::input("is_departure") ? 1 : 0;
       $isDestination = Request::input("is_destination") ? 1 : 0;
       $data = [
-         "name" => $name, "slug" => $slug,"category"=>$category, "is_departure" => $isDeparture, "is_destination" => $isDestination, "description" => $desc
+         "name" => $name, "slug" => $slug,"category"=>$category,"display_home"=>$displayHome,"hot"=>$hot, "is_departure" => $isDeparture, "is_destination" => $isDestination, "description" => $desc
       ];
       return $data;
    }

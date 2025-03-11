@@ -16,7 +16,7 @@ class Database {
       $stmt = $this->_con->prepare($sql);
       if ($stmt && !empty($params)) {
          foreach ($params as $key=>$value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue($key, $value,PDO::PARAM_STR);
          }
       }
       if ($stmt) {

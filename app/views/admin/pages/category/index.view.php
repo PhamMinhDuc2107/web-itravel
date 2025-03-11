@@ -42,14 +42,15 @@
                    <?php endif;?>
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0 min-vh-50">
                                 <thead>
                                     <tr>
                                         <th class="">
                                         </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Parent</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Create_at</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">tiêu đề</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">danh mục cha</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Thứ tự hiển thị</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ngày tạo</th>
                                         <th class="text-secondary opacity-7"></th>
                                     </tr>
                                 </thead>
@@ -74,6 +75,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+
                                             <td>
                                                 <?php if(!empty($data['getCategories'])) :?>
                                                     <?php foreach ($data['getCategories'] as $item):?>
@@ -82,6 +84,11 @@
                                                         <?php endif;?>
                                                     <?php endforeach;?>
                                                 <?php endif;?>
+                                            </td>
+                                            <td>
+                                                    <div class="text-center">
+                                                        <h6 class="mb-0 text-sm"><?php echo $category["display_home"]?></h6>
+                                                    </div>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">

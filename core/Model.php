@@ -55,13 +55,37 @@ class Model extends Database
          return null;
       }
    }
-   public function where($value, $column = "id") {
+   public function where($conditions) {
       try {
-         if (!$this->isAllowedColumn($column)) {
-            throw new Exception("Invalid column: $column");
+         if (!is_array($conditions) || empty($conditions)) {
+            throw new Exception("Invalid conditions");
          }
-         $sql = "SELECT * FROM $this->table WHERE $column = :value";
-         $params = [":value" => $value];
+
+         $sql = "SELECT * FROM $this->table WHERE ";
+         $params = [];
+         $clauses = [];
+
+         foreach ($conditions as $column => $value) {
+            if (!$this->isAllowedColumn($column)) {
+               throw new Exception("Invalid column: $column");
+            }
+
+            if (is_array($value)) {
+               $placeholders = implode(", ", array_map(function ($key) {
+                  return ":$key";
+               }, array_keys($value)));
+
+               $clauses[] = "$column IN ($placeholders)";
+               foreach ($value as $k => $v) {
+                  $params[":$k"] = $v;
+               }
+            } else {
+               $clauses[] = "$column = :$column";
+               $params[":$column"] = $value;
+            }
+         }
+
+         $sql .= implode(" AND ", $clauses);
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (Exception $e) {
@@ -69,6 +93,7 @@ class Model extends Database
          return null;
       }
    }
+
    public function insert(array $data): bool {
       try {
          if (empty($data)) {

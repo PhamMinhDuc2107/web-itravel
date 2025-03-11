@@ -50,6 +50,10 @@
                             </div>
                         </div>
                         <div class="mb-3">
+                            <label for="display_home" class="form-label">Hiển thị ở trang home</label>
+                            <input type="text" class="form-control" id="display_home" name="display_home" aria-describedby="usernameHelp" value="<?php echo $item['display_home']?>" placeholder="Chọn số từ 1->">
+                        </div>
+                        <div class="mb-3">
                             <label for="status" class="form-label">Chọn</label>
 
                             <input type="checkbox" name="is_departure"
@@ -65,6 +69,13 @@
                                 Là điểm đến
                             </label>
                         </div>
+                        <div class="mt-3">
+                            <label for="hot" class="form-label">Điểm đến hot</label>
+                            <input type="checkbox" name="hot" id="hot" <?php echo  $location['hot'] === 1  ? "checked" :""?>>
+                            <label for="hot" id="hot" name="hot" class="form-label badge badge-sm bg-gradient-warning">
+                                Hot
+                            </label>
+                        </div>
                         <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
                         <input type="hidden" value="<?php echo $location['id'] ?>" name="id">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -74,4 +85,20 @@
         </div>
     </div>
 </div>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll(".dropdown").forEach((dropdown) => {
+            let input = dropdown.querySelector('input');
+            let dropdownMenu = dropdown.querySelector(".dropdown-menu");
+            let inputParent = dropdown.querySelector('.parentId');
+            if (dropdownMenu) {
+                dropdownMenu.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('dropdown-item')) {
+                        inputParent.value = e.target.dataset.value;
+                        input.value = e.target.textContent;
+                    }
+                });
+            }
+        });
+    })
+</script>

@@ -39,6 +39,19 @@
     color: $white-color;
   }
 }
+.btn-booking {
+  padding: 0.5rem 1rem;
+  border-radius: 0.6rem;
+  border: 0.1rem solid $primary-color;
+  background-color: transparent;
+  color: $primary-color;
+  transition: all 0.3s linear;
+  &:hover {
+    background-color: $primary-color;
+    color: $white-color;
+    border-color: transparent;
+  }
+}
 .btn-submit-contact {
   line-height: 4rem;
   padding: 0 2rem;

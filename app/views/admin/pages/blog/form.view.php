@@ -91,6 +91,13 @@
                         archived
                      </label>
                   </div>
+                   <div class="mt-3">
+                       <label for="hot" class="form-label">Tin tức hot</label>
+                       <input type="checkbox" name="hot" id="hot" <?php echo  $blog['status_hot'] === 1  ? "checked" :""?>>
+                       <label for="hot" id="hot" name="hot" class="form-label badge badge-sm bg-gradient-warning">
+                           Hot
+                       </label>
+                   </div>
                   <button type="submit" class="btn btn-primary">Submit</button>
                </form>
             </div>

@@ -45,18 +45,19 @@
                <?php endif;?>
                <div class="card-body px-0 pt-0 pb-2">
                   <div class="table-responsive p-0">
-                     <table class="table align-items-center mb-0">
+                     <table class="table align-items-center mb-0 min-vh-50">
                         <thead>
                         <tr>
                            <th class="">
                            </th>
-                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">Title</th>
+                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">Tiêu đề</th>
                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">slug</th>
-                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">thumbnail</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-3">content</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity- col-1">category_id</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7col-1">author_id</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">status</th>
+                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">hình ảnh</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-3">nội dung</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity- col-1">danh mục</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7col-1">tác giả</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7col-1">Hot</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">trạng thái</th>
                            <th class="text-secondary opacity-7"></th>
                         </tr>
                         </thead>
@@ -108,6 +109,13 @@
                                           </div>
                                       </div>
                                   </td>
+                                  <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">
+                                                <i class='<?php echo $item["hot"] === 1 ? "fa-solid fa-circle-check" : "" ?>'
+                                                   style="display: block; font-size: 20px; color:#83f28f;"
+                                                ></i>
+                                                </span>
+                                  </td>
                                   <td class="align-middle text-center text-sm">
                                       <span class="badge badge-sm
                                       <?php
@@ -119,13 +127,6 @@
                                          <?php echo $item['status']?>
                                       </span>
                                   </td>
-<!--                                  <td class="align-middle text-center">-->
-<!--                                    <span class="text-secondary text-xs font-weight-bold">-->
-<!--                                    <i class='--><?php //echo $item["status_hot"] === "1" ? "fa-solid fa-circle-check" : "" ?><!--'-->
-<!--                                       style="display: block; font-size: 20px; color:#83f28f;"-->
-<!--                                    ></i>-->
-<!--                                    </span>-->
-<!--                                  </td>-->
                                  <td class="align-middle text-center">
                                     <a href="<?php echo _WEB_ROOT."/dashboard/blog-update/".$item['id']?>" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
                                        id="btnEdit"
@@ -161,9 +162,9 @@
                            <?php echo Request::input('limit') ?? 10 ?>
                         </span>
                     <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1" style="margin-top: 10px!important;">
-                        <li><a class="dropdown-item limit-option" data-value="10" href="#">10</a></li>
-                        <li><a class="dropdown-item limit-option" data-value="25" href="#">25</a></li>
-                        <li><a class="dropdown-item limit-option" data-value="50" href="#">50</a></li>
+                        <li><a class="dropdown-item limit-option" data-value="10" href="<?php echo Util::buildLimitUrl(10)?>">10</a></li>
+                        <li><a class="dropdown-item limit-option" data-value="25" href="<?php echo Util::buildLimitUrl(25)?>">25</a></li>
+                        <li><a class="dropdown-item limit-option" data-value="50" href="<?php echo Util::buildLimitUrl(50)?>">50</a></li>
                     </ul>
                 </div>
                <ul class="pagination">
@@ -262,6 +263,7 @@
                      </ul>
                  </div>
              </div>
+
             <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
              <div id="froala-editor"></div>
              <input type="hidden" id="content" name="content">
@@ -290,7 +292,14 @@
                      archived
                  </label>
              </div>
-
+             <div class="mt-3">
+                 <label for="hot" class="form-label">Địa điểm hot</label>
+                 <input type="checkbox" name="hot" id="hot">
+                 <label for="hot" id="hot" name="hot"
+                        class="form-label badge badge-sm bg-gradient-warning">
+                     Hot
+                 </label>
+             </div>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -302,81 +311,18 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const blog = new TableManager({
-            apiUrl: '<?php echo _WEB_ROOT ?>/dashboard/blog-search',
-            loadingOverlaySelector: '#loading-overlay',
-            tableBodySelector: '.table-body',
-            paginationSelector: '.pagination',
-            searchInputSelector: '.input-serch',
-            sortOptionsSelector: '.sort-options',
-            columnOptionsSelector: '.column-options',
-            limitOptionsSelector: '.limit-options',
-            sortBySelector: '.sortBy',
-            sortColSelector: '.sortCol',
-            limitSelector: '.limit',
-            renderRow: (item) => `
-                                                                <tr>
-                                 <td class= "text-center" style="width: 10px;">
-                                    <input type="checkbox" name="id[]"
-                                           class="mx-auto input-checkbox"
-                                           value="${item.id}"
-                                           style="width: 15px; height:15px"
-                                    >
-                                 </td>
-                                 <td class ='col-2'>
-                                    <div class="d-flex px-2 py-1">
-                                          <h6 class="mb-0 text-sm hiddenText">${item.title}</h6>
-                                    </div>
-                                 </td>
-                                  <td class ='col-2'>
-                                      <div class="d-flex px-2 py-1">
-                                              <h6 class="mb-0 text-sm hiddenText">${item.slug}</h6>
-                                      </div>
-                                  </td>
-                                  <td class ='col-1'>
-                                      <div class="d-flex px-2 py-1">
-                                              <img src="<?php echo _WEB_ROOT."/"?>${item.thumbnail}" alt="${item.title}" class="rounded-3" style="width:95px; height: 95px;">
-                                      </div>
-                                  </td>
-                                  <td class ='col-3 '>
-                                      <div class="d-flex px-2 py-1 overflow-hidden" style="height: 62px;">
-                                          <div class="mb-0 text-sm hiddenText">${item.content}</div>
-                                      </div>
-                                  </td>
-                                  <td class ='col-1'>
-                                      <div class="d-flex px-2 py-1">
-                                          <div class="d-flex flex-column justify-content-center">
-                                              <h6 class="mb-0 text-sm">${item.category_name}</h6>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td class ='col-1'>
-                                      <div class="d-flex px-2 py-1">
-                                          <div class="d-flex flex-column justify-content-center">
-                                              <h6 class="mb-0 text-sm">${item.admin_username}</h6>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td class="align-middle text-center text-sm">
-                                      <span class="badge badge-sm
-                                      ${(item.status === 'draft') ? "bg-gradient-warning" :
-                ((item.status === 'published') ? "bg-gradient-success" : "bg-gradient-secondary")}
-                                        ">
-                                         ${item.status}
-                                      </span>
-                                  </td>
-                                 <td class="align-middle text-center">
-                                    <a href="<?php echo _WEB_ROOT."/dashboard/blog-update/"?>${item.id}" class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
-                                       id="btnEdit"
-                                    >
-                                       Edit
-                                    </a>
-
-                                 </td>
-                              </tr>
-                              </tr>
-                       `,
+        document.querySelectorAll(".dropdown").forEach((dropdown) => {
+            let input = dropdown.querySelector('input');
+            let dropdownMenu = dropdown.querySelector(".dropdown-menu");
+            let inputParent = dropdown.querySelector('.parentId');
+            if (dropdownMenu) {
+                dropdownMenu.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('dropdown-item')) {
+                        inputParent.value = e.target.dataset.value;
+                        input.value = e.target.textContent;
+                    }
+                });
+            }
         });
     })
 </script>
-

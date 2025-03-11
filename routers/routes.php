@@ -1,11 +1,18 @@
 <?php
    $routes["default_controller"] = "home";
-   $routes['san-pham'] = 'product/index';
    $routes['trang-chu'] = 'home/index';
    $routes['gioi-thieu'] = 'introduce/index';
    $routes['lien-he'] = 'contact/index';
    $routes['lien-he/gui-yeu-cau'] = 'contact/handleContactForm';
    $routes['gioi-thieu'] = 'introduce/index';
+
+   $routes['collections/all'] = 'tour/index';
+   $routes['chuong-trinh/(.+)'] = 'tour/detail/$1';
+   $routes['chuong-trinh/get-price'] = 'tour/getPrice';
+
+   $routes['order-booking/(.+)'] = "booking/index/$1";
+   $routes['checkout'] = "booking/checkout";
+
    $routes['tin-tuc'] = 'blog/index';
    $routes['tin-tuc/(.+)'] = 'blog/detail/$1';
 

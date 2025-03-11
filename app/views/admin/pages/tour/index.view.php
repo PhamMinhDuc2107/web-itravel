@@ -47,7 +47,7 @@
                    <?php endif; ?>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                            <table class="table align-items-center mb-0 min-vh-50">
                                 <thead>
                                 <tr>
                                     <th class="">
@@ -182,7 +182,7 @@
                     </div>
                 </div>
                <?php $page = Request::input("page") ?? 1;
-               $totalPages = $data['totalPages'] ?? 0;
+               $totalPages = $data['totalPages'] ?? 1;
                ?>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end"
                      style="border-radius: 10px">
@@ -201,13 +201,29 @@
                            <?php echo Request::input('limit') ?? 10 ?>
                         </span>
                         <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1" style="margin-top: 10px!important;">
-                            <li><a class="dropdown-item limit-option" data-value="10" href="#">10</a></li>
-                            <li><a class="dropdown-item limit-option" data-value="25" href="#">25</a></li>
-                            <li><a class="dropdown-item limit-option" data-value="50" href="#">50</a></li>
+                            <li><a class="dropdown-item limit-option" href="<?php echo Util::buildLimitUrl(10)?>">10</a></li>
+                            <li><a class="dropdown-item limit-option" href="<?php echo Util::buildLimitUrl(25)?>">25</a></li>
+                            <li><a class="dropdown-item limit-option" href="<?php echo Util::buildLimitUrl(50)?>">50</a></li>
                         </ul>
                     </div>
                     <ul class="pagination">
-
+                        <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
+                            <a class="page-link" href="<?php echo Util::buildPageUrl(max(1, $page - 1)) ?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                       <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                           <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
+                               <a class="page-link" href="<?php  echo Util::buildPageUrl($i); ?>"><?php echo $i; ?></a>
+                           </li>
+                       <?php endfor; ?>
+                        <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
+                            <a class="page-link" href="<?php echo Util::buildPageUrl(min($totalPages, $page + 1)); ?>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <div class="footer-function gap-2 mt-2 p-2 position-sticky z-index-3 bottom-1 bg-white d-none">

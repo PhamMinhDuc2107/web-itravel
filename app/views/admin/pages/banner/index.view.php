@@ -47,21 +47,21 @@
                    <?php endif; ?>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                            <table class="table align-items-center mb-0 min-vh-50">
                                 <thead>
                                 <tr>
                                     <th class="">
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 col-5">
                                         image
                                     </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-3">
                                         Tiêu đề ảnh
                                     </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
                                         Status
                                     </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
                                         Vị trí của ảnh
                                     </th>
                                     <th class="text-secondary opacity-7"></th>
@@ -83,9 +83,9 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center" style="width: 150px;">
+                                                    <div class="d-block w-100" style="height: 10rem;">
                                                         <img src="<?php echo _WEB_ROOT.$item["image"] ?>"
-                                                             alt="<?php echo $item["title"] ?>">
+                                                             alt="<?php echo $item["title"] ?>"  class="d-block w-100 h-100">
                                                     </div>
                                                 </div>
                                             </td>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                <?php $page = Request::input("page") ?? 1;
-               $totalPages = $data['totalPages'] ?? 0;
+               $totalPages = $data['totalPages'] ?? 1;
                ?>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end"
                      style="border-radius: 10px">
@@ -139,17 +139,15 @@
                          border-radius: 10px;
                          border: 1px solid #dee2e6;
                          margin-right: 10px;
-                         border-radius: 10px;
                     ">
-                        <span class="d-block text-center" type="text" value="" id="dropdownMenuButton1"
-                              data-bs-toggle="dropdown" aria-expanded="true">
-                            <?php echo Request::input('limit') ?? 10 ?>
+                        <span class="d-block text-center dropdown-toggle limit" id="dropdownMenuButton1"
+                              data-bs-toggle="dropdown" aria-expanded="true" >
+                           <?php echo Request::input('limit') ?? 10 ?>
                         </span>
-                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style="
-                        margin-top: 10px!important;">
-                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(10) ?>">10</a></li>
-                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(25) ?>">25</a></li>
-                            <li><a class="dropdown-item" href="<?php echo Util::buildLimitUrl(50) ?>">50</a></li>
+                        <ul class="dropdown-menu w-100 limit-options" aria-labelledby="dropdownMenuButton1" style="margin-top: 10px!important;">
+                            <li><a class="dropdown-item limit-option" data-value="10" href="<?php echo Util::buildLimitUrl(10)?>">10</a></li>
+                            <li><a class="dropdown-item limit-option" data-value="25" href="<?php echo Util::buildLimitUrl(25)?>">25</a></li>
+                            <li><a class="dropdown-item limit-option" data-value="50" href="<?php echo Util::buildLimitUrl(50)?>">50</a></li>
                         </ul>
                     </div>
                     <ul class="pagination">
@@ -174,18 +172,16 @@
                         </li>
                     </ul>
                 </nav>
-                <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white d-none" >
+                <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white d-none">
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <div class="footer-text w-25 d-flex gap-2 align-items-center">
                             <span class="footer-text-content"></span> selected
-                            <span class="footer-btn d-flex justify-content-center align-items-center rounded-circle"
-                                  style="width: 20px; height: 20px">
+                            <span class="footer-btn d-flex justify-content-center align-items-center rounded-circle" style="width: 20px; height: 20px">
                                 <i class="fa fa-close " style="width: 100%; height: 100%;"></i>
                             </span>
                         </div>
                         <div>
-                            <button type="submit" class=" btn btn-danger text-white font-weight-bold text-xs "
-                                    style="margin-bottom: 0;" data-toggle="tooltip" data-original-title="Edit user"
+                            <button type="submit" class=" btn btn-danger text-white font-weight-bold text-xs " style="margin-bottom: 0;" data-toggle="tooltip" data-original-title="Edit user"
                                     onclick="alert('Bạn có muốn xóa tài khoản này không?')">
                                 Delete
                             </button>
@@ -224,13 +220,13 @@
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Chọn</label>
-                    <input type="radio" name="is_departure" id="is_departure">
-                    <label for="is_departure" id="status" name="status" value="0"
+                    <input type="radio" name="status" id="is_departure" value="0">
+                    <label for="is_departure" id="status" name="status"
                            class="form-label badge badge-sm bg-gradient-secondary">
                         Inactive
                     </label>
-                    <input type="radio" name="is_destination" id="is_destination">
-                    <label for="is_destination" id="status" name="status" value="1"
+                    <input type="radio" name="status" id="is_destination" value="1">
+                    <label for="is_destination" id="status" name="status"
                            class="form-label badge badge-sm bg-gradient-success">
                         Active
                     </label>
