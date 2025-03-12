@@ -5,6 +5,7 @@ class Booking extends Controller {
    private $LocationModel;
    private $CategoryModel;
    private $TourPriceCalendarModel;
+   private $BookingModel;
 
    public function __construct()
    {
@@ -12,6 +13,7 @@ class Booking extends Controller {
       $this->LocationModel = $this->model("LocationModel");
       $this->CategoryModel = $this->model("CategoryModel");
       $this->TourPriceCalendarModel = $this->model("TourPriceCalendarModel");
+      $this->BookingModel = $this->model("BookingModel");
    }
    public function index($code) {
       $code_tour  = htmlspecialchars($code);
@@ -19,19 +21,20 @@ class Booking extends Controller {
       if(empty($tour)) {
          Util::loadError();
       }
-      if(Request::has('date', "get")) {
-         $date = htmlspecialchars(Request::input('date'));
-         $date = date("Y-m-d", strtotime($date));
-         $params = ["tour_id"=>$tour['id'],'date'=>$date];
-         $priceTour = $this->TourPriceCalendarModel->where($params);
-         $this->data['priceTour'] = $priceTour[0];
+      $date = htmlspecialchars(Request::input('date'));
+      $date = date("Y-m-d", strtotime($date));
+      $params = ["tour_id"=>$tour['id'],'date'=>$date];
+      $priceTour = $this->TourPriceCalendarModel->where($params);
+      if(empty($priceTour)) {
+         Util::loadError();
       }
+      $this->data['priceTour'] = $priceTour[0];
       $categories = $this->CategoryModel->all();
       $locations = $this->LocationModel->where(['is_destination'=>1]);
       $departure = $this->LocationModel->where(['is_departure'=>1]);
       $breadcrumbs =[
-         ['name'=> $tour['name'], "link"=>"chuong-trinh/".$tour['slug']],
-         ['name'=>'Booking', "link" => "order-booking/".$code_tour],
+         ['name'=> $tour['name'], "link"=>"du-lich/".$tour['slug']],
+         ['name'=>'Booking', "link" => "order-booking/".$code_tour.'/#'],
       ];
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data["title"] = "Đặt tour | ".$tour['name'];
@@ -50,21 +53,31 @@ class Booking extends Controller {
       if(!Util::checkCsrfToken()) {
          Util::redirect("/",Response::forbidden("Thất bại! Token không hợp lệ"));
       }
+      $bookingCode = Util::generateBookingCode();
       $tourId = htmlspecialchars(Request::input("tour_id",""));
       $name = htmlspecialchars(Request::input("name", ""));
       $email = htmlspecialchars(Request::input("email", ""));
       $phone = htmlspecialchars(Request::input("phone",""));
-      $address = htmlspecialchars(Request::input("address", ""));
       $quantityAdult = (int)htmlspecialchars(Request::input("adult", 0));
       $quantityChildren = (int)htmlspecialchars(Request::input("children",0) );
       $quantityInfant = (int)htmlspecialchars(Request::input("baby" , 0));
       $note = htmlspecialchars(Request::input("notes"));
       $totalPrice = htmlspecialchars(Request::input("totalPrice",0));
       $departure_date = htmlspecialchars(Request::input("departure_date",""));
-      $data = ['tour_id'=>$tourId, "customer_name" => $name, "customer_email" => $email, "customer_phone"=>$phone, "customer_address" => $address,
-      "num_adults" => $quantityAdult, "num_children" =>$quantityChildren, "num_infants" =>$quantityInfant,"note"=>$note,'total_price'=>$totalPrice,
+      $departure_date =DateTime::createFromFormat("d-m-Y", $departure_date);
+      $departure_date = $departure_date->format("Y-m-d");
+      $data = ['booking_code'=>$bookingCode,'tour_id'=>$tourId, "customer_name" => $name, "customer_email" => $email, "customer_phone"=>$phone,
+      "num_adults" => $quantityAdult, "num_children" =>$quantityChildren, "num_infants" =>$quantityInfant,"notes"=>$note,'total_price'=>$totalPrice,
          "departure_date"=>$departure_date
       ];
       Util::printArr($data);
+      $res = $this->BookingModel->insert($data);
+      if(!$res) {
+         Util::redirect("checkout/thankyou", Response::internalServerError("Thất bại"));
+
+      }
+      Util::redirect("checkout/thankyou", Response::success("Thành công", ['booking_code'=>$bookingCode]));
+
    }
+
 }

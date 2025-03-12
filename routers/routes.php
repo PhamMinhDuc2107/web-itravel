@@ -5,13 +5,14 @@
    $routes['lien-he'] = 'contact/index';
    $routes['lien-he/gui-yeu-cau'] = 'contact/handleContactForm';
    $routes['gioi-thieu'] = 'introduce/index';
-
-   $routes['collections/all'] = 'tour/index';
-   $routes['chuong-trinh/(.+)'] = 'tour/detail/$1';
-   $routes['chuong-trinh/get-price'] = 'tour/getPrice';
+   $routes['du-lich'] = 'tour/index';
+   $routes['du-lich/([a-zA-Z0-9-]+)'] = 'tour/detail/$1';
+   $routes['du-lich/get-price'] = 'tour/getPrice';
+   $routes['(tour-trong-nuoc|tour-ngoai-nuoc|tour-cao-cap|tour-combo-gia-re)(?:/([a-zA-Z0-9-]+))?(?:/([a-zA-Z0-9-]+))?'] = 'tour/findTour/$1/$2/$3';
 
    $routes['order-booking/(.+)'] = "booking/index/$1";
    $routes['checkout'] = "booking/checkout";
+   $routes['checkout/thankyou/(.+)'] = "booking/thankyou/$1";
 
    $routes['tin-tuc'] = 'blog/index';
    $routes['tin-tuc/(.+)'] = 'blog/detail/$1';

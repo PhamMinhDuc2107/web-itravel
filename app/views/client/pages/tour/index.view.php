@@ -6,17 +6,20 @@
                <i class="fa-solid fa-filter"></i>
             </div>
             <div class="sidebar__wrap">
-               <h3  class="sidebar__title">Danh mục</h3>
-            <ul class="sidebar__nav--list">
-               <li class="sidebar__nav--item">
-                  <span>Tour trong nước</span>
-                  <input type="text" value="">
-               </li>
-               <li class="sidebar__nav--item">
-                  <span>Tour ngoài nước</span>
-                  <input type="text" value="">
-               </li>
-            </ul>
+               <h3  class="sidebar__title">Bộ lọc tìm kiếm</h3>
+                <div class="sidebar__filter">
+                    <h3 class="filter__title">Chọn ngày đi</h3>
+                    <input type="text" id="date-departure" placeholder="" name="date-departure" style="width: 100%; border:1px solid #e9e9e9;border-radius: 6px;padding: 5px">
+                    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+                    <script>
+                        flatpickr("#date-departure", {
+                            dateFormat: "d-m-Y",
+                            minDate: "today",
+                            locale:"vn",
+                        });
+                    </script>
+                </div>
+
             <div class="sidebar__filter">
                <h3 class="filter__title">Chọn mức giá</h3>
                <ul class="filter__list">
@@ -41,8 +44,8 @@
             <div class="sidebar__filter">
                <h3 class="filter__title">Điểm khởi hành</h3>
                <ul class="filter__list">
-                  <?php if(isset($data['departure'])):?>
-                     <?php foreach($data['departure'] as $item):?>
+                  <?php if(isset($data['departures'])):?>
+                     <?php foreach($data['departures'] as $item):?>
                         <li class="filter__item">
                            <input type="checkbox" class="filter__item--input" id="<?php echo $item['id']?>">
                            <label for="<?php echo $item['id']?>" ><?php echo $item['name']?></label>
@@ -69,7 +72,6 @@
             </div>
             <button class="btn filter-btn">Tìm kiếm</button>
             </div>
-
          </form>
          <div class="sidebar--overplay">
          </div>
@@ -112,8 +114,9 @@
                });
             </script>
             <!-- product hot-->
+            <?php if (isset($data['tours']) && !empty($data['tours'])) : ?>
             <div class="tour__list">
-            <?php if (isset($data['tours'])) : ?>
+
                   <?php foreach ($data['tours'] as $tour): ?>
                        <div class="tour__item swiper-slide">
                            <div class="tour__img">
@@ -125,7 +128,7 @@
                            </div>
                            <div class="tour__item--wrap">
                                <div class="tour__name">
-                                   <a href="<?php echo _WEB_ROOT . '/chuong-trinh/' . $tour['slug'] ?>"><?php echo $tour['name'] ?></a>
+                                   <a href="<?php echo _WEB_ROOT . '/du-lich/' . $tour['slug'] ?>"><?php echo $tour['name'] ?></a>
                                </div>
                                <div class="tour__detail">
                                    <div class="tour__detail--top">
@@ -231,14 +234,14 @@
                                            <span><?php echo number_format($tour['adult_price'], 0, ",", "."); ?>đ</span>
                                        </div>
                                        <div class="tour__detail--quantity">
-                                           <a href="<?php echo _WEB_ROOT.'/chuong-trinh/'.$tour['slug']?>" class="btn btn-booking">Đặt ngay</a>
+                                           <a href="<?php echo _WEB_ROOT.'/du-lich/'.$tour['slug']?>" class="btn btn-booking">Đặt ngay</a>
                                        </div>
                                    </div>
                                </div>
                            </div>
                        </div>
                   <?php endforeach; ?>
-               <?php endif; ?>
+
             </div>
             <!-- product -->
             <div class="pagi">
@@ -251,6 +254,9 @@
                      <?php endfor;?>
                </ul>
             </div>
+            <?php else :?>
+                <h1 style="font-size: 30px; font-weight: 600; text-align: center">Không tìm thấy sản phẩm nào!</h1>
+            <?php endif;?>
          </div>
       </div>
    </div>

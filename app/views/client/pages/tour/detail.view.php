@@ -35,7 +35,7 @@
                 </div>
                 <div    class="pDetail__info">
                     <div class="pDetail__info--row">
-                        <svg fill="#615c5c" height="20px" width="20px" version="1.1"
+                        <svg fill="#615c5c" height="17px" width="17px" version="1.1"
                              id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                              xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
                              xml:space="preserve" stroke="#615c5c"><g id="SVGRepo_bgCarrier"
@@ -62,7 +62,7 @@
                         <p>Mã tour: <span><?php echo $data['tour']['code_tour']?></span></p>
                     </div>
                     <div class="pDetail__info--row">
-                        <svg width="20px" height="20px" viewBox="-4 0 32 32" version="1.1"
+                        <svg height="17px" width="17px" viewBox="-4 0 32 32" version="1.1"
                              xmlns="http://www.w3.org/2000/svg"
                              xmlns:xlink="http://www.w3.org/1999/xlink"
                              xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
@@ -88,7 +88,7 @@
                         <p>Điểm đến: <span><?php echo $data['tour']['destination_name']?></span></p>
                     </div>
                     <div class="pDetail__info--row">
-                        <svg fill="#615c5c" width="20px" height="20px" viewBox="0 0 24.00 24.00"
+                        <svg fill="#615c5c" height="17px" width="17px" viewBox="0 0 24.00 24.00"
                              id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                              stroke="#615c5c" stroke-width="0.00024000000000000003"
                              transform="rotate(90)">
@@ -102,7 +102,7 @@
                         <p>Thời gian: <span><?php echo $data['tour']['duration']?></span></p>
                     </div>
                     <div class="pDetail__info--row">
-                        <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1"
+                        <svg height="17px" width="17px" viewBox="0 0 32 32" version="1.1"
                              xmlns="http://www.w3.org/2000/svg"
                              xmlns:xlink="http://www.w3.org/1999/xlink" fill="#615c5c">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -132,32 +132,9 @@
                                 }
                             }
                         ?>
-                        <script>
-                            flatpickr("#myDate", {
-                                dateFormat: "d-m-Y",
-                                defaultDate: null,
-                                minDate:"today",
-                                enable: <?php echo json_encode($date)?>,
-                                onChange: function(selectedDates, dateStr, instance) {
-                                if (selectedDates.length > 0) {
-                                    document.querySelector('.customer_date').value = dateStr;
-                                    fetch('<?php echo _WEB_ROOT?>/chuong-trinh/get-price?tour_id=<?php echo $data['tour']['id'] ?>&date=' + dateStr)
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.success) {
-                                                document.querySelector('.pDetail__price p span').textContent = data.adult_price;
-                                            } else {
-                                                console.error(data.message);
-                                            }
-                                        })
-                                        .catch(error => {
-                                            console.error('Lỗi AJAX:', error);
-                                        });
-                                }
-                            }
-                            });
-                        </script>
+
                     </div>
+                    <div class="date-err" style="color: red; padding-top:10px; text-align: center"></div>
                 </div>
                 <div class="pDetail__btn">
                     <a class="btn btn-1" href="<?php   echo _WEB_ROOT.'/lien-he'?>"> Liên hệ tư vấn</a>
@@ -304,12 +281,12 @@
                            </div>
                            <div class="tour__item--wrap">
                                <div class="tour__name">
-                                   <a href="<?php echo _WEB_ROOT . '/chuong-trinh/' . $tour['slug'] ?>"><?php echo $tour['name'] ?></a>
+                                   <a href="<?php echo _WEB_ROOT . '/du-lich/' . $tour['slug'] ?>"><?php echo $tour['name'] ?></a>
                                </div>
                                <div class="tour__detail">
                                    <div class="tour__detail--top">
                                        <div class="tour__detail--depart">
-                                           <svg fill="#615c5c" height="20px" width="20px" version="1.1" id="Capa_1"
+                                           <svg fill="#615c5c" height="17px" width="17px" version="1.1" id="Capa_1"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
                                                 xml:space="preserve" stroke="#615c5c"><g id="SVGRepo_bgCarrier"
@@ -338,7 +315,7 @@
                                            </div>
                                        </div>
                                        <div class="tour__detail--depart">
-                                           <svg width="20px" height="20px" viewBox="-4 0 32 32" version="1.1"
+                                           <svg height="17px" width="17px" viewBox="-4 0 32 32" version="1.1"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
                                                 xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#615c5c">
@@ -362,9 +339,10 @@
                                            <div>
                                                <span>Khời hành từ: <?php echo $tour['departure_name'] ?></span>
                                            </div>
+
                                        </div>
                                        <div class="tour__detail--depart">
-                                           <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1"
+                                           <svg height="17px" width="17px" viewBox="0 0 32 32" version="1.1"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink" fill="#615c5c">
                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -388,7 +366,7 @@
                                            </div>
                                        </div>
                                        <div class="tour__detail--depart">
-                                           <svg fill="#615c5c" width="20px" height="20px" viewBox="0 0 24.00 24.00"
+                                           <svg fill="#615c5c" height="17px" width="17px" viewBox="0 0 24.00 24.00"
                                                 id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                                                 stroke="#615c5c" stroke-width="0.00024000000000000003"
                                                 transform="rotate(90)">
@@ -461,4 +439,59 @@
         },
     });
 
+</script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
+<script>
+    let dateChanged = false;
+
+    function checkDateChanged() {
+        if (!dateChanged) {
+            alert('Vui lòng chọn ngày trước khi gửi!');
+            return false;
+        }
+        return true;
+    }
+
+    flatpickr("#myDate", {
+        dateFormat: "d-m-Y",
+        defaultDate: null,
+        minDate: "today",
+        locale:'vn',
+        enable: <?php echo json_encode($date)?>,
+        onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length > 0) {
+                document.querySelector('.customer_date').value = dateStr;
+                dateChanged = true;
+
+                fetch('<?php echo _WEB_ROOT?>/du-lich/get-price?tour_id=<?php echo $data['tour']['id'] ?>&date=' + dateStr)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.querySelector('.pDetail__price p span').textContent = data.adult_price;
+                        } else {
+                            console.error(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi AJAX:', error);
+                    });
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const bookingForm = document.querySelector('form.pDetail__right');
+
+        if (bookingForm) {
+            bookingForm.onsubmit = function(event) {
+                if (!dateChanged) {
+                    event.preventDefault();
+                    const dateErr = document.querySelector('.date-err');
+                    dateErr.textContent = 'Vui lòng chọn ngày đi';
+                    return false;
+                }
+                return true;
+            };
+        }
+    });
 </script>

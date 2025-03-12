@@ -68,7 +68,7 @@
             <!--header__menu -->
             <ul class="header__menu">
                 <li class="header__menu--item">
-                    <a href="<?php echo _WEB_ROOT.'/collections/all'?>" class="header__menu--link"
+                    <a href="<?php echo _WEB_ROOT.'/du-lich'?>" class="header__menu--link"
                         >Tất cả tour</a
                     >
                 </li>
@@ -76,7 +76,7 @@
                   <?php foreach ($data['categories'] as $category) : ?>
                      <?php if ($category['parent_id'] == 0) : ?>
                            <li class="header__menu--item">
-                               <a href="<?php echo $category['slug'] ?>" class="header__menu--link">
+                               <a href="<?php echo _WEB_ROOT.'/'.$category['slug'] ?>" class="header__menu--link">
                                   <?php echo $category['name'] ?>
                                </a>
                               <?php
@@ -111,7 +111,7 @@
                                                              <span>Tuyến điểm</span>
                                                              <?php foreach ($data['locations'] as $location):?>
                                                                 <?php if($category['id'] === $location['category']):?>
-                                                                     <a href="<?php echo $category['slug'].'/'.$location['slug'] ?>" class="w-50"><?php echo $location['name']?></a>
+                                                                     <a href="<?php echo _WEB_ROOT.'/'.$category['slug'].'/'.$subCategory['slug'].'/'.$location['slug'] ?>" class="w-50"><?php echo $location['name']?></a>
                                                                 <?php endif;?>
                                                              <?php endforeach;?>
                                                          </li>

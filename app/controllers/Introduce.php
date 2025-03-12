@@ -9,7 +9,7 @@ class Introduce extends Controller {
    }
    public function index() {
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(1,"is_destination");
+      $locations = $this->LocationModel->where(['is_destination'=>1]);
       $breadcrumbs =[
          ['name'=> "Giới thiệu", "link"=>"gioi-thieu"],
       ];

@@ -237,8 +237,8 @@
       position: absolute;
       left:100%;
       top: 0;
-      min-width: 30rem;
       padding: 0 1.5rem 2rem;
+      width: 25rem;
       -webkit-transform: perspective(600px) rotateY(90deg);
       -moz-transform: perspective(600px) rotateY(90deg);
       -ms-transform: perspective(600px) rotateY(90deg);
@@ -250,15 +250,10 @@
       -o-transform-origin: left center;
       transform-origin: left center;
       @include flex(start, space-between);
-      width: 54rem;
-      z-index: 999;
+      z-index: 99999;
       &--item {
          @include flex(start, space-between, row,wrap);
-         width: calc((100% - 35%) / 2);
          padding: 0 1rem;
-         &:first-child {
-            width: 35%;
-         }
          & span {
             display: block;
             width: 100%;

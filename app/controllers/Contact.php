@@ -10,17 +10,18 @@ class Contact extends Controller
       $this->CategoryModel = $this->model('CategoryModel');
       $this->ConsultationModel = $this->model('ConsultationModel');
       $this->LocationModel = $this->model("LocationModel");
+
    }
    public function index(){
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(1,"is_destination");
+      $locations = $this->LocationModel->where(['is_destination'=>1]);
       $breadcrumbs =[
          ['name'=> "Liên hệ", "link"=>"lien-he"],
       ];
-      $this->data['locations'] = $locations;
-      $this->data['categories'] = $categories;
       $this->data["title"] = "Thông tin liên hệ";
       $this->data['heading'] = "Liên hệ";
+      $this->data['locations'] = $locations;
+      $this->data['categories'] = $categories;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data["page"] = "contact/index";
       $this->data['js'] ='contact.js';

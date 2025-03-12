@@ -14,8 +14,8 @@
          $this->TourModel = $this->model("TourModel");
       }
       public function index() {
-         $categories = $this->CategoryModel->all();
          $banners  = $this->BannerModel->where(['status'=>1]);
+         $categories = $this->CategoryModel->all();
          $locations = $this->LocationModel->where(['is_destination'=>1]);
          $listTourHot = $this->TourModel->getTours(['status_hot'=>1],true);
          $tours = $this->TourModel->getTours();
@@ -56,6 +56,8 @@
          $this->data["firstLocationCate"] = $firstLocationCate;
          $this->data["lastLocationCate"] = $lastLocationCate;
          $this->data["page"] = "home/index";
+         $this->data["tours"] = $tours;
+
          $this->data["banners"] = $banners;
          $this->data["locations"] = $locations;
          $this->data["categories"] = $categories;

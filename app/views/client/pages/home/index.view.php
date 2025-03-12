@@ -25,11 +25,13 @@
                 <i class="fa-solid fa-calendar-days"></i>
                 <input type="text" id="celendar__input" class="search__input celendar__input"
                        placeholder="Chọn ngày đi">
+                <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
                 <script>
                     flatpickr("#celendar__input", {
                         dateFormat: "d-m-Y",
                         defaultDate: null,
                         minDate: "today",
+                        locale: "vn",
                     });
                 </script>
             </div>
@@ -62,7 +64,7 @@
                   <?php foreach ($data['tourHot'] as $tour): ?>
                        <div class="tour__item swiper-slide">
                            <div class="tour__img">
-                               <img src="<?php echo _WEB_ROOT . $tour['image'] ?>" alt="">
+                               <img src="<?php echo _WEB_ROOT . $tour['image'] ?>" alt="<?php echo $tour['name']?>">
                                <div class="tour__info--transport">
                                    <i class="fa-solid fa-plane"></i>
                                    <i class="fa-solid fa-bus"></i>
@@ -70,12 +72,12 @@
                            </div>
                            <div class="tour__item--wrap">
                                <div class="tour__name">
-                                   <a href="<?php echo _WEB_ROOT . '/chuong-trinh/' . $tour['slug'] ?>"><?php echo $tour['name'] ?></a>
+                                   <a href="<?php echo _WEB_ROOT . '/du-lich/' . $tour['slug'] ?>"><?php echo $tour['name'] ?></a>
                                </div>
                                <div class="tour__detail">
                                    <div class="tour__detail--top">
                                        <div class="tour__detail--depart">
-                                           <svg fill="#615c5c" height="20px" width="20px" version="1.1" id="Capa_1"
+                                           <svg fill="#615c5c" height="17px" width="17px" version="1.1" id="Capa_1"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
                                                 xml:space="preserve" stroke="#615c5c"><g id="SVGRepo_bgCarrier"
@@ -104,7 +106,7 @@
                                            </div>
                                        </div>
                                        <div class="tour__detail--depart">
-                                           <svg width="20px" height="20px" viewBox="-4 0 32 32" version="1.1"
+                                           <svg height="17px" width="17px" viewBox="-4 0 32 32" version="1.1"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
                                                 xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#615c5c">
@@ -130,7 +132,7 @@
                                            </div>
                                        </div>
                                        <div class="tour__detail--depart">
-                                           <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1"
+                                           <svg height="17px" width="17px" viewBox="0 0 32 32" version="1.1"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink" fill="#615c5c">
                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -154,7 +156,7 @@
                                            </div>
                                        </div>
                                        <div class="tour__detail--depart">
-                                           <svg fill="#615c5c" width="20px" height="20px" viewBox="0 0 24.00 24.00"
+                                           <svg fill="#615c5c" height="17px" width="17px" viewBox="0 0 24.00 24.00"
                                                 id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                                                 stroke="#615c5c" stroke-width="0.00024000000000000003"
                                                 transform="rotate(90)">
@@ -176,7 +178,7 @@
                                            <span><?php echo number_format($tour['adult_price'], 0, ",", "."); ?>đ</span>
                                        </div>
                                        <div class="tour__detail--quantity">
-                                           <a href="<?php echo _WEB_ROOT . '/chuong-trinh/' . $tour['slug'] ?>"
+                                           <a href="<?php echo _WEB_ROOT . '/du-lich/' . $tour['slug'] ?>"
                                               class="btn btn-booking">Đặt ngay</a>
                                        </div>
                                    </div>
@@ -231,12 +233,12 @@
                                    </div>
                                    <div class="tour__item--wrap">
                                        <div class="tour__name">
-                                           <a href="<?php echo _WEB_ROOT . '/chuong-trinh/' . $itemTourAll['slug'] ?>"><?php echo $itemTourAll['name'] ?></a>
+                                           <a href="<?php echo _WEB_ROOT . '/du-lich/' . $itemTourAll['slug'] ?>"><?php echo $itemTourAll['name'] ?></a>
                                        </div>
                                        <div class="tour__detail">
                                            <div class="tour__detail--top">
                                                <div class="tour__detail--depart">
-                                                   <svg fill="#615c5c" height="20px" width="20px" version="1.1"
+                                                   <svg fill="#615c5c" height="17px" width="17px" version="1.1"
                                                         id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
                                                         xml:space="preserve" stroke="#615c5c"><g id="SVGRepo_bgCarrier"
@@ -265,7 +267,7 @@
                                                    </div>
                                                </div>
                                                <div class="tour__detail--depart">
-                                                   <svg width="20px" height="20px" viewBox="-4 0 32 32" version="1.1"
+                                                   <svg height="17px" width="17px" viewBox="-4 0 32 32" version="1.1"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink"
                                                         xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
@@ -293,7 +295,7 @@
                                                    </div>
                                                </div>
                                                <div class="tour__detail--depart">
-                                                   <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1"
+                                                   <svg height="17px" width="17px" viewBox="0 0 32 32" version="1.1"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         xmlns:xlink="http://www.w3.org/1999/xlink" fill="#615c5c">
                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -318,7 +320,7 @@
                                                    </div>
                                                </div>
                                                <div class="tour__detail--depart">
-                                                   <svg fill="#615c5c" width="20px" height="20px"
+                                                   <svg fill="#615c5c" height="17px" width="17px"
                                                         viewBox="0 0 24.00 24.00" id="Layer_1" data-name="Layer 1"
                                                         xmlns="http://www.w3.org/2000/svg" stroke="#615c5c"
                                                         stroke-width="0.00024000000000000003" transform="rotate(90)">
@@ -340,7 +342,7 @@
                                                    <span><?php echo number_format($itemTourAll['adult_price'], 0, ",", "."); ?>đ</span>
                                                </div>
                                                <div class="tour__detail--quantity">
-                                                   <a href="<?php echo _WEB_ROOT . '/chuong-trinh/' . $itemTourAll['slug'] ?>"
+                                                   <a href="<?php echo _WEB_ROOT . '/du-lich/' . $itemTourAll['slug'] ?>"
                                                       class="btn btn-booking">Đặt ngay</a>
                                                </div>
                                            </div>
@@ -378,12 +380,12 @@
                                          </div>
                                          <div class="tour__item--wrap">
                                              <div class="tour__name">
-                                                 <a href="<?php echo _WEB_ROOT . '/chuong-trinh/' . $displayTour["slug"] ?>"><?php echo $displayTour['name'] ?></a>
+                                                 <a href="<?php echo _WEB_ROOT . '/du-lich/' . $displayTour["slug"] ?>"><?php echo $displayTour['name'] ?></a>
                                              </div>
                                              <div class="tour__detail">
                                                  <div class="tour__detail--top">
                                                      <div class="tour__detail--depart">
-                                                         <svg fill="#615c5c" height="20px" width="20px" version="1.1"
+                                                         <svg fill="#615c5c" height="17px" width="17px" version="1.1"
                                                               id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                                               xmlns:xlink="http://www.w3.org/1999/xlink"
                                                               viewBox="0 0 512 512" xml:space="preserve"
@@ -413,7 +415,7 @@
                                                          </div>
                                                      </div>
                                                      <div class="tour__detail--depart">
-                                                         <svg width="20px" height="20px" viewBox="-4 0 32 32"
+                                                         <svg height="17px" width="17px" viewBox="-4 0 32 32"
                                                               version="1.1" xmlns="http://www.w3.org/2000/svg"
                                                               xmlns:xlink="http://www.w3.org/1999/xlink"
                                                               xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
@@ -442,7 +444,7 @@
                                                          </div>
                                                      </div>
                                                      <div class="tour__detail--depart">
-                                                         <svg width="20px" height="20px" viewBox="0 0 32 32"
+                                                         <svg height="17px" width="17px" viewBox="0 0 32 32"
                                                               version="1.1" xmlns="http://www.w3.org/2000/svg"
                                                               xmlns:xlink="http://www.w3.org/1999/xlink" fill="#615c5c">
                                                              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -467,7 +469,7 @@
                                                          </div>
                                                      </div>
                                                      <div class="tour__detail--depart">
-                                                         <svg fill="#615c5c" width="20px" height="20px"
+                                                         <svg fill="#615c5c" height="17px" width="17px"
                                                               viewBox="0 0 24.00 24.00" id="Layer_1" data-name="Layer 1"
                                                               xmlns="http://www.w3.org/2000/svg" stroke="#615c5c"
                                                               stroke-width="0.00024000000000000003"
@@ -490,7 +492,7 @@
                                                          <span><?php echo number_format($displayTour['adult_price'], 0, ",", "."); ?>đ</span>
                                                      </div>
                                                      <div class="tour__detail--quantity">
-                                                         <a href="<?php echo _WEB_ROOT . '/chuong-trinh/' . $displayTour['slug'] ?>"
+                                                         <a href="<?php echo _WEB_ROOT . '/du-lich/' . $displayTour['slug'] ?>"
                                                             class="btn btn-booking">Đặt ngay</a>
                                                      </div>
                                                  </div>
@@ -928,11 +930,11 @@
         "@context": "https://schema.org",
         "@type": "ItemList",
         "itemListElement": [
-   <?php if (isset($data['tourHot'])) : ?>
-      <?php foreach ($data['tourHot'] as $index => $tour): ?>
+   <?php if (isset($data['tours'])) : ?>
+      <?php foreach ($data['tours'] as  $tour): ?>
                 {
                     "@type": "ListItem",
-                    "position": <?php echo $index + 1; ?>,
+                    "position": "<?php echo $tour['id']?>",
                     "item": {
                         "@type": "Tour",
                         "name": "<?php echo htmlspecialchars($tour['name']); ?>",
@@ -954,7 +956,7 @@
                             "name": "Itravel",
                             "logo": {
                                 "@type": "ImageObject",
-                                "url": "<?php echo ASSET?>./client/images/itravel.png"
+                                "url": "<?php echo ASSET?>/client/images/itravel.png"
                             }
                         },
                         "departure": {
@@ -965,7 +967,7 @@
                         "startDate": "<?php echo date('c', strtotime($tour['date'])); ?>",
                         "duration": "<?php echo htmlspecialchars($tour['duration']); ?>"
                     }
-                }<?php if ($index < count($data['tourHot']) - 1) echo ','; ?>
+                }
       <?php endforeach; ?>
    <?php endif; ?>
     ]

@@ -16,12 +16,15 @@
                      Họ và tên <span>*</span>
                   </label>
                   <input type="text" id="fullName" name="name" placeholder="Họ và tên">
+                   <div class="name-err" style="color: red;font-size: 12px"></div>
                </div>
+
                <div class="column">
                   <label for="phone">
                      Điện thoại <span>*</span>
                   </label>
                   <input type="text" id="phone" name="phone" placeholder="Số điện thoại">
+                   <div class="phone-err" style="color: red;font-size: 12px"></div>
                </div>
                </div>
                <div class="row">
@@ -30,12 +33,14 @@
                      Email <span>*</span>
                   </label>
                   <input type="text" id="email" name="email" placeholder="Email">
+                   <div class="email-err" style="color: red;font-size: 12px"></div>
                </div>
                <div class="column">
                   <label for="address">
                      Địa chỉ <span>*</span>
                   </label>
                   <input type="text" id="address" name="address" placeholder="Nhập địa chỉ">
+                   <div class="address-err" style="color: red;font-size: 12px"></div>
                </div>
                </div>
             </div>
@@ -275,3 +280,52 @@
       </form>
    </div>
    </div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.booking__container');
+
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+
+            document.querySelectorAll('.name-err, .phone-err, .email-err, .address-err').forEach(el => {
+                el.textContent = '';
+            });
+
+            const fullName = document.getElementById('fullName').value.trim();
+            if (fullName === '') {
+                document.querySelector('.name-err').textContent = 'Vui lòng nhập họ và tên';
+                isValid = false;
+            }
+
+            const phone = document.getElementById('phone').value.trim();
+            if (phone === '') {
+                document.querySelector('.phone-err').textContent = 'Vui lòng nhập số điện thoại';
+                isValid = false;
+            }
+            if (!/^(0|\+84)[3|5|7|8|9][0-9]{8}$/.test(phone)) {
+                document.querySelector('.phone-err').textContent = 'Số điện thoại không hợp lệ';
+                isValid = false;
+            }
+
+            const email = document.getElementById('email').value.trim();
+            if (email === '') {
+                document.querySelector('.email-err').textContent = 'Vui lòng nhập email';
+                isValid = false;
+            }
+            if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                document.querySelector('.email-err').textContent = 'Email không hợp lệ';
+                isValid = false;
+            }
+
+            const address = document.getElementById('address').value.trim();
+            if (address === '') {
+                document.querySelector('.address-err').textContent = 'Vui lòng nhập địa chỉ';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>

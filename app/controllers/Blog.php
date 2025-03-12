@@ -17,7 +17,7 @@ class Blog extends Controller{
 
       $blogs = $this->BlogModel->getBlogByStatus("published");
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(1,"is_destination");
+      $locations = $this->LocationModel->where(['is_destination'=>1]);
       $breadcrumbs =[
          ['name'=> "Tin tức", "link"=>"tin-tuc"],
       ];

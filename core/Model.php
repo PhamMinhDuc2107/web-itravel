@@ -106,7 +106,6 @@ class Model extends Database
          foreach ($data as $key => $value) {
             $params[":$key"] = $value;
          }
-         echo $sql;
          $stmt = $this->_query($sql, $params);
          return (bool)$stmt;
       } catch (PDOException $e) {
