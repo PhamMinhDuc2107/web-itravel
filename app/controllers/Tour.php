@@ -80,7 +80,7 @@ class Tour extends Controller {
    }
    public function findTour($slug, $dpt = null, $destinationOrDate = null) {
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination' => 1]);
+      $locations = $this->LocationModel->where(['is_destination'=>1]);
       $departures = $this->LocationModel->where(['is_departure' => 1]);
       $this->TourModel->setLimit(9);
       $this->TourModel->setBaseModel();
@@ -89,7 +89,6 @@ class Tour extends Controller {
       $category = $this->CategoryModel->find($slug, "slug");
       if (!$category) {
          Util::loadError();
-         return;
       }
 
       $findDeparture = null;
@@ -106,7 +105,7 @@ class Tour extends Controller {
          if(!$checkDestination) {
             Util::loadError();
          }
-         $locations = $this->LocationModel->where(['category'=>$checkDestination['category'], "is_destination"=>1]);
+         $findLocations = $this->LocationModel->where(['category'=>$checkDestination['category'], "is_destination"=>1]);
       }
 
       $conditions = ['category_id' => $category['id']];
@@ -116,9 +115,6 @@ class Tour extends Controller {
       if ($checkDestination) {
          $conditions['destination_id'] = $checkDestination['id'];
       }
-//      if ($time) {
-//         $conditions['time'] = $time;
-//      }
       $tours = $this->TourModel->getTours($conditions, true);
       $totalPages = $this->TourModel->getTotalPages();
 
@@ -131,16 +127,18 @@ class Tour extends Controller {
       if ($checkDestination) {
          $breadcrumbs[] = ['name' => $checkDestination['name'], 'link' => "{$category['slug']}/{$findDeparture['slug']}/{$checkDestination['slug']}"];
       }
-
-
-      $this->data["title"] = "Tất cả tour";
-      $this->data['heading'] = "Tất cả tour";
+      $title = '';
+      foreach ($breadcrumbs as $index=>$breadcrumb) {
+         $title .= $breadcrumb['name']. " | ";
+      }
+      $title = rtrim($title, " | ");
+      $this->data["title"] = $title;
+      $this->data['heading'] = $title;
       $this->data['departures'] = $departures;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['totalPages'] = $totalPages;
       $this->data['categories'] = $categories;
       $this->data['locations'] = $locations;
-      $this->data['destination'] = $checkDestination;
       $this->data['tours'] = $tours;
       $this->data["page"] = "tour/index";
       $this->render("layouts/client_layout", $this->data);

@@ -31,6 +31,25 @@ class BookingModel extends Model
          return [];
       }
    }
+   public function getBookingById($id) {
+      try {
+         $sql = "SELECT
+                      $this->table.*,
+                      tours.name AS tour_name
+                  FROM
+                      $this->table
+                  JOIN
+                      tours ON $this->table.tour_id = tours.id
+                  WHERE
+                      $this->table.id = :id";
+         $params = [":id" => $id];
+         $stmt = $this->_query($sql, $params);
+         return $stmt->fetch(PDO::FETCH_ASSOC);
+      } catch (PDOException $e) {
+         error_log("Database Error: " . $e->getMessage());
+         return [];
+      }
+   }
    public function getMonthlyBookingSummary($month) {
       try {
          $sql = "SELECT COUNT(id) AS total_order_monthly,SUM(total_price) AS total_price_monthly

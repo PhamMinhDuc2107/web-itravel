@@ -44,6 +44,6 @@ class Contact extends Controller
       if (!$res) {
          Util::redirect("lien-he", Response::internalServerError("Gửi yêu cầu thaats bại"));
       }
-      Util::redirect("lien-he", Response::success("Gửi yêu cầu thành công"));
+      Util::redirect("checkout/thankyou", Response::success("Thành công",  Response::success("Thành công",['title'=>"Cảm ơn bạn đã quan tâm đến sản phẩm của chúng tôi!","content"=>"Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất"])));
    }
 }

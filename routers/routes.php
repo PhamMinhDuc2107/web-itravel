@@ -12,7 +12,7 @@
 
    $routes['order-booking/(.+)'] = "booking/index/$1";
    $routes['checkout'] = "booking/checkout";
-   $routes['checkout/thankyou/(.+)'] = "booking/thankyou/$1";
+   $routes['checkout/thankyou'] = "result/index";
 
    $routes['tin-tuc'] = 'blog/index';
    $routes['tin-tuc/(.+)'] = 'blog/detail/$1';

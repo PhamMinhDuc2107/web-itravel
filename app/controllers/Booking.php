@@ -70,14 +70,13 @@ class Booking extends Controller {
       "num_adults" => $quantityAdult, "num_children" =>$quantityChildren, "num_infants" =>$quantityInfant,"notes"=>$note,'total_price'=>$totalPrice,
          "departure_date"=>$departure_date
       ];
-      Util::printArr($data);
       $res = $this->BookingModel->insert($data);
       if(!$res) {
-         Util::redirect("checkout/thankyou", Response::internalServerError("Thất bại"));
-
+         Util::redirect("", Response::internalServerError("Thất bại"));
       }
-      Util::redirect("checkout/thankyou", Response::success("Thành công", ['booking_code'=>$bookingCode]));
-
+      $id = $this->BookingModel->lastInsertId();
+      $booking = $this->BookingModel->getBookingById($id);
+      Util::redirect("checkout/thankyou", Response::success("Thành công", ['booking' => $booking,'title'=>"Cảm ơn bạn đã đạt tour!","content"=>"Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhât"]));
    }
 
 }
