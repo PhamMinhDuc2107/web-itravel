@@ -94,7 +94,7 @@
                                      <?php foreach ($data['categories'] as $subCategory) : ?>
                                         <?php if ($subCategory['parent_id'] == $category['id']) :?>
                                              <li class="dropdown__menu--item">
-                                                 <a href="<?php echo _WEB_ROOT.'/'.$category['slug'].'/'.$subCategory['slug'] ?>">
+                                                 <a href="<?php echo _WEB_ROOT.'/'.$category['slug']."?departure=".$subCategory['slug']  ?>">
                                                     <?php echo $subCategory['name'] ?>
                                                  </a>
                                                  <?php $hasLocation = false;
@@ -111,7 +111,7 @@
                                                              <span>Tuyến điểm</span>
                                                              <?php foreach ($data['locations'] as $location):?>
                                                                 <?php if($category['id'] === $location['category']):?>
-                                                                     <a href="<?php echo _WEB_ROOT.'/'.$category['slug'].'/'.$subCategory['slug'].'/'.$location['slug'] ?>" class="w-50"><?php echo $location['name']?></a>
+                                                                     <a href="<?php echo _WEB_ROOT.'/'.$category['slug'].'/'.$location['slug']."?departure=".$subCategory['slug'] ?>" class="w-50"><?php echo $location['name']?></a>
                                                                 <?php endif;?>
                                                              <?php endforeach;?>
                                                          </li>

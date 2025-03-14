@@ -60,7 +60,7 @@ class Dashboard extends Controller{
                Util::redirect("dashboard/login", Response::badRequest("Tài khoản hoặc mật khẩu sai"));
             }
             $payload = $this->jwt->generatePayload($admin, $remember);
-            $token = $this->jwt->encode($payload, $payload['exp']);
+            $token = $this->jwt->encode($payload);
             setcookie('token_auth', $token, $payload['exp'], '/', null, true, true);
             Util::redirect("dashboard");
          }

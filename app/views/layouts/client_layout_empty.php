@@ -132,8 +132,9 @@
 <?php
     $data = Request::input('data') ?? [];
     $booking = $data["booking"] ?? null;
-    $title = $data['data']["title"] ?? null;
-    $content = $data['data']["content"] ?? null;
+    $title = $data["title"] ?? null;
+    $content = $data["content"] ?? null;
+    $token  = $data["token"] ?? null;
     ?>
 <body>
     <div class="logo">

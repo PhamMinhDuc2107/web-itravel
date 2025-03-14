@@ -63,6 +63,7 @@
       }
       ?>
       <?php require_once _DIR_ROOT . "/app/views/client/blocks/footer.view.php" ?>
+      <?php require_once _DIR_ROOT . "/app/views/client/blocks/menu.view.php" ?>
    </div>
     <div class="social__links">
         <div class="social__item">

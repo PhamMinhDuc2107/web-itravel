@@ -6,9 +6,10 @@ class Booking extends Controller {
    private $CategoryModel;
    private $TourPriceCalendarModel;
    private $BookingModel;
-
+   private $jwt;
    public function __construct()
    {
+      $this->jwt = new JwtUtil();
       $this->TourModel = $this->model("TourModel");
       $this->LocationModel = $this->model("LocationModel");
       $this->CategoryModel = $this->model("CategoryModel");
@@ -76,7 +77,9 @@ class Booking extends Controller {
       }
       $id = $this->BookingModel->lastInsertId();
       $booking = $this->BookingModel->getBookingById($id);
-      Util::redirect("checkout/thankyou", Response::success("Thành công", ['booking' => $booking,'title'=>"Cảm ơn bạn đã đạt tour!","content"=>"Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhât"]));
+      $payload = $this->jwt->generatePayload($booking,0);
+      $token = $this->jwt->encode($payload);
+      Util::redirect("checkout/thankyou", Response::success("Thành công", ["token"=>$token,'title'=>"Cảm ơn bạn đã đặt tour!","content"=>"Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhât"]));
    }
 
 }

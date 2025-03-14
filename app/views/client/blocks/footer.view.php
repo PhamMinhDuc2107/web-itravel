@@ -94,66 +94,6 @@
 </footer>
 <!-- /footer -->
 </section>
-<!-- menu -->
-<nav class="menu">
-    <ul class="menu__list">
-        <li class="menu__item">
-            <a href="./index.html" class="menu__item--link"> Trang chủ </a>
-        </li>
-        <li class="menu__item dropdown">
-            <a href="./product.html" class="menu__item--link"
-            >Tất cả tour
-            </a>
-            <i class="fa fa-caret-down"></i>
-            <ul class="submenu-1">
-                <li class="dropdown">
-                    <a href="">Tour trong nước</a>
-                    <i class="fa fa-caret-down"></i>
-                    <ul class="submenu-2">
-                        <li>
-                            <a href="">Khởi hành từ Hà Nội</a>
-                        </li>
-                        <li>
-                            <a href="">Khởi hành từ TP Hồ Chí Minh</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="">Tour ngoài nước</a>
-                    <i class="fa fa-caret-down"></i>
-                    <ul class="submenu-2">
-                        <li>
-                            <a href="">Khởi hành từ Hà Nội</a>
-                        </li>
-                        <li>
-                            <a href="">Khởi hành từ TP Hồ Chí Minh</a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="">Tour combo giá rẻ</a></li>
-                <li><a href="">Tour cao cấp</a></li>
-                <li><a href="">Vé máy bay</a></li>
-                <li><a href="">Visa</a></li>
-                <li><a href="">Hộ Chiếu</a></li>
-                <li>
-                    <a href=""> Dịch vụ khác </a>
-                </li>
-            </ul>
-        </li>
-        <li class="menu__item">
-            <a href="./introduce.html" class="menu__item--link">
-                Giới thiệu
-            </a>
-        </li>
-        <li class="menu__item">
-            <a href="./blog.html" class="menu__item--link"> Tin tức </a>
-        </li>
-        <li class="menu__item">
-            <a href="./contact.html" class="menu__item--link">Liên hệ </a>
-        </li>
-    </ul>
-</nav>
-<!-- menu -->
 <!-- load web -->
 <div class="loader">
     <div class="loader__circle"></div>

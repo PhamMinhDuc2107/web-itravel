@@ -78,60 +78,62 @@ class Tour extends Controller {
          echo json_encode(['success' => false, 'message' => 'Không tìm thấy giá.']);
       }
    }
-   public function findTour($slug, $dpt = null, $destinationOrDate = null) {
+   public function findTour($slug, $destinationOrDate = null) {
+      $dpt = Request::input("departure", ""); // Lấy giá trị của departure
+
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination'=>1]);
+      $locations = $this->LocationModel->where(['is_destination' => 1]);
       $departures = $this->LocationModel->where(['is_departure' => 1]);
       $this->TourModel->setLimit(9);
       $this->TourModel->setBaseModel();
 
-
+      // Kiểm tra category có tồn tại không
       $category = $this->CategoryModel->find($slug, "slug");
       if (!$category) {
          Util::loadError();
       }
 
+      // Kiểm tra departure có tồn tại không
       $findDeparture = null;
-      if ($dpt) {
+      if (!empty($dpt)) {
          $findDeparture = $this->LocationModel->find($dpt, "slug");
-         if(!$findDeparture) {
+         if (!$findDeparture) {
             Util::loadError();
          }
       }
-      $checkDestination = null;
 
+      // Kiểm tra destination có tồn tại không
+      $checkDestination = null;
       if ($destinationOrDate) {
          $checkDestination = $this->LocationModel->find($destinationOrDate, "slug");
-         if(!$checkDestination) {
+         if (!$checkDestination) {
             Util::loadError();
          }
-         $findLocations = $this->LocationModel->where(['category'=>$checkDestination['category'], "is_destination"=>1]);
       }
 
+      // Tạo điều kiện tìm kiếm
       $conditions = ['category_id' => $category['id']];
+
       if ($findDeparture) {
          $conditions['departure_id'] = $findDeparture['id'];
       }
       if ($checkDestination) {
          $conditions['destination_id'] = $checkDestination['id'];
       }
+
       $tours = $this->TourModel->getTours($conditions, true);
       $totalPages = $this->TourModel->getTotalPages();
 
-      $breadcrumbs = [
-         ['name' => $category['name'], 'link' => "{$category['slug']}"],
-      ];
+      $breadcrumbs = [['name' => $category['name'], 'link' => "{$category['slug']}"]];
       if ($findDeparture) {
          $breadcrumbs[] = ['name' => $findDeparture['name'], 'link' => "{$category['slug']}/{$findDeparture['slug']}"];
       }
       if ($checkDestination) {
-         $breadcrumbs[] = ['name' => $checkDestination['name'], 'link' => "{$category['slug']}/{$findDeparture['slug']}/{$checkDestination['slug']}"];
+         $breadcrumbs[] = ['name' => $checkDestination['name'], 'link' => "{$category['slug']}/{$checkDestination['slug']}"];
       }
-      $title = '';
-      foreach ($breadcrumbs as $index=>$breadcrumb) {
-         $title .= $breadcrumb['name']. " | ";
-      }
-      $title = rtrim($title, " | ");
+
+      $title = implode(" | ", array_column($breadcrumbs, 'name'));
+
       $this->data["title"] = $title;
       $this->data['heading'] = $title;
       $this->data['departures'] = $departures;
@@ -143,4 +145,6 @@ class Tour extends Controller {
       $this->data["page"] = "tour/index";
       $this->render("layouts/client_layout", $this->data);
    }
+
+
 }

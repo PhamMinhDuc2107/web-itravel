@@ -42,7 +42,7 @@ body {
       position: fixed;
       bottom: 3rem;
       right: 3rem;
-      z-index: 9999;
+      z-index: 99;
       a {
          @include flex(center,center);
          @include  size(5rem);

@@ -72,5 +72,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
             dropdownList.classList.remove("dropdown-active");
         }))
     }
+//     hotline
+        let hotline  = document.querySelector(".hotline")
+        let hotlintBtn = document.querySelector(".hotline-btn")
+        hotlintBtn.addEventListener("click" ,function (e) {
+            hotline.classList.toggle("active");
+        })
 }
 )();
