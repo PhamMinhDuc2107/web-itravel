@@ -97,7 +97,7 @@ class Home extends Controller
             }
             if (Request::has("destinationTo", "get")) {
                $destinationTo = htmlspecialchars(Request::input("destinationTo"));
-               $filters['destinationTo'] = $destinationTo;
+               $filters['destinationTo'] = Util::generateSlug($destinationTo);
             }
 
             if (Request::has("departureFrom", "get")) {
@@ -108,6 +108,7 @@ class Home extends Controller
             if (Request::has("fromDate", "get")) {
                $fromDate = htmlspecialchars(Request::input("fromDate"));
                $filters['fromDate'] = Util::formatDate($fromDate, 'Y-m-d');
+               print($filters['fromDate']);
             }
 
             if (Request::has("budgetId", "get")) {

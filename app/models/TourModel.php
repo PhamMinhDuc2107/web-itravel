@@ -112,57 +112,46 @@ class TourModel extends Model
          return null;
       }
    }
-   public function searchTours($filters = [])
-   {
+   public function searchTours($filters = []) {
       try {
          if (empty($filters)) {
             return [];
          }
+
          $params = [];
          $sql = "
-         SELECT
-             tours.*,
-             categories.name AS category_name,
-             dest_loc.name AS destination_name,
-             dep_loc.name AS departure_name,
-             tpc.adult_price,
-             tpc.child_price,
-             tpc.infant_price,
-             tpc.date,
-             MIN(tour_images.image) AS image
-         FROM
-             tours
-         LEFT JOIN
-             categories ON tours.category_id = categories.id
-         LEFT JOIN
-             tour_images ON tours.id = tour_images.tour_id
-         LEFT JOIN
-             tour_price_calendar tpc ON tours.id = tpc.tour_id
-         LEFT JOIN
-             locations dest_loc ON tours.destination_id = dest_loc.id
-         LEFT JOIN
-             locations dep_loc ON tours.departure_id = dep_loc.id
-     ";
+        SELECT 
+            tours.*, 
+            categories.name AS category_name,
+            dest_loc.name AS destination_name,
+            dep_loc.name AS departure_name,
+            tpc.adult_price, 
+            tpc.child_price, 
+            tpc.infant_price, 
+            tpc.date,
+            MIN(tour_images.image) AS image
+        FROM 
+            tours
+        LEFT JOIN categories ON tours.category_id = categories.id
+        LEFT JOIN tour_images ON tours.id = tour_images.tour_id
+        LEFT JOIN tour_price_calendar tpc ON tours.id = tpc.tour_id
+        LEFT JOIN locations dest_loc ON tours.destination_id = dest_loc.id
+        LEFT JOIN locations dep_loc ON tours.departure_id = dep_loc.id
+        ";
 
          $whereClauses = [];
 
-         $searchDate = isset($filters['fromDate']) && !empty($filters['fromDate']) ?
-            $filters['fromDate'] : date('Y-m-d');
-
-         $whereClauses[] = "tpc.date = (SELECT MIN(date) FROM tour_price_calendar WHERE tour_id = tours.id AND date >= :searchDate)";
-         $params[':searchDate'] = $searchDate;
-
-         if (isset($filters['destinationTo']) && !empty($filters['destinationTo'])) {
-            $whereClauses[] = "dest_loc.name = :destinationTo";
+         if (!empty($filters['destinationTo'])) {
+            $whereClauses[] = "dest_loc.slug = :destinationTo";
             $params[':destinationTo'] = $filters['destinationTo'];
          }
 
-         if (isset($filters['departureFrom']) && !empty($filters['departureFrom'])) {
-            $whereClauses[] = "dep_loc.name = :departureFrom";
+         if (!empty($filters['departureFrom'])) {
+            $whereClauses[] = "dep_loc.slug = :departureFrom";
             $params[':departureFrom'] = $filters['departureFrom'];
          }
 
-         if (isset($filters['fromDate']) && !empty($filters['fromDate'])) {
+         if (!empty($filters['fromDate'])) {
             $whereClauses[] = "tpc.date >= :fromDate";
             $params[':fromDate'] = $filters['fromDate'];
          }
@@ -172,11 +161,10 @@ class TourModel extends Model
                $whereClauses[] = "tpc.adult_price BETWEEN :priceStart AND :priceEnd";
                $params[':priceStart'] = $filters['priceStart'];
                $params[':priceEnd'] = $filters['priceEnd'];
-
-            } else if(!empty($filters['priceStart'])) {
+            } elseif (!empty($filters['priceStart'])) {
                $whereClauses[] = "tpc.adult_price >= :priceStart";
                $params[':priceStart'] = $filters['priceStart'];
-            } else if (!empty($filters['priceEnd'])) {
+            } elseif (!empty($filters['priceEnd'])) {
                $whereClauses[] = "tpc.adult_price <= :priceEnd";
                $params[':priceEnd'] = $filters['priceEnd'];
             }
@@ -184,8 +172,9 @@ class TourModel extends Model
 
          if (!empty($whereClauses)) {
             $sql .= " WHERE " . implode(" AND ", $whereClauses);
-
          }
+
+         $sql .= " GROUP BY tours.id";
 
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -194,6 +183,7 @@ class TourModel extends Model
          return [];
       }
    }
+
    public function countSearchTours($filters = [])
    {
       try {
@@ -201,7 +191,7 @@ class TourModel extends Model
          $whereClauses = [];
 
          if (isset($filters['destinationTo']) && !empty($filters['destinationTo'])) {
-            $whereClauses[] = "dest_loc.name = :destinationTo";
+            $whereClauses[] = "dest_loc.slug = :destinationTo";
             $params[':destinationTo'] = $filters['destinationTo'];
          }
 
@@ -231,7 +221,7 @@ class TourModel extends Model
 
          $whereClauseString = !empty($whereClauses) ? " WHERE " . implode(" AND ", $whereClauses) : "";
 
-         // Truy vấn đếm số lượng tour (tối ưu hóa)
+
          $countSql = "
             SELECT COUNT(DISTINCT tours.id)
             FROM tours
