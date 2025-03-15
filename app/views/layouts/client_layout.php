@@ -36,48 +36,44 @@
                 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         />
         <!-- swiper -->
-        <link
-                rel="stylesheet"
-                href="https://unpkg.com/swiper/swiper-bundle.min.css"
-        />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.js"></script>
         <!-- Flatpickr -->
         <link rel="stylesheet" href="<?php echo ASSET ?>/admin/css/flatpickr.min.css">
         <script src="<?php echo ASSET ?>/admin/js/flatpickr.min.js"></script>
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
+
+
         <!-- css -->
         <link rel="stylesheet" href="<?php echo ASSET?>/client/css/reset.css">
         <link rel="stylesheet" href="<?php echo ASSET?>/client/css/app.css" />
     </head>
 </head>
 <body>
-   <div class="wrapper">
-      <?php require_once _DIR_ROOT . "/app/views/client/blocks/header.view.php" ?>
-      <?php
-        if(isset($data['breadcrumbs']) ) {
-            require_once _DIR_ROOT . "/app/views/client/blocks/breadcrumb.view.php";
-        }
-      ?>
-      <?php
-      if(isset($data['page'])) {
-         require_once _DIR_ROOT."/app/views/client/pages/".$data['page'].".view.php";
-      }
-      ?>
-      <?php require_once _DIR_ROOT . "/app/views/client/blocks/footer.view.php" ?>
-      <?php require_once _DIR_ROOT . "/app/views/client/blocks/menu.view.php" ?>
-   </div>
-    <div class="social__links">
-        <div class="social__item">
-            <a href="https:\\m.me/634496929737829">
-                <img src="<?php echo ASSET.'/client/images/messenger.png'?>" alt="">
-            </a>
-        </div>
-    </div>
+<div class="wrapper">
+   <?php require_once _DIR_ROOT . "/app/views/client/blocks/header.view.php" ?>
+   <?php
+   if(isset($data['breadcrumbs']) ) {
+      require_once _DIR_ROOT . "/app/views/client/blocks/breadcrumb.view.php";
+   }
+   ?>
+   <?php
+   if(isset($data['page'])) {
+      require_once _DIR_ROOT."/app/views/client/pages/".$data['page'].".view.php";
+   }
+   ?>
+   <?php require_once _DIR_ROOT . "/app/views/client/blocks/footer.view.php" ?>
+   <?php require_once _DIR_ROOT . "/app/views/client/blocks/menu.view.php" ?>
+   <?php require_once _DIR_ROOT . "/app/views/client/blocks/hotline.view.php" ?>
+   <?php require_once _DIR_ROOT . "/app/views/client/blocks/social.view.php" ?>
+</div>
+
 </body>
 <script src="<?php echo ASSET?>/client/js/app.js"></script>
-<script src="<?php echo ASSET?>/client/js/home.js"></script>
+
 <?php
 if(isset($data['js'])) {
-   echo "<script src=".ASSET."/client/js/".$data['js']."></script>";
+   echo "<script src=".ASSET."/client/js/".$data['js'].".js"."></script>";
 }
 ?>
 </html>

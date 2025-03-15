@@ -16,6 +16,31 @@ class Tour extends Controller {
       $this->TourPriceCalendarModel = $this->model("TourPriceCalendarModel");
    }
    public function index() {
+      $filters = [];
+
+      if(Request::has("destinationTo", "get")) {
+         $destinationTo = htmlspecialchars(Request::input("destinationTo"));
+         $filters['destinationTo'] = $destinationTo;
+      }
+
+      if(Request::has("departureFrom", "get")) {
+         $departureFrom = htmlspecialchars(Request::input("departureFrom"));
+         $filters['departureFrom'] = $departureFrom;
+      }
+
+      if(Request::has("fromDate", "get")) {
+         $fromDate = htmlspecialchars(Request::input("fromDate"));
+         $filters['fromDate'] = Util::formatDate($fromDate, 'Y-m-d');
+      }
+
+      if(Request::has("budgetId", "get")) {
+         $priceList = $this->getPriceRange((int)htmlspecialchars(Request::input("budgetId")));
+         $priceStart = $priceList['start'];
+         $priceEnd = $priceList['end'];
+
+         $filters['priceStart'] = $priceStart;
+         $filters['priceEnd'] = $priceEnd;
+      }
       $categories = $this->CategoryModel->all();
       $locations = $this->LocationModel->where(['is_destination'=>1]);
       $departure = $this->LocationModel->where(['is_departure'=>1]);
@@ -24,10 +49,23 @@ class Tour extends Controller {
       $totalPages = $this->TourModel->getTotalPages();
       $tours = $this->TourModel->getTours();
       $breadcrumbs =[
-         ['name'=> "Tất cả tour", "link"=>"collections/all"],
+         ['name'=> "Tất cả tour", "link"=>"du-lich"],
       ];
-      $this->data["title"] = "Tất cả tour";
+      $this->data["title"] = "ITravel | Tất cả tour";
       $this->data['heading'] = "Tất cả tour";
+
+      if(!empty($filters)) {
+         $tours = $this->TourModel->searchTours($filters);
+         $countTours = $this->TourModel->countSearchTours($filters);
+         $breadcrumbs =[
+            ['name'=> "Tìm kiếm tour", "link"=>"#"],
+         ];
+         $this->data["title"] = "ITravel | Tìm kiếm tour du lịch";
+         $this->data['heading'] = "Tìm kiếm tour ";
+
+         $this->data['count'] = $countTours;
+      }
+
       $this->data['departures'] = $departure;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['totalPages'] = $totalPages;
@@ -67,6 +105,7 @@ class Tour extends Controller {
       $this->data["page"] = "tour/detail";
       $this->render("layouts/client_layout",$this->data);
    }
+
    public function getPrice() {
       $tourId = $_GET['tour_id'];
       $date = DateTime::createFromFormat('d-m-Y', $_GET['date'])->format('Y-m-d');
@@ -79,7 +118,7 @@ class Tour extends Controller {
       }
    }
    public function findTour($slug, $destinationOrDate = null) {
-      $dpt = Request::input("departure", ""); // Lấy giá trị của departure
+      $dpt = Request::input("departure", "");
 
       $categories = $this->CategoryModel->all();
       $locations = $this->LocationModel->where(['is_destination' => 1]);
@@ -87,13 +126,11 @@ class Tour extends Controller {
       $this->TourModel->setLimit(9);
       $this->TourModel->setBaseModel();
 
-      // Kiểm tra category có tồn tại không
       $category = $this->CategoryModel->find($slug, "slug");
       if (!$category) {
          Util::loadError();
       }
 
-      // Kiểm tra departure có tồn tại không
       $findDeparture = null;
       if (!empty($dpt)) {
          $findDeparture = $this->LocationModel->find($dpt, "slug");
@@ -102,7 +139,6 @@ class Tour extends Controller {
          }
       }
 
-      // Kiểm tra destination có tồn tại không
       $checkDestination = null;
       if ($destinationOrDate) {
          $checkDestination = $this->LocationModel->find($destinationOrDate, "slug");
@@ -111,7 +147,6 @@ class Tour extends Controller {
          }
       }
 
-      // Tạo điều kiện tìm kiếm
       $conditions = ['category_id' => $category['id']];
 
       if ($findDeparture) {
@@ -125,9 +160,6 @@ class Tour extends Controller {
       $totalPages = $this->TourModel->getTotalPages();
 
       $breadcrumbs = [['name' => $category['name'], 'link' => "{$category['slug']}"]];
-      if ($findDeparture) {
-         $breadcrumbs[] = ['name' => $findDeparture['name'], 'link' => "{$category['slug']}/{$findDeparture['slug']}"];
-      }
       if ($checkDestination) {
          $breadcrumbs[] = ['name' => $checkDestination['name'], 'link' => "{$category['slug']}/{$checkDestination['slug']}"];
       }
@@ -145,6 +177,8 @@ class Tour extends Controller {
       $this->data["page"] = "tour/index";
       $this->render("layouts/client_layout", $this->data);
    }
+
+
 
 
 }

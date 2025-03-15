@@ -440,7 +440,6 @@
     });
 
 </script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
 <script>
     let dateChanged = false;
 

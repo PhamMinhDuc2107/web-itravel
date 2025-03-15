@@ -5,10 +5,14 @@
       gap: 2rem;  
    }
    &__sortbar {
-      @include flex(center, end);
+      @include flex(center, space-between);
       margin-bottom: 2rem;
       padding-bottom: 2rem;
       border-bottom: 0.1rem solid $gray-light-color;
+      h3 {
+         font-size: 2rem;
+         font-weight: 500;
+      }
    }
    .sortbar {
       &__list  {
@@ -268,15 +272,7 @@
    }
    
 }
-@media screen and (max-width: $breakpoint-sm) {
-   .product {
-      .tour__item {
-         width: calc(100%);
-         img {
-         }
-      }
-   }
-}
+
 @media screen and (max-width: $breakpoint-md) {
    .product {
       .tour__item {
@@ -285,4 +281,14 @@
    }
 
 }
+@media screen and (max-width: $breakpoint-sm) {
+   .product {
+      .tour__item {
+         width: calc(100%);
+         img {
+            height: 25rem;
+         }
 
+      }
+   }
+}

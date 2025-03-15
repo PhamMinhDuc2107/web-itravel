@@ -8,7 +8,7 @@
             <div class="topbar__logo">
                 <img src="<?php echo ASSET?>/client/images/itravel.png" alt="Hình ảnh thương hiệu của itravel" />
             </div>
-            <form class="topbar__search">
+            <form action="<?php _WEB_ROOT?>" class="topbar__search">
                 <input
                         type="text"
                         name="search"

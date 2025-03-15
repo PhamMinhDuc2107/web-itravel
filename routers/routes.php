@@ -8,6 +8,7 @@
    $routes['du-lich'] = 'tour/index';
    $routes['du-lich/([a-zA-Z0-9-]+)'] = 'tour/detail/$1';
    $routes['du-lich/get-price'] = 'tour/getPrice';
+   $routes['tim-kiem'] = 'home/search';
    $routes['(tour-trong-nuoc|tour-ngoai-nuoc|tour-cao-cap|tour-combo-gia-re)(?:/([a-zA-Z0-9-]+))?'] = 'tour/findTour/$1/$2';
 
    $routes['order-booking/(.+)'] = "booking/index/$1";

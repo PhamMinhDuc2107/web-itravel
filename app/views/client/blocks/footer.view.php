@@ -93,7 +93,7 @@
     </div>
 </footer>
 <!-- /footer -->
-</section>
+
 <!-- load web -->
 <div class="loader">
     <div class="loader__circle"></div>

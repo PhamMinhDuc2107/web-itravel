@@ -16,18 +16,17 @@
 <!-- form search -->
 <section class="search">
     <div class="container">
-        <form class="search__container">
+        <form action="<?php echo _WEB_ROOT.'/tim-kiem'?>" class="search__container">
             <div class="search__group">
                 <i class="fa-solid fa-location-dot"></i>
-                <input type="text" class="search__input =" placeholder="Điểm đến?">
+                <input type="text" class="search__input" name="destinationTo" placeholder="Điểm đến?">
             </div>
             <div class="search__group">
                 <i class="fa-solid fa-calendar-days"></i>
-                <input type="text" id="celendar__input" class="search__input celendar__input"
+                <input type="text" id="calendar__input" name="fromDate" class="search__input calendar__input"
                        placeholder="Chọn ngày đi">
-                <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
                 <script>
-                    flatpickr("#celendar__input", {
+                    flatpickr("#calendar__input", {
                         dateFormat: "d-m-Y",
                         defaultDate: null,
                         minDate: "today",
@@ -37,17 +36,18 @@
             </div>
             <div class="search__group budget__wrap">
                 <i class="fa-solid fa-hand-holding-dollar"></i>
-                <input type="text" class="search__input input__budget" placeholder="Chọn mức giá" readonly>
+                <input type="text" class="search__input input__budget" value ="" placeholder="Chọn mức giá" readonly>
+                <input type="hidden" class="search-price" name="budgetId" value="">
                 <div class="budget__dropdown">
                     <ul class="budget__list">
-                        <li class="budget__item">Dưới 5 triệu</li>
-                        <li class="budget__item">Từ 5 - 10 triệu</li>
-                        <li class="budget__item">Từ 10 - 20 triệu</li>
-                        <li class="budget__item">Trên 20 triệu</li>
+                        <li class="budget__item" data-price = '1'>Dưới 5 triệu</li>
+                        <li class="budget__item" data-price = '2'>Từ 5 - 10 triệu</li>
+                        <li class="budget__item" data-price = '3'>Từ 10 - 20 triệu</li>
+                        <li class="budget__item" data-price = '4'>Trên 20 triệu</li>
                     </ul>
                 </div>
             </div>
-            <button class="btn search__btn">Tìm kiếm</button>
+            <button type="submit" class="btn search__btn">Tìm kiếm</button>
         </form>
     </div>
 </section>
@@ -506,15 +506,15 @@
                          <?php endif; ?>
                       <?php endforeach; ?>
                    <?php endif; ?>
-                    <?php
-                        $slugCategoryTour  = null?? '';
-                        foreach ($data['categories'] as $category) {
-                            if($category['id'] != $displayTour['category_id']) {
-                                $slugCategoryTour = $category['slug'];
-                                break;
-                            }
-                        }
-                    ?>
+                   <?php
+                   $slugCategoryTour  = null?? '';
+                   foreach ($data['categories'] as $category) {
+                      if($category['id'] != $displayTour['category_id']) {
+                         $slugCategoryTour = $category['slug'];
+                         break;
+                      }
+                   }
+                   ?>
                     <a href="<?php echo _WEB_ROOT.'/'.$slugCategoryTour?>" class="btn btn-1 btn-more">Xem tất cả</a>
                 </div>
             </div>
@@ -535,15 +535,15 @@
                       <?php foreach ($data['firstLocationCate'] as $item): ?>
                            <div class="favorite__item">
                                <div class="favorite__item--text">
-                                   <?php
-                                    $slug = null;
-                                    foreach($data['categories'] as $category) {
-                                        if($category['id'] == $item['category']) {
-                                            $slug = $category['slug'];
-                                            break;
-                                        }
-                                    }
-                                   ?>
+                                  <?php
+                                  $slug = null;
+                                  foreach($data['categories'] as $category) {
+                                     if($category['id'] == $item['category']) {
+                                        $slug = $category['slug'];
+                                        break;
+                                     }
+                                  }
+                                  ?>
                                    <a href="<?php echo _WEB_ROOT.'/'.$slug.'/'.$item['slug'] ?>"><?php echo htmlspecialchars($item['name']); ?></a>
                                </div>
                                <div class="favorite__item--img">
@@ -817,77 +817,26 @@
     </div>
 </section>
 <!-- brand -->
-<!--hotline-->
-<div class="hotline">
-    <div class="hotline-btn">
-        HOTLINE
-    </div>
-    <div class="hotline-container">
-        <div class="hotline-title">
-            HOTLINE 24/7 Tổng đài - 19001008
-        </div>
-        <div class="hotline-row">
-            <div class="title">
-                Tour nước ngoài
-            </div>
-            <ul class="hotline-list">
-                <li class="hotline-item">
-                    <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2.6239999999999997"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><rect x="18" y="8" width="28" height="48" rx="4"></rect><line x1="28" y1="12" x2="36" y2="12"></line><line x1="30" y1="52" x2="34" y2="52"></line><ellipse cx="32" cy="29.35" rx="3.98" ry="5.3"></ellipse><path d="M28.67 32.48s-3.34.89-4 2.65a10.88 10.88 0 0 0-.62 4.87H40a10.88 10.88 0 0 0-.64-4.82c-.64-1.76-4-2.65-4-2.65"></path></g></svg>
-                    <a href="tel:0389820701">Tour Đoàn: 1232131233123(Mrs.Hoa)</a>
-                </li>
-                <li class="hotline-item">
-                    <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2.6239999999999997"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><rect x="18" y="8" width="28" height="48" rx="4"></rect><line x1="28" y1="12" x2="36" y2="12"></line><line x1="30" y1="52" x2="34" y2="52"></line><ellipse cx="32" cy="29.35" rx="3.98" ry="5.3"></ellipse><path d="M28.67 32.48s-3.34.89-4 2.65a10.88 10.88 0 0 0-.62 4.87H40a10.88 10.88 0 0 0-.64-4.82c-.64-1.76-4-2.65-4-2.65"></path></g></svg>
-                    <a href="tel:0389820701">Tour Lẻ: 1232131233123(Mrs.Hoa)</a>
-                </li>
-            </ul>
-        </div>
-        <div class="hotline-row">
-            <div class="title">
-                Tour trong nước
-            </div>
-            <ul class="hotline-list">
-                <li class="hotline-item">
-                    <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2.6239999999999997"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><rect x="18" y="8" width="28" height="48" rx="4"></rect><line x1="28" y1="12" x2="36" y2="12"></line><line x1="30" y1="52" x2="34" y2="52"></line><ellipse cx="32" cy="29.35" rx="3.98" ry="5.3"></ellipse><path d="M28.67 32.48s-3.34.89-4 2.65a10.88 10.88 0 0 0-.62 4.87H40a10.88 10.88 0 0 0-.64-4.82c-.64-1.76-4-2.65-4-2.65"></path></g></svg>
-                    <a href="tel:0389820701">Tour Đoàn: 1232131233123(Mrs.Hoa)</a>
-                </li>
-                <li class="hotline-item">
-                    <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2.6239999999999997"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><rect x="18" y="8" width="28" height="48" rx="4"></rect><line x1="28" y1="12" x2="36" y2="12"></line><line x1="30" y1="52" x2="34" y2="52"></line><ellipse cx="32" cy="29.35" rx="3.98" ry="5.3"></ellipse><path d="M28.67 32.48s-3.34.89-4 2.65a10.88 10.88 0 0 0-.62 4.87H40a10.88 10.88 0 0 0-.64-4.82c-.64-1.76-4-2.65-4-2.65"></path></g></svg>
-                    <a href="tel:0389820701">Tour Lẻ: 1232131233123(Mrs.Hoa)</a>
-                </li>
-            </ul>
-        </div>
-        <div class="hotline-row">
-            <div class="title">
-                Vé máy bay
-            </div>
-            <ul class="hotline-list">
-                <li class="hotline-item">
-                    <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2.6239999999999997"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><rect x="18" y="8" width="28" height="48" rx="4"></rect><line x1="28" y1="12" x2="36" y2="12"></line><line x1="30" y1="52" x2="34" y2="52"></line><ellipse cx="32" cy="29.35" rx="3.98" ry="5.3"></ellipse><path d="M28.67 32.48s-3.34.89-4 2.65a10.88 10.88 0 0 0-.62 4.87H40a10.88 10.88 0 0 0-.64-4.82c-.64-1.76-4-2.65-4-2.65"></path></g></svg>
-                    <a href="tel:0389820701">Tour Đoàn: 1232131233123(Mrs.Hoa)</a>
-                </li>
-                <li class="hotline-item">
-                    <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2.6239999999999997"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><rect x="18" y="8" width="28" height="48" rx="4"></rect><line x1="28" y1="12" x2="36" y2="12"></line><line x1="30" y1="52" x2="34" y2="52"></line><ellipse cx="32" cy="29.35" rx="3.98" ry="5.3"></ellipse><path d="M28.67 32.48s-3.34.89-4 2.65a10.88 10.88 0 0 0-.62 4.87H40a10.88 10.88 0 0 0-.64-4.82c-.64-1.76-4-2.65-4-2.65"></path></g></svg>
-                    <a href="tel:0389820701">Tour Lẻ: 1232131233123(Mrs.Hoa)</a>
-                </li>
-            </ul>
-        </div>
-        <div class="hotline-row">
-            <div class="title">
-                Tư vấn tổ chức sự kiện
-            </div>
-            <ul class="hotline-list">
-                <li class="hotline-item">
-                    <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2.6239999999999997"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><rect x="18" y="8" width="28" height="48" rx="4"></rect><line x1="28" y1="12" x2="36" y2="12"></line><line x1="30" y1="52" x2="34" y2="52"></line><ellipse cx="32" cy="29.35" rx="3.98" ry="5.3"></ellipse><path d="M28.67 32.48s-3.34.89-4 2.65a10.88 10.88 0 0 0-.62 4.87H40a10.88 10.88 0 0 0-.64-4.82c-.64-1.76-4-2.65-4-2.65"></path></g></svg>
-                    <a href="tel:0389820701">Tour Đoàn: 1232131233123(Mrs.Hoa)</a>
-                </li>
-                <li class="hotline-item">
-                    <svg width="25px" height="25px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="2.6239999999999997"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><rect x="18" y="8" width="28" height="48" rx="4"></rect><line x1="28" y1="12" x2="36" y2="12"></line><line x1="30" y1="52" x2="34" y2="52"></line><ellipse cx="32" cy="29.35" rx="3.98" ry="5.3"></ellipse><path d="M28.67 32.48s-3.34.89-4 2.65a10.88 10.88 0 0 0-.62 4.87H40a10.88 10.88 0 0 0-.64-4.82c-.64-1.76-4-2.65-4-2.65"></path></g></svg>
-                    <a href="tel:0389820701">Tour Lẻ: 1232131233123(Mrs.Hoa)</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector(".search__container");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            let url = new URL(form.action);
+            let formData = new FormData(form);
+
+            formData.forEach((value, key) => {
+                if (value.trim() !== "") {
+                    url.searchParams.append(key, value);
+                }
+            });
+
+            window.location.href = url.toString();
+        });
+    });
+</script>
 <script>
     (function () {
         document.addEventListener("DOMContentLoaded", function () {
@@ -901,6 +850,7 @@
             budgetDropdown.addEventListener("click", function (e) {
                 if (e.target.classList.contains("budget__item")) {
                     budget.setAttribute("value", e.target.textContent);
+                    document.querySelector(".search-price").value = e.target.dataset.price;
                     budgetDropdown.classList.remove("active__dropdown");
                     [...budgetList].forEach((item) => {
                         if (item.classList.contains("active__item")) {

@@ -1,0 +1,48 @@
+.search-result {
+  padding-bottom: 4rem;
+  .tour {
+    &__list {
+    display: flex;
+    flex-wrap: wrap;  gap: 2rem;
+  }
+    &__item {
+      width: calc(25% - 2rem);
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-xl) {
+
+}
+@media screen and (max-width: $breakpoint-lg) {
+  .search-result {
+    .tour__list {
+      gap: 1rem;
+
+    }
+    .tour__item {
+      width: calc(33.3333% - 0.7rem);
+
+    }
+  }
+}
+@media screen and (max-width: $breakpoint-md) {
+  .search-result {
+    .tour__item {
+      width: calc(50% - 0.6rem);
+
+    }
+  }
+
+}
+@media screen and (max-width: $breakpoint-sm) {
+  .search-result {
+    .tour__item {
+      width: calc(100%);
+      img {
+        height: 25rem;
+      }
+
+    }
+  }
+}

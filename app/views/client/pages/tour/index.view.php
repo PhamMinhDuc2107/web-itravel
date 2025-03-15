@@ -10,7 +10,7 @@
                 <div class="sidebar__filter">
                     <h3 class="filter__title">Chọn ngày đi</h3>
                     <input type="text" id="date-departure" placeholder="" name="date-departure" style="width: 100%; border:1px solid #e9e9e9;border-radius: 6px;padding: 5px">
-                    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+
                     <script>
                         flatpickr("#date-departure", {
                             dateFormat: "d-m-Y",
@@ -87,19 +87,22 @@
          </script>
          <div class="product__right">
             <div class="product__sortbar">
-               <span class="sortbar__text">
-                  Sắp xếp theo: 
+                <h3><?php echo $data["heading"] ?? "Tất cả sản phẩm"?><?php echo isset($data['count']) ? "(".$data['count'] ." tour)": ""?></h3>
+               <div style="display: flex; align-items: center;">
+                   <span class="sortbar__text">
+                  Sắp xếp theo:
                </span>
-               <div class="sortbar__wrap">
-                  <span>Mặc định</span>
-                  <i class="fa fa-angle-down"></i>
-                  <ul class="sortbar__list">
-                     <li class="sortbar__item">Mặc định</li>
-                     <li class="sortbar__item">A->Z</li>
-                     <li class="sortbar__item">Z->A</li>
-                     <li class="sortbar__item">Giá tăng dần</li>
-                     <li class="sortbar__item">Giá giảm dần</li>
-                  </ul>
+                   <div class="sortbar__wrap">
+                       <span>Mặc định</span>
+                       <i class="fa fa-angle-down"></i>
+                       <ul class="sortbar__list">
+                           <li class="sortbar__item">Mặc định</li>
+                           <li class="sortbar__item">A->Z</li>
+                           <li class="sortbar__item">Z->A</li>
+                           <li class="sortbar__item">Giá tăng dần</li>
+                           <li class="sortbar__item">Giá giảm dần</li>
+                       </ul>
+                   </div>
                </div>
                
             </div>
@@ -255,7 +258,7 @@
                </ul>
             </div>
             <?php else :?>
-                <h1 style="font-size: 30px; font-weight: 600; text-align: center">Không tìm thấy sản phẩm nào!</h1>
+                <h1 style="font-size: 30px; font-weight: 600; text-align: center">Không thấy sản phẩm nào!</h1>
             <?php endif;?>
          </div>
       </div>

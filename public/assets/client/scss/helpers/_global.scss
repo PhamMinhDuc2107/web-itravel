@@ -43,6 +43,7 @@ body {
       bottom: 3rem;
       right: 3rem;
       z-index: 99;
+      gap: 1rem;
       a {
          @include flex(center,center);
          @include  size(5rem);
