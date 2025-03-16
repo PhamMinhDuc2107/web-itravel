@@ -3,10 +3,10 @@
          <h3 class="block-title">
             <?php echo $data['count'] > 0 ?  'Có '.$data['count'].' kết quả phù hợp' : "Không tìm thấy bất kỳ kết quả nào với từ khóa trên"?>
          </h3>
-         <?php if($data['tours'] && is_array($data['tours'])):?>
+         <?php if(isset($data['tourSearch']) && is_array($data['tourSearch'])):?>
             <div class="">
                <div class="tour__list">
-                  <?php foreach ($data['tours'] as $tour):?>
+                  <?php foreach ($data['tourSearch'] as $tour):?>
                      <div class="tour__item ">
                         <div class="tour__img">
                            <img src="<?php echo _WEB_ROOT . $tour['image'] ?>" alt="">
@@ -133,5 +133,22 @@
                </div>
             </div>
          <?php endif;?>
+        <?php if(isset($data['blogSearch']) && is_array($data['blogSearch'])):?>
+          <div class="blog page-blog">
+              <div class="blog__list">
+                 <?php foreach($data['blogSearch'] as $blog):?>
+                     <div class="blog__item">
+                         <img src="<?php echo _WEB_ROOT.$blog['thumbnail']?>" alt="<?php echo $blog['slug']?>">
+                         <a class="blog__item--category" href="<?php echo _WEB_ROOT.'/tin-tuc'."/".$blog['category_slug']?>"><?php echo $blog['category_name']?></a>
+                         <a href="<?php echo _WEB_ROOT.'/tin-tuc/'.$blog['slug']?>"><?php echo $blog['title']?></a>
+                         <div>
+                             <i class="fa-solid fa-calendar-days"></i>
+                             <span><?php echo Util::formatDate($blog['created_at'])?></span>
+                         </div>
+                     </div>
+                 <?php endforeach;?>
+              </div>
+          </div>
+      <?php endif;?>
    </div>
 </div>

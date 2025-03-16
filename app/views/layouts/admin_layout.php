@@ -35,8 +35,8 @@
     <link href="<?php echo ASSET ?>/admin/css/froala_editor.pkgd.min.css" rel="stylesheet">
     <script src="<?php echo ASSET ?>/admin/js/froala_editor.pkgd.min.js"></script>
     <!-- Flatpickr -->
-    <link rel="stylesheet" href="<?php echo ASSET ?>/admin/css/flatpickr.min.css">
-    <script src="<?php echo ASSET ?>/admin/js/flatpickr.min.js"></script>
+    <link rel="stylesheet" href="<?php echo ASSET ?>/utils/flatpickr.min.css">
+    <script src="<?php echo ASSET ?>/utils/flatpickr.min.js"></script>
     <script>
         const debounce = (fn, delay) => {
             let timeout;
@@ -46,7 +46,7 @@
             };
         };
     </script>
-    <script src="<?php echo ASSET ?>/admin/js/jquery-3.6.0.min.js" defer></script>
+    <script src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js" defer></script>
 
     <style>
         .pagination {

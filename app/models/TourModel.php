@@ -5,7 +5,7 @@ class TourModel extends Model
    protected $table = 'tours';
    protected $allowedColumns = ['id', "code_tour", 'name', 'slug', "description", "duration", "status", "category_id", "status_hot", "created_at", "updated_at", "deleted_at"];
 
-   public function getTours($condition = [], $where = false)
+   public function getTours($condition = [], $where = false, $keyword = null)
    {
       try {
          $params = [];
@@ -41,21 +41,28 @@ class TourModel extends Model
                 locations dep_loc ON tours.departure_id = dep_loc.id 
         ";
 
-         if ($where && !empty($condition)) {
-            $sql .= " WHERE ";
-            $whereClauses = [];
+         $whereClauses = [];
 
+         if ($where && !empty($condition)) {
             foreach ($condition as $key => $value) {
                $whereClauses[] = "$this->table.$key = :$key";
                $params[":$key"] = $value;
             }
+         }
 
-            $sql .= implode(" AND ", $whereClauses);
+         if (!empty($keyword)) {
+            $whereClauses[] = "tours.name LIKE :keyword";
+            $params[':keyword'] = '%' . $keyword . '%';
+         }
+
+         if (!empty($whereClauses)) {
+            $sql .= " WHERE " . implode(" AND ", $whereClauses);
          }
 
          $sql .= " GROUP BY {$this->table}.$this->colOrderBy ";
          $sql .= " ORDER BY {$this->colOrderBy} {$this->order} ";
          $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
+
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (PDOException $e) {
@@ -181,64 +188,6 @@ class TourModel extends Model
       } catch (PDOException $e) {
          error_log("Database Error: " . $e->getMessage());
          return [];
-      }
-   }
-
-   public function countSearchTours($filters = [])
-   {
-      try {
-         $params = [];
-         $whereClauses = [];
-
-         if (isset($filters['destinationTo']) && !empty($filters['destinationTo'])) {
-            $whereClauses[] = "dest_loc.slug = :destinationTo";
-            $params[':destinationTo'] = $filters['destinationTo'];
-         }
-
-         if (isset($filters['departureFrom']) && !empty($filters['departureFrom'])) {
-            $whereClauses[] = "dep_loc.name = :departureFrom";
-            $params[':departureFrom'] = $filters['departureFrom'];
-         }
-
-         if (isset($filters['fromDate']) && !empty($filters['fromDate'])) {
-            $whereClauses[] = "tpc.date >= :fromDate";
-            $params[':fromDate'] = $filters['fromDate'];
-         }
-
-         if (isset($filters['priceStart']) && isset($filters['priceEnd'])) {
-            if (!empty($filters['priceStart']) && !empty($filters['priceEnd'])) {
-               $whereClauses[] = "tpc.adult_price BETWEEN :priceStart AND :priceEnd";
-               $params[':priceStart'] = $filters['priceStart'];
-               $params[':priceEnd'] = $filters['priceEnd'];
-            } elseif (!empty($filters['priceStart'])) {
-               $whereClauses[] = "tpc.adult_price >= :priceStart";
-               $params[':priceStart'] = $filters['priceStart'];
-            } elseif (!empty($filters['priceEnd'])) {
-               $whereClauses[] = "tpc.adult_price <= :priceEnd";
-               $params[':priceEnd'] = $filters['priceEnd'];
-            }
-         }
-
-         $whereClauseString = !empty($whereClauses) ? " WHERE " . implode(" AND ", $whereClauses) : "";
-
-
-         $countSql = "
-            SELECT COUNT(DISTINCT tours.id)
-            FROM tours
-            LEFT JOIN tour_price_calendar tpc ON tours.id = tpc.tour_id
-            LEFT JOIN locations dest_loc ON tours.destination_id = dest_loc.id
-            LEFT JOIN locations dep_loc ON tours.departure_id = dep_loc.id
-            {$whereClauseString}
-            AND tpc.date = (SELECT MIN(date) FROM tour_price_calendar WHERE tour_id = tours.id AND date >= :fromDate)
-        ";
-
-         $countStmt = $this->_query($countSql, $params);
-         $totalCount = (int) $countStmt->fetchColumn();
-
-         return $totalCount;
-      } catch (PDOException $e) {
-         error_log("Database Error: " . $e->getMessage());
-         return 0;
       }
    }
    public function getNameTours()

@@ -15,7 +15,7 @@ class Blog extends Controller{
       $this->BlogModel->setBaseModel();
       $totalPages = $this->BlogModel->getTotalPages();
 
-      $blogs = $this->BlogModel->getBlogByStatus("published");
+      $blogs = $this->BlogModel->getBlogs(['status' => "published"]);
       $categories = $this->CategoryModel->all();
       $locations = $this->LocationModel->where(['is_destination'=>1]);
       $breadcrumbs =[

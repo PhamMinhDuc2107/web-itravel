@@ -1,5 +1,6 @@
 .home__slider {
    height: 55rem;
+   width: 120rem;
    &--list {
    }
    &--item {
@@ -665,6 +666,9 @@
 }
 // responsive
 @media screen and (max-width: $breakpoint-xl) {
+   .home__slider {
+      width: 100%;
+   }
    .search__container {
       flex-wrap: wrap;
    }

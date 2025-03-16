@@ -79,15 +79,27 @@ class Home extends Controller
 
    public function search()
    {
-      $type = Request::has("type") ? Request::input("type") : null;
+      $type = Request::has("type", "get") ? Request::input("type") : null;
+
       $categories = $this->CategoryModel->all();
       $locations = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
+      $query = htmlspecialchars(Request::input("search"));
       switch ($type) {
          case "tour":
+            $tours = $this->TourModel->getTours([], false, $query);
 
+            $this->data["title"] = "ITravel | Tìm kiếm tour du lịch";
+            $this->data['heading'] = "Tìm kiếm tour ";
+            $this->data['count'] = count($tours) ?? 0;
+            $this->data['tourSearch'] = $tours;
             break;
          case "blog":
+            $blogs = $this->BlogModel->getBlogs([], true, $query);
+            $this->data["title"] = "ITravel | Tìm kiếm tin tức du lịch";
+            $this->data['heading'] = "Tìm kiếm tin tức ";
+            $this->data['count'] = count($blogs) ?? 0;
+            $this->data['blogSearch'] = $blogs;
             break;
          default:
             $filters = [];
@@ -108,7 +120,6 @@ class Home extends Controller
             if (Request::has("fromDate", "get")) {
                $fromDate = htmlspecialchars(Request::input("fromDate"));
                $filters['fromDate'] = Util::formatDate($fromDate, 'Y-m-d');
-               print($filters['fromDate']);
             }
 
             if (Request::has("budgetId", "get")) {
@@ -123,16 +134,15 @@ class Home extends Controller
             }
             $tours = $this->TourModel->searchTours($filters);
 
-            $breadcrumbs = [
-               ['name' => "Tìm kiếm tour", "link" => "#"],
-            ];
             $this->data["title"] = "ITravel | Tìm kiếm tour du lịch";
             $this->data['heading'] = "Tìm kiếm tour ";
             $this->data['count'] = count($tours) ?? 0;
-            $this->data['tours'] = $tours;
+            $this->data['tourSearch'] = $tours;
             break;
       }
-
+      $breadcrumbs = [
+         ['name' => "Tìm kiếm", "link" => "#"],
+      ];
       $this->data['departures'] = $departure;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['categories'] = $categories;
@@ -140,7 +150,24 @@ class Home extends Controller
       $this->data["page"] = "search/index";
       $this->render("layouts/client_layout", $this->data);
    }
+   public function searchAjax() {
+      $search = Request::has("search", "get") ? Request::input("search") : null;
+      if (empty($search)) {
+         echo json_encode([]);
+         exit();
+      }
+      $tours = $this->TourModel->getTours([], false, $search);
+      $blogs = $this->BlogModel->getBlogs(['status' => "published"], false, $search);
+      $data = [];
+      if(!empty($tours) && is_array($tours)) {
+         $data['tours'] = $tours;
+      }
+      if(!empty($blogs) && is_array($blogs)) {
+         $data['blogs'] = $blogs;
+      }
+      echo json_encode($data);
 
+   }
    public function getPriceRange($price)
    {
       switch ($price) {

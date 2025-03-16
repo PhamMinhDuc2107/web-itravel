@@ -39,10 +39,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.js"></script>
         <!-- Flatpickr -->
-        <link rel="stylesheet" href="<?php echo ASSET ?>/admin/css/flatpickr.min.css">
-        <script src="<?php echo ASSET ?>/admin/js/flatpickr.min.js"></script>
+        <link rel="stylesheet" href="<?php echo ASSET ?>/utils/flatpickr.min.css">
+        <script src="<?php echo ASSET ?>/utils/flatpickr.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
 
+        <script src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js"></script>
 
         <!-- css -->
         <link rel="stylesheet" href="<?php echo ASSET?>/client/css/reset.css">
