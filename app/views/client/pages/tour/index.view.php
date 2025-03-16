@@ -93,29 +93,70 @@
                   Sắp xếp theo:
                </span>
                    <div class="sortbar__wrap">
-                       <span>Mặc định</span>
+                       <span>A->Z</span>
                        <i class="fa fa-angle-down"></i>
                        <ul class="sortbar__list">
-                           <li class="sortbar__item">Mặc định</li>
-                           <li class="sortbar__item">A->Z</li>
-                           <li class="sortbar__item">Z->A</li>
-                           <li class="sortbar__item">Giá tăng dần</li>
-                           <li class="sortbar__item">Giá giảm dần</li>
+                           <li class="sortbar__item" data-sortBy="name" data-sortCol="name">A->Z</li>
+                           <li class="sortbar__item" data-sortBy="name" data-sortCol="name">Z->A</li>
+                           <li class="sortbar__item" data-sortBy="price" data-sortCol="adult_price">Giá tăng dần</li>
+                           <li class="sortbar__item" data-sortBy = 'price' data-sortCol="adult_price">Giá giảm dần</li>
                        </ul>
                    </div>
                </div>
-               
             </div>
-            <script>
-               let sortbarText = document.querySelector(".sortbar__wrap span");
-               let sortbarList = document.querySelector(".sortbar__list");
-               sortbarList.addEventListener("click", function(e) {
-                     if(e.target.classList.contains("sortbar__item")) {
-                        context = e.target.textContent;
-                        sortbarText.textContent = context;
-                     }  
-               });
-            </script>
+<!--             <script>-->
+<!--                 $(document).ready(function () {-->
+<!--                     function updateParams(key, value) {-->
+<!--                         let url = new URL(window.location.href);-->
+<!--                         let params = new URLSearchParams(url.search);-->
+<!---->
+<!--                         if (value) {-->
+<!--                             params.set(key, value);-->
+<!--                         } else {-->
+<!--                             params.delete(key);-->
+<!--                         }-->
+<!---->
+<!--                         return url.pathname + "?" + params.toString();-->
+<!--                     }-->
+<!---->
+<!--                     function loadPage(url, updateHistory = true) {-->
+<!--                         $.ajax({-->
+<!--                             url: url,-->
+<!--                             type: "GET",-->
+<!--                             headers: { "X-Requested-With": "XMLHttpRequest" },-->
+<!--                             success: function (data) {-->
+<!--                                 console.log(data);-->
+<!--                                 $("#tour-list").html(data);-->
+<!---->
+<!--                                 if (updateHistory) {-->
+<!--                                     history.pushState({ url: url }, "", url);-->
+<!--                                 }-->
+<!--                             },-->
+<!--                             error: function (jqXHR, textStatus, errorThrown) {-->
+<!--                                 console.error("Lỗi tải dữ liệu:", textStatus, errorThrown, jqXHR.status);-->
+<!--                                 $("#tour-list").html("<p>Đã xảy ra lỗi khi tải dữ liệu. Mã trạng thái: " + jqXHR.status + "</p>");-->
+<!--                             }-->
+<!--                         });-->
+<!--                     }-->
+<!---->
+<!--                     $(".sortbar__item").on("click", function () {-->
+<!--                         let sortValue = $(this).data("search");-->
+<!--                         let newUrl = updateParams("sort", sortValue);-->
+<!---->
+<!--                         loadPage(newUrl);-->
+<!---->
+<!--                         $(".sortbar__wrap span").text($(this).text());-->
+<!--                     });-->
+<!---->
+<!--                     $(window).on("popstate", function (event) {-->
+<!--                         if (event.originalEvent.state && event.originalEvent.state.url) {-->
+<!--                             loadPage(event.originalEvent.state.url, false);-->
+<!--                         }-->
+<!--                     });-->
+<!--                 });-->
+<!---->
+<!--             </script>-->
+
             <!-- product hot-->
             <?php if (isset($data['tours']) && !empty($data['tours'])) : ?>
             <div class="tour__list">

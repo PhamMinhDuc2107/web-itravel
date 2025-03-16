@@ -704,6 +704,8 @@ body {
 }
 .search__result .row__link {
   color: #23bda4;
+  line-height: 2rem;
+  display: inline-block;
 }
 
 @media screen and (max-width: 1200px) {
@@ -773,6 +775,12 @@ body {
     justify-content: start;
     flex-direction: row;
     flex-wrap: nowrap;
+  }
+}
+@media screen and (max-width: 576px) {
+  .search__result {
+    width: 100%;
+    min-width: unset;
   }
 }
 .footer {
@@ -1929,9 +1937,24 @@ body {
     height: 33rem !important;
   }
 }
+.introduce {
+  font-size: 1.6REM;
+  line-height: 2rem;
+  padding-bottom: 3rem;
+}
+.introduce__info span {
+  font-weight: 600;
+}
 .introduce p {
   line-height: 2rem;
   word-break: break-word;
+}
+.introduce img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  margin: 1.5rem 0;
+  height: 50rem;
 }
 
 .product {

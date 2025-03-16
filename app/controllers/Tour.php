@@ -16,6 +16,7 @@ class Tour extends Controller {
       $this->TourPriceCalendarModel = $this->model("TourPriceCalendarModel");
    }
    public function index() {
+      $this->data["page"] = "tour/index";
       $filters = [];
 
       if(Request::has("destinationTo", "get")) {
@@ -44,8 +45,11 @@ class Tour extends Controller {
       $categories = $this->CategoryModel->all();
       $locations = $this->LocationModel->where(['is_destination'=>1]);
       $departure = $this->LocationModel->where(['is_departure'=>1]);
+
       $this->TourModel->setLimit(9);
+
       $this->TourModel->setBaseModel();
+
       $totalPages = $this->TourModel->getTotalPages();
       $tours = $this->TourModel->getTours();
       $breadcrumbs =[
@@ -72,7 +76,6 @@ class Tour extends Controller {
       $this->data['categories'] = $categories;
       $this->data['locations'] = $locations;
       $this->data['tours'] = $tours;
-      $this->data["page"] = "tour/index";
       $this->render("layouts/client_layout",$this->data);
    }
    public function detail($slug) {
@@ -110,7 +113,7 @@ class Tour extends Controller {
       $tourId = $_GET['tour_id'];
       $date = DateTime::createFromFormat('d-m-Y', $_GET['date'])->format('Y-m-d');
       $price = $this->TourPriceCalendarModel->where(['tour_id'=>$tourId, 'date'=>$date]);
-
+      header('Content-Type: application/json');
       if ($price) {
          echo json_encode(['success' => true, 'adult_price' => number_format($price[0]['adult_price'], 0, ",", ".")."đ"]);
       } else {
@@ -178,7 +181,29 @@ class Tour extends Controller {
       $this->render("layouts/client_layout", $this->data);
    }
 
+   public function getSort($name) {
+      $res = [];
+      switch ($name) {
 
+         case 'nameDesc':
+            $res['col'] = 'name';
+            $res['sort'] = 'desc';
+            break;
+         case "priceAsc":
+            $res['col'] = 'price';
+            $res['sort'] = 'asc';
+            break;
+         case "priceDesc":
+            $res['col'] = 'price';
+            $res['sort'] = 'desc';
+            break;
+         default:
+            $res['col'] = 'name';
+            $res['sort'] = 'asc';
+            break;
+      }
+      return $res;
+   }
 
 
 }

@@ -391,6 +391,9 @@
       }
       &__link {
          color: $primary-color;
+         line-height: 2rem;
+         display: inline-block;
+
       }
    }
 }
@@ -462,5 +465,11 @@
       &__right {
          @include flex(center);
       }
+   }
+}
+@media  screen and (max-width: $breakpoint-sm) {
+   .search__result {
+      width: 100%;
+      min-width: unset;
    }
 }

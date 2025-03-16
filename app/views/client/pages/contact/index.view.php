@@ -39,7 +39,9 @@
                <ul class="dropdown_list">
                   <?php if(isset($data['categories'])) :?>
                      <?php foreach($data['categories'] as $item):?>
-                        <li class="dropdown_item"><?php echo $item['name']?></li>
+                        <?php if($item['parent_id'] ===0) :?>
+                            <li class="dropdown_item"><?php echo $item['name']?></li>
+                        <?php endif;?>
                      <?php endforeach; ?>
                   <?php endif;?>
                </ul>

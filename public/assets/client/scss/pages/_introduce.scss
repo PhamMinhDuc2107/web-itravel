@@ -1,6 +1,22 @@
 .introduce {
+  font-size: 1.6REM;
+  line-height: 2rem;
+  padding-bottom: 3rem;
+  &__info {
+    span {
+      font-weight: 600;
+
+    }
+  }
   p {
     line-height: 2rem;
     word-break: break-word;
+  }
+  img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    margin: 1.5rem 0;
+    height: 50rem;
   }
 }
