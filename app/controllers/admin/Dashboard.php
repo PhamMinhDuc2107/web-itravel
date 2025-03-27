@@ -41,7 +41,7 @@ class Dashboard extends Controller{
       }
       public function login() {
          $admin = $this->jwt->checkAuth("token_auth");
-         if ($admin['success']) {
+         if ($admin !== null && $admin['success']) {
             Util::redirect("dashboard/");
          }
          $this->data['title']= 'Login';
