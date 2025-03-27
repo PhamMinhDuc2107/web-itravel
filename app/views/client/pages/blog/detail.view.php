@@ -16,12 +16,12 @@
         <div class="content">
            <?php echo $data['blog']['content'] ?>
         </div>
+        <?php if(isset($data['relatedNews']) && !empty($data['relatedNews'])):?>
         <div class="relatedNew swiper">
            <h3 class="text-center relatedNew__title">
               Tin tức liên quan
            </h3>
            <div class="swiper-wrapper">
-              <?php if(isset($data['relatedNews'])):?>
               <?php foreach ($data['relatedNews'] as $item):?>
                <div class="blog__item swiper-slide">
                  <div class="detail">
@@ -33,11 +33,12 @@
                  </div>
               </div>
               <?php endforeach;?>
-              <?php endif; ?>
            </div>
            <div class="swiper-button-prev"></div>
            <div class="swiper-button-next"></div>
         </div>
+        <?php endif; ?>
+
     </div>
 </div>
 <script>

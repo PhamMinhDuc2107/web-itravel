@@ -10,7 +10,7 @@ class BlogModel extends Model
    public function getBlogs($condition = [], $getAll = false, $keyword = null)
    {
       try {
-         $sql = "SELECT $this->table.id,$this->table.title, $this->table.slug, $this->table.status,$this->table.thumbnail, $this->table.created_at , blog_categories.name AS category_name, admins.username AS admin_username, blog_categories.slug as category_slug
+         $sql = "SELECT $this->table.id,$this->table.title, $this->table.slug, $this->table.status, $this->table.content,$this->table.thumbnail, $this->table.created_at , blog_categories.name AS category_name, admins.username AS admin_username, blog_categories.slug as category_slug
                 FROM {$this->table}
                 LEFT JOIN blog_categories ON $this->table.category_id = blog_categories.id
                 LEFT JOIN admins ON $this->table.author_id = admins.id";

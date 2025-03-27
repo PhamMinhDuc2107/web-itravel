@@ -5,7 +5,21 @@ const throttle = (fn, time) => {
    return (...args) => {
       let now = new Date().getTime();
       if (now - last < delay) return;
-      fn.apply(this, args); 
       last = now;
+      fn(...args)
    };
 };
+// debounce 
+const debounce = (fn,time) => {
+   let delay = time || 0;
+   let timeId;
+   return (...args) => {
+      if(timeId) {
+         clearTimeout(timeId)
+         timeId= null;
+      }
+      timeId = setTimeout((...args) => {
+         fn(...args)
+      },delay)
+   }
+}

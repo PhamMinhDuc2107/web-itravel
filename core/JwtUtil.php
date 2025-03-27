@@ -11,7 +11,7 @@ class JwtUtil
    private $secretKey;
 
    function __construct() {
-      $this->secretKey = $_ENV["JWT_SECRET_KEY"] ?? "notkey";
+      $this->secretKey = $_ENV["ACCESS_TOKEN_JWT"] ?? "notkey";
       if ($this->secretKey === "notkey") {
          die("Please check your JWT secret key in .env");
       }
