@@ -77,8 +77,9 @@
                     </div>
                     <div class="row title-center">
                         <p>Theo dõi ITravel từ các nền tảng khác nhau nhé!</p>
-                        <a href="https:\\m.me/539690369869651" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-                        <a href=""><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://www.facebook.com/dulichgia" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="
+https://www.tiktok.com/@du.lich.itravel?_t=ZS-8rvOqhUac8g&_r=1"><i class="fa-brands fa-tiktok"></i></a>
                         <a href=""><i class="fa-brands fa-twitter"></i></a>
                         <a href=""><i class="fa-brands fa-instagram"></i></a>
                         <a href=""><i class="fa-brands fa-google"></i></a>
