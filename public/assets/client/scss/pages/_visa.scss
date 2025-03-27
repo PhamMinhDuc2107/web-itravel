@@ -1,0 +1,17 @@
+.visa {
+   font-size: 1.5rem;
+   line-height: 2.4rem;
+   margin-bottom: 4rem;
+   &__info {
+      &--title {
+         font-size: 1.8rem;
+         font-weight: bold;
+      }
+      span {
+         font-weight: 500;
+      }
+      &--list {
+         padding-left: 2rem;
+      }
+   }
+}

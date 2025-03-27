@@ -8,9 +8,15 @@
    $routes['du-lich'] = 'tour/index';
    $routes['du-lich/([a-zA-Z0-9-]+)'] = 'tour/detail/$1';
    $routes['du-lich/get-price'] = 'tour/getPrice';
+   
    $routes['tim-kiem'] = 'home/search';
    $routes['tim-kiem-ajax'] = 'home/searchAjax';
    $routes['(tour-trong-nuoc|tour-nuoc-ngoai|tour-cao-cap|tour-combo-gia-re)(?:/([a-zA-Z0-9-]+))?'] = 'tour/findTour/$1/$2';
+   $routes['visa'] = 'visa/index';
+   $routes['ho-chieu'] = 'passport/index';
+   $routes['dat-phong-khach-san'] = 'bookingHotel/index';
+   $routes['thue-xe-du-lich'] = 'bookingVehicel/index';
+   $routes['to-chuc-su-kien'] = 'bookingEvent/index';
 
    $routes['order-booking/(.+)'] = "booking/index/$1";
    $routes['checkout'] = "booking/checkout";
@@ -18,8 +24,14 @@
 
    $routes['tin-tuc'] = 'blog/index';
    $routes['tin-tuc/(.+)'] = 'blog/detail/$1';
-
    $routes['thong-bao-ket-qua'] = "result/index";
+   $routes['lien-he-tu-van-([a-zA-Z0-9-]+)'] = 'ContactService/index/$1';
+
+
+
+
+
+
 
    $routes['dashboard'] = 'admin/dashboard/index';
    $routes['dashboard/login'] = 'admin/dashboard/login';

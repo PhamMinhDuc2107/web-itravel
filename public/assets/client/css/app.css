@@ -3261,5 +3261,20 @@ body {
     height: 25rem;
   }
 }
+.visa {
+  font-size: 1.5rem;
+  line-height: 2.4rem;
+  margin-bottom: 4rem;
+}
+.visa__info--title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.visa__info span {
+  font-weight: 500;
+}
+.visa__info--list {
+  padding-left: 2rem;
+}
 
 /*# sourceMappingURL=app.css.map */

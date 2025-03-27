@@ -2,6 +2,8 @@
 
 class Result extends Controller
 {
+   private $data;
+   
    public function __construct()
    {
 

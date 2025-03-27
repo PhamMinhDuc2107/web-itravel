@@ -238,7 +238,7 @@
                                      <?php foreach ($data['categories'] as $subCategory) : ?>
                                         <?php if ($subCategory['parent_id'] == $category['id']) :?>
                                              <li class="dropdown__menu--item">
-                                                 <a href="<?php echo _WEB_ROOT.'/'.$category['slug']."?departure=".$subCategory['slug']  ?>">
+                                                 <a href="<?php echo _WEB_ROOT.'/'.$subCategory['slug']  ?>">
                                                     <?php echo $subCategory['name'] ?>
                                                  </a>
                                                  <?php $hasLocation = false;

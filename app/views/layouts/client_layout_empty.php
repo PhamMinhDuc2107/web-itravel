@@ -134,7 +134,6 @@
     $booking = $data["booking"] ?? null;
     $title = $data["title"] ?? null;
     $content = $data["content"] ?? null;
-    $token  = $data["token"] ?? null;
     ?>
 <body>
     <div class="logo">
