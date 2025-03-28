@@ -13,15 +13,17 @@ class Passport extends Controller
    public function index()
    {
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination'=>1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
+      $departure = $this->LocationModel->where(['is_departure'=>1]);
       $breadcrumbs =[
          ['name'=> "Hộ chiếu", "link"=>"ho-chieu"],
       ];
       $this->data["title"] = "Thông tin đăng ký hộ chiếu";
       $this->data['heading'] = "Hộ chiếu";
       $this->data["page"] = "passport/index";
-      $this->data['categories'] = $categories;
-      $this->data['locations'] = $locations;
+      $this->data["destination"] = $destination;
+      $this->data["departure"] = $departure;
+      $this->data["categories"] = $categories;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->render("layouts/client_layout", $this->data);
    }

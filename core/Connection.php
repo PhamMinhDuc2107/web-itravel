@@ -4,7 +4,7 @@ class Connection {
    private static function connect() {
       try {
          if (!isset($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USERNAME'])) {
-            die("Database configuration error! Please check your .env file.");
+            Util::loadError('500', 500);
          }
          $dsn = 'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'];
          self::$con = new PDO($dsn, $_ENV["DB_USERNAME"], $_ENV["DB_PASSWORD"] ?? "");
@@ -14,10 +14,10 @@ class Connection {
       } catch (Exception $e) {
          $mess = $e->getMessage();
          if (preg_match("/Access denied for user/", $mess)) {
-            die("Database connection error!");
+            Util::loadError('500', 500);
          }
          if (preg_match("/Unknown database/", $mess)) {
-            die("Database not found");
+            Util::loadError('500', 500);
          }
       }
    }

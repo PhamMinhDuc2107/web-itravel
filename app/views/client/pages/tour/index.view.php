@@ -9,7 +9,7 @@
                <h3  class="sidebar__title">Bộ lọc tìm kiếm</h3>
                 <div class="sidebar__filter">
                     <h3 class="filter__title">Chọn ngày đi</h3>
-                    <input type="text" id="date-departure" placeholder="" name="date-departure" style="width: 100%; border:1px solid #e9e9e9;border-radius: 6px;padding: 5px">
+                    <input type="text" id="date-departure" placeholder="" name="dateDeparture" style="width: 100%; border:1px solid #e9e9e9;border-radius: 6px;padding: 5px">
 
                     <script>
                         flatpickr("#date-departure", {
@@ -24,19 +24,19 @@
                <h3 class="filter__title">Chọn mức giá</h3>
                <ul class="filter__list">
                   <li class="filter__item">
-                     <input type="checkbox" class="filter__item--input" id="checkbox__input1">
+                     <input type="checkbox" class="filter__item--input" id="checkbox__input1" name="price">
                      <label for="checkbox__input1" >Dưới 5 triệu</label>
                   </li>
                   <li class="filter__item">
-                     <input type="checkbox" class="filter__item--input" id="checkbox__input2">
+                     <input type="checkbox" class="filter__item--input" id="checkbox__input2" name="price">
                      <label for="checkbox__input2" >Từ 5 triệu đến 10 triệu</label>
                   </li>
                   <li class="filter__item">
-                     <input type="checkbox" class="filter__item--input" id="checkbox__input3">
+                     <input type="checkbox" class="filter__item--input" id="checkbox__input3" name="price">
                      <label for="checkbox__input3" >Từ 10 triệu đến 20 triệu</label>
                   </li>
                   <li class="filter__item">
-                     <input type="checkbox" class="filter__item--input" id="checkbox__input4">
+                     <input type="checkbox" class="filter__item--input" id="checkbox__input4" name="price"> 
                      <label for="checkbox__input4" >Trên 20 triệu</label>
                   </li>
                </ul>
@@ -44,10 +44,10 @@
             <div class="sidebar__filter">
                <h3 class="filter__title">Điểm khởi hành</h3>
                <ul class="filter__list">
-                  <?php if(isset($data['departures'])):?>
-                     <?php foreach($data['departures'] as $item):?>
+                  <?php if(isset($data['departure'])):?>
+                     <?php foreach($data['departure'] as $item):?>
                         <li class="filter__item">
-                           <input type="checkbox" class="filter__item--input" id="<?php echo $item['id']?>">
+                           <input type="checkbox" class="filter__item--input" name="departure[]" value="<?php echo $item['slug']?>" id="<?php echo $item['id']?>">
                            <label for="<?php echo $item['id']?>" ><?php echo $item['name']?></label>
                         </li>
                      <?php endforeach;?>
@@ -57,10 +57,10 @@
             <div class="sidebar__filter">
                <h3 class="filter__title">Điểm đến</h3>
                <ul class="filter__list">
-                  <?php if(isset($data['locations'])):?>
-                     <?php foreach($data['locations'] as $item):?>
+                  <?php if(isset($data['destination'])):?>
+                     <?php foreach($data['destination'] as $item):?>
                         <li class="filter__item">
-                           <input type="checkbox" class="filter__item--input" id="<?php echo $item['id']?>">
+                           <input type="checkbox" class="filter__item--input" name="destination[]" value="<?php echo $item['slug']?>" id="<?php echo $item['id']?>">
                            <label for="<?php echo $item['id']?>" ><?php echo $item['name']?></label>
                         </li>
                      <?php endforeach;?>

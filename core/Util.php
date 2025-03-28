@@ -28,19 +28,22 @@ class Util
    }
 
    public static function redirect($url, $params = [])
-   {
-      $fullUrl = _WEB_ROOT . '/' . ltrim($url, '/');
+{
+    $fullUrl = _WEB_ROOT . '/' . ltrim($url, '/');
 
-      if (!empty($params) && is_array($params) && filter_var($fullUrl, FILTER_VALIDATE_URL)) {
-         $fullUrl .= (parse_url($fullUrl, PHP_URL_QUERY) ? '&' : '?') . http_build_query($params);
-      }
-      if (!headers_sent()) {
-         header("Location: " . $fullUrl);
-         exit();
-      }
-      echo "<script>window.location.href='" . $fullUrl . "';</script>";
-      exit();
-   }
+    if (!empty($params) && is_array($params)) {
+        $query = parse_url($fullUrl, PHP_URL_QUERY);
+        $fullUrl .= $query ? '&' . http_build_query($params) : '?' . http_build_query($params);
+    }
+
+    if (!headers_sent()) {
+        header("Location: " . $fullUrl);
+        exit(); 
+    }
+    echo "<script>window.location.href = '{$fullUrl}';</script>";
+    exit();
+}
+
 
    public static function formatTimeFull($time)
    {
@@ -115,11 +118,12 @@ class Util
 
       return $prefix . '-' . $code;
    }
-   public static function loadError($type = '404', $arr = [])
+   public static function loadError($type = '404', $statusCode=404)
    {
       $folder = "app/errors/" . $type . ".php";
       if (file_exists($folder)) {
          require_once $folder;
+         http_response_code($statusCode);
          exit();
       }
    }
@@ -172,6 +176,14 @@ class Util
       $queryParams = $_GET ?? [];
       $queryParams['sortCol'] = $col;
 
+      return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
+   }
+   public static function buildUrlParams(array $params): string
+   {
+      $queryParams = [];
+      foreach($params as $key=>$item) {
+         $queryParams[$key] = $item;
+      }
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
    public static function checkImage(array $file,array $allowedTypes = ['webp'],int $maxSize = 5 * 1024 * 1024): array {

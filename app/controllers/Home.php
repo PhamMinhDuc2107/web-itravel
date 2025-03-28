@@ -22,7 +22,8 @@ class Home extends Controller
    {
       $banners = $this->BannerModel->where(['status' => 1]);
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination' => 1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
+      $departure = $this->LocationModel->where(['is_departure' => 1]);
       $listTourHot = $this->TourModel->getTours(['status_hot' => 1], true);
       $tours = $this->TourModel->getTours();
 
@@ -65,7 +66,8 @@ class Home extends Controller
       $this->data["tours"] = $tours;
 
       $this->data["banners"] = $banners;
-      $this->data["locations"] = $locations;
+      $this->data["destination"] = $destination;
+      $this->data["departure"] = $departure;
       $this->data["categories"] = $categories;
       $this->data["tourHot"] = $listTourHot;
       $this->data["listCategoryHot"] = $listCategoryHot;
@@ -82,7 +84,7 @@ class Home extends Controller
       $type = Request::has("type", "get") ? Request::input("type") : null;
 
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination' => 1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
       $query = htmlspecialchars(Request::input("search"));
       switch ($type) {
@@ -146,7 +148,8 @@ class Home extends Controller
       $this->data['departures'] = $departure;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['categories'] = $categories;
-      $this->data['locations'] = $locations;
+     $this->data["destination"] = $destination;
+      $this->data["departure"] = $departure;
       $this->data["page"] = "search/index";
       $this->render("layouts/client_layout", $this->data);
    }

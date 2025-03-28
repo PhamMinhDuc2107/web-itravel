@@ -31,7 +31,7 @@ class Booking extends Controller {
       }
       $this->data['priceTour'] = $priceTour[0];
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination'=>1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure'=>1]);
       $breadcrumbs =[
          ['name'=> $tour['name'], "link"=>"du-lich/".$tour['slug']],
@@ -41,7 +41,7 @@ class Booking extends Controller {
       $this->data["title"] = "Đặt tour | ".$tour['name'];
       $this->data['heading'] = "Đặt tour";
       $this->data["page"] = "booking/index";
-      $this->data["locations"] = $locations;
+      $this->data["destination"] = $destination;
       $this->data["categories"] = $categories;
       $this->data['departure'] = $departure;
       $this->data['tour'] = $tour;

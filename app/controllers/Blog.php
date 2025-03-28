@@ -17,7 +17,9 @@ class Blog extends Controller{
 
       $blogs = $this->BlogModel->getBlogs(['status' => "published"]);
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination'=>1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
+      $departure = $this->LocationModel->where(['is_departure' => 1]);
+      
       $breadcrumbs =[
          ['name'=> "Tin tức", "link"=>"tin-tuc"],
       ];
@@ -27,7 +29,8 @@ class Blog extends Controller{
       $this->data['totalPages'] = $totalPages;
       $this->data['blogs'] = $blogs;
       $this->data['categories'] = $categories;
-      $this->data['locations'] = $locations;
+      $this->data['destination'] = $destination;
+      $this->data['departure'] = $departure;
       $this->data['page'] = "blog/index";
       $this->render("layouts/client_layout",$this->data);
    }
@@ -39,6 +42,8 @@ class Blog extends Controller{
       }
       $blog = $this->BlogModel->getBlogById($checkBlog['id']);
       $categories = $this->CategoryModel->all();
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
+      $departure = $this->LocationModel->where(['is_departure' => 1]);
       $relatedNews = $this->BlogModel->where(["category_id"=> $blog['category_id']]);
 
       foreach($relatedNews as $i =>  $item) {
@@ -46,7 +51,6 @@ class Blog extends Controller{
             unset($relatedNews[$i]);
          }
       }
-      $locations = $this->LocationModel->where(["is_destination"=>1]);
       $breadcrumbs =[
          ['name'=> "Tin tức", "link"=>"tin-tuc"],
          ['name'=> $blog['title'], "link"=>"tin-tuc/$slug"],
@@ -54,8 +58,9 @@ class Blog extends Controller{
       $this->data["title"] = "Trang tin tức chi tiết | " . $blog['title'];
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['blog'] = $blog;
-      $this->data['categories'] = $categories;
-      $this->data['locations'] = $locations;
+      $this->data["destination"] = $destination;
+      $this->data["departure"] = $departure;
+      $this->data["categories"] = $categories;
       $this->data['relatedNews'] = $relatedNews;
       $this->data['page'] = "blog/detail";
       $this->render("layouts/client_layout",$this->data);

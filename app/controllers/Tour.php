@@ -35,7 +35,7 @@ class Tour extends Controller {
       }
 
       if(Request::has("budgetId", "get")) {
-         $priceList = $this->getPriceRange((int)htmlspecialchars(Request::input("budgetId")));
+         $priceList = $this->TourModel->getPriceRange((int)htmlspecialchars(Request::input("budgetId")));
          $priceStart = $priceList['start'];
          $priceEnd = $priceList['end'];
 
@@ -43,7 +43,7 @@ class Tour extends Controller {
          $filters['priceEnd'] = $priceEnd;
       }
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination'=>1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure'=>1]);
 
       $this->TourModel->setLimit(9);
@@ -73,14 +73,16 @@ class Tour extends Controller {
       $this->data['departures'] = $departure;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['totalPages'] = $totalPages;
-      $this->data['categories'] = $categories;
-      $this->data['locations'] = $locations;
+      $this->data["destination"] = $destination;
+      $this->data["departure"] = $departure;
+      $this->data["categories"] = $categories;
       $this->data['tours'] = $tours;
       $this->render("layouts/client_layout",$this->data);
    }
    public function detail($slug) {
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination'=>1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
+      $departure = $this->LocationModel->where(['is_departure'=>1]);
       $departure = $this->LocationModel->where(['is_departure'=>1]);
 
       $condition = ['slug'=> htmlspecialchars($slug)];
@@ -99,8 +101,9 @@ class Tour extends Controller {
       $this->data['heading'] = $tour['name'];
       $this->data['departure'] = $departure;
       $this->data['breadcrumbs'] = $breadcrumbs;
-      $this->data['categories'] = $categories;
-      $this->data['locations'] = $locations;
+      $this->data["destination"] = $destination;
+      $this->data["departure"] = $departure;
+      $this->data["categories"] = $categories;
       $this->data['tour'] = $tour;
       $this->data['listImg'] = $listImg;
       $this->data['listPriceCalendar'] = $listPriceCalendar;
@@ -124,8 +127,8 @@ class Tour extends Controller {
       $dpt = Request::input("departure", "");
 
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination' => 1]);
-      $departures = $this->LocationModel->where(['is_departure' => 1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
+      $departure = $this->LocationModel->where(['is_departure' => 1]);
       $this->TourModel->setLimit(9);
       $this->TourModel->setBaseModel();
 
@@ -171,11 +174,11 @@ class Tour extends Controller {
 
       $this->data["title"] = $title;
       $this->data['heading'] = $title;
-      $this->data['departures'] = $departures;
+      $this->data['departure'] = $departure;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['totalPages'] = $totalPages;
-      $this->data['categories'] = $categories;
-      $this->data['locations'] = $locations;
+      $this->data["destination"] = $destination;
+      $this->data["categories"] = $categories;
       $this->data['tours'] = $tours;
       $this->data["page"] = "tour/index";
       $this->render("layouts/client_layout", $this->data);

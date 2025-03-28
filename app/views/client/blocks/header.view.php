@@ -216,7 +216,7 @@
                         >Tất cả tour</a
                     >
                 </li>
-               <?php if (isset($data['categories'])) : ?>
+                <?php if (isset($data['categories'])) : ?>
                   <?php foreach ($data['categories'] as $category) : ?>
                      <?php if ($category['parent_id'] == 0) : ?>
                            <li class="header__menu--item">
@@ -224,16 +224,19 @@
                                   <?php echo $category['name'] ?>
                                </a>
                               <?php
-                              $hasChildren = false;
-                              foreach ($data['categories'] as $subCategory) {
-                                 if ($subCategory['parent_id'] == $category['id']) {
-                                    $hasChildren = true;
-                                    break;
-                                 }
-                              }
+                                $hasChildrenCategory = false;
+                                $hasDeparture =($category['slug'] === "tour-trong-nuoc" || $category['slug'] === 'tour-nuoc-ngoai');
+                                foreach ($data['categories'] as $subCategory) {
+                                    if ($subCategory['parent_id'] == $category['id']) {
+                                        $hasChildrenCategory = true;
+                                        break;
+                                    }
+                                }
+                               
+                             
                               ?>
-                              <?php if ($hasChildren) : ?>
-                                  <i class="fa fa-caret-down"></i>
+                              <?php if($hasChildrenCategory):?>  
+                                <i class="fa fa-caret-down"></i>
                                   <ul class="dropdown__menu dropdown__lv1">
                                      <?php foreach ($data['categories'] as $subCategory) : ?>
                                         <?php if ($subCategory['parent_id'] == $category['id']) :?>
@@ -241,8 +244,21 @@
                                                  <a href="<?php echo _WEB_ROOT.'/'.$subCategory['slug']  ?>">
                                                     <?php echo $subCategory['name'] ?>
                                                  </a>
+                                             </li>
+                                        <?php endif; ?>
+                                     <?php endforeach; ?>
+                                  </ul>
+                              <?php endif;?>  
+                              <?php if ($hasDeparture) : ?>
+                                  <i class="fa fa-caret-down"></i>
+                                  <ul class="dropdown__menu dropdown__lv1">
+                                     <?php foreach ($data['departure'] as $departure) : ?>
+                                             <li class="dropdown__menu--item">
+                                                 <a href="<?php echo _WEB_ROOT.'/du-lich'.Util::buildUrlParams(['departure'=>$departure['slug']])  ?>">
+                                                    Khởi hành từ <?php echo $departure['name'] ?>
+                                                 </a>
                                                  <?php $hasLocation = false;
-                                                    foreach ($data['locations'] as $location) {
+                                                    foreach ($data['destination'] as $location) {
                                                         if ($location['category'] == $category['id']) {
                                                             $hasLocation = true;
                                                         }
@@ -253,16 +269,15 @@
                                                      <ul class="dropdown__menu dropdown__lv2">
                                                          <li class="dropdown__lv2--item">
                                                              <span>Tuyến điểm</span>
-                                                             <?php foreach ($data['locations'] as $location):?>
-                                                                <?php if($category['id'] === $location['category']):?>
-                                                                     <a href="<?php echo _WEB_ROOT.'/'.$category['slug'].'/'.$location['slug']."?departure=".$subCategory['slug'] ?>" class="w-50"><?php echo $location['name']?></a>
+                                                             <?php foreach ($data['destination'] as $destination):?> 
+                                                                <?php if($category['id'] === $destination['category']):?>
+                                                                     <a href="<?php echo _WEB_ROOT.'/'.$category['slug'].Util::buildUrlParams(['departure'=>$departure['slug'], 'destination'=>$destination['slug']]) ?>" class="w-50"><?php echo $destination['name']?></a>
                                                                 <?php endif;?>
                                                              <?php endforeach;?>
                                                          </li>
                                                      </ul>
                                                  <?php endif?>
                                              </li>
-                                        <?php endif; ?>
                                      <?php endforeach; ?>
                                   </ul>
                               <?php endif; ?>
@@ -270,7 +285,6 @@
                      <?php endif; ?>
                   <?php endforeach; ?>
                <?php endif; ?>
-
             </ul>
             <!--header__menu -->
         </div>

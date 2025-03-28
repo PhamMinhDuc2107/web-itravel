@@ -14,6 +14,7 @@
    $routes['(tour-trong-nuoc|tour-nuoc-ngoai|tour-cao-cap|tour-combo-gia-re)(?:/([a-zA-Z0-9-]+))?'] = 'tour/findTour/$1/$2';
    $routes['visa'] = 'visa/index';
    $routes['ho-chieu'] = 'passport/index';
+   $routes['ve-may-bay'] = 'bookingFilght/index';
    $routes['dat-phong-khach-san'] = 'bookingHotel/index';
    $routes['thue-xe-du-lich'] = 'bookingVehicel/index';
    $routes['to-chuc-su-kien'] = 'bookingEvent/index';
@@ -27,7 +28,8 @@
    $routes['thong-bao-ket-qua'] = "result/index";
    $routes['lien-he-tu-van-([a-zA-Z0-9-]+)'] = 'ContactService/index/$1';
 
-
+   $routes['404']= "errors/NotFound/index";
+   $routes['500']= "errors/InternalServer/index";
 
 
 

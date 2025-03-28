@@ -14,7 +14,8 @@ class Contact extends Controller
    }
    public function index(){
       $categories = $this->CategoryModel->all();
-      $locations = $this->LocationModel->where(['is_destination'=>1]);
+      $destination = $this->LocationModel->where(['is_destination' => 1]);
+      $departure = $this->LocationModel->where(['is_departure'=>1]);
       $breadcrumbs =[
          ['name'=> "Liên hệ", "link"=>"lien-he"],
       ];

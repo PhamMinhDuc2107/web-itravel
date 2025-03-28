@@ -12,7 +12,7 @@
          return false;
       } 
       protected function render(string $view, array $data = []) {
-         $pathView  = _DIR_ROOT."/app/views/".$view.".php";
+         $pathView  = _DIR_ROOT."/app/views/".$view.".view.php";
          if (file_exists($pathView)) {
             require_once $pathView;
          }

@@ -129,13 +129,14 @@
         }
     </style>
 </head>
+
+<body>
 <?php
     $data = Request::input('data') ?? [];
     $booking = $data["booking"] ?? null;
     $title = $data["title"] ?? null;
     $content = $data["content"] ?? null;
     ?>
-<body>
     <div class="logo">
         <a href="<?php echo _WEB_ROOT?>" class="nav__item--link">
             <img src="<?php echo ASSET?>/client/images/itravel.png" alt="Thương hiệu hình ảnh của itravel" />

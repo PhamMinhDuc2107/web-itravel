@@ -64,10 +64,11 @@ class App
             $this->__controller = new $this->__controller();
             unset($urlArr[0]);
          } else {
-            Util::loadError("404");
+            Util::loadError("404",  404);
          }
       } else {
-         Util::loadError("404");
+         Util::loadError("404",  404);
+
       }
       if (!empty($urlArr[1])) {
          $this->__action = $urlArr[1];

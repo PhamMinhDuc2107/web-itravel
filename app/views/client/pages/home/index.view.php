@@ -544,7 +544,7 @@
                                      }
                                   }
                                   ?>
-                                   <a href="<?php echo _WEB_ROOT.'/'.$slug.'/'.$item['slug'] ?>"><?php echo htmlspecialchars($item['name']); ?></a>
+                                   <a href="<?php echo _WEB_ROOT.'/'.$slug.Util::buildUrlParams(['destination' => $item['slug']]) ?>"><?php echo htmlspecialchars($item['name']); ?></a>
                                </div>
                                <div class="favorite__item--img">
                                    <img src="<?php echo _WEB_ROOT .'/'. htmlspecialchars($item['image']); ?>"
