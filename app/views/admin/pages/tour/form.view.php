@@ -156,6 +156,31 @@
                                 <input type="text" class="form-control" id="duration" name="duration" value="<?php echo $tour['duration']?>">
                             </div>
                             <div class="mb-3">
+                                <label for="duration" class="form-label">Điểm tham quan</label>
+                                <input type="text" class="form-control" id="destinations" name="destinations" placeholder="Hà Nội, Trung Quốc,..." value="<?php echo $tour['destinations']?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">Ẩm thực</label>
+                                <input type="text" class="form-control" id="meals" name="meals" placeholder="Buffet sáng, Theo thực đơn, Đặc sản địa phương,..."
+                                value="<?php echo $tour['meals']?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">Đối tượng thích hợp</label>
+                                <input type="text" class="form-control" id="suitable_for" name="suitable_for" placeholder="Người lớn tuổi, Cặp đôi, Gia đình nhiều thế hệ, Thanh niên, Trẻ em,..." value="<?php echo $tour['suitable_for']?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">Thời gian lý tưởng</label>
+                                <input type="text" class="form-control" id="ideal_time" name="ideal_time" placeholder="Quanh năm, Mùa thu,..." value="<?php echo $tour['ideal_time']?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">Phương tiện</label>
+                                <input type="text" class="form-control" id="transportation" name="transportation" placeholder="flight,bus,car,train,..." value="<?php echo $tour['transportation']?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">Khuyến mãi</label>
+                                <input type="text" class="form-control" id="promotion" name="promotion" placeholder="Đã ưu đãi trực tiếp vào giá tour" value="<?php echo $tour['promotion']?>">
+                            </div>
+                            <div class="mb-3">
                                 <label for="desc" class="form-label">Mô tả ngắn</label>
                                 <input type="text" class="form-control" id="desc" name="desc" value="<?php echo $tour['description']?>">
                             </div>

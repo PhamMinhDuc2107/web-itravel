@@ -1,230 +1,299 @@
 .pDetail {
-   margin-bottom: 8rem;
-   &__title {
-      margin-bottom: 2rem;
-      font-size: 2.8rem;
-      line-height: 4rem;
-      font-weight: bold;
-   }
-   &__container {
-      @include flex(start, space-between, row, wrap);
-      gap: 2rem;  
-   }
-   &__left {
-      width: calc(70% - 1rem);
-   }
-   &__img {
-      width: 100%;
-      border-radius: 1.6rem;
-      height: 45rem;
-      object-fit: cover;
-   }
-   &__swiper--thumb {
-      margin-top: 2rem;
-   }
-   .swiper-button-prev, .swiper-button-next {
-      @include size(2.5rem);
-      @include flex(center,center);
-      border-radius: 50%;
-      background-color: $white-color;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
-
-
-   }
-   .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after, .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
-      font-size: 1.3rem;
-   }
-   .swiper-slide img {
-      border-radius: 1.6rem;
-      padding: 0.5rem;
-      border: 0.1rem solid $gray-light-color;
-      object-fit: cover;
-   }
-   .swiper-slide-thumb-active img { 
-      border-color: $primary-color; 
-   }
-   &__right {
-      position: sticky;
-      top: 2rem;
-      width: calc(30% - 1rem);
-      border-radius: 1.6rem;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
-      padding: 1.5rem;
-      background-color: $blue-light-color;
-   }
-   &__price {
-      h3 {
-         font-size: 1.8rem;
-         font-weight: 600;
-      }
-      p{
-         margin: 2rem 0;
-         span {
-            color: $primary-color;
-            font-size: 3.2rem;
-            font-weight: 600;
-         }
-      }
-   }
-   &__info {
-      margin-bottom: 2rem;
-      &--row {
-         @include flex(center);
-         line-height: 3.4rem;
-         gap: 0.5rem;
-         i {
-            height: 100%;
-            width: 2.4rem;
-            height: 2.4rem;
-            display: block;
-            @include flex(center,center);
-         }
-         span {
-            color: $primary-color;
-            margin: 0.5rem 0;
-         }
-         input {
-            width: 100%;
-            border-radius: 0.8rem;
-            border:0.1rem solid $primary-color;
-            padding: 0 1rem;
-         }
-      }
-   }
-   &__btn {
-      @include flex(start, space-between);
-      gap: 2rem;
-      button,a {
-         width: 100%;
-         border-radius: 1.6rem;
-         line-height: 3.8rem;
-      }
-   }
-   //tab 
-   &__tab {
-      margin-top: 2rem;
-      width: calc(70% - 1rem);
-      &--list {
-         @include flex(start);
-         border-bottom: 0.2rem solid $primary-color;
-      }
-      &--item {
-         padding: 0 2rem;
-         line-height: 3.5rem;
-         border-top-left-radius: 0.8rem;
-         border-top-right-radius: 0.8rem;
-         &.tab--active {
-            color: $white-color;
-            background-color: $primary-color;
-         }
-      }
-      &--content {
-         @include flex(start, space-between, row, wrap);
-         gap: 1rem;
-         display: none;
-         padding: 3rem 2rem;
-         border-bottom-right-radius: 0.8rem;
-         border-bottom-left-radius: 0.8rem;
-         box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
-         &.tab__content--active {
-            display: flex;
-         }
-      }
-   }
-   &__tour {
-      &--detail {
-         width:calc(33.3333% - 1rem);
-         @include flex(center, space-between, column, wrap);
-         margin-bottom: 1rem;
-         i {
-            font-size: 2.5rem;
-            @include size(5rem);
-            @include flex(center,center);
-            background-color:$blue-light-color;
-            border-radius: 0.8rem;
-            color: $primary-color;
-         }
-         h3 {
+    margin-bottom: 8rem;
+    &__title {
+        margin-bottom: 2rem;
+        font-size: 2.8rem;
+        line-height: 4rem;
+        font-weight: bold;
+    }
+    &__container {
+        @include flex(start, space-between, row, wrap);
+        gap: 2rem;
+    }
+    &__left {
+        width: calc(70% - 1rem);
+    }
+    &__img {
+        width: 100%;
+        border-radius: 1.6rem;
+        height: 45rem;
+        object-fit: cover;
+    }
+    &__swiper--thumb {
+        margin-top: 2rem;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+        @include size(2.5rem);
+        @include flex(center, center);
+        border-radius: 50%;
+        background-color: $white-color;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+    }
+    .swiper-button-next:after,
+    .swiper-rtl .swiper-button-prev:after,
+    .swiper-button-prev:after,
+    .swiper-rtl .swiper-button-next:after {
+        font-size: 1.3rem;
+    }
+    .swiper-slide img {
+        border-radius: 1.6rem;
+        padding: 0.5rem;
+        border: 0.1rem solid $gray-light-color;
+        object-fit: cover;
+    }
+    .swiper-slide-thumb-active img {
+        border-color: $primary-color;
+    }
+    &__right {
+        position: sticky;
+        top: 2rem;
+        width: calc(30% - 1rem);
+        border-radius: 1.6rem;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+        padding: 1.5rem;
+        background-color: $primary-light-color;
+    }
+    &__price {
+        h3 {
             font-size: 1.8rem;
             font-weight: 600;
-            margin: 0.5rem 0;
-         }
-         p {
-            text-align: center;
-            line-height: 2rem;
-            font-size: 1.6rem;
-         }
-      }
-   }
+        }
+        p {
+            margin: 2rem 0;
+            span {
+                color: $primary-color;
+                font-size: 3.2rem;
+                font-weight: 600;
+            }
+        }
+    }
+    &__info {
+        margin-bottom: 2rem;
+        &--row {
+            @include flex(center);
+            line-height: 3.4rem;
+            gap: 0.5rem;
+            i {
+                height: 100%;
+                width: 2.4rem;
+                height: 2.4rem;
+                display: block;
+                @include flex(center, center);
+            }
+            span {
+                color: $primary-color;
+                margin: 0.5rem 0;
+            }
+            input {
+                width: 100%;
+                border-radius: 0.8rem;
+                border: 0.1rem solid $primary-color;
+                padding: 0 1rem;
+            }
+        }
+    }
+    &__btn {
+        @include flex(start, space-between);
+        gap: 2rem;
+        button,
+        a {
+            width: 100%;
+            border-radius: 1.6rem;
+            line-height: 3.8rem;
+        }
+    }
+    //tab
+    &__tab {
+        margin-top: 2rem;
+        width: calc(70% - 1rem);
+        &--list {
+            @include flex(start);
+            border-bottom: 0.2rem solid $primary-color;
+        }
+        &--item {
+            padding: 0 2rem;
+            line-height: 3.5rem;
+            border-top-left-radius: 0.8rem;
+            border-top-right-radius: 0.8rem;
+            &.tab--active {
+                color: $white-color;
+                background-color: $primary-color;
+            }
+        }
+        &--content {
+            @include flex(start, space-between, row, wrap);
+            gap: 1rem;
+            display: none;
+            padding: 3rem 2rem;
+            border-bottom-right-radius: 0.8rem;
+            border-bottom-left-radius: 0.8rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+            &.tab__content--active {
+                display: flex;
+            }
+        }
+    }
+    &__tour {
+        &--detail {
+            width: calc(33.3333% - 1rem);
+            @include flex(center, space-between, column, wrap);
+            margin-bottom: 1rem;
+            i {
+                font-size: 2.5rem;
+                @include size(5rem);
+                @include flex(center, center);
+                background-color: $primary-light-color;
+                border-radius: 0.8rem;
+                color: $primary-color;
+            }
+            h3 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin: 0.5rem 0;
+            }
+            p {
+                text-align: center;
+                line-height: 2rem;
+                font-size: 1.6rem;
+            }
+        }
+    }
 }
-@media screen and (max-width: $breakpoint-xl) {
+.itinerary {
+    &__list {
+        width: 100%;
+        @include flex(center, center, column);
+    }
+    &__item {
+        width: 100%;
+        flex-shrink: 0;
+        margin-bottom: 0.5rem;
+        h3 {
+            font-weight: 500;
+            font-size: 2rem;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 2rem;
+            li {
+                margin: 1rem 0;
+                p,
+                span {
+                    font-size: 1.7rem;
+                }
+            }
+        }
+    }
+}
+.tourNote {
+    &__list {
+        width: 100%;
+    }
+    &__item {
+        font-size: 1.7rem;
+        margin-bottom: 0.5rem;
+    }
+}
+.dropdown-toggle {
+    background-color: $primary-light-color;
+    color: $primary-color;
+    padding: 1rem;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: 2rem;
+    border-radius: 0.6rem;
+    font-weight: 500;
+}
 
+.dropdown-content {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    background-color: #f1f1f1;
+    transition: all 0.3s linear;
+    overflow: hidden;
+    border: 1px solid transparent;
+    margin-top: 0;
+    border-radius: 0.6rem;
+    line-height: 2rem;
+    padding: 0;
+}
+.dropdown-active {
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    margin-top: 0.5rem;
+    border-color: $gray-light-color;
+    padding: 1rem;
+}
+
+@media screen and (max-width: $breakpoint-xl) {
 }
 @media screen and (max-width: $breakpoint-lg) {
-   .pDetail {
-      &__container {
-         flex-direction: column;
-      }
-      &__left {
-         width: 100%;
-      }
-      &__right {
-         width: 100%;
-         position: unset;
-         top: 0;
-      }
-      &__price {
-         p {
-            margin: 1rem 0;
-         }
-      }
-      &__info--row{
-         line-height: 3rem;
-         .flatpickr-input {
-            width: 25%;
-         }
-      }
-      &__img {
-         height: 40rem;
-      }
-      &__tab {
-         width: 100%;
-      }
-   }
+    .pDetail {
+        &__container {
+            flex-direction: column;
+        }
+        &__left {
+            width: 100%;
+        }
+        &__right {
+            width: 100%;
+            position: unset;
+            top: 0;
+        }
+        &__price {
+            p {
+                margin: 1rem 0;
+            }
+        }
+        &__info--row {
+            line-height: 3rem;
+            .flatpickr-input {
+                width: 25%;
+            }
+        }
+        &__img {
+            height: 40rem;
+        }
+        &__tab {
+            width: 100%;
+        }
+    }
 }
 @media screen and (max-width: $breakpoint-md) {
-   .pDetail {
-      &__title {
-         font-size: 2rem;
-         line-height: 3rem;
-         margin-bottom: 1rem;
-      }
-     
-      &__tab {
-         margin-top: 2rem;
-         &--list {
-            overflow: scroll;
-            &::-webkit-scrollbar {
-               display: none;
-            }
-         }
-         &--item {
-            flex-shrink: 0;
-         }
-      }
-      &__tour {
-         &--detail {
-            text-align: center;
-            width: calc(50% - 0.5rem);
+    .pDetail {
+        &__title {
+            font-size: 2rem;
+            line-height: 3rem;
+            margin-bottom: 1rem;
+        }
 
-         }
-      }
-      .pDetail__info--row .flatpickr-input {
-         width: 100%;
-      }
-     
-   }
+        &__tab {
+            margin-top: 2rem;
+            &--list {
+                overflow: scroll;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+            }
+            &--item {
+                flex-shrink: 0;
+            }
+        }
+        &__tour {
+            &--detail {
+                text-align: center;
+                width: calc(50% - 0.5rem);
+            }
+        }
+        .pDetail__info--row .flatpickr-input {
+            width: 100%;
+        }
+    }
 }
 @media screen and (max-width: $breakpoint-sm) {
-
 }

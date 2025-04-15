@@ -19,7 +19,7 @@
                        <?php if(isset($data['listImg'])):?>
                           <?php foreach($data['listImg'] as $index=>$img):?>
                                <div class="swiper-slide">
-                                    <img src="<?php echo _WEB_ROOT.$img['image']?>" alt="<?php echo $data['tour']['name']?>" class="swiper-slide">
+                                    <img src="<?php echo _WEB_ROOT.$img['image']?>" alt="<?php echo $data['tour']['name']?>" >
                                </div>
                           <?php endforeach;?>
                        <?php endif;?>
@@ -28,6 +28,45 @@
                     <div class="swiper-button-prev"></div>
                 </div>
             </div>
+            <script>
+                var swiperThumb = new Swiper(".pDetail__img--thumb", {
+                    spaceBetween: 20,
+                    watchSlidesProgress: true,
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                    on: {
+                        click: function(swiper, event) {
+                            swiperThumb.slides.forEach(slide => {
+                                slide.classList.remove('swiper-slide-active');
+                            });
+                            var clickedSlide = swiper.clickedSlide;
+                            clickedSlide.classList.add('swiper-slide-active');
+                        }
+                    },
+                    breakpoints: {
+                        990: {
+                            slidesPerView: 5,
+
+                        },
+                        765: {
+                            slidesPerView: 4,
+
+                        },
+                        300: {
+                            slidesPerView: 3,
+                        },
+
+                    }
+                });
+                var swiper2 = new Swiper(".pDetail__swiper--img", {
+                    allowTouchMove:false,
+                    thumbs: {
+                        swiper: swiperThumb ,
+                    },
+                });
+            </script>
             <form method="get" action="<?php echo _WEB_ROOT.'/order-booking/'.$data['tour']['code_tour'] ?>"  class="pDetail__right">
                 <div class="pDetail__price">
                     <h3>Giá:</h3>
@@ -157,107 +196,77 @@
                     <div class="pDetail__tour--detail">
                         <i class="fa-solid fa-map"></i>
                         <h3>Điểm tham quan</h3>
-                        <p>Thái Lan, Bangkok, Pattaya, Kanchanaburi</p>
+                        <p><?php echo $data['tour']['destinations']?></p>
                     </div>
                     <div class="pDetail__tour--detail">
                         <i class="fa-solid fa-utensils"></i>
                         <h3>Ẩm thực</h3>
-                        <p>Buffet sáng, Theo thực đơn</p>
+                        <p><?php echo $data['tour']['meals']?></p>
                     </div>
                     <div class="pDetail__tour--detail">
                         <i class="fa-solid fa-people-group"></i>
                         <h3>Đối tượng thích hợp</h3>
-                        <p>Cặp đôi, Gia đình nhiều thế hệ, Thanh niên, Trẻ em</p>
+                        <p><?php echo $data['tour']['suitable_for']?></p>
                     </div>
                     <div class="pDetail__tour--detail">
                         <i class="fa-solid fa-clock"></i>
                         <h3>Thời gian lý tưởng</h3>
-                        <p>Quanh năm</p>
+                        <p><?php echo $data['tour']['ideal_time']?></p>
                     </div>
                     <div class="pDetail__tour--detail">
                         <i class="fa-solid fa-car"></i>
                         <h3>Phương tiện</h3>
-                        <p>Máy bay, Xe du lịch</p>
+                        <p><?php echo Util::translateTransportation($data['tour']['transportation'])?></p>
                     </div>
                     <div class="pDetail__tour--detail">
                         <i class="fa-solid fa-ticket"></i>
                         <h3>Khuyến mãi</h3>
-                        <p>Ưu đãi đã bao gồm trong giá tour</p>
+                        <p><?php echo $data['tour']['promotion']?></p>
                     </div>
                 </div>
                 <div class="pDetail__tab--content tab--content "  data-tab="2">
-                    <p>Khám phá Bắc Đảo</p>
-
-                    Buổi sáng
-
-                    Xe và HDV đón khách tại Khách sạn trung tâm Dương Đông, bắt đầu hành trình tham quan khám phá Bắc Đảo:
-
-                    Nông trại nuôi cấy Ngọc Trai Biển Phú Quốc: tìm hiểu và ngắm nhìn các quy trình tạo ra sản phẩm ngọc trai tinh tế.
-                    Đoàn lên tàu đến Mũi Hàm Rồng để tắm biển, ngắm Sao biển và check - in sống ảo tại đây.
-                    Tạm biệt Mũi Hàm Rồng, đoàn về Làng Chài Rạch Vẹm dùng bữa và nghỉ ngơi tại Nhà Bè.
-
-                    Buổi chiều
-
-                    Đoàn khởi hành đi tới tổ hợp vui chơi, nghĩ dưỡng, giải trí đẳng cấp - Phú Quốc United Center với nhiều phân khu thú vị như: Vui chơi tại Corona Casino - sòng bài mở cửa đầu tiên cho người Việt, Shopping ở khu thương mại, Tham quan bảo tàng gấu, tham gia các lễ hội độc đáo,...
-
-                    Hoặc, Quý khách có thể lựa chọn các chương trình khám phá sau (chi phí tự túc)
-
-                    Phá đảo Công viên chủ đề VinWonders với nhiều phân khu, vạn trải nghiệm thú vị.
-                    Khám phá công viên bảo tồn động vạt Vinpearl Safari - vườn thú mở lớn nhất Việt Nam hiện nay.
-                    Buổi tối
-
-                    Đoàn tự do thưởng thức bữa tối tại Chợ đêm hoặc các nhà tại tại tổ hợp vui chơi Grandworld, VinWonders hoặc Vinpearl Safari.
-
-                    Đoàn ngắm nhìn trọn vẹn buổi tối với màn nhạc nước tại thành phố không ngủ Grand Wordl Phú Quốc.
-
-                    Tạm biệt khu vui chơi, xe đưa Quý khách về điểm đón ban đầu. HDV trả khách và hẹn gặp lại trong các chương trình tiếp theo.
-
-                    Bữa ăn: Bữa trưa
-
-                    Hoạt động: Tham quan Làng Chài Rạch Vẹm, khám phá tổ hợp Grandworld Phú Quốc,...
+                    <div class="itinerary__list">
+                        <?php if(isset($data['tourItinerary'])): ?>
+                            <?php foreach($data['tourItinerary'] as $item): ?>
+                                <div class="itinerary__item">
+                                    <button class="dropdown-toggle">
+                                        Ngày <?php echo $item['day_number'] . ": ". $item['title'] ?>
+                                    </button>
+                                    <div class="dropdown-content">
+                                        <?php echo $item['content'] ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
+                
                 <div class="pDetail__tab--content tab--content"  data-tab="3">
-                    3
+                <div class="tourNote__list">
+                        <?php if(isset($data['tourNotes'])): ?>
+                            <?php foreach($data['tourNotes'] as $item): ?>
+                                <div class="tourNote__item">
+                                    <button class="dropdown-toggle">
+                                        <?php echo $item['title'] ?>
+                                    </button>
+                                    <div class="dropdown-content">
+                                        <?php echo $item['content'] ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
             <script>
-                var swiperThumb = new Swiper(".pDetail__img--thumb", {
-                    spaceBetween: 20,
-                    watchSlidesProgress: true,
-                    navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                    },
-                    on: {
-                        click: function(swiper, event) {
-                            swiperThumb.slides.removeClass('swiper-slide-active');
-                            var clickedSlide = swiper.clickedSlide;
-                            clickedSlide.classList.add('swiper-slide-active');
-                        }
-                    },
-                    breakpoints: {
-                        990: {
-                            slidesPerView: 5,
-
-                        },
-                        765: {
-                            slidesPerView: 4,
-
-                        },
-                        300: {
-                            slidesPerView: 3,
-                        },
-
-                    }
+                    document.querySelectorAll('.dropdown-toggle').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const content = button.nextElementSibling;
+                        content.classList.toggle('dropdown-active')
+                    });
                 });
-                var swiper2 = new Swiper(".pDetail__swiper--img", {
-                    allowTouchMove:false,
-                    thumbs: {
-                        swiper: swiperThumb ,
-                    },
-                });
-            </script>
 
+                </script>
         </div>
     </div>
 </section>

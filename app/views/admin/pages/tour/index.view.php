@@ -28,8 +28,8 @@
                                         <li><a class="dropdown-item" data-value="id" href="<?php echo Util::buildOrderColByUrl()?>">Sắp xếp theo ID</a></li>
                                         <li><a class="dropdown-item" data-value="title" href="<?php echo Util::buildOrderColByUrl("name")?>">Sắp xếp tên</a>
                                         </li>
-                                        <li><a class="dropdown-item" data-value="slug" href="<?php echo Util::buildOrderColByUrl("status")?>">Sắp xếp trạng thái</a></li>
-                                        <li><a class="dropdown-item" data-value="created_at" href="#">Sắp xếp theo Thời
+                                        <li><a class="dropdown-item" data-value="slug" href="<?php echo Util::buildOrderColByUrl("status_hot")?>">Trạng thái hot</a></li>
+                                        <li><a class="dropdown-item" data-value="created_at" href="<?php echo Util::buildOrderColByUrl("created_at") ?>">Sắp xếp theo Thời
                                                 gian</a></li>
 
                                     </ul>
@@ -47,21 +47,21 @@
                    <?php endif; ?>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0 min-vh-50">
+                            <table class="table align-items-center mb-0 min-vh-50 ">   
                                 <thead>
                                 <tr>
                                     <th class="">
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2" style="min-width: 150px;">
                                         Tên
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2" style="min-width: 150px;">
                                         Slug
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1" >
                                         Hình ảnh
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-2" style="min-width: 200px;">
                                         Mô tả
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -73,7 +73,25 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
                                         Địa điểm
                                     </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
+                                        Điểm tham quan
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
+                                        Ẩm thực
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
+                                        Đối tượng thích hợp
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
+                                        Thời gian lý tưởng
+                                    </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7col-1">
+                                        Phương tiện
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7col-1">
+                                        Khuyến mãi
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
                                         Danh mục
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
@@ -129,12 +147,13 @@
                                             <td class='col-1'>
                                                 <div class="d-flex px-1 py-1 ">
                                                     <div class="mb-0 text-sm d-flex flex-column">
-                                                        <span>Người lớn: <?php echo number_format($item["adult_price"], 2, '.', ','); ?></span>
-                                                        <span>Người trẻ em: <?php echo number_format($item["child_price"], 2, '.', ','); ?></span>
-                                                        <span>Người trẻ nhỏ: <?php echo number_format($item["infant_price"], 2, '.', ','); ?></span>
+                                                        <span>Người lớn: <?php echo number_format($item["adult_price"], 0, '.', ','); ?></span>
+                                                        <span>Người trẻ em: <?php echo number_format($item["child_price"], 0, '.', ','); ?></span>
+                                                        <span>Người trẻ nhỏ: <?php echo number_format($item["infant_price"], 0, '.', ','); ?></span>
                                                     </div>
                                                 </div>
                                             </td>
+                                            
                                             <td class='col-1'>
                                                 <div class="d-flex px-1 py-1 ">
                                                     <div class="mb-0 text-sm d-flex flex-column">
@@ -142,6 +161,24 @@
                                                         <span>Điểm đến: <?php echo $item["destination_name"] ?></span>
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span><?php echo $item['destinations']?></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span><?php echo $item['meals']?></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span><?php echo $item['suitable_for']?></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span><?php echo $item['ideal_time']?></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span><?php echo $item['transportation']?></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span><?php echo $item['promotion']?></span>
                                             </td>
                                             <td class='col-1'>
                                                 <div class="text-center">
@@ -402,8 +439,32 @@
                     <input type="text" class="form-control" id="duration" name="duration" value="">
                 </div>
                 <div class="mb-3">
+                    <label for="duration" class="form-label">Điểm tham quan</label>
+                    <input type="text" class="form-control" id="destinations" name="destinations" placeholder="Hà Nội, Trung Quốc,...">
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label">Ẩm thực</label>
+                    <input type="text" class="form-control" id="meals" name="meals" placeholder="Buffet sáng, Theo thực đơn, Đặc sản địa phương,...">
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label">Đối tượng thích hợp</label>
+                    <input type="text" class="form-control" id="suitable_for" name="suitable_for" placeholder="Người lớn tuổi, Cặp đôi, Gia đình nhiều thế hệ, Thanh niên, Trẻ em,...">
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label">Thời gian lý tưởng</label>
+                    <input type="text" class="form-control" id="ideal_time" name="ideal_time" placeholder="Quanh năm, Mùa thu,...">
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label">Phương tiện</label>
+                    <input type="text" class="form-control" id="transportation" name="transportation" placeholder="flight,bus,car,train,...">
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label">Khuyến mãi</label>
+                    <input type="text" class="form-control" id="promotion" name="promotion" placeholder="Đã ưu đãi trực tiếp vào giá tour">
+                </div>
+                <div class="mb-3">
                     <label for="desc" class="form-label">Mô tả ngắn</label>
-                    <input type="text" class="form-control" id="desc" name="desc" value="">
+                    <input type="text" class="form-control" id="desc" name="desc" placeholder="">
                 </div>
                <?php
                $departures = $data["departures"] ?? [];

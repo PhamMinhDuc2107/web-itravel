@@ -61,7 +61,9 @@ class Dashboard extends Controller{
             }
             $payload = $this->jwt->generatePayload($admin, $remember);
             $token = $this->jwt->encode($payload);
-            setcookie('token_auth', $token, $payload['exp'], '/', null, true, true);
+            setcookie('token_auth', $token,$payload['exp'],'/',null,true,false  
+           );
+           
             Util::redirect("dashboard");
          }
       }

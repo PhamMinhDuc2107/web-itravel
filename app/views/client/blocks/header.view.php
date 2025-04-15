@@ -110,12 +110,12 @@
                                                 <div class="info">
                                                     <a href='<?php echo _WEB_ROOT?>/du-lich/${tour.slug}' class="info__title">${tour.name}</a>
                                                     <span class="info__price">
-                                                        ${tour.adult_price.toLocaleString('vi-VN', {
+                                                        ${tour.adult_price?tour.adult_price.toLocaleString('vi-VN', {
                                                 style: 'currency',
                                                 currency: 'VND',
                                                 minimumFractionDigits: 0,
                                                 maximumFractionDigits: 0
-                                            })}
+                                            }) : "Liên hệ"}
                                                     </span>
                                                 </div>
                                             </div>`

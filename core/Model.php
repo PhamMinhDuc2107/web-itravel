@@ -8,9 +8,6 @@ class Model extends Database
    protected  $colOrderBy = "id";
    protected $order = "ASC";
    protected $offset = 0;
-   /**
-    * @throws Exception
-    */
    public function __construct()
    {
       parent::__construct();
@@ -86,6 +83,7 @@ class Model extends Database
          }
 
          $sql .= implode(" AND ", $clauses);
+         $sql .= " ORDER BY {$this->colOrderBy} {$this->order}";
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (Exception $e) {

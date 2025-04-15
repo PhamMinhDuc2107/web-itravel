@@ -16,6 +16,37 @@
                      <span><?php echo Util::formatDate($blog['created_at'])?></span>
                   </div>
                </div>
+               <script type="application/ld+json">
+                  {
+                  "@context": "https://schema.org",
+                  "@type": "BlogPosting",
+                  "mainEntityOfPage": {
+                     "@type": "WebPage",
+                     "@id": "<?php echo _WEB_ROOT . '/tin-tuc/' . $blog['slug']; ?>"
+                  },
+                  "headline": "<?php echo htmlspecialchars($blog['title']); ?>",
+                  "image": [
+                     "<?php echo _WEB_ROOT . htmlspecialchars($blog['thumbnail']); ?>"
+                  ],
+                  "datePublished": "<?php echo date('c', strtotime($blog['created_at'])); ?>",
+                  "dateModified": "<?php echo date('c', strtotime($blog['updated_at'])); ?>",
+                  "author": {
+                     "@type": "Person",
+                     "name": "<?php echo htmlspecialchars($blog['author_name'] ?? 'Itravel Team'); ?>"
+                  },
+                  "publisher": {
+                     "@type": "Organization",
+                     "name": "Itravel",
+                     "logo": {
+                        "@type": "ImageObject",
+                        "url": "<?php echo ASSET ?>/client/images/itravel.png"
+                     }
+                  },
+                  "description": "<?php echo htmlspecialchars($blog['description'] ?? $blog['title']); ?>",
+                  "articleBody": "<?php echo htmlspecialchars(strip_tags(substr($blog['content'], 0, 500))); ?>"
+                  }
+                  </script>
+
             <?php endforeach;?>
             <?php endif;?>
          </div>

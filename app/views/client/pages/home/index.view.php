@@ -19,7 +19,7 @@
         <form action="<?php echo _WEB_ROOT.'/tim-kiem'?>" class="search__container">
             <div class="search__group">
                 <i class="fa-solid fa-location-dot"></i>
-                <input type="text" class="search__input" name="destinationTo" placeholder="Điểm đến?">
+                <input type="text" class="search__input" name="destination" placeholder="Điểm đến?">
             </div>
             <div class="search__group">
                 <i class="fa-solid fa-calendar-days"></i>
@@ -66,8 +66,7 @@
                            <div class="tour__img">
                                <img src="<?php echo _WEB_ROOT . $tour['image'] ?>" alt="<?php echo $tour['name']?>">
                                <div class="tour__info--transport">
-                                   <i class="fa-solid fa-plane"></i>
-                                   <i class="fa-solid fa-bus"></i>
+                                   <?php echo Util::renderTransportationIcons($tour['transportation'])?>
                                </div>
                            </div>
                            <div class="tour__item--wrap">
@@ -152,7 +151,7 @@
                                                </g>
                                            </svg>
                                            <div>
-                                               <span> Lịch khởi hành: <?php echo Util::formatDate($tour['date']) ?></span>
+                                               <span> Lịch khởi hành: <?php echo Util::formatDate($tour['date'])?></span>
                                            </div>
                                        </div>
                                        <div class="tour__detail--depart">
@@ -173,12 +172,13 @@
                                        </div>
                                    </div>
                                    <div class="tour__detail--bottom">
-                                       <div class="tour__detail--price">
+                                        <div class="tour__detail--price">
+                                       
                                            <p>Giá chỉ:</p>
                                            <span><?php echo number_format($tour['adult_price'], 0, ",", "."); ?>đ</span>
                                        </div>
                                        <div class="tour__detail--quantity">
-                                           <a href="<?php echo _WEB_ROOT . '/du-lich/' . $tour['slug'] ?>"
+                                           <a href="<?php echo  _WEB_ROOT . '/du-lich/' . $tour['slug']?>"
                                               class="btn btn-booking">Đặt ngay</a>
                                        </div>
                                    </div>
@@ -226,10 +226,9 @@
                                    <div class="tour__img">
                                        <img src="<?php echo _WEB_ROOT . $itemTourAll['image'] ?>"
                                             alt="<?php echo $itemTourAll['name'] ?>">
-                                       <div class="tour__info--transport">
-                                           <i class="fa-solid fa-plane"></i>
-                                           <i class="fa-solid fa-bus"></i>
-                                       </div>
+                                            <div class="tour__info--transport">
+                                                <?php echo Util::renderTransportationIcons($itemTourAll['transportation'])?>
+                                            </div>
                                    </div>
                                    <div class="tour__item--wrap">
                                        <div class="tour__name">
@@ -316,7 +315,7 @@
                                                        </g>
                                                    </svg>
                                                    <div>
-                                                       <span> Lịch khởi hành: <?php echo Util::formatDate($itemTourAll['date']) ?></span>
+                                                       <span> Lịch khởi hành: <?php echo $itemTourAll['date'] !== null ? Util::formatDate($itemTourAll['date']) : "Liên hệ" ?></span>
                                                    </div>
                                                </div>
                                                <div class="tour__detail--depart">
@@ -336,16 +335,17 @@
                                                    </div>
                                                </div>
                                            </div>
+                                        
                                            <div class="tour__detail--bottom">
-                                               <div class="tour__detail--price">
-                                                   <p>Giá chỉ:</p>
-                                                   <span><?php echo number_format($itemTourAll['adult_price'], 0, ",", "."); ?>đ</span>
-                                               </div>
-                                               <div class="tour__detail--quantity">
-                                                   <a href="<?php echo _WEB_ROOT . '/du-lich/' . $itemTourAll['slug'] ?>"
-                                                      class="btn btn-booking">Đặt ngay</a>
-                                               </div>
-                                           </div>
+                                                    <div class="tour__detail--price">
+                                                    <p>Giá chỉ:</p>
+                                                    <span><?php echo number_format($itemTourAll['adult_price'], 0, ",", "."); ?>đ</span>
+                                                </div>
+                                                <div class="tour__detail--quantity">
+                                                    <a href="<?php echo   _WEB_ROOT . '/du-lich/' . $itemTourAll['slug']?>"
+                                                        class="btn btn-booking"><?php echo "Đặt ngay"?></a>
+                                                </div>
+                                            </div>
                                        </div>
                                    </div>
                                </div>
@@ -360,9 +360,6 @@
                          $locationTours = array_filter($categoryData['tours'], function ($tour) use ($location) {
                             return isset($tour['destination_id']) && $tour['destination_id'] == $location['id'];
                          });
-                         if (empty($locationTours) && !empty($categoryData['tours'])) {
-                            $locationTours = [$categoryData['tours'][0]];
-                         }
                          if (!empty($locationTours)):
                             $displayTour = reset($locationTours);
                             ?>
@@ -374,9 +371,8 @@
                                              <img src="<?php echo _WEB_ROOT . $displayTour['image'] ?>"
                                                   alt="<?php echo $displayTour['name'] ?>">
                                              <div class="tour__info--transport">
-                                                 <i class="fa-solid fa-plane"></i>
-                                                 <i class="fa-solid fa-bus"></i>
-                                             </div>
+                                                <?php echo Util::renderTransportationIcons($displayTour['transportation'])?>
+                                            </div>
                                          </div>
                                          <div class="tour__item--wrap">
                                              <div class="tour__name">
@@ -486,16 +482,17 @@
                                                          </div>
                                                      </div>
                                                  </div>
-                                                 <div class="tour__detail--bottom">
-                                                     <div class="tour__detail--price">
-                                                         <p>Giá chỉ:</p>
-                                                         <span><?php echo number_format($displayTour['adult_price'], 0, ",", "."); ?>đ</span>
-                                                     </div>
-                                                     <div class="tour__detail--quantity">
-                                                         <a href="<?php echo _WEB_ROOT . '/du-lich/' . $displayTour['slug'] ?>"
-                                                            class="btn btn-booking">Đặt ngay</a>
-                                                     </div>
-                                                 </div>
+                                            <div class="tour__detail--bottom">
+                                                <div class="tour__detail--price">
+                                                    <p>Giá chỉ:</p>
+                                                    <span><?php echo number_format($displayTour['adult_price'], 0, ",", "."); ?>đ</span>
+                                                </div>
+                                                <div class="tour__detail--quantity">
+                                                    <a href="<?php echo   _WEB_ROOT . '/du-lich/' . $displayTour['slug']?>"
+                                                        class="btn btn-booking">"Đặt ngay"</a>
+                                                </div>
+                                            </div>
+                                            
                                              </div>
                                          </div>
                                      </div>
@@ -568,7 +565,7 @@
                                      }
                                   }
                                   ?>
-                                   <a href="<?php echo _WEB_ROOT.'/'.$slug.'/'.$item['slug'] ?>"><?php echo htmlspecialchars($item['name']); ?></a>
+                                   <a href="<?php echo _WEB_ROOT.'/'.$slug.Util::buildUrlParams(['destination' => $item['slug']]) ?>"> <?php echo htmlspecialchars($item['name']); ?></a>
                                </div>
                                <div class="favorite__item--img">
                                    <img src="<?php echo _WEB_ROOT . htmlspecialchars($item['image']); ?>"
@@ -973,50 +970,50 @@
     });
 </script>
 <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "itemListElement": [
-   <?php if (isset($data['tours'])) : ?>
-      <?php foreach ($data['tours'] as  $tour): ?>
-                {
-                    "@type": "ListItem",
-                    "position": "<?php echo $tour['id']?>",
-                    "item": {
-                        "@type": "Tour",
-                        "name": "<?php echo htmlspecialchars($tour['name']); ?>",
-                        "description": "<?php echo htmlspecialchars($tour['description']); ?>",
-                        "image": "<?php echo _WEB_ROOT . htmlspecialchars($tour['image']); ?>",
-                        "offers": {
-                            "@type": "Offer",
-                            "price": "<?php echo $tour['adult_price']; ?>",
-                            "priceCurrency": "VND",
-                            "availability": "http://schema.org/InStock"
-                        },
-                        "itinerary": {
-                            "@type": "ItemList",
-                            "itemListElement": [
-                            ]
-                        },
-                        "provider": {
-                            "@type": "TravelAgency",
-                            "name": "Itravel",
-                            "logo": {
-                                "@type": "ImageObject",
-                                "url": "<?php echo ASSET?>/client/images/itravel.png"
-                            }
-                        },
-                        "departure": {
-                            "@type": "Place",
-                            "name": "<?php echo htmlspecialchars($tour['departure_name']); ?>"
-                        },
-                        "code_tour": "<?php echo htmlspecialchars($tour['code_tour']); ?>",
-                        "startDate": "<?php echo date('c', strtotime($tour['date'])); ?>",
-                        "duration": "<?php echo htmlspecialchars($tour['duration']); ?>"
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+<?php if (isset($data['tours'])) : ?>
+    <?php foreach ($data['tours'] as $key => $tour): ?>
+        <?php echo ($key > 0) ? ',' : ''; ?>
+        {
+            "@type": "ListItem",
+            "position": <?php echo $tour['id']; ?>,
+            "item": {
+                "@type": "TouristTrip",
+                "name": "<?php echo htmlspecialchars($tour['name']); ?>",
+                "description": "<?php echo htmlspecialchars($tour['description']); ?>",
+                "image": "<?php echo _WEB_ROOT . htmlspecialchars($tour['image']); ?>",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "<?php echo $tour['adult_price']; ?>",
+                    "priceCurrency": "VND",
+                    "availability": "https://schema.org/InStock"
+                },
+                "itinerary": {
+                    "@type": "ItemList",
+                    "itemListElement": []
+                },
+                "provider": {
+                    "@type": "TravelAgency",
+                    "name": "Itravel",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "<?php echo ASSET; ?>/client/images/itravel.png"
                     }
-                }
-      <?php endforeach; ?>
-   <?php endif; ?>
+                },
+                "departure": {
+                    "@type": "Place",
+                    "name": "<?php echo htmlspecialchars($tour['departure_name']); ?>"
+                },
+                "code_tour": "<?php echo htmlspecialchars($tour['code_tour']); ?>",
+                "startDate": "<?php echo date('c', strtotime($tour['date'])); ?>",
+                "duration": "<?php echo htmlspecialchars($tour['duration']); ?>"
+            }
+        }
+    <?php endforeach; ?>
+<?php endif; ?>
     ]
 }
 </script>

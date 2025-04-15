@@ -132,10 +132,14 @@
 
 <body>
 <?php
-    $data = Request::input('data') ?? [];
-    $booking = $data["booking"] ?? null;
-    $title = $data["title"] ?? null;
-    $content = $data["content"] ?? null;
+    $payload = $_GET ?? [];
+    if(!empty($payload) && $payload['type'] === "success") {
+        $data = $payload["data"] ?? [];
+        $booking = $data["booking"] ?? null;
+        $title =htmlspecialchars($data["title"]) ?? null;
+        $content = htmlspecialchars($data["content"]) ?? null;
+    }
+    
     ?>
     <div class="logo">
         <a href="<?php echo _WEB_ROOT?>" class="nav__item--link">
@@ -157,44 +161,44 @@
                 <?php if($booking !== null):?>
                <div class="right">
                    <div class="header">
-                       <h3>Đơn hàng (<?php echo $booking['booking_code']?>)</h3>
+                       <h3>Đơn hàng (<?php echo htmlspecialchars($booking['booking_code'])?>)</h3>
                    </div>
                    <div class="content">
                        <div class="row">
                            <h3>Tour: </h3>
-                           <span><?php echo $booking['tour_name']?></span>
+                           <span><?php echo htmlspecialchars($booking['tour_name'])?></span>
                        </div>
                        <div class="row">
                            <h3>Tên khách hàng: </h3>
-                           <span><?php echo $booking['customer_name']?></span>
+                           <span><?php echo htmlspecialchars($booking['customer_name'])?></span>
                        </div>
                        <div class="row">
                            <h3>Email: </h3>
-                           <span><?php echo $booking['customer_email']?></span>
+                           <span><?php echo htmlspecialchars($booking['customer_email'])?></span>
                        </div>
                        <div class="row">
                            <h3>Số điện thoại: </h3>
-                           <span><?php echo $booking['customer_phone']?></span>
+                           <span><?php echo htmlspecialchars($booking['customer_phone'])?></span>
                        </div><div class="row">
                            <h3>Ngày đi: </h3>
-                           <span><?php echo $booking['departure_date']?></span>
+                           <span><?php echo htmlspecialchars($booking['departure_date'])?></span>
                        </div>
                        <div class="row">
                            <h3>Tổng người lớn: </h3>
-                           <span><?php echo $booking['num_adults']?></span>
+                           <span><?php echo htmlspecialchars($booking['num_adults'])?></span>
                        </div>
                        <div class="row">
                            <h3>Tổng người trẻ em: </h3>
-                           <span><?php echo $booking['num_children']?></span>
+                           <span><?php echo htmlspecialchars($booking['num_children'])?></span>
                        </div>
                        <div class="row">
                            <h3>Tổng người trẻ nhỏ: </h3>
-                           <span><?php echo $booking['num_infants']?></span>
+                           <span><?php echo htmlspecialchars($booking['num_infants'])?></span>
                        </div>
                    </div>
                    <DIV class="bottom">
                        <h3>Tổng giá tiền: </h3>
-                       <span><?php echo number_format($booking['total_price'], 0, '.', ',')?></span>
+                       <span><?php echo htmlspecialchars(number_format($booking['total_price'], 0, '.', ','))?></span>
                    </DIV>
                </div>
                 <?php endif;?>

@@ -3,7 +3,6 @@ class Tour  extends Controller{
    private $data;
    private $TourModel;
    private $LocationModel;
-   private $TourLocationModel;
    private $TourImgModel;
    private $TourPriceCalendarModel;
    private $CategoryModel;
@@ -11,7 +10,6 @@ class Tour  extends Controller{
    public function __construct(){
       $this->TourModel = $this->model("TourModel");
       $this->LocationModel = $this->model("LocationModel");
-      $this->TourLocationModel = $this->model("TourLocationModel");
       $this->TourImgModel = $this->model("TourImgModel");
       $this->TourPriceCalendarModel = $this->model("TourPriceCalendarModel");
       $this->CategoryModel = $this->model("CategoryModel");
@@ -28,9 +26,9 @@ class Tour  extends Controller{
    public function index() {
       $this->TourModel->setBaseModel();
       $totalPages =$this->TourModel->getTotalPages();
-      $departures = $this->LocationModel->where(1, "is_departure");
-      $destinations = $this->LocationModel->where(1, "is_destination");
-      $categories = $this->CategoryModel->where(0, "parent_id");
+      $departures = $this->LocationModel->where(["is_departure" => 1]);
+      $destinations = $this->LocationModel->where([ "is_destination"=>1]);
+      $categories = $this->CategoryModel->where(["parent_id"=>0]);
       $tours = $this->TourModel->getTours();
       $this->data['totalPages'] = $totalPages;
       $this->data['page']= 'index';
@@ -68,8 +66,8 @@ class Tour  extends Controller{
 
    public function update($id) {
       $locations = $this->LocationModel->all();
-      $categories = $this->CategoryModel->where(0, "parent_id");
-      $imgs = $this->TourImgModel->where($id, "tour_id");
+      $categories = $this->CategoryModel->where(["parent_id"=>0]);
+      $imgs = $this->TourImgModel->where(["tour_id"=>$id]);
       $tour = $this->TourModel->find($id);
       $this->data['title'] = "Chỉnh sửa Tour";
       $this->data['page'] ="tour/form";
@@ -89,6 +87,7 @@ class Tour  extends Controller{
          Util::redirect("dashboard/tour", Response::notFound("Không tìm thấy tour có id là ".$id));
       }
       $dataTour =$this->prepareTourData();
+
       $res = $this->TourModel->update($dataTour, $id);
       if(!$res) {
          Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật không thành công"));
@@ -103,12 +102,16 @@ class Tour  extends Controller{
          }
       }
 
-      if(isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
+      if (
+         isset($_FILES['image']['tmp_name'][0]) &&
+         $_FILES['image']['error'][0] !== UPLOAD_ERR_NO_FILE
+     ) {
          $checkInsertImg = $this->processTourImg($id, true);
-         if(!$checkInsertImg['success']) {
-            Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng ".$checkInsertImg['msg']));
+         if (!$checkInsertImg['success']) {
+             Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng " . $checkInsertImg['msg']));
          }
-      }
+     }
+     
       Util::redirect('dashboard/tour',Response::success("Cập nhật thành công"));
    }
    public function delete() {
@@ -141,19 +144,24 @@ class Tour  extends Controller{
 
    private function prepareTourData($isUpdate = false): array
    {
-      $name = htmlspecialchars(Request::input("name")) ?? "";
-      $code = htmlspecialchars(Request::input("code_tour")) ?? "";
-      $slug = htmlspecialchars(Request::input("slug")) ?? "";
+      $name = htmlspecialchars(Request::input("name",""));
+      $code = htmlspecialchars(Request::input("code_tour",""));
+      $slug = htmlspecialchars(Request::input("slug", ""));
       $slug = Util::generateSlug($slug);
-      $duration = htmlspecialchars(Request::input("duration")) ?? "";
-      $description = htmlspecialchars(Request::input("desc")) ?? "";
-      $status = htmlspecialchars(Request::input("status")) ?? "";
+      $duration = htmlspecialchars(Request::input("duration", ""));
+      $description = htmlspecialchars(Request::input("desc", ''));
+      $status = htmlspecialchars(Request::input("status", ''));
       $status = $this->getStatus($status);
       $statusHot = htmlspecialchars(Request::input("status_hot")) ? 1 : 0;
-      $category = Request::input("category")?? 0;
-      $departure = htmlspecialchars(Request::input("departure")) ?? "";
-      $destination = htmlspecialchars(Request::input("destination")) ?? "";
-
+      $category = Request::input("category", 0);
+      $departure = htmlspecialchars(Request::input("departure", ""));
+      $destination = htmlspecialchars(Request::input("destination", ""));
+      $destinations = htmlspecialchars(Request::input("destinations", ""));
+      $meals = htmlspecialchars(Request::input("meals", ""));
+      $suitable_for = htmlspecialchars(Request::input("suitable_for", ""));
+      $ideal_time = htmlspecialchars(Request::input("ideal_time", ""));
+      $transportation = htmlspecialchars(Request::input("transportation", ""));
+      $promotion = htmlspecialchars(Request::input("promotion", ""));
       $data = [
          "name" => $name,
          "slug" => $slug,
@@ -165,6 +173,12 @@ class Tour  extends Controller{
          "code_tour" => $code,
          "departure_id"=>$departure,
          "destination_id"=>$destination,
+         "meals" => $meals,
+         "destinations" => $destinations,
+         "suitable_for"=>$suitable_for,
+         "ideal_time"=>$ideal_time,
+         "transportation"=>$transportation,
+         "promotion"=>$promotion
       ];
       if($isUpdate) {
          $data = Util::removeEmptyValues($data);
@@ -191,7 +205,7 @@ class Tour  extends Controller{
    private function processTourImg(int $id, $isUpdate = false): array
    {
       if($isUpdate) {
-         $tourImgs = $this->TourImgModel->where($id, "tour_id");
+         $tourImgs = $this->TourImgModel->where(["tour_id"=> $id]);
          foreach ($tourImgs as $img) {
             $pathImg = _DIR_ROOT.$img["image"];
             $checkDeleteImg = Util::deleteImage($pathImg);
@@ -257,7 +271,7 @@ class Tour  extends Controller{
             array_push($datas, $item);
          }
       }
-      return $datas ?? [];
+      return $data ?? [];
    }
    private function convertListImgToArr(array $arr):array {
       $files = [];

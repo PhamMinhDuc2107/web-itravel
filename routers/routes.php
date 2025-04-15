@@ -9,8 +9,9 @@
    $routes['du-lich/([a-zA-Z0-9-]+)'] = 'tour/detail/$1';
    $routes['du-lich/get-price'] = 'tour/getPrice';
    
-   $routes['tim-kiem'] = 'home/search';
-   $routes['tim-kiem-ajax'] = 'home/searchAjax';
+   $routes['tim-kiem'] = 'tour/search';
+   $routes['tim-kiem-tour-du-lich'] = 'tour/searchProductAjax';
+   $routes['tim-kiem-ajax'] = 'tour/searchProductAndBlogAjax';
    $routes['(tour-trong-nuoc|tour-nuoc-ngoai|tour-cao-cap|tour-combo-gia-re)(?:/([a-zA-Z0-9-]+))?'] = 'tour/findTour/$1/$2';
    $routes['visa'] = 'visa/index';
    $routes['ho-chieu'] = 'passport/index';
@@ -41,7 +42,7 @@
    $routes['dashboard/logout'] = 'admin/dashboard/logout';
 
 
-   $adminModules = ['admin', 'category', 'blog', 'blogCategory','location',"tour","tourItinerary",'booking',"consultation","banner"];
+   $adminModules = ['admin', 'category', 'blog', 'blogCategory','location',"tour","tourItinerary",'booking',"consultation","banner", "tourNote"];
    foreach ($adminModules as $module){
       $routes["dashboard/$module"] = "admin/$module/index";
       $routes["dashboard/$module-update/(.+)"] = "admin/$module/update/$1";

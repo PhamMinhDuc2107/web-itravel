@@ -78,13 +78,22 @@
                     </div>
                     <span class="nav-link-text ms-1">Quản lý điểm đến tour</span>
                 </a>
-            </li><li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link " href="<?php echo _WEB_ROOT.'/dashboard/tourItinerary'?>">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-plane-departure  text-dark text-sm opacity-10"></i>
 
                     </div>
                     <span class="nav-link-text ms-1">Quản lý hành trính tour</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="<?php echo _WEB_ROOT.'/dashboard/tourNote'?>">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-list text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Những điều cần lưu ý</span>
                 </a>
             </li>
             <li class="nav-item mt-3">

@@ -21,11 +21,11 @@ class Contact extends Controller
       ];
       $this->data["title"] = "Thông tin liên hệ";
       $this->data['heading'] = "Liên hệ";
-      $this->data['locations'] = $locations;
+      $this->data['locations'] = $destination;
       $this->data['categories'] = $categories;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data["page"] = "contact/index";
-      $this->data['js'] ='contact.js';
+      $this->data['js'] ='contact';
       $this->render("layouts/client_layout", $this->data);
    }
    public function handleContactForm() {
@@ -45,6 +45,6 @@ class Contact extends Controller
       if (!$res) {
          Util::redirect("lien-he", Response::internalServerError("Gửi yêu cầu thaats bại"));
       }
-      Util::redirect("checkout/thankyou", Response::success("Thành công",  Response::success("Thành công",['title'=>"Cảm ơn bạn đã quan tâm đến sản phẩm của chúng tôi!","content"=>"Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất"])));
+      Util::redirect("checkout/thankyou", Response::success("Thành công",  ['title'=>"Cảm ơn bạn đã quan tâm đến sản phẩm của chúng tôi!","content"=>"Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất"]));
    }
 }

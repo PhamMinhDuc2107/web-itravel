@@ -10,6 +10,44 @@ class Util
       }
       return $_SESSION['csrf_token'];
    }
+   public static function translateTransportation($value) {
+      $map = [
+          'flight' => 'Máy bay',
+          'bus'    => 'Xe buýt',
+          'train'  => 'Tàu hỏa',
+          'car'    => 'Ô tô'
+      ];
+  
+      $arr = explode(',', $value);
+      $translated = array_map(function($item) use ($map) {
+          return $map[trim($item)] ?? $item;
+      }, $arr);
+  
+      return implode(', ', $translated);
+  }
+  public static function renderTransportationIcons($transportation) {
+   if($transportation === '') {
+      return "";
+   }
+   $transportArray = explode(',', $transportation);
+   $icons = [
+       'flight' => '<i class="fas fa-plane" title="Máy bay"></i>',
+       'bus'    => '<i class="fas fa-bus" title="Xe buýt"></i>',
+       'car'    => '<i class="fas fa-car" title="Ô tô"></i>',
+       'train'  => '<i class="fas fa-train" title="Tàu hỏa"></i>',
+   ];
+
+   $output = '';
+
+   foreach ($transportArray as $t) {
+       $key = trim($t);
+       if (isset($icons[$key])) {
+           $output .= $icons[$key] . ' ';
+       }
+   }
+
+   return $output;
+}
 
    public static function checkCsrfToken(): bool
    {
