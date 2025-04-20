@@ -7,16 +7,16 @@ class Visa extends Controller
    private $LocationModel;
    public function __construct()
    {
-      $this->CategoryModel= $this->model("CategoryModel");
-      $this->LocationModel= $this->model("LocationModel");
+      $this->CategoryModel = $this->model("CategoryModel");
+      $this->LocationModel = $this->model("LocationModel");
    }
    public function index()
    {
       $categories = $this->CategoryModel->all();
       $destination = $this->LocationModel->where(['is_destination' => 1]);
-      $departure = $this->LocationModel->where(['is_departure'=>1]);
-      $breadcrumbs =[
-         ['name'=> "Visa", "link"=>"Visa"],
+      $departure = $this->LocationModel->where(['is_departure' => 1]);
+      $breadcrumbs = [
+         ['name' => "Visa", "link" => "Visa"],
       ];
       $this->data["title"] = "Thông tin đăng ký visa";
       $this->data['heading'] = "Visa";

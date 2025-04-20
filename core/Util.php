@@ -10,44 +10,48 @@ class Util
       }
       return $_SESSION['csrf_token'];
    }
-   public static function translateTransportation($value) {
+   public static function translateTransportation($value)
+   {
       $map = [
-          'flight' => 'Máy bay',
-          'bus'    => 'Xe buýt',
-          'train'  => 'Tàu hỏa',
-          'car'    => 'Ô tô'
+         'flight' => 'Máy bay',
+         'bus'    => 'Xe buýt',
+         'train'  => 'Tàu hỏa',
+         'car'    => 'Ô tô',
+         "ship" => "Tàu thuỷ"
       ];
-  
+
       $arr = explode(',', $value);
-      $translated = array_map(function($item) use ($map) {
-          return $map[trim($item)] ?? $item;
+      $translated = array_map(function ($item) use ($map) {
+         return $map[trim($item)] ?? $item;
       }, $arr);
-  
+
       return implode(', ', $translated);
-  }
-  public static function renderTransportationIcons($transportation) {
-   if($transportation === '') {
-      return "";
    }
-   $transportArray = explode(',', $transportation);
-   $icons = [
-       'flight' => '<i class="fas fa-plane" title="Máy bay"></i>',
-       'bus'    => '<i class="fas fa-bus" title="Xe buýt"></i>',
-       'car'    => '<i class="fas fa-car" title="Ô tô"></i>',
-       'train'  => '<i class="fas fa-train" title="Tàu hỏa"></i>',
-   ];
+   public static function renderTransportationIcons($transportation)
+   {
+      if ($transportation === '') {
+         return "";
+      }
+      $transportArray = explode(',', $transportation);
+      $icons = [
+         'flight' => '<i class="fas fa-plane" title="Máy bay"></i>',
+         'bus'    => '<i class="fas fa-bus" title="Xe buýt"></i>',
+         'car'    => '<i class="fas fa-car" title="Ô tô"></i>',
+         'train'  => '<i class="fas fa-train" title="Tàu hỏa"></i>',
+         "ship" => '<i class="fas fa-ship" title="Tàu thuỷ"></i>',
+      ];
 
-   $output = '';
+      $output = '';
 
-   foreach ($transportArray as $t) {
-       $key = trim($t);
-       if (isset($icons[$key])) {
-           $output .= $icons[$key] . ' ';
-       }
+      foreach ($transportArray as $t) {
+         $key = trim($t);
+         if (isset($icons[$key])) {
+            $output .= $icons[$key] . ' ';
+         }
+      }
+
+      return $output;
    }
-
-   return $output;
-}
 
    public static function checkCsrfToken(): bool
    {
@@ -66,28 +70,29 @@ class Util
    }
 
    public static function redirect($url, $params = [])
-{
-    $fullUrl = _WEB_ROOT . '/' . ltrim($url, '/');
+   {
+      $fullUrl = _WEB_ROOT . '/' . ltrim($url, '/');
 
-    if (!empty($params) && is_array($params)) {
-        $query = parse_url($fullUrl, PHP_URL_QUERY);
-        $fullUrl .= $query ? '&' . http_build_query($params) : '?' . http_build_query($params);
-    }
+      if (!empty($params) && is_array($params)) {
+         $query = parse_url($fullUrl, PHP_URL_QUERY);
+         $fullUrl .= $query ? '&' . http_build_query($params) : '?' . http_build_query($params);
+      }
 
-    if (!headers_sent()) {
-        header("Location: " . $fullUrl);
-        exit(); 
-    }
-    echo "<script>window.location.href = '{$fullUrl}';</script>";
-    exit();
-}
+      if (!headers_sent()) {
+         header("Location: " . $fullUrl);
+         exit();
+      }
+      echo "<script>window.location.href = '{$fullUrl}';</script>";
+      exit();
+   }
 
 
    public static function formatTimeFull($time)
    {
       return date('Y-m-d H:i:s', $time);
    }
-   function generateCode($length = 15) {
+   function generateCode($length = 15)
+   {
       $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       $charactersLength = strlen($characters);
       $randomString = '';
@@ -96,21 +101,142 @@ class Util
       }
       return $randomString;
    }
-   public static function generateSlug(string $string, bool $checkExists=false): string {
+   public static function generateSlug(string $string, bool $checkExists = false): string
+   {
       $map = [
-         'à' => 'a', 'á' => 'a', 'ả' => 'a', 'ã' => 'a', 'ạ' => 'a', 'ă' => 'a', 'ắ' => 'a', 'ằ' => 'a', 'ẳ' => 'a', 'ẵ' => 'a', 'ặ' => 'a', 'â' => 'a', 'ấ' => 'a', 'ầ' => 'a', 'ẩ' => 'a', 'ẫ' => 'a', 'ậ' => 'a',
-         'è' => 'e', 'é' => 'e', 'ẻ' => 'e', 'ẽ' => 'e', 'ẹ' => 'e', 'ê' => 'e', 'ế' => 'e', 'ề' => 'e', 'ể' => 'e', 'ễ' => 'e', 'ệ' => 'e',
-         'ì' => 'i', 'í' => 'i', 'ỉ' => 'i', 'ĩ' => 'i', 'ị' => 'i',
-         'ò' => 'o', 'ó' => 'o', 'ỏ' => 'o', 'õ' => 'o', 'ọ' => 'o', 'ô' => 'o', 'ố' => 'o', 'ồ' => 'o', 'ổ' => 'o', 'ỗ' => 'o', 'ộ' => 'o', 'ơ' => 'o', 'ớ' => 'o', 'ờ' => 'o', 'ở' => 'o', 'ỡ' => 'o', 'ợ' => 'o',
-         'ù' => 'u', 'ú' => 'u', 'ủ' => 'u', 'ũ' => 'u', 'ụ' => 'u', 'ư' => 'u', 'ứ' => 'u', 'ừ' => 'u', 'ử' => 'u', 'ữ' => 'u', 'ự' => 'u',
-         'ỳ' => 'y', 'ý' => 'y', 'ỷ' => 'y', 'ỹ' => 'y', 'ỵ' => 'y',
+         'à' => 'a',
+         'á' => 'a',
+         'ả' => 'a',
+         'ã' => 'a',
+         'ạ' => 'a',
+         'ă' => 'a',
+         'ắ' => 'a',
+         'ằ' => 'a',
+         'ẳ' => 'a',
+         'ẵ' => 'a',
+         'ặ' => 'a',
+         'â' => 'a',
+         'ấ' => 'a',
+         'ầ' => 'a',
+         'ẩ' => 'a',
+         'ẫ' => 'a',
+         'ậ' => 'a',
+         'è' => 'e',
+         'é' => 'e',
+         'ẻ' => 'e',
+         'ẽ' => 'e',
+         'ẹ' => 'e',
+         'ê' => 'e',
+         'ế' => 'e',
+         'ề' => 'e',
+         'ể' => 'e',
+         'ễ' => 'e',
+         'ệ' => 'e',
+         'ì' => 'i',
+         'í' => 'i',
+         'ỉ' => 'i',
+         'ĩ' => 'i',
+         'ị' => 'i',
+         'ò' => 'o',
+         'ó' => 'o',
+         'ỏ' => 'o',
+         'õ' => 'o',
+         'ọ' => 'o',
+         'ô' => 'o',
+         'ố' => 'o',
+         'ồ' => 'o',
+         'ổ' => 'o',
+         'ỗ' => 'o',
+         'ộ' => 'o',
+         'ơ' => 'o',
+         'ớ' => 'o',
+         'ờ' => 'o',
+         'ở' => 'o',
+         'ỡ' => 'o',
+         'ợ' => 'o',
+         'ù' => 'u',
+         'ú' => 'u',
+         'ủ' => 'u',
+         'ũ' => 'u',
+         'ụ' => 'u',
+         'ư' => 'u',
+         'ứ' => 'u',
+         'ừ' => 'u',
+         'ử' => 'u',
+         'ữ' => 'u',
+         'ự' => 'u',
+         'ỳ' => 'y',
+         'ý' => 'y',
+         'ỷ' => 'y',
+         'ỹ' => 'y',
+         'ỵ' => 'y',
          'đ' => 'd',
-         'À' => 'A', 'Á' => 'A', 'Ả' => 'A', 'Ã' => 'A', 'Ạ' => 'A', 'Ă' => 'A', 'Ắ' => 'A', 'Ằ' => 'A', 'Ẳ' => 'A', 'Ẵ' => 'A', 'Ặ' => 'A', 'Â' => 'A', 'Ấ' => 'A', 'Ầ' => 'A', 'Ẩ' => 'A', 'Ẫ' => 'A', 'Ậ' => 'A',
-         'È' => 'E', 'É' => 'E', 'Ẻ' => 'E', 'Ẽ' => 'E', 'Ẹ' => 'E', 'Ê' => 'E', 'Ế' => 'E', 'Ề' => 'E', 'Ể' => 'E', 'Ễ' => 'E', 'Ệ' => 'E',
-         'Ì' => 'I', 'Í' => 'I', 'Ỉ' => 'I', 'Ĩ' => 'I', 'Ị' => 'I',
-         'Ò' => 'O', 'Ó' => 'O', 'Ỏ' => 'O', 'Õ' => 'O', 'Ọ' => 'O', 'Ô' => 'O', 'Ố' => 'O', 'Ồ' => 'O', 'Ổ' => 'O', 'Ỗ' => 'O', 'Ộ' => 'O', 'Ơ' => 'O', 'Ớ' => 'O', 'Ờ' => 'O', 'Ở' => 'O', 'Ỡ' => 'O', 'Ợ' => 'O',
-         'Ù' => 'U', 'Ú' => 'U', 'Ủ' => 'U', 'Ũ' => 'U', 'Ụ' => 'U', 'Ư' => 'U', 'Ứ' => 'U', 'Ừ' => 'U', 'Ử' => 'U', 'Ữ' => 'U', 'Ự' => 'U',
-         'Ỳ' => 'Y', 'Ý' => 'Y', 'Ỷ' => 'Y', 'Ỹ' => 'Y', 'Ỵ' => 'Y',
+         'À' => 'A',
+         'Á' => 'A',
+         'Ả' => 'A',
+         'Ã' => 'A',
+         'Ạ' => 'A',
+         'Ă' => 'A',
+         'Ắ' => 'A',
+         'Ằ' => 'A',
+         'Ẳ' => 'A',
+         'Ẵ' => 'A',
+         'Ặ' => 'A',
+         'Â' => 'A',
+         'Ấ' => 'A',
+         'Ầ' => 'A',
+         'Ẩ' => 'A',
+         'Ẫ' => 'A',
+         'Ậ' => 'A',
+         'È' => 'E',
+         'É' => 'E',
+         'Ẻ' => 'E',
+         'Ẽ' => 'E',
+         'Ẹ' => 'E',
+         'Ê' => 'E',
+         'Ế' => 'E',
+         'Ề' => 'E',
+         'Ể' => 'E',
+         'Ễ' => 'E',
+         'Ệ' => 'E',
+         'Ì' => 'I',
+         'Í' => 'I',
+         'Ỉ' => 'I',
+         'Ĩ' => 'I',
+         'Ị' => 'I',
+         'Ò' => 'O',
+         'Ó' => 'O',
+         'Ỏ' => 'O',
+         'Õ' => 'O',
+         'Ọ' => 'O',
+         'Ô' => 'O',
+         'Ố' => 'O',
+         'Ồ' => 'O',
+         'Ổ' => 'O',
+         'Ỗ' => 'O',
+         'Ộ' => 'O',
+         'Ơ' => 'O',
+         'Ớ' => 'O',
+         'Ờ' => 'O',
+         'Ở' => 'O',
+         'Ỡ' => 'O',
+         'Ợ' => 'O',
+         'Ù' => 'U',
+         'Ú' => 'U',
+         'Ủ' => 'U',
+         'Ũ' => 'U',
+         'Ụ' => 'U',
+         'Ư' => 'U',
+         'Ứ' => 'U',
+         'Ừ' => 'U',
+         'Ử' => 'U',
+         'Ữ' => 'U',
+         'Ự' => 'U',
+         'Ỳ' => 'Y',
+         'Ý' => 'Y',
+         'Ỷ' => 'Y',
+         'Ỹ' => 'Y',
+         'Ỵ' => 'Y',
          'Đ' => 'D'
       ];
 
@@ -138,7 +264,8 @@ class Util
       print_r($arr);
       echo "</pre>";
    }
-   public static function removeEmptyValues(array $arr):array {
+   public static function removeEmptyValues(array $arr): array
+   {
       foreach ($arr as $key => $value) {
          if (empty($value)) {
             unset($arr[$key]);
@@ -146,7 +273,8 @@ class Util
       }
       return $arr;
    }
-   public static function generateBookingCode($prefix = "BK", $length = 8) {
+   public static function generateBookingCode($prefix = "BK", $length = 8)
+   {
       $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       $code = '';
 
@@ -156,7 +284,7 @@ class Util
 
       return $prefix . '-' . $code;
    }
-   public static function loadError($type = '404', $statusCode=404)
+   public static function loadError($type = '404', $statusCode = 404)
    {
       $folder = "app/errors/" . $type . ".php";
       if (file_exists($folder)) {
@@ -165,12 +293,11 @@ class Util
          exit();
       }
    }
-   public static function formatDate($date, $format ="d-m-Y"): string
+   public static function formatDate($date, $format = "d-m-Y"): string
    {
       $date = new DateTime($date);
       $formattedDate = $date->format($format);
       return $formattedDate;
-
    }
 
    public static function buildPageUrl($newPage): string
@@ -209,7 +336,7 @@ class Util
 
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
-   public static function buildOrderColByUrl($col="id"): string
+   public static function buildOrderColByUrl($col = "id"): string
    {
       $queryParams = $_GET ?? [];
       $queryParams['sortCol'] = $col;
@@ -219,18 +346,19 @@ class Util
    public static function buildUrlParams(array $params): string
    {
       $queryParams = [];
-      foreach($params as $key=>$item) {
+      foreach ($params as $key => $item) {
          $queryParams[$key] = $item;
       }
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
-   public static function checkImage(array $file,array $allowedTypes = ['webp'],int $maxSize = 5 * 1024 * 1024): array {
-      if (empty($file)|| $file['error'] !== UPLOAD_ERR_OK ) {
-            return ['success' => false, 'msg' => 'Lỗi tải file lên.'];
+   public static function checkImage(array $file, array $allowedTypes = ['webp'], int $maxSize = 5 * 1024 * 1024): array
+   {
+      if (empty($file) || $file['error'] !== UPLOAD_ERR_OK) {
+         return ['success' => false, 'msg' => 'Lỗi tải file lên.'];
       }
       if ($file['size'] > $maxSize) {
          return ['success' => false, 'msg' => 'File quá lớn.'];
-      } 
+      }
 
       $fileInfo = pathinfo($file['name']);
       $fileExtension = strtolower($fileInfo['extension']);
@@ -247,7 +375,8 @@ class Util
 
       return ['success' => true, 'msg' => 'File hợp lệ.'];
    }
-   public static function generateUniqueFileName(string $fileName):string {
+   public static function generateUniqueFileName(string $fileName): string
+   {
       $fileInfo = pathinfo($fileName);
       $originalName = $fileInfo['filename'];
       $extension = isset($fileInfo['extension']) ? '.' . $fileInfo['extension'] : '';
@@ -255,7 +384,8 @@ class Util
       $uniqueId = md5(uniqid(rand(), true));
       return $originalName . '_' . $uniqueId . $extension;
    }
-   public static function createImagePath(array $file,string $destination):array {
+   public static function createImagePath(array $file, string $destination): array
+   {
       $checkImg = Util::checkImage($file);
       if (!$checkImg['success']) {
          return ['msg' => $checkImg['msg'], 'type' => "error"];
@@ -264,9 +394,9 @@ class Util
       $destinationPath = rtrim($destination, '/') . '/' . $newFileName;
       return ['success' => true, 'name' => $destinationPath];
    }
-   public static function uploadImage(array $file,string $destination): array
+   public static function uploadImage(array $file, string $destination): array
    {
-      $path = _DIR_ROOT.$destination;
+      $path = _DIR_ROOT . $destination;
       if (move_uploaded_file($file['tmp_name'], $path)) {
          return ['success' => true, 'msg' => 'Tải file lên thành công.'];
       } else {
@@ -276,11 +406,11 @@ class Util
    public static function deleteImage($filePath): array
    {
       if (!file_exists($filePath)) {
-         return ['success'=>false, "msg" => "file ảnh không tồn tại"];
+         return ['success' => false, "msg" => "file ảnh không tồn tại"];
       }
       if (!unlink($filePath)) {
-         return ['success'=>false, "msg" => "Xóa ảnh không thành công"];
+         return ['success' => false, "msg" => "Xóa ảnh không thành công"];
       }
-      return ['success'=>true, "msg" => "Xóa ảnh thành công"];
+      return ['success' => true, "msg" => "Xóa ảnh thành công"];
    }
 }

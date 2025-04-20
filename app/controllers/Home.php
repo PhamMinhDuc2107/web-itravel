@@ -24,9 +24,9 @@ class Home extends Controller
       $categories = $this->CategoryModel->all();
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
-      $listTourHot = $this->TourModel->getTours(['status_hot' => 1], true);
-      $tours = $this->TourModel->getTours();
+      $listTourHot = $this->TourModel->getTours(['status_hot' => 1, "status" => "active"], true);
 
+      $tours = $this->TourModel->getTours();
       $this->CategoryModel->setColOrderBy("display_home");
       $listCategoryHot = $this->CategoryModel->where(["display_home" => 1]);
       $listLocationDisplayHome = $this->LocationModel->where(["display_home" => 1]);
@@ -64,7 +64,6 @@ class Home extends Controller
       $this->data["lastLocationCate"] = $lastLocationCate;
       $this->data["page"] = "home/index";
       $this->data["tours"] = $tours;
-
       $this->data["banners"] = $banners;
       $this->data["destination"] = $destination;
       $this->data["departure"] = $departure;

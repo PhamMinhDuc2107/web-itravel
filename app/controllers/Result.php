@@ -1,13 +1,10 @@
-2<?php
+<?php
 
 class Result extends Controller
 {
    private $data;
-   
-   public function __construct()
-   {
 
-   }
+   public function __construct() {}
    public function index()
    {
       $this->data["title"] = "Thông tin kết quả";

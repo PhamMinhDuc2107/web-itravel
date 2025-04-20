@@ -2,14 +2,14 @@
 
 class TourModel extends Model
 {
-   protected $table = 'tours';
-   protected $allowedColumns = ['id', "code_tour", 'name', 'slug', "description", "duration", "destinations","meals","suitable_for","ideal_time", "transportation", "promotion","status", "category_id", "status_hot", "created_at", "updated_at", "deleted_at"];
+    protected $table = 'tours';
+    protected $allowedColumns = ['id', "code_tour", 'name', 'slug', "description", "duration", "destinations", "meals", "suitable_for", "ideal_time", "transportation", "promotion", "status", "category_id", "status_hot", "created_at", "updated_at", "deleted_at"];
 
-   public function getTours($condition = [], $where = false, $keyword = null)
-   {
-      try {
-         $params = [];
-         $sql = "
+    public function getTours($condition = [], $where = false, $keyword = null)
+    {
+        try {
+            $params = [];
+            $sql = "
             SELECT 
                 tours.*, 
                 categories.name AS category_name,
@@ -42,39 +42,39 @@ class TourModel extends Model
                 locations dep_loc ON tours.departure_id = dep_loc.id 
         ";
 
-         $whereClauses = [];
+            $whereClauses = [];
 
-         if ($where && !empty($condition)) {
-            foreach ($condition as $key => $value) {
-               $whereClauses[] = "$this->table.$key = :$key";
-               $params[":$key"] = $value;
+            if ($where && !empty($condition)) {
+                foreach ($condition as $key => $value) {
+                    $whereClauses[] = "$this->table.$key = :$key";
+                    $params[":$key"] = $value;
+                }
             }
-         }
 
-         if (!empty($keyword)) {
-            $whereClauses[] = "tours.name LIKE :keyword";
-            $params[':keyword'] = '%' . $keyword . '%';
-         }
+            if (!empty($keyword)) {
+                $whereClauses[] = "tours.name LIKE :keyword";
+                $params[':keyword'] = '%' . $keyword . '%';
+            }
 
-         if (!empty($whereClauses)) {
-            $sql .= " WHERE " . implode(" AND ", $whereClauses);
-         }
+            if (!empty($whereClauses)) {
+                $sql .= " WHERE " . implode(" AND ", $whereClauses);
+            }
 
-         $sql .= " GROUP BY {$this->table}.$this->colOrderBy ";
-         $sql .= " ORDER BY {$this->colOrderBy} {$this->order} ";
-         $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
-         $stmt = $this->_query($sql, $params);
-         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-      } catch (PDOException $e) {
-         error_log("Database Error: " . $e->getMessage());
-         return [];
-      }
-   }
-   public function getTour($condition)
-   {
-      try {
-         $params = [];
-         $sql = "
+            $sql .= " GROUP BY {$this->table}.$this->colOrderBy ";
+            $sql .= " ORDER BY {$this->colOrderBy} {$this->order} ";
+            $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
+            $stmt = $this->_query($sql, $params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    public function getTour($condition)
+    {
+        try {
+            $params = [];
+            $sql = "
             SELECT 
                 $this->table.*, 
                 categories.name AS category_name,
@@ -105,28 +105,29 @@ class TourModel extends Model
             WHERE $this->table
         ";
 
-         $whereClauses = [];
-         foreach ($condition as $key => $value) {
-            $whereClauses[] = ".$key = :$key";
-            $params[":$key"] = $value;
-         }
+            $whereClauses = [];
+            foreach ($condition as $key => $value) {
+                $whereClauses[] = ".$key = :$key";
+                $params[":$key"] = $value;
+            }
 
-         $sql .= implode(" AND ", $whereClauses);
-         $stmt = $this->_query($sql, $params);
-         return $stmt->fetch(PDO::FETCH_ASSOC);
-      } catch (PDOException $e) {
-         error_log("Database Error: " . $e->getMessage());
-         return null;
-      }
-   }
-   public function searchTours($filters = []) {
-      try {
-          if (empty($filters)) {
-              return [];
-          }
-  
-          $params = [];
-          $sql = "
+            $sql .= implode(" AND ", $whereClauses);
+            $stmt = $this->_query($sql, $params);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            return null;
+        }
+    }
+    public function searchTours($filters = [])
+    {
+        try {
+            if (empty($filters)) {
+                return [];
+            }
+
+            $params = [];
+            $sql = "
           SELECT 
               tours.*, 
               categories.name AS category_name,
@@ -154,60 +155,64 @@ class TourModel extends Model
           INNER JOIN locations dest_loc ON tours.destination_id = dest_loc.id
           INNER JOIN locations dep_loc ON tours.departure_id = dep_loc.id
           ";
-  
-          $whereClauses = [];
-  
-          if (!empty($filters['destination'])) {
-              $whereClauses[] = "dest_loc.slug = :destination";
-              $params[':destination'] = $filters['destination'];
-          }
-  
-          if (!empty($filters['departure'])) {
-              $whereClauses[] = "dep_loc.slug = :departure";
-              $params[':departure'] = $filters['departure'];
-          }
-           
-          if (!empty($filters['fromDate'])) {
-              $whereClauses[] = "tpc.date >= :fromDate";
-              $params[':fromDate'] = $filters['fromDate'];
-          }
-          if (isset($filters['priceStart']) || isset($filters['priceEnd'])) {
-              if (!empty($filters['priceStart']) && !empty($filters['priceEnd'])) {
-                  $whereClauses[] = "tpc.adult_price BETWEEN :priceStart AND :priceEnd";
-                  $params[':priceStart'] = $filters['priceStart'];
-                  $params[':priceEnd'] = $filters['priceEnd'];
-              } elseif (!empty($filters['priceStart'])) {
-                  $whereClauses[] = "tpc.adult_price >= :priceStart";
-                  $params[':priceStart'] = $filters['priceStart'];
-              } elseif (!empty($filters['priceEnd'])) {
-                  $whereClauses[] = "tpc.adult_price <= :priceEnd";
-                  $params[':priceEnd'] = $filters['priceEnd'];
-              }
-          }
-  
-          if (!empty($whereClauses)) {
-              $sql .= " WHERE " . implode(" AND ", $whereClauses);
-          }
-          $sql .= " GROUP BY {$this->table}.id";
-          
-          if(!empty($filters['priceSort']) && in_array($filters['priceSort'],['asc', "desc"])) {
-              $sql .= " ORDER BY tpc.adult_price ".htmlspecialchars($filters["priceSort"])."";
-          } else {
-              $sql .= " ORDER BY {$this->table}.{$this->colOrderBy} {$this->order} ";
-          }
-          $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
-          $stmt = $this->_query($sql, $params);
-  
-          return $stmt->fetchAll(PDO::FETCH_ASSOC);
-      } catch (PDOException $e) {
-          error_log("Database Error: " . $e->getMessage());
-          return [];
-      }
-  }
-   public function getNameTours()
-   {
-      try {
-         $sql = "
+
+            $whereClauses = [];
+
+            if (!empty($filters['destination'])) {
+                $whereClauses[] = "dest_loc.slug = :destination";
+                $params[':destination'] = $filters['destination'];
+            }
+
+            if (!empty($filters['departure'])) {
+                $whereClauses[] = "dep_loc.slug = :departure";
+                $params[':departure'] = $filters['departure'];
+            }
+            if (!empty($filters['typeTour'])) {
+                $whereClauses[] = "tours.category_id = :category_id";
+                $params[':category_id'] = $filters['typeTour'];
+            }
+
+            if (!empty($filters['fromDate'])) {
+                $whereClauses[] = "tpc.date >= :fromDate";
+                $params[':fromDate'] = $filters['fromDate'];
+            }
+
+            if (isset($filters['priceStart']) || isset($filters['priceEnd'])) {
+                if (!empty($filters['priceStart']) && !empty($filters['priceEnd'])) {
+                    $whereClauses[] = "tpc.adult_price BETWEEN :priceStart AND :priceEnd";
+                    $params[':priceStart'] = $filters['priceStart'];
+                    $params[':priceEnd'] = $filters['priceEnd'];
+                } elseif (!empty($filters['priceStart'])) {
+                    $whereClauses[] = "tpc.adult_price >= :priceStart";
+                    $params[':priceStart'] = $filters['priceStart'];
+                } elseif (!empty($filters['priceEnd'])) {
+                    $whereClauses[] = "tpc.adult_price <= :priceEnd";
+                    $params[':priceEnd'] = $filters['priceEnd'];
+                }
+            }
+
+            if (!empty($whereClauses)) {
+                $sql .= " WHERE " . implode(" AND ", $whereClauses);
+            }
+            $sql .= " GROUP BY {$this->table}.id";
+
+            if (!empty($filters['priceSort']) && in_array($filters['priceSort'], ['asc', "desc"])) {
+                $sql .= " ORDER BY tpc.adult_price " . htmlspecialchars($filters["priceSort"]) . "";
+            } else {
+                $sql .= " ORDER BY {$this->table}.{$this->colOrderBy} {$this->order} ";
+            }
+            $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
+            $stmt = $this->_query($sql, $params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            return [];
+        }
+    }
+    public function getNameTours()
+    {
+        try {
+            $sql = "
           SELECT id, name
           FROM $this->table
           GROUP BY
@@ -215,12 +220,12 @@ class TourModel extends Model
           ORDER BY {$this->colOrderBy} {$this->order}
           LIMIT {$this->limit} OFFSET {$this->offset}
       ";
-         $params = [];
-         $stmt = $this->_query($sql, $params);
-         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-      } catch (PDOException $e) {
-         error_log("Database Error: " . $e->getMessage());
-         return [];
-      }
-   }
+            $params = [];
+            $stmt = $this->_query($sql, $params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            return [];
+        }
+    }
 }

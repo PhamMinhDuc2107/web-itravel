@@ -1,6 +1,6 @@
 <?php
 
-require_once _DIR_ROOT. '/vendor/autoload.php';
+require_once _DIR_ROOT . '/vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -10,18 +10,21 @@ class JwtUtil
 {
    private $secretKey;
 
-   function __construct() {
+   function __construct()
+   {
       $this->secretKey = $_ENV["ACCESS_TOKEN_JWT"] ?? "notkey";
       if ($this->secretKey === "notkey") {
          die("Please check your JWT secret key in .env");
       }
    }
 
-   public function encode(array $payload) {
+   public function encode(array $payload)
+   {
       return JWT::encode($payload, $this->secretKey, 'HS256');
    }
 
-   public function decode($jwt) {
+   public function decode($jwt)
+   {
       try {
          return JWT::decode($jwt, new Key($this->secretKey, 'HS256'));
       } catch (ExpiredException $e) {
@@ -35,7 +38,8 @@ class JwtUtil
 
 
 
-   public function generatePayload(array $user, int $remember) {
+   public function generatePayload(array $user, int $remember)
+   {
       return [
          'iss' => 'your_domain.com',
          'sub' => $user['id'],
@@ -49,7 +53,8 @@ class JwtUtil
       ];
    }
 
-   public function checkAuth(string $nameToken) {
+   public function checkAuth(string $nameToken)
+   {
       $token = $_COOKIE[$nameToken] ?? null;
       if (!$token) {
          return ['success' => false, 'msg' => 'Token không tồn tại'];
@@ -67,7 +72,8 @@ class JwtUtil
       return ['success' => true, 'payload' => $decoded];
    }
 
-   private function isTokenExpired($decoded): bool {
+   private function isTokenExpired($decoded): bool
+   {
       if (!isset($decoded->exp)) {
          return true;
       }
