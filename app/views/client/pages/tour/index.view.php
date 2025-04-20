@@ -336,6 +336,31 @@
     return `${dd}-${mm}-${yyyy}`;
   }
 
+  function renderTransportIcons(transportString) {
+    const icons = {
+      'flight': '<i class="fas fa-plane" title="Máy bay"></i>',
+      'bus': '<i class="fas fa-bus" title="Xe buýt"></i>',
+      'car': '<i class="fas fa-car" title="Ô tô"></i>',
+      'train': '<i class="fas fa-train" title="Tàu hỏa"></i>',
+      "ship": '<i class="fas fa-ship" title="Tàu thuỷ"></i>',
+    };
+
+    if (!transportString) return '';
+
+    const transportArray = transportString.split(',');
+    let html = '';
+
+    transportArray.forEach(mode => {
+      const key = mode.trim();
+      const icon = icons[key];
+      if (icon) {
+        html += `${icon}`;
+      }
+    });
+
+    return html;
+  }
+
 
   function updateToursWithFilters() {
     const url = new URL(window.location.href);
@@ -372,7 +397,7 @@
                            <div class="tour__img">
                                <img src="${webRoot + tour.image}" alt="${tour.name}">
                                <div class="tour__info--transport">
-                                   
+                                ${renderTransportIcons(tour.transportation)}
                                </div>
                            </div>
                            <div class="tour__item--wrap">

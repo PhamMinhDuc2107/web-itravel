@@ -120,6 +120,7 @@ class Tour extends Controller
          Util::loadError();
          return;
       }
+      $categoryName = $category['name'];
 
       $filters = $this->processFilters();
       $filters['typeTour'] = $category['id'];
@@ -130,12 +131,11 @@ class Tour extends Controller
          $tours = $this->TourModel->searchTours($filters);
       }
       $totalPages = $this->TourModel->getTotalPages();
-
       $breadcrumbs = [
-         ['name' => "Tất cả tour", "link" => "du-lich"],
-         ['name' => $category['name'], 'link' => "{$category['slug']}"]
+         ['name' => "Du lịch", "link" => "du-lich"],
+         ['name' => $categoryName, 'link' => "{$category['slug']}"]
       ];
-      $title = $category['name'];
+      $title = $categoryName;
       if (in_array($slug, ['tour-trong-nuoc', 'tour-nuoc-ngoai'])) {
          $this->data['typeTour'] = $filters['typeTour'];
       }
