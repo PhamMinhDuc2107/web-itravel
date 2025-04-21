@@ -170,6 +170,16 @@
         }
     }
 }
+.filter__remove {
+    font-weight: 500;
+    display: block;
+    color: $primary-color;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.sidebar__filter--wrap {
+    @include flex(center, space-between);
+}
 .sidebar--overplay {
     display: none;
     position: fixed;

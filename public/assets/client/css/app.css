@@ -2147,6 +2147,22 @@ body {
   width: calc(33.3333% - 1.4rem);
 }
 
+.filter__remove {
+  font-weight: 500;
+  display: block;
+  color: #23bda4;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.sidebar__filter--wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
 .sidebar--overplay {
   display: none;
   position: fixed;
