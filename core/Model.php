@@ -38,7 +38,8 @@ class Model extends Database
          return [];
       }
    }
-   public function find($value, $column = "id") {
+   public function find($value, $column = "id")
+   {
       try {
          if (!$this->isAllowedColumn($column)) {
             throw new Exception("Invalid column: $column");
@@ -52,7 +53,8 @@ class Model extends Database
          return null;
       }
    }
-   public function where($conditions) {
+   public function where($conditions)
+   {
       try {
          if (!is_array($conditions) || empty($conditions)) {
             throw new Exception("Invalid conditions");
@@ -83,7 +85,7 @@ class Model extends Database
          }
 
          $sql .= implode(" AND ", $clauses);
-         $sql .= " ORDER BY {$this->colOrderBy} {$this->order}";
+         $sql .= " ORDER BY {$this->table}.{$this->colOrderBy} {$this->order}";
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (Exception $e) {
@@ -92,7 +94,8 @@ class Model extends Database
       }
    }
 
-   public function insert(array $data): bool {
+   public function insert(array $data): bool
+   {
       try {
          if (empty($data)) {
             return false;
@@ -112,7 +115,8 @@ class Model extends Database
       }
    }
 
-   public function update(array $data, $val, $column = "id"): bool {
+   public function update(array $data, $val, $column = "id"): bool
+   {
       try {
          if (empty($data)) {
             return false;
@@ -125,8 +129,6 @@ class Model extends Database
          }
          $setClause = rtrim($setClause, ", ");
          $sql = "UPDATE $this->table SET $setClause WHERE $column = :$column";
-         var_dump($sql);
-
          $params[":$column"] = $val;
          $stmt = $this->_query($sql, $params);
          return $stmt->rowCount() > 0;
@@ -136,7 +138,8 @@ class Model extends Database
       }
    }
 
-   public function delete($id, $col = "id"): bool {
+   public function delete($id, $col = "id"): bool
+   {
       try {
          $sql = "DELETE FROM $this->table WHERE $col = :id";
          $params = [":$col" => $id];
@@ -155,40 +158,24 @@ class Model extends Database
    {
       return in_array($column, $this->allowedColumns);
    }
-   public function setLimit(int $limit)
-   {
-      $this->limit = $limit;
-   }
 
-   public function setOffset(int $offset)
-   {
-      $this->offset = ($offset - 1) * $this->limit;
-   }
 
-   public function setColOrderBy(string $colOrderBy)
-   {
-      $this->colOrderBy = $colOrderBy;
-   }
-   public function setOrderBy(string $orderBy)
-   {
-      $this->order = $orderBy;
-   }
-
-   public function getCount($where= false, $params = [], $condi = ""): int
+   public function getCount($where = false, $params = [], $condi = ""): int
    {
       try {
          $sql = "SELECT COUNT(*) FROM $this->table";
-         if($where){
-            $sql .= " WHERE ".$condi;
+         if ($where) {
+            $sql .= " WHERE " . $condi;
          }
-         $stmt = $this->_query($sql ,$params);
+         $stmt = $this->_query($sql, $params);
          return (int)$stmt->fetchColumn();
       } catch (PDOException $e) {
          error_log("Count Error: " . $e->getMessage());
          return 0;
       }
    }
-   public  function setBaseModel() {
+   public  function setBaseModel()
+   {
       if (Request::has("page", "get")) {
          $page = (int)htmlspecialchars(Request::input("page"));
          $this->setOffset($page);
@@ -197,16 +184,17 @@ class Model extends Database
          $limit = (int)htmlspecialchars(Request::input("limit")) ?? 10;
          $this->setLimit($limit);
       }
-      if (Request::has("sortBy", "get") ) {
+      if (Request::has("sortBy", "get")) {
          $order = htmlspecialchars(Request::input("sortBy"));
          $this->setOrderBy($order);
       }
-      if (Request::has("sortCol", "get") ) {
+      if (Request::has("sortCol", "get")) {
          $orderCol = htmlspecialchars(Request::input("sortCol"));
          $this->setColOrderBy($orderCol);
       }
    }
-   public function like(array $data) {
+   public function like(array $data)
+   {
       try {
          $sql = "SELECT * FROM $this->table WHERE ";
          $params = [];
@@ -228,8 +216,48 @@ class Model extends Database
    }
 
 
-   public function getTotalPages($where = false, $params = [],$condi=""):int  {
+   public function getTotalPages($where = false, $params = [], $condi = ""): int
+   {
       $count = $this->getCount($where, $params, $condi);
       return ceil($count / $this->limit);
+   }
+   public function setLimit(int $limit)
+   {
+      $this->limit = $limit;
+   }
+
+   public function setOffset(int $offset)
+   {
+      $this->offset = ($offset - 1) * $this->limit;
+   }
+
+   public function setColOrderBy(string $colOrderBy)
+   {
+      $this->colOrderBy = $colOrderBy;
+   }
+
+   public function setOrderBy(string $orderBy)
+   {
+      $this->order = $orderBy;
+   }
+
+   public function getLimit(): int
+   {
+      return $this->limit;
+   }
+
+   public function getOffset(): int
+   {
+      return $this->offset;
+   }
+
+   public function getColOrderBy(): string
+   {
+      return $this->colOrderBy;
+   }
+
+   public function getOrderBy(): string
+   {
+      return $this->order;
    }
 }

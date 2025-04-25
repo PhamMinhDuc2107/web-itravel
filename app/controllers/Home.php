@@ -25,7 +25,6 @@ class Home extends Controller
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
       $listTourHot = $this->TourModel->getTours(['status_hot' => 1, "status" => "active"], true);
-
       $tours = $this->TourModel->getTours();
       $this->CategoryModel->setColOrderBy("display_home");
       $listCategoryHot = $this->CategoryModel->where(["display_home" => 1]);

@@ -22,7 +22,8 @@ class Contact extends Controller
       ];
       $this->data["title"] = "Thông tin liên hệ";
       $this->data['heading'] = "Liên hệ";
-      $this->data['locations'] = $destination;
+      $this->data["destination"] = $destination;
+      $this->data["departure"] = $departure;
       $this->data['categories'] = $categories;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data["page"] = "contact/index";
@@ -41,9 +42,32 @@ class Contact extends Controller
       $customer_email = htmlspecialchars(Request::input("email"));
       $tour_preference = htmlspecialchars(Request::input("reference"));
       $customer_phone = htmlspecialchars(Request::input("phone"));
-      $message = htmlspecialchars(Request::input("content"));
+      $message = "";
+      if (Request::input("address")) {
+         $message .= "Địa chỉ khách hàng: " . htmlspecialchars(Request::input("address")) . '<br>';
+      }
+      if (Request::input("quantity")) {
+         $message .= "Số lượng cần: " . htmlspecialchars(Request::input("quantity")) . '<br>';
+      }
+      if (Request::input("departure")) {
+         $message .= "Địa điểm khởi hành: " . htmlspecialchars(Request::input("departure")) . '<br>';
+      }
+      if (Request::input("destination")) {
+         $message .= "Điểm đến: " . htmlspecialchars(Request::input("destination")) . '<br>';
+      }
+      if (Request::input("departureDate")) {
+         $message .= "Ngày đi: " . htmlspecialchars(Request::input("departureDate")) . '<br>';
+      }
+      if (Request::input("returnDate")) {
+         $message .= "Ngày về: " . htmlspecialchars(Request::input("returnDate")) . '<br>';
+      }
+      if (Request::input("participants")) {
+         $message .= "Số lượng người tham gia: " . htmlspecialchars(Request::input("participants")) . '<br>';
+      }
+      $message .= "Nội dung lưu ý:" . htmlspecialchars(Request::input("content"));
       $data = ['customer_name' => $customer_name, 'customer_email' => $customer_email, 'tour_preference' => $tour_preference, 'customer_phone' => $customer_phone, 'message' => $message];
       $res = $this->ConsultationModel->insert($data);
+
       if (!$res) {
          Util::redirect("lien-he", Response::internalServerError("Gửi yêu cầu thaats bại"));
       }

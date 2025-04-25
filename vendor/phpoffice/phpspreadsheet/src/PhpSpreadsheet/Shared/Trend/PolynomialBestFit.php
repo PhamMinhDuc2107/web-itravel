@@ -26,7 +26,7 @@ class PolynomialBestFit extends BestFit
      */
     public function getOrder(): int
     {
-        return $this->order;
+        return $this->getOrder();
     }
 
     /**
@@ -192,7 +192,7 @@ class PolynomialBestFit extends BestFit
         if (!$this->error) {
             if ($order < $this->valueCount) {
                 $this->bestFitType .= '_' . $order;
-                $this->order = $order;
+                $this->getOrder() = $order;
                 $this->polynomialRegression($order, $yValues, $xValues);
                 if (($this->getGoodnessOfFit() < 0.0) || ($this->getGoodnessOfFit() > 1.0)) {
                     $this->error = true;

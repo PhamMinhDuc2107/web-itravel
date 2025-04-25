@@ -306,6 +306,7 @@ class Util
       $queryParams['page'] = max(1, intval($newPage));
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
+
    public static function buildLimitUrl($newLimit): string
    {
       $queryParams = $_GET ?? [];

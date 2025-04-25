@@ -87,8 +87,6 @@ class Booking extends Controller
       if (!$res) {
          Util::redirect("", Response::internalServerError("Thất bại"));
       }
-      $id = $this->BookingModel->lastInsertId();
-      $booking = $this->BookingModel->getBookingById($id);
-      Util::redirect("checkout/thankyou", Response::success("Thành công", ["booking" => $booking, 'title' => "Cảm ơn bạn đã đặt tour!", "content" => "Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất"]));
+      Util::redirect("checkout/thankyou", Response::success("Thành công", [base64_encode(json_encode(["bookingCode" => $bookingCode]))]));
    }
 }

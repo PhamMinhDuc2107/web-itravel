@@ -1,7 +1,7 @@
 <div class="visa">
    <div class="container">
       <div class="visa__container">
-         <h3 class="block-title title-center"><?php echo $data['heading'] ?? "Visa"?></h3>
+         <h3 class="block-title title-center"><?php echo $data['heading'] ?? "Visa" ?></h3>
          <div class="visa__info">
             <h4 class="visa__info--title">
                Thông tin bao gồm
@@ -33,11 +33,12 @@
                      <li>Sao kê tài khoản công ty giao dich trong 2 tháng gần nhất</li>
                   </ul>
                </li>
-               
+
             </ul>
          </div>
          <div style="display:flex; align-items: center; justify-content: center;margin-top:1rem">
-            <a href="<?php echo _WEB_ROOT.'/lien-he-tu-van-ho-chieu'?>" class="btn btn-submit-contact" style="display: inline-block">Liên hệ</a>
+            <a href="<?php echo _WEB_ROOT . '/lien-he-tu-van-ho-chieu' ?>" class="btn btn-submit-contact"
+               style="display: inline-block">Liên hệ</a>
          </div>
       </div>
    </div>

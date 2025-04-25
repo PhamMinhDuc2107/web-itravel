@@ -4,9 +4,19 @@ class BlogModel extends Model
 {
    protected $table = 'blogs';
    protected $allowedColumns =
-      [
-         "id", "title","slug", "thumbnail", "content", "category_id","author_id",'status_hot',"created_at","updated_at","status"
-      ];
+   [
+      "id",
+      "title",
+      "slug",
+      "thumbnail",
+      "content",
+      "category_id",
+      "author_id",
+      'status_hot',
+      "created_at",
+      "updated_at",
+      "status"
+   ];
    public function getBlogs($condition = [], $getAll = false, $keyword = null)
    {
       try {
@@ -34,7 +44,7 @@ class BlogModel extends Model
             $sql .= " WHERE " . implode(" AND ", $whereClauses);
          }
 
-         $sql .= " ORDER BY $this->table"."."."{$this->colOrderBy} {$this->order}";
+         $sql .= " ORDER BY $this->table" . "." . "{$this->colOrderBy} {$this->order}";
 
          if (!$getAll) {
             $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
@@ -46,7 +56,8 @@ class BlogModel extends Model
          return [];
       }
    }
-   public function getBlogById($id) {
+   public function getBlogById($id)
+   {
       try {
          $sql = "SELECT b.*, bc.name AS category_name, a.username AS admin_username
                 FROM {$this->table} AS b
@@ -62,7 +73,4 @@ class BlogModel extends Model
          return [];
       }
    }
-
-
-
 }

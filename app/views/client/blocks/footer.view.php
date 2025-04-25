@@ -30,25 +30,25 @@
                         Hướng dẫn
                     </h3>
                     <div class="row">
-                        <a href="<?php echo _WEB_ROOT?>">Trang chủ</a>
+                        <a href="<?php echo _WEB_ROOT ?>">Trang chủ</a>
                     </div>
                     <div class="row">
-                        <a href="<?php echo _WEB_ROOT?>/gioi-thieu">Giới thiệu</a>
+                        <a href="<?php echo _WEB_ROOT ?>/gioi-thieu">Giới thiệu</a>
                     </div>
                     <div class="row">
-                        <a href="<?php echo _WEB_ROOT?>/du-lich">Tour du lịch</a>
+                        <a href="<?php echo _WEB_ROOT ?>/du-lich">Tour du lịch</a>
                     </div>
                     <div class="row">
-                        <a href="<?php echo _WEB_ROOT?>/tin-tuc">Tin tức</a>
+                        <a href="<?php echo _WEB_ROOT ?>/tin-tuc">Tin tức</a>
                     </div>
                     <div class="row">
-                        <a href="<?php echo _WEB_ROOT?>/lien-he">Liên hệ</a>
+                        <a href="<?php echo _WEB_ROOT ?>/lien-he">Liên hệ</a>
                     </div>
                 </div>
                 <div class="footer__item">
                     <h3 class="footer__title">Thôn tin cần biết</h3>
                     <div class="row">
-                        <a href="<?php echo _WEB_ROOT?>/gioi-thieu">
+                        <a href="<?php echo _WEB_ROOT ?>/gioi-thieu">
                             Về chúng tôi
                         </a>
                     </div>
@@ -97,6 +97,6 @@ https://www.tiktok.com/@du.lich.itravel?_t=ZS-8rvOqhUac8g&_r=1"><i class="fa-bra
 
 <!-- load web -->
 <div class="loader">
-    <div class="loader__circle"></div>
+    <img src="<?php echo ASSET ?>/client/images/loading1.gif" alt="Loading...">
 </div>
 <!-- load web -->

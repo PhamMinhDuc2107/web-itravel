@@ -20,7 +20,7 @@ class BookingEvent extends Controller
       ];
       $this->data["title"] = "Tổ chức sự kiện";
       $this->data['heading'] = "Tổ chức sự kiện";
-      $this->data["page"] = "bookingHotel/index";
+      $this->data["page"] = "event/index";
       $this->data['categories'] = $categories;
       $this->data['destination'] = $destination;
       $this->data['departure'] = $departure;

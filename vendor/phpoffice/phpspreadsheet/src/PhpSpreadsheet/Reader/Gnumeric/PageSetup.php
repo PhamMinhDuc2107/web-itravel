@@ -27,7 +27,7 @@ class PageSetup
             if (isset($attributes['percentage'])) {
                 $setup->setScale((int) $attributes['percentage']);
             }
-            $pageOrder = (string) $printInformation->order;
+            $pageOrder = (string) $printInformation->getOrder();
             if ($pageOrder === 'r_then_d') {
                 $setup->setPageOrder(WorksheetPageSetup::PAGEORDER_OVER_THEN_DOWN);
             } elseif ($pageOrder === 'd_then_r') {

@@ -660,7 +660,7 @@ class Chart
                                 $trendLineType = self::getAttributeString($seriesDetail->trendlineType, 'val');
                                 $dispRSqr = self::getAttributeBoolean($seriesDetail->dispRSqr, 'val');
                                 $dispEq = self::getAttributeBoolean($seriesDetail->dispEq, 'val');
-                                $order = self::getAttributeInteger($seriesDetail->order, 'val');
+                                $order = self::getAttributeInteger($seriesDetail->getOrder(), 'val');
                                 $period = self::getAttributeInteger($seriesDetail->period, 'val');
                                 $forward = self::getAttributeFloat($seriesDetail->forward, 'val');
                                 $backward = self::getAttributeFloat($seriesDetail->backward, 'val');

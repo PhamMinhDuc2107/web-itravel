@@ -6,17 +6,38 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title><?php echo $data['title'] ?? "Tour du lịch trong nước và quốc tế | Itravel - Đặt tour giá tốt nhất" ?>
+		<title><?php echo $data['title'] ?? "Tour du lịch trong nước và quốc tế | ITravel - Đặt tour giá tốt nhất" ?>
 		</title>
-		<meta name="description"
-			content="Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất. Đặt tour ngay hôm nay để nhận ưu đãi đặc biệt và trải nghiệm dịch vụ chuyên nghiệp." />
-		<meta name="keywords"
-			content="tour du lịch, đặt tour, du lịch trong nước, du lịch quốc tế, vé máy bay giá rẻ, khách sạn giá tốt" />
 		<meta name="robots" content="index, follow" />
+		<meta name="description"
+			content="<?php echo $data['desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất. Đặt tour ngay hôm nay để nhận ưu đãi đặc biệt và trải nghiệm dịch vụ chuyên nghiệp." ?>" />
+		<meta name=" keywords"
+			content="<?php echo $data['kw'] ?? "tour du lịch, tour du lịch trong nước, tour du lịch quốc tế, tour du lịch giá rẻ, đặt tour du lịch, đặt tour du lịch trong nước, đặt tour du lịch quốc tế, giá tour du lịch" ?>" />
+		<meta name="author" content="ITravel" />
+		<!-- Tags  -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="<?php echo _WEB_ROOT . $_SERVER['REQUEST_URI']; ?>" />
+		<meta property="og:title"
+			content="<?php echo $data['og_title'] ?? $data['title'] ?? "Tour du lịch trong nước và quốc tế | ITravel"; ?>" />
+		<meta property="og:description"
+			content="<?php echo $data['og_desc'] ?? $data['desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất. Đặt tour ngay hôm nay để nhận ưu đãi đặc biệt."; ?>" />
+		<meta property="og:image" content="<?php echo $data['og_image'] ?? ASSET . "/client/images/itravel.png"; ?>" />
+		<meta property="og:locale" content="vi_VN" />
+		<meta property="og:site_name" content="<?php echo _WEB_ROOT ?> - Tour du lịch" />
+
+		<!-- Twitter Tags -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title"
+			content="<?php echo $data['title'] ?? "Tour du lịch trong nước và quốc tế | ITravel"; ?>" />
+		<meta name="twitter:description"
+			content="<?php echo $data['desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất."; ?>" />
+		<meta name="twitter:image" content="<?php echo $data['og_image'] ?? ASSET . "/client/images/itravel.png"; ?>" />
+
+		<link id="metaCanonical" rel='canonical' href="
+			<?php echo _WEB_ROOT . $_SERVER['REQUEST_URI']; ?>" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="icon" type="image/png" href="<?php echo ASSET ?>/client/images/itravel_resize-1.png">
-		<meta property="og:title" content="Du lịch Hà Nội | Đặt Tour Hà Nội trọn gói giá ưu đãi cùng Vietravel.">
 		<script type="application/ld+json">
 			{
 				"@context": "https://schema.org",
@@ -38,13 +59,15 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 		<!-- swiper -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.js">
+		</script>
 		<!-- Flatpickr -->
 		<link rel="stylesheet" href="<?php echo ASSET ?>/utils/flatpickr.min.css">
-		<script src="<?php echo ASSET ?>/utils/flatpickr.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
+		<script type="text/javascript" src="<?php echo ASSET ?>/utils/flatpickr.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js">
+		</script>
 
-		<script src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js"></script>
+		<script type="text/javascript" src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js"></script>
 
 		<!-- css -->
 		<link rel="stylesheet" href="<?php echo ASSET ?>/client/css/reset.css">

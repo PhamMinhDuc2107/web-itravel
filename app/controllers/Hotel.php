@@ -1,6 +1,6 @@
 <?php
 
-class BookingHotel extends Controller
+class Hotel extends Controller
 {
    private $data;
    private $CategoryModel;
@@ -20,7 +20,7 @@ class BookingHotel extends Controller
       ];
       $this->data["title"] = "Đặt phòng khách sạn";
       $this->data['heading'] = "Đặt phòng khách sạn";
-      $this->data["page"] = "bookingHotel/index";
+      $this->data["page"] = "hotel/index";
       $this->data["destination"] = $destination;
       $this->data["departure"] = $departure;
       $this->data["categories"] = $categories;

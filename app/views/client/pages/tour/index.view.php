@@ -19,17 +19,17 @@
                      <div class="sidebar__select--btn">
                         <span>
                            <?php
-                  $name = htmlspecialchars(Request::input("departure", ''));
-                  if ($name !== "") {
-                    foreach ($data['departure'] as $item) {
-                      if ($item['slug'] === $name) {
-                        echo $item['name'];
-                      }
-                    }
-                  } else {
-                    echo "Tất cả";
-                  }
-                  ?>
+                           $name = htmlspecialchars(Request::input("departure", ''));
+                           if ($name !== "") {
+                              foreach ($data['departure'] as $item) {
+                                 if ($item['slug'] === $name) {
+                                    echo $item['name'];
+                                 }
+                              }
+                           } else {
+                              echo "Tất cả";
+                           }
+                           ?>
                         </span>
                         <i class="fa fa-angle-down"></i>
                      </div>
@@ -54,17 +54,17 @@
                      <div class="sidebar__select--btn">
                         <span>
                            <?php
-                  $name = htmlspecialchars(Request::input("destination", ''));
-                  if ($name !== "") {
-                    foreach ($data['destination'] as $item) {
-                      if ($item['slug'] === $name) {
-                        echo $item['name'];
-                      }
-                    }
-                  } else {
-                    echo "Tất cả";
-                  }
-                  ?>
+                           $name = htmlspecialchars(Request::input("destination", ''));
+                           if ($name !== "") {
+                              foreach ($data['destination'] as $item) {
+                                 if ($item['slug'] === $name) {
+                                    echo $item['name'];
+                                 }
+                              }
+                           } else {
+                              echo "Tất cả";
+                           }
+                           ?>
                         </span>
                         <i class="fa fa-angle-down"></i>
                      </div>
@@ -128,21 +128,21 @@
                      <div class="sidebar__select--btn hiddenText">
                         <span>
                            <?php
-                  $priceSort = Request::input("priceSort");
-                  $fromDate = Request::input("fromDate");
+                           $priceSort = Request::input("priceSort");
+                           $fromDate = Request::input("fromDate");
 
-                  switch (true) {
-                    case ($priceSort === "asc"):
-                      echo "Giá từ thấp đến cao";
-                      break;
-                    case ($priceSort === "desc"):
-                      echo "Giá từ cao đến thấp";
-                      break;
-                    default:
-                      echo "Tất cả";
-                      break;
-                  }
-                  ?>
+                           switch (true) {
+                              case ($priceSort === "asc"):
+                                 echo "Giá từ thấp đến cao";
+                                 break;
+                              case ($priceSort === "desc"):
+                                 echo "Giá từ cao đến thấp";
+                                 break;
+                              default:
+                                 echo "Tất cả";
+                                 break;
+                           }
+                           ?>
 
                         </span>
                         <i class="fa fa-angle-down"></i>
@@ -315,11 +315,12 @@
             <div class="pagi">
                <ul class="pagi__list">
                   <?php $totalPages = $data['totalPages'] ?? 1;
-              $page = Request::has("page", "get") ? Request::input("page") : 1;
-              ?>
+                     $page = Request::has("page", "get") ? Request::input("page") : 1;
+                     ?>
                   <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                  <li class="pagi__item"><a href="<?php echo Util::buildPageUrl($i) ?>"
-                        class="pagi__item--link <?php echo $i === (int)htmlspecialchars($page) ? "active" : "" ?>"><?php echo $i ?></a>
+                  <li class="pagi__item"><span
+                        class="pagi__item--link <?php echo $i === (int)htmlspecialchars($page) ? "active" : "" ?>"
+                        data-param="page" data-value="<?php echo $i ?>"><?php echo $i ?></span>
                   </li>
                   <?php endfor; ?>
                </ul>
@@ -381,13 +382,18 @@ function updateToursWithFilters() {
       destination: url.searchParams.get("destination"),
       departure: url.searchParams.get("departure"),
       priceSort: url.searchParams.get("priceSort"),
-      typeTour: typeTour
+      typeTour: typeTour,
+      page: url.searchParams.get("page")
    };
    Object.keys(data).forEach(key => {
       if (!data[key] || data[key].trim() === "" || data[key] === "all") {
          delete data[key];
       }
    });
+   const tourList = $(".tour__list");
+   const pageList = $(".pagi__list")
+   tourList.html("");
+   pageList.html("")
    tourLoading.style.display = "flex"
    $.ajax({
       url: "<?php echo _WEB_ROOT . '/tim-kiem-tour-du-lich' ?>",
@@ -396,12 +402,14 @@ function updateToursWithFilters() {
       dataType: "json",
       success: function(res) {
          tourLoading.style.display = "none"
-         const tourList = $(".tour__list");
-         tourList.html("");
-         if (res.type === 'success' && res.data && res.data.length > 0) {
+
+         if (res.type === 'success' && res.data.tours && res.data.tours.length > 0) {
             const data = res.data;
+            console.log(data)
+            const tours = data.tours;
+            const totalPage = data.totalPage;
             const webRoot = "<?php echo _WEB_ROOT; ?>";
-            data.forEach(tour => {
+            tours.forEach(tour => {
                tourList.append(`
                          <div class="tour__item swiper-slide">
                            <div class="tour__img">
@@ -526,6 +534,19 @@ function updateToursWithFilters() {
                        </div>
                     `)
             })
+
+            if (totalPage > 1) {
+               const urlParams = new URLSearchParams(window.location.search);
+               const currentPage = urlParams.get('page') ? parseInt(urlParams.get('page')) : 1;
+               for (let i = 1; i <= totalPage; i++) {
+                  const isActive = i === currentPage ? 'active' : '';
+                  pageList.append(`
+                     <li class="page__item">
+                        <span class="pagi__item--link ${isActive}" data-param="page" data-value="${i}">${i}</span>  
+                     </li>
+                  `)
+               }
+            }
          } else {
             tourList.html(
                `<h3 style="font-size: 30px; font-weight: 600; text-align: center">Không tìm thấy tour du lịch nào</h3>`
@@ -543,60 +564,60 @@ function updateToursWithFilters() {
 }
 </script>
 <script type="text/javascript">
-flatpickr("#date-departure", {
-   dateFormat: "d-m-Y",
-   minDate: "today",
-   locale: "vn",
-   onChange: function(selectedDates, dateStr, instance) {
-      if (dateStr) {
-         const url = new URL(window.location);
-         url.searchParams.set("fromDate", dateStr);
-         window.history.pushState({}, '', url);
-         updateToursWithFilters()
+document.addEventListener("DOMContentLoaded", function(e) {
+   flatpickr("#date-departure", {
+      dateFormat: "d-m-Y",
+      minDate: "today",
+      locale: "vn",
+      onChange: function(selectedDates, dateStr, instance) {
+         if (dateStr) {
+            const url = new URL(window.location);
+            url.searchParams.set("fromDate", dateStr);
+            window.history.pushState({}, '', url);
+            updateToursWithFilters()
+         }
       }
-   }
-});
-</script>
-
-<script type="text/javascript">
-const priceFilters = document.querySelectorAll(".filter__item[data-param='budgetId']")
-const sidebarFilterWrap = document.querySelector(".sidebar__filter--wrap")
-const sidebarFilterPrice = document.querySelector(".sidebar__filter--price")
-const htmlRemoveBtn = `
-    <span data-param="budgetId" data-value="all" class="filter__remove">Xoá</span>
-  `
-priceFilters.forEach(item => {
-   item.addEventListener("click", function() {
-      const value = this.getAttribute("data-value");
-      const param = this.getAttribute("data-param");
-      if (!document.querySelector('.filter__remove')) {
-         sidebarFilterWrap.insertAdjacentHTML("beforeend", htmlRemoveBtn);
-      }
-
-      const url = new URL(window.location);
-      url.searchParams.set(param, value);
-      window.history.pushState({}, '', url);
-      priceFilters.forEach(i => i.classList.remove("filter__item--active"));
-      this.classList.add("filter__item--active");
-      updateToursWithFilters()
    });
-});
-sidebarFilterPrice.addEventListener("click", function(e) {
-   if (e.target.classList.contains("filter__remove")) {
-      priceFilters.forEach(item => item.classList.remove("filter__item--active"))
-      const param = e.target.getAttribute("data-param");
-
-      const url = new URL(window.location);
-      url.searchParams.delete(param);
-      window.history.pushState({}, '', url);
-      updateToursWithFilters()
-      e.target.parentNode.removeChild(e.target);
-
-   }
 })
 </script>
+
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function(e) {
+   const priceFilters = document.querySelectorAll(".filter__item[data-param='budgetId']")
+   const sidebarFilterWrap = document.querySelector(".sidebar__filter--wrap")
+   const sidebarFilterPrice = document.querySelector(".sidebar__filter--price")
+   const htmlRemoveBtn = `
+    <span data-param="budgetId" data-value="all" class="filter__remove">Xoá</span>
+  `
+   priceFilters.forEach(item => {
+      item.addEventListener("click", function() {
+         const value = this.getAttribute("data-value");
+         const param = this.getAttribute("data-param");
+         if (!document.querySelector('.filter__remove')) {
+            sidebarFilterWrap.insertAdjacentHTML("beforeend", htmlRemoveBtn);
+         }
+
+         const url = new URL(window.location);
+         url.searchParams.set(param, value);
+         window.history.pushState({}, '', url);
+         priceFilters.forEach(i => i.classList.remove("filter__item--active"));
+         this.classList.add("filter__item--active");
+         updateToursWithFilters()
+      });
+   });
+   sidebarFilterPrice.addEventListener("click", function(e) {
+      if (e.target.classList.contains("filter__remove")) {
+         priceFilters.forEach(item => item.classList.remove("filter__item--active"))
+         const param = e.target.getAttribute("data-param");
+
+         const url = new URL(window.location);
+         url.searchParams.delete(param);
+         window.history.pushState({}, '', url);
+         updateToursWithFilters()
+         e.target.parentNode.removeChild(e.target);
+
+      }
+   })
    let isActivePrice = false
    priceFilters.forEach((item) => {
       if (item.classList.contains("filter__item--active")) {
@@ -610,51 +631,73 @@ document.addEventListener("DOMContentLoaded", function(e) {
 })
 </script>
 <script type="text/javascript">
-let sidebarSelect = document.querySelectorAll(".sidebar__select");
+const pagiList = document.querySelector(".pagi__list")
+pagiList.addEventListener("click", (e) => {
+   if (e.target.classList.contains("pagi__item--link")) {
 
-sidebarSelect.forEach(item => {
-   let sidebarSelectBtn = item.querySelector(".sidebar__select--btn");
-   let sidebarSelectSpan = item.querySelector(".sidebar__select--btn span");
-   let sidebarSelectIcon = item.querySelector(".sidebar__select--btn i");
-   let sidebarList = item.querySelector(".sidebar__list");
-   let filterItems = item.querySelectorAll(".filter__item");
-
-   sidebarSelectBtn.addEventListener("click", (e) => {
-      item.classList.toggle("sidebar__select--active");
-      sidebarSelectIcon.classList.toggle("fa-angle-up");
-      sidebarSelectIcon.classList.toggle("fa-angle-down");
-   });
-
-   filterItems.forEach(option => {
-      option.addEventListener("click", () => {
-         sidebarSelectSpan.innerText = option.innerText;
-         sidebarSelectIcon.classList.toggle("fa-angle-up");
-         sidebarSelectIcon.classList.toggle("fa-angle-down");
-         item.classList.remove("sidebar__select--active");
-
-         const param = option.getAttribute("data-param");
-         const value = option.getAttribute("data-value");
-         if (param && value) {
-            const url = new URL(window.location);
-            if (value === 'all') {
-               url.searchParams.delete(param);
-            } else {
-               url.searchParams.set(param, value);
-            }
-            window.history.pushState({}, '', url);
-            updateToursWithFilters()
-         }
+      document.querySelectorAll(".pagi__item--link").forEach(item => {
+         item.classList.remove("active");
       });
-   });
+      e.target.classList.add("active");
+
+      const url = new URL(window.location);
+      url.searchParams.set(e.target.dataset.param, e.target.dataset.value);
+      window.history.pushState({}, '', url);
+      updateToursWithFilters();
+
+   }
 });
 </script>
 <script type="text/javascript">
-let filterIcon = document.querySelector(".filter--icon i")
-let sidebarOverplay = document.querySelector(".sidebar--overplay");
-let sidebar = document.querySelector(".sidebar");
-filterIcon.addEventListener("click", function(e) {
-   sidebar.classList.toggle("sidebar--active")
-   sidebarOverplay.classList.toggle("overplay--active")
-   filterIcon.classList.toggle("fa-x")
+document.addEventListener("DOMContentLoaded", function(e) {
+   let sidebarSelect = document.querySelectorAll(".sidebar__select");
+
+   sidebarSelect.forEach(item => {
+      let sidebarSelectBtn = item.querySelector(".sidebar__select--btn");
+      let sidebarSelectSpan = item.querySelector(".sidebar__select--btn span");
+      let sidebarSelectIcon = item.querySelector(".sidebar__select--btn i");
+      let sidebarList = item.querySelector(".sidebar__list");
+      let filterItems = item.querySelectorAll(".filter__item");
+
+      sidebarSelectBtn.addEventListener("click", (e) => {
+         item.classList.toggle("sidebar__select--active");
+         sidebarSelectIcon.classList.toggle("fa-angle-up");
+         sidebarSelectIcon.classList.toggle("fa-angle-down");
+      });
+
+      filterItems.forEach(option => {
+         option.addEventListener("click", () => {
+            sidebarSelectSpan.innerText = option.innerText;
+            sidebarSelectIcon.classList.toggle("fa-angle-up");
+            sidebarSelectIcon.classList.toggle("fa-angle-down");
+            item.classList.remove("sidebar__select--active");
+
+            const param = option.getAttribute("data-param");
+            const value = option.getAttribute("data-value");
+            if (param && value) {
+               const url = new URL(window.location);
+               if (value === 'all') {
+                  url.searchParams.delete(param);
+               } else {
+                  url.searchParams.set(param, value);
+               }
+               window.history.pushState({}, '', url);
+               updateToursWithFilters()
+            }
+         });
+      });
+   });
+})
+</script>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", () => {
+   let filterIcon = document.querySelector(".filter--icon i")
+   let sidebarOverplay = document.querySelector(".sidebar--overplay");
+   let sidebar = document.querySelector(".sidebar");
+   filterIcon.addEventListener("click", function(e) {
+      sidebar.classList.toggle("sidebar--active")
+      sidebarOverplay.classList.toggle("overplay--active")
+      filterIcon.classList.toggle("fa-x")
+   })
 })
 </script>

@@ -595,7 +595,6 @@ class ZipStream
                 }
 
                 return $stream;
-
             },
             send: $this->send(...),
             recordSentBytes: $this->recordSentBytes(...),
@@ -712,9 +711,11 @@ class ZipStream
         }
 
         // Add 64bit headers (if applicable)
-        if (count($this->centralDirectoryRecords) >= 0xFFFF ||
+        if (
+            count($this->centralDirectoryRecords) >= 0xFFFF ||
             $centralDirectoryStartOffsetOnDisk > 0xFFFFFFFF ||
-            $sizeOfCentralDirectory > 0xFFFFFFFF) {
+            $sizeOfCentralDirectory > 0xFFFFFFFF
+        ) {
             if (!$this->enableZip64) {
                 throw new OverflowException();
             }
@@ -823,8 +824,8 @@ class ZipStream
     }
 
     /**
-    * Send HTTP headers for this stream.
-    */
+     * Send HTTP headers for this stream.
+     */
     private function sendHttpHeaders(): void
     {
         // grab content disposition

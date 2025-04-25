@@ -1,6 +1,6 @@
 <?php
 
-class BookingVehicel extends Controller
+class IdentityCard extends Controller
 {
    private $data;
    private $CategoryModel;
@@ -16,11 +16,10 @@ class BookingVehicel extends Controller
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
       $breadcrumbs = [
-         ['name' => "Thuê xe du lịch", "link" => "thue-xe-du-lich"],
+         ['name' => "Căn cước công dân", "link" => "can-cuoc-cong-dan"],
       ];
-      $this->data["title"] = "Thuê xe du lịch";
-      $this->data['heading'] = "Thuê xe du lịch";
-      $this->data["page"] = "bookingVehicel/index";
+      $this->data["title"] = "Căn cước công dân";
+      $this->data["page"] = "identityCard/index";
       $this->data["destination"] = $destination;
       $this->data["departure"] = $departure;
       $this->data["categories"] = $categories;

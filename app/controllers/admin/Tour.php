@@ -1,5 +1,6 @@
 <?php
-class Tour  extends Controller{
+class Tour  extends Controller
+{
    private $data;
    private $TourModel;
    private $LocationModel;
@@ -7,7 +8,8 @@ class Tour  extends Controller{
    private $TourPriceCalendarModel;
    private $CategoryModel;
    private $jwt;
-   public function __construct(){
+   public function __construct()
+   {
       $this->TourModel = $this->model("TourModel");
       $this->LocationModel = $this->model("LocationModel");
       $this->TourImgModel = $this->model("TourImgModel");
@@ -15,36 +17,38 @@ class Tour  extends Controller{
       $this->CategoryModel = $this->model("CategoryModel");
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
-      if(!$checkAuth['success']) {
-         Util::redirect("dashboard/login",Response::unauthorized($checkAuth['msg']));
+      if (!$checkAuth['success']) {
+         Util::redirect("dashboard/login", Response::unauthorized($checkAuth['msg']));
       }
 
-      if(!Util::checkCsrfToken()) {
-         Util::redirect("dashboard/category",Response::forbidden("Thất bại! Token không hợp lệ"));
+      if (!Util::checkCsrfToken()) {
+         Util::redirect("dashboard/category", Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
-   public function index() {
+   public function index()
+   {
       $this->TourModel->setBaseModel();
-      $totalPages =$this->TourModel->getTotalPages();
+      $totalPages = $this->TourModel->getTotalPages();
       $departures = $this->LocationModel->where(["is_departure" => 1]);
-      $destinations = $this->LocationModel->where([ "is_destination"=>1]);
-      $categories = $this->CategoryModel->where(["parent_id"=>0]);
-      $tours = $this->TourModel->getTours();
+      $destinations = $this->LocationModel->where(["is_destination" => 1]);
+      $categories = $this->CategoryModel->where(["parent_id" => 0]);
+      $tours = $this->TourModel->getAdminTours();
       $this->data['totalPages'] = $totalPages;
-      $this->data['page']= 'index';
+      $this->data['page'] = 'index';
       $this->data['title'] = "Quản lý Tour";
-      $this->data['page'] ="tour/index";
+      $this->data['page'] = "tour/index";
       $this->data['tours'] = $tours;
       $this->data['destinations'] = $destinations;
       $this->data['departures'] = $departures;
       $this->data['categories'] = $categories;
       $this->render("layouts/admin_layout", $this->data);
    }
-   public function create() {
-      if(!Request::isMethod("POST")) {
+   public function create()
+   {
+      if (!Request::isMethod("POST")) {
          Util::Redirect("dashboard/tour", Response::methodNotAllowed("Phương thức khoogn được phép"));
       }
-      $dataTour =$this->prepareTourData();
+      $dataTour = $this->prepareTourData();
 
       $res = $this->TourModel->insert($dataTour);
       $idLastInsert = $this->TourModel->getLastInsertId();
@@ -52,70 +56,75 @@ class Tour  extends Controller{
          Util::redirect("dashboard/tour", Response::internalServerError("Thêm không thành công"));
       }
       $dataPrice = $this->prepareTourPriceData();
-      $checkInsertPrice = $this->processTourPrice($idLastInsert,$dataPrice);
-      if(!$checkInsertPrice['success']) {
-         Util::redirect("dashboard/tour", Response::internalServerError("Đã thêm tour thành công nhưng ".$checkInsertPrice['msg']));
+      $checkInsertPrice = $this->processTourPrice($idLastInsert, $dataPrice);
+      if (!$checkInsertPrice['success']) {
+         Util::redirect("dashboard/tour", Response::internalServerError("Đã thêm tour thành công nhưng " . $checkInsertPrice['msg']));
       }
       $checkInsertTourImg = $this->processTourImg($idLastInsert);
-      if(!$checkInsertPrice['success']) {
-         Util::redirect("dashboard/tour", Response::internalServerError("Đã thêm tour thành công nhưng ".$checkInsertTourImg['msg']));
+      if (!$checkInsertPrice['success']) {
+         Util::redirect("dashboard/tour", Response::internalServerError("Đã thêm tour thành công nhưng " . $checkInsertTourImg['msg']));
       }
-      Util::redirect('dashboard/tour',Response::success("Thêm thành công"));
+      Util::redirect('dashboard/tour', Response::success("Thêm thành công"));
    }
 
 
-   public function update($id) {
+   public function update($id)
+   {
       $locations = $this->LocationModel->all();
-      $categories = $this->CategoryModel->where(["parent_id"=>0]);
-      $imgs = $this->TourImgModel->where(["tour_id"=>$id]);
+      $categories = $this->CategoryModel->where(["parent_id" => 0]);
+      $imgs = $this->TourImgModel->where(["tour_id" => $id]);
       $tour = $this->TourModel->find($id);
       $this->data['title'] = "Chỉnh sửa Tour";
-      $this->data['page'] ="tour/form";
+      $this->data['page'] = "tour/form";
       $this->data['tour'] = $tour;
       $this->data['locations'] = $locations;
       $this->data['categories'] = $categories;
       $this->data['imgs'] = $imgs;
       $this->render("layouts/admin_layout", $this->data);
    }
-   public function updatePost() {
-      if(!Request::isMethod("POST")) {
+   public function updatePost()
+   {
+      if (!Request::isMethod("POST")) {
          Util::redirect("dashboard/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
       }
       $id = (int)(Request::input("id") ?? 0);
       $tour = $this->TourModel->find($id);
       if (!$tour) {
-         Util::redirect("dashboard/tour", Response::notFound("Không tìm thấy tour có id là ".$id));
+         Util::redirect("dashboard/tour", Response::notFound("Không tìm thấy tour có id là " . $id));
       }
-      $dataTour =$this->prepareTourData();
+      $dataTour = $this->prepareTourData();
 
       $res = $this->TourModel->update($dataTour, $id);
-      if(!$res) {
+      if (!$res) {
          Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật không thành công"));
       }
 
-      if(!empty(Request::input("date")[0]) && !empty(Request::input("price_adult")[0]) &&
-         !empty(Request::input("price_baby")[0]) && !empty(Request::input("price_children")[0])) {
+      if (
+         !empty(Request::input("date")[0]) && !empty(Request::input("price_adult")[0]) &&
+         !empty(Request::input("price_baby")[0]) && !empty(Request::input("price_children")[0])
+      ) {
          $dataPrice = $this->prepareTourPriceData();
-         $checkInsertPrice = $this->processTourPrice($id,$dataPrice, true);
-         if(!$checkInsertPrice['success']) {
-            Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng ".$checkInsertPrice['msg']));
+         $checkInsertPrice = $this->processTourPrice($id, $dataPrice, true);
+         if (!$checkInsertPrice['success']) {
+            Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng " . $checkInsertPrice['msg']));
          }
       }
 
       if (
          isset($_FILES['image']['tmp_name'][0]) &&
          $_FILES['image']['error'][0] !== UPLOAD_ERR_NO_FILE
-     ) {
+      ) {
          $checkInsertImg = $this->processTourImg($id, true);
          if (!$checkInsertImg['success']) {
-             Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng " . $checkInsertImg['msg']));
+            Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng " . $checkInsertImg['msg']));
          }
-     }
-     
-      Util::redirect('dashboard/tour',Response::success("Cập nhật thành công"));
+      }
+
+      Util::redirect('dashboard/tour', Response::success("Cập nhật thành công"));
    }
-   public function delete() {
-      if(!Request::isMethod("POST")) {
+   public function delete()
+   {
+      if (!Request::isMethod("POST")) {
          Util::redirect("dashboard/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
       }
       $listID = Request::input("id") ?? [];
@@ -131,21 +140,21 @@ class Tour  extends Controller{
          $tourImgs = $this->TourImgModel->where($id, "tour_id");
          var_dump($tourImgs);
          foreach ($tourImgs as $img) {
-            $pathImg = _DIR_ROOT.$img["image"];
+            $pathImg = _DIR_ROOT . $img["image"];
             $checkDeleteImg = Util::deleteImage($pathImg);
-            if(!$checkDeleteImg['success']) {
-               Util::redirect("dashboard/tour",Response::badRequest($checkDeleteImg['msg']));
+            if (!$checkDeleteImg['success']) {
+               Util::redirect("dashboard/tour", Response::badRequest($checkDeleteImg['msg']));
             }
          }
          $this->TourModel->delete($id);
       }
-      Util::redirect('dashboard/tour',Response::success("Xóa thành công"));
+      Util::redirect('dashboard/tour', Response::success("Xóa thành công"));
    }
 
    private function prepareTourData($isUpdate = false): array
    {
-      $name = htmlspecialchars(Request::input("name",""));
-      $code = htmlspecialchars(Request::input("code_tour",""));
+      $name = htmlspecialchars(Request::input("name", ""));
+      $code = htmlspecialchars(Request::input("code_tour", ""));
       $slug = htmlspecialchars(Request::input("slug", ""));
       $slug = Util::generateSlug($slug);
       $duration = htmlspecialchars(Request::input("duration", ""));
@@ -171,23 +180,23 @@ class Tour  extends Controller{
          "status" => $status,
          "status_hot" => $statusHot,
          "code_tour" => $code,
-         "departure_id"=>$departure,
-         "destination_id"=>$destination,
+         "departure_id" => $departure,
+         "destination_id" => $destination,
          "meals" => $meals,
          "destinations" => $destinations,
-         "suitable_for"=>$suitable_for,
-         "ideal_time"=>$ideal_time,
-         "transportation"=>$transportation,
-         "promotion"=>$promotion
+         "suitable_for" => $suitable_for,
+         "ideal_time" => $ideal_time,
+         "transportation" => $transportation,
+         "promotion" => $promotion
       ];
-      if($isUpdate) {
+      if ($isUpdate) {
          $data = Util::removeEmptyValues($data);
       }
       return $data;
    }
    private function prepareTourPriceData($isUpdate = false): array
    {
-      $date =Request::input("date")?? [];
+      $date = Request::input("date") ?? [];
       $priceAdult = Request::input("price_adult") ?? [];
       $priceChildren = Request::input("price_children") ?? [];
       $priceBaby = Request::input("price_baby") ?? [];
@@ -197,72 +206,72 @@ class Tour  extends Controller{
          "priceChildren" => $priceChildren,
          "priceBaby" => $priceBaby,
       ];
-      if($isUpdate) {
+      if ($isUpdate) {
          $data = Util::removeEmptyValues($data);
       }
       return $data;
    }
    private function processTourImg(int $id, $isUpdate = false): array
    {
-      if($isUpdate) {
-         $tourImgs = $this->TourImgModel->where(["tour_id"=> $id]);
+      if ($isUpdate) {
+         $tourImgs = $this->TourImgModel->where(["tour_id" => $id]);
          foreach ($tourImgs as $img) {
-            $pathImg = _DIR_ROOT.$img["image"];
+            $pathImg = _DIR_ROOT . $img["image"];
             $checkDeleteImg = Util::deleteImage($pathImg);
-            if(!$checkDeleteImg['success']) {
+            if (!$checkDeleteImg['success']) {
                return ['success' => false, 'msg' => $checkDeleteImg['msg']];
             }
             $this->TourImgModel->delete($img["id"]);
          }
       }
-      $imgs = Request::file("image")?? [];
+      $imgs = Request::file("image") ?? [];
       $pathAsset = '/public/uploads/tour/';
       $files = $this->convertListImgToArr($imgs);
 
       foreach ($files as $file) {
          $data = ["tour_id" => $id];
          $checkCreateImgPath = Util::createImagePath($file, $pathAsset);
-         if(!$checkCreateImgPath['success']) {
+         if (!$checkCreateImgPath['success']) {
             return ['success' => false, 'msg' => $checkCreateImgPath['msg']];
          }
          $newImgName = $checkCreateImgPath['name'];
          $data['image'] = $newImgName;
          $res = $this->TourImgModel->insert($data);
-         if(!$res) {
-            return ['success' => false, 'msg' =>"Cập nhật ảnh cho tour không thành công"];
+         if (!$res) {
+            return ['success' => false, 'msg' => "Cập nhật ảnh cho tour không thành công"];
          }
          $checkUploadImg = Util::uploadImage($file, $newImgName);
-         if(!$checkUploadImg["success"]) {
-            return ['success' => false, 'msg' =>$checkUploadImg['msg']];
+         if (!$checkUploadImg["success"]) {
+            return ['success' => false, 'msg' => $checkUploadImg['msg']];
          }
       }
       return ["success" => true, "msg" => "Ok"];
    }
    private function processTourPrice($id, $dataPrice, $isUpdate = false): array
    {
-      if($isUpdate) {
-         $listPrice = $this->TourPriceCalendarModel->where(['tour_id'=>$id]);
+      if ($isUpdate) {
+         $listPrice = $this->TourPriceCalendarModel->where(['tour_id' => $id]);
          foreach ($listPrice as $price) {
             $this->TourPriceCalendarModel->delete($price["id"]);
          }
       }
-      $list = $this->convertListPriceDateToArr($dataPrice['date'], $dataPrice['priceAdult'], $dataPrice['priceChildren'],$dataPrice['priceBaby']);
+      $list = $this->convertListPriceDateToArr($dataPrice['date'], $dataPrice['priceAdult'], $dataPrice['priceChildren'], $dataPrice['priceBaby']);
       foreach ($list as $item) {
          $item["tour_id"] = $id;
          $res = $this->TourPriceCalendarModel->insert($item);
-         if(!$res) {
+         if (!$res) {
             return ['success' => false, "msg" => "Thêm không thành công giá của tour"];
          }
       }
       return ['success' => true, "msg" => "Thêm thành công giá của tour"];
    }
 
-   private function convertListPriceDateToArr($date, $priceAdult, $priceChildren, $priceBaby) : array
+   private function convertListPriceDateToArr($date, $priceAdult, $priceChildren, $priceBaby): array
    {
       $datas = [];
-      for($i = 0; $i < count($priceAdult); $i++) {
+      for ($i = 0; $i < count($priceAdult); $i++) {
          $arrDate = explode(",", trim($date[$i], ","));
-         for($j = 0; $j < count($arrDate); $j++) {
+         for ($j = 0; $j < count($arrDate); $j++) {
             $item = [];
             $item["adult_price"] = (float)$priceAdult[$i];
             $item["child_price"] = (float)$priceChildren[$i];
@@ -273,7 +282,8 @@ class Tour  extends Controller{
       }
       return $data ?? [];
    }
-   private function convertListImgToArr(array $arr):array {
+   private function convertListImgToArr(array $arr): array
+   {
       $files = [];
       for ($i = 0; $i < count($arr['name']); $i++) {
          $files[] = [
@@ -286,7 +296,8 @@ class Tour  extends Controller{
       }
       return $files;
    }
-   private function getStatus($status): string {
+   private function getStatus($status): string
+   {
       return match ($status) {
          "2" => "active",
          "1" => "inactive",

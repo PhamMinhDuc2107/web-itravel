@@ -36,15 +36,17 @@ class Tour extends Controller
       $this->TourModel->setLimit(9);
       $this->TourModel->setBaseModel();
 
-      $totalPages = $this->TourModel->getTotalPages();
+
       $tours = $this->TourModel->getTours();
+      $totalPages = ceil($this->TourModel->countTours() / $this->TourModel->getLimit());
 
       if (!empty($filters)) {
          $tours = $this->TourModel->searchTours($filters);
+         $totalPages = ceil($this->TourModel->countSearchTours($filters) / $this->TourModel->getLimit());
       }
 
       $breadcrumbs = [
-         ['name' => "Tất cả tour", "link" => "du-lich"],
+         ['name' => "Du lịch", "link" => "du-lich"],
       ];
 
       $this->data["title"] = "ITravel | Tất cả tour";
@@ -62,13 +64,17 @@ class Tour extends Controller
 
       $condition = ['slug' => htmlspecialchars($slug)];
       $tour = $this->TourModel->getTour($condition);
-
+      $category = $this->CategoryModel->find($tour['category_id']);
       if (empty($tour) && !is_array($tour)) {
          Util::loadError();
       }
 
       $breadcrumbs = [
-         ['name' => $tour['name'], "link" => "/chuong-tring/" . $tour['slug']],
+         ['name' => "Du lịch", "link" => "/du-lich"],
+
+         ['name' => $category['name'], "link" => "/" . $category['slug']],
+
+         ['name' => $tour['name'], "link" => "/du-lich/" . $tour['slug']],
       ];
 
       $relatedTour = $this->TourModel->getTours(['category_id' => $tour['category_id']], true);
@@ -126,11 +132,13 @@ class Tour extends Controller
       $filters['typeTour'] = $category['id'];
       $conditions = ['category_id' => $category['id']];
       $tours = $this->TourModel->getTours($conditions, true);
-      if ($filters && !empty($filters)) {
+      $totalPages = ceil($this->TourModel->countTours($conditions, true) / $this->TourModel->getLimit());
 
+      if (!empty($filters)) {
          $tours = $this->TourModel->searchTours($filters);
+         $totalPages = ceil($this->TourModel->countSearchTours($filters) / $this->TourModel->getLimit());
       }
-      $totalPages = $this->TourModel->getTotalPages();
+
       $breadcrumbs = [
          ['name' => "Du lịch", "link" => "du-lich"],
          ['name' => $categoryName, 'link' => "{$category['slug']}"]
@@ -150,6 +158,7 @@ class Tour extends Controller
 
    public function searchProductAjax()
    {
+      $res = [];
       $filters = $this->processFilters();
       if (Request::has("typeTour", "get")) {
          $typeTour = htmlspecialchars(Request::input("typeTour"));
@@ -159,8 +168,11 @@ class Tour extends Controller
             $filters['typeTour'] = $category['id'];
          }
       }
+      $this->TourModel->setLimit(9);
       $tours = $this->TourModel->searchTours($filters);
-      echo json_encode(Response::success('Oke', $tours));
+      $res['tours'] = $tours;
+      $res['totalPage'] = ceil($this->TourModel->countSearchTours($filters) / $this->TourModel->getLimit());
+      echo json_encode(Response::success('Oke', $res));
    }
 
    public function search()
@@ -175,7 +187,7 @@ class Tour extends Controller
 
             $this->data["title"] = "ITravel | Tìm kiếm tour du lịch";
             $this->data['heading'] = "Tìm kiếm tour ";
-            $this->data['count'] = count($tours) ?? 0;
+            $this->data['count'] = $this->TourModel->countTours([], false, $query) ?? 0;
             $this->data['tourSearch'] = $tours;
             break;
 
@@ -193,7 +205,6 @@ class Tour extends Controller
                $filters['destination'] = Util::generateSlug($filters['destination']);
             }
             $tours = $this->TourModel->searchTours($filters);
-
             $this->data["title"] = "ITravel | Tìm kiếm tour du lịch";
             $this->data['heading'] = "Tìm kiếm tour ";
             $this->data['count'] = count($tours) ?? 0;
@@ -311,6 +322,10 @@ class Tour extends Controller
             $filters['priceStart'] = $priceList['start'];
             $filters['priceEnd'] = $priceList['end'];
          }
+      }
+      if (Request::has("page", "get")) {
+         $page = htmlspecialchars(Request::input("page"));
+         $filters['page'] = $page;
       }
 
 

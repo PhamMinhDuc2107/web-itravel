@@ -19,7 +19,7 @@ class ContactService extends Controller
          ['name' => "Liên hệ tư vấn " . $this->slugToTitle($title), "link" => "lien-he-tu-van-" . $title],
       ];
       $this->data["title"] = "Liên hệ tư vấn " . $this->slugToTitle($title);
-      $this->data['heading'] = "Liên hệ tư vấn " . $this->slugToTitle($title);
+      $this->data['formField'] = $title;
       $this->data["page"] = "contactService/index";
       $this->data["destination"] = $destination;
       $this->data["departure"] = $departure;
