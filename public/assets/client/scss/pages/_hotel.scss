@@ -223,6 +223,46 @@
             }
             &--more {
                color: $gray-color;
+               position: relative;
+               font-weight: 500;
+               &:hover  .more__wrap {
+                  display: block;
+               }
+               h6 {
+                  margin-bottom: 1rem;
+               }
+               .more__wrap {
+                  display: none;
+
+                  position: absolute;
+                  padding: 1rem;
+                  background-color: $primary-color;
+                  color: $white-color;
+                  min-width: 30rem;
+                  transform: translate(-50%, -130%);
+                  border-radius: 0.6rem;
+                  z-index: 2;
+                  &::after {
+                     content: "";
+                     position: absolute;
+                     border-left: 0.8rem solid transparent;
+                     border-right: 0.8rem solid transparent;
+                     border-top: 1.2rem solid $primary-color;
+                     bottom:0;
+                     transform: translate(-50%, 90%);
+                     left: 50%;
+                  }
+               }
+               .more__list {
+                  @include flex(center, start, row, wrap);
+                  gap: 1rem;
+               }
+               .more__item {
+                  width: calc(50% - 0.5rem);
+                  i {
+                     margin-right: 0.2rem;
+                  }
+               }
             }
          }
          .info__bottom {
@@ -297,49 +337,6 @@
                margin-left: 0.5rem;
             }
          }
-      }
-   }
-}
-.dialog {
-   position: fixed;
-   top: 0;
-   bottom: 0;
-   right: 0;
-   left: 0;
-   border-radius: 0.8rem;
-   overflow: hidden;
-   z-index: 99999;
-   background-color: transparent;
-   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-   opacity: 0;
-   visibility: hidden;
-   &__content {
-      position: absolute!important;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,100%) scale(0.2);
-      z-index:999999;
-      border-radius: 0.6rem;
-      @include size(100rem, 60rem);
-      transition: all 0.5s ease-in-out;
-   }
-   &__close {
-      position: absolute;
-      @include size(4rem);
-      border-radius: 50%;
-      @include flex(center,center);
-      background-color: $white-color;
-      top: 0;
-      right: 0;
-      cursor: pointer;
-   }
-   &__active {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-      visibility: visible;
-      background-color: #6d68688a;
-      .dialog__content {
-         transform: translate(-50%,-50%) scale(1);
       }
    }
 }

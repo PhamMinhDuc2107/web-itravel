@@ -42,7 +42,7 @@ $routes['dashboard/login-post'] = 'admin/dashboard/loginPost';
 $routes['dashboard/logout'] = 'admin/dashboard/logout';
 
 
-$adminModules = ['admin', 'category', 'blog', 'blogCategory', 'location', "tour", "tourItinerary", 'booking', "consultation", "banner", "tourNote"];
+$adminModules = ['admin', 'category', 'blog', 'blogCategory', 'location', "tour", "tourItinerary", 'booking', "consultation", "banner", "tourNote", "hotel"];
 foreach ($adminModules as $module) {
    $routes["dashboard/$module"] = "admin/$module/index";
    $routes["dashboard/$module-update/(.+)"] = "admin/$module/update/$1";

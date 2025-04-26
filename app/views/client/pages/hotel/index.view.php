@@ -192,7 +192,39 @@
                               Máy sấy quần áo
                            </li>
                         </ul>
-                        <span class="info__service--item info__service--more">3</span>
+                        <span class="info__service--item info__service--more">
+                           3
+                           <div class="more__wrap">
+                              <h6>Dịch vụ: </h6>
+                              <ul class="more__list">
+                                 <li class="more__item">
+                                    <i class="fa fa-check"></i>
+                                    Các tiện ích ngoài trời
+                                 </li>
+                                 <li class="more__item">
+                                    <i class="fa fa-check"></i>
+
+                                    Các tiện ích ngoài trời
+                                 </li>
+                                 <li class="more__item">
+                                    <i class="fa fa-check"></i>
+                                    Các tiện ích ngoài trời
+                                 </li>
+                                 <li class="more__item">
+                                    <i class="fa fa-check"></i>
+                                    Các tiện ích ngoài trời
+                                 </li>
+                                 <li class="more__item">
+                                    <i class="fa fa-check"></i>
+                                    Các tiện ích ngoài trời
+                                 </li>
+                                 <li class="more__item">
+                                    <i class="fa fa-check"></i>
+                                    Các tiện ích ngoài trời
+                                 </li>
+                              </ul>
+                           </div>
+                        </span>
                      </div>
                      <div class="info__bottom">
                         <div class="info__policy">
@@ -237,31 +269,14 @@
 </section>
 <div class="dialog">
    <div id="map" class="dialog__content">
+      <iframe width="100%" height="100%" style="border-radius:16px" loading="lazy" allowfullscreen
+         referrerpolicy="no-referrer-when-downgrade"
+         src="https://www.google.com/maps?q=Khách+sạn+đại+nam+nam+định&output=embed">
+      </iframe>
+      <i class="fa fa-close dialog__close"></i>
 
    </div>
-   <i class="fa fa-close dialog__close"></i>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $_ENV['MAP_API_KEY'] ?>&callback=initMap" async
-   defer></script>
-<script type="text/javascript">
-   function initMap() {
-      const myLatLng = {
-         lat: 21.0285,
-         lng: 105.8542
-      };
-
-      const map = new google.maps.Map(document.getElementById("map"), {
-         zoom: 12,
-         center: myLatLng,
-      });
-
-      const marker = new google.maps.Marker({
-         position: myLatLng,
-         map: map,
-         title: "Vị trí của khách sạn",
-      });
-   }
-</script>
 <script type="text/javascript">
    document.addEventListener("DOMContentLoaded", () => {
       const hotelSortBarList = document.querySelector('.hotel__sortbar--list')
@@ -291,19 +306,4 @@
       },
       effect: "slider",
    });
-</script>
-<script type="text/javascript">
-   document.addEventListener("DOMContentLoaded", () => {
-      const dialog = document.querySelector(".dialog");
-      const locationLink = document.querySelector(".info__location--link")
-      locationLink.addEventListener("click", (e) => {
-         dialog.classList.add("dialog__active");
-      })
-      dialog.addEventListener("click", (e) => {
-         if (e.target.classList.contains("dialog__close") || e.target.classList.contains("dialog")) {
-            dialog.classList.remove("dialog__active")
-         }
-
-      })
-   })
 </script>

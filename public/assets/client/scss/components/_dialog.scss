@@ -1,0 +1,45 @@
+.dialog {
+   position: fixed;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   left: 0;
+   border-radius: 0.8rem;
+   overflow: hidden;
+   z-index: 99999;
+   background-color: transparent;
+   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+   opacity: 0;
+   visibility: hidden;
+   &__content {
+      position: absolute!important;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,100%) scale(0.2);
+      z-index:999999;
+      border-radius: 0.6rem;
+      @include size(160rem, 80rem);
+      transition: all 0.5s ease-in-out;
+      overflow: hidden;
+   }
+   
+   &__close {
+      position: absolute;
+      @include size(4rem);
+      border-radius: 50%;
+      @include flex(center,center);
+      background-color: $white-color;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+   }
+   &__active {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      visibility: visible;
+      background-color: #6d68688a;
+      .dialog__content {
+         transform: translate(-50%,-50%) scale(1);
+      }
+   }
+}

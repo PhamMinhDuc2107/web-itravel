@@ -243,6 +243,57 @@ body {
   background-color: rgba(176, 247, 236, 0.4509803922);
 }
 
+.dialog {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  z-index: 99999;
+  background-color: transparent;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+}
+.dialog__content {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 100%) scale(0.2);
+  z-index: 999999;
+  border-radius: 0.6rem;
+  width: 160rem;
+  height: 80rem;
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+}
+.dialog__close {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  background-color: #fff;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+.dialog__active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+  background-color: rgba(109, 104, 104, 0.5411764706);
+}
+.dialog__active .dialog__content {
+  transform: translate(-50%, -50%) scale(1);
+}
+
 .loader {
   position: fixed;
   left: 0;
@@ -3631,6 +3682,49 @@ body {
 }
 .hotel__item--info .info__service--more {
   color: #999999;
+  position: relative;
+  font-weight: 500;
+}
+.hotel__item--info .info__service--more:hover .more__wrap {
+  display: block;
+}
+.hotel__item--info .info__service--more h6 {
+  margin-bottom: 1rem;
+}
+.hotel__item--info .info__service--more .more__wrap {
+  display: none;
+  position: absolute;
+  padding: 1rem;
+  background-color: #23bda4;
+  color: #fff;
+  min-width: 30rem;
+  transform: translate(-50%, -130%);
+  border-radius: 0.6rem;
+  z-index: 2;
+}
+.hotel__item--info .info__service--more .more__wrap::after {
+  content: "";
+  position: absolute;
+  border-left: 0.8rem solid transparent;
+  border-right: 0.8rem solid transparent;
+  border-top: 1.2rem solid #23bda4;
+  bottom: 0;
+  transform: translate(-50%, 90%);
+  left: 50%;
+}
+.hotel__item--info .info__service--more .more__list {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.hotel__item--info .info__service--more .more__item {
+  width: calc(50% - 0.5rem);
+}
+.hotel__item--info .info__service--more .more__item i {
+  margin-right: 0.2rem;
 }
 .hotel__item--info .info__bottom {
   margin-top: 0.5rem;
@@ -3717,56 +3811,6 @@ body {
 }
 .hotel__item--info .info__btn i {
   margin-left: 0.5rem;
-}
-
-.dialog {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  border-radius: 0.8rem;
-  overflow: hidden;
-  z-index: 99999;
-  background-color: transparent;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  opacity: 0;
-  visibility: hidden;
-}
-.dialog__content {
-  position: absolute !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 100%) scale(0.2);
-  z-index: 999999;
-  border-radius: 0.6rem;
-  width: 100rem;
-  height: 60rem;
-  transition: all 0.5s ease-in-out;
-}
-.dialog__close {
-  position: absolute;
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  background-color: #fff;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-}
-.dialog__active {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  visibility: visible;
-  background-color: rgba(109, 104, 104, 0.5411764706);
-}
-.dialog__active .dialog__content {
-  transform: translate(-50%, -50%) scale(1);
 }
 
 .identityCard {
