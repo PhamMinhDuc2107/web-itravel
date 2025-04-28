@@ -414,4 +414,18 @@ class Util
       }
       return ['success' => true, "msg" => "Xóa ảnh thành công"];
    }
+   public static function convertListImgToArr(array $arr): array
+   {
+      $files = [];
+      for ($i = 0; $i < count($arr['name']); $i++) {
+         $files[] = [
+            'name' => $arr['name'][$i],
+            'type' => $arr['type'][$i],
+            'tmp_name' => $arr['tmp_name'][$i],
+            'error' => $arr['error'][$i],
+            'size' => $arr['size'][$i]
+         ];
+      }
+      return $files;
+   }
 }

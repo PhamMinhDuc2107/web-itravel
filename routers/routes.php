@@ -42,7 +42,7 @@ $routes['dashboard/login-post'] = 'admin/dashboard/loginPost';
 $routes['dashboard/logout'] = 'admin/dashboard/logout';
 
 
-$adminModules = ['admin', 'category', 'blog', 'blogCategory', 'location', "tour", "tourItinerary", 'booking', "consultation", "banner", "tourNote", "hotel"];
+$adminModules = ['admin', 'category', 'blog', 'blogCategory', 'location', "tour", "tourItinerary", 'booking', "consultation", "banner", "tourNote", "hotel", "amenityCategory", "hotelAmenity", "hotelType"];
 foreach ($adminModules as $module) {
    $routes["dashboard/$module"] = "admin/$module/index";
    $routes["dashboard/$module-update/(.+)"] = "admin/$module/update/$1";
@@ -51,5 +51,7 @@ foreach ($adminModules as $module) {
    $routes["dashboard/$module-delete"] = "admin/$module/delete";
    $routes["dashboard/$module-search"] = "admin/$module/search";
 }
+$routes["dashboard/hotelReview"] = "admin/hotelReview/index";
+$routes["dashboard/hotelAmenity/get-amenity-ajax"] = "admin/hotelAmenity/getHotelAmenityAjax";
 $routes['dashboard/booking-export-data'] = 'admin/booking/exportBookingToExcel';
 $routes['dashboard/consultation-export-excel'] = 'admin/consultation/exportConsultationToExcel';

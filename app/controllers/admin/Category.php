@@ -4,32 +4,30 @@ class Category extends Controller
 {
    private $data = [];
    private $CategoryModel;
-   /**
-    * @var JwtUtil
-    */
+
    private $jwt;
 
-   function __construct(){
+   function __construct()
+   {
       $this->CategoryModel = $this->model("CategoryModel");
       $this->jwt = new JwtUtil();
       $checkAuth = $this->jwt->checkAuth("token_auth");
-      if(!$checkAuth['success']) {
-         Util::redirect("dashboard/login",Response::unauthorized($checkAuth['msg']));
+      if (!$checkAuth['success']) {
+         Util::redirect("dashboard/login", Response::unauthorized($checkAuth['msg']));
       }
-      if(!Util::checkCsrfToken()) {
-         Util::redirect("dashboard/category",Response::forbidden("Thất bại! Token không hợp lệ"));
+      if (!Util::checkCsrfToken()) {
+         Util::redirect("dashboard/category", Response::forbidden("Thất bại! Token không hợp lệ"));
       }
    }
    public function index(): void
    {
       $this->CategoryModel->setBaseModel();
-      $totalPages =$this->CategoryModel->getTotalPages();
+      $totalPages = $this->CategoryModel->getTotalPages();
       $categories = $this->CategoryModel->get();
       $getCategories = $this->CategoryModel->all();
       $this->data['totalPages'] = $totalPages;
-      $this->data['page']= 'index';
       $this->data['title'] = "Quản lý danh mục tour";
-      $this->data['page'] ="category/index";
+      $this->data['page'] = "category/index";
       $this->data['categories'] = $categories;
       $this->data['getCategories'] = $getCategories;
       $this->render("layouts/admin_layout", $this->data);
@@ -46,7 +44,7 @@ class Category extends Controller
       if ($name === "") {
          Util::Redirect("dashboard/category", Response::badRequest("Vui lòng điền đẩy đủ thông tin"));
       }
-      $data = ["name" => $name,"slug" => $slug,"display_home" => $display];
+      $data = ["name" => $name, "slug" => $slug, "display_home" => $display];
       if ($parentId !== "") {
          $data["parent_id"] = $parentId;
       }
@@ -56,10 +54,11 @@ class Category extends Controller
       }
       Util::redirect("dashboard/category", Response::success("Tạo thành công"));
    }
-   public function update($id) {
+   public function update($id)
+   {
       $category = $this->CategoryModel->find(htmlspecialchars($id));
-      if(empty($category)) {
-         Util::redirect("dashboard/category",Response::notFound("Không tìm thấy"));
+      if (empty($category)) {
+         Util::redirect("dashboard/category", Response::notFound("Không tìm thấy"));
       }
       $categories = $this->CategoryModel->get();
       $parentId = $category["parent_id"];
@@ -67,30 +66,31 @@ class Category extends Controller
          $parent = $this->CategoryModel->find($parentId);
          $this->data['parent'] = $parent['name'];
       }
-      $this->data['page']= 'index';
+      $this->data['page'] = 'index';
       $this->data['title'] = "Danh mục";
-      $this->data['page'] ="category/form";
+      $this->data['page'] = "category/form";
       $this->data['category'] = $category;
       $this->data['categories'] = $categories;
       $this->render("layouts/admin_layout", $this->data);
    }
-   public function updatePost() {
-      if(!Request::isMethod("POST")) {
+   public function updatePost()
+   {
+      if (!Request::isMethod("POST")) {
          Util::redirect("dashboard/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
       $id = htmlspecialchars(Request::input("id"));
       if ($id <= 0 || !is_numeric($id)) {
          Util::Redirect("dashboard/category", Response::badRequest("Id không hợp lệ"));
       }
-      $name =htmlspecialchars(Request::input("title"));
-      if($name === "") {
+      $name = htmlspecialchars(Request::input("title"));
+      if ($name === "") {
          Util::redirect('cpanel/category', Response::badRequest("vui lòng điền đẩy đủ thông tin"));
       }
       $slug = Util::generateSlug($name);
       $parentId = htmlspecialchars(Request::input("parent"));
       $display = (int)htmlspecialchars(Request::input("display_home"));
       $update_at = Util::formatTimeFull(time());
-      $data = ["name" =>$name,"slug"=>$slug,"display_home"=>$display,"updated_at"=>$update_at];
+      $data = ["name" => $name, "slug" => $slug, "display_home" => $display, "updated_at" => $update_at];
       if ($parentId !== "") {
          $data['parent_id'] = $parentId;
       }
@@ -99,11 +99,10 @@ class Category extends Controller
          Util::Redirect("dashboard/category", Response::internalServerError("Cập nhật không thành công"));
       }
       Util::redirect("dashboard/category", Response::success("cập nhật thành cồng"));
-
    }
    public function delete(): void
    {
-      if(!Request::isMethod("POST")) {
+      if (!Request::isMethod("POST")) {
          Util::redirect("dashboard/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
       $listID = Request::input("id") ?? [];

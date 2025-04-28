@@ -117,7 +117,44 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-hotel text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Quản lý khách sạn</span>
+                    <span class="nav-link-text ms-1">Khách sạn</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="<?php echo _WEB_ROOT . '/dashboard/hotelType' ?>">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-list text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Danh mục khách sạn</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="<?php echo _WEB_ROOT . '/dashboard/amenityCategory' ?>">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-hotel text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Danh mục tiện ích</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " href="<?php echo _WEB_ROOT . '/dashboard/hotelReview' ?>">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-face-smile text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Đánh giá của khách hàng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="<?php echo _WEB_ROOT . '/dashboard/hotelAmenity' ?>">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-hotel text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Tiện ích khách sạn</span>
                 </a>
             </li>
             <li class="nav-item mt-3">

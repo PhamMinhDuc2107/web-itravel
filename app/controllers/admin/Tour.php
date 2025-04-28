@@ -85,7 +85,7 @@ class Tour  extends Controller
    public function updatePost()
    {
       if (!Request::isMethod("POST")) {
-         Util::redirect("dashboard/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
+         Util::redirect("dashboard/hotel", Response::methodNotAllowed("Phương thức không được chấp nhận"));
       }
       $id = (int)(Request::input("id") ?? 0);
       $tour = $this->TourModel->find($id);
@@ -138,13 +138,13 @@ class Tour  extends Controller
       }
       foreach ($listID as $id) {
          $tourImgs = $this->TourImgModel->where($id, "tour_id");
-         var_dump($tourImgs);
          foreach ($tourImgs as $img) {
             $pathImg = _DIR_ROOT . $img["image"];
             $checkDeleteImg = Util::deleteImage($pathImg);
             if (!$checkDeleteImg['success']) {
                Util::redirect("dashboard/tour", Response::badRequest($checkDeleteImg['msg']));
             }
+            $this->TourImgModel->delete($img['id']);
          }
          $this->TourModel->delete($id);
       }
@@ -226,7 +226,7 @@ class Tour  extends Controller
       }
       $imgs = Request::file("image") ?? [];
       $pathAsset = '/public/uploads/tour/';
-      $files = $this->convertListImgToArr($imgs);
+      $files = Util::convertListImgToArr($imgs);
 
       foreach ($files as $file) {
          $data = ["tour_id" => $id];
@@ -282,20 +282,7 @@ class Tour  extends Controller
       }
       return $data ?? [];
    }
-   private function convertListImgToArr(array $arr): array
-   {
-      $files = [];
-      for ($i = 0; $i < count($arr['name']); $i++) {
-         $files[] = [
-            'name' => $arr['name'][$i],
-            'type' => $arr['type'][$i],
-            'tmp_name' => $arr['tmp_name'][$i],
-            'error' => $arr['error'][$i],
-            'size' => $arr['size'][$i]
-         ];
-      }
-      return $files;
-   }
+
    private function getStatus($status): string
    {
       return match ($status) {

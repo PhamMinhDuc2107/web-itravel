@@ -407,12 +407,11 @@ class TourModel extends Model
 	{
 		try {
 			$sql = "
-          SELECT id, name
-          FROM $this->table
-          GROUP BY
-              {$this->table}.id
-          ORDER BY {$this->colOrderBy} {$this->order}
-          LIMIT {$this->limit} OFFSET {$this->offset}
+				SELECT id, name
+				FROM $this->table
+				GROUP BY
+					{$this->table}.id
+				ORDER BY {$this->colOrderBy} {$this->order}
       ";
 			$params = [];
 			$stmt = $this->_query($sql, $params);

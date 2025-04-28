@@ -16,21 +16,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="<?php echo ASSET ?>/client/images/itravel_resize-1.png">
     <link rel="icon" type="image/png" href="<?php echo ASSET ?>/client/images/itravel_resize-1.png">
     <title>
-       <?php echo $data['title'] ?? "Dashboard" ?>
+        <?php echo $data['title'] ?? "Dashboard" ?>
     </title>
     <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="<?php echo ASSET ?>/admin/css/argon-dashboard.css?v=2.1.0" rel="stylesheet"/>
+    <link id="pagestyle" href="<?php echo ASSET ?>/admin/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
 
     <link href="<?php echo ASSET ?>/admin/css/froala_editor.pkgd.min.css" rel="stylesheet">
     <script src="<?php echo ASSET ?>/admin/js/froala_editor.pkgd.min.js"></script>
@@ -56,6 +56,7 @@
             gap: 2px;
             margin-bottom: unset;
             margin-right: 5px;
+
             .page-item {
                 .page-link {
                     width: 100%;
@@ -86,146 +87,142 @@
             white-space: pre-wrap;
             word-break: break-word;
         }
-
     </style>
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
-<div class="min-height-300 bg-dark position-absolute w-100"></div>
-<?php
-$sidebarPath = _DIR_ROOT . "/app/views/admin/blocks/sidebar.view.php";
-if (file_exists($sidebarPath)) {
-   require_once $sidebarPath;
-}
-?>
-<main class="main-content position-relative border-radius-lg ">
-   <?php
-   $headerPath = _DIR_ROOT . "/app/views/admin/blocks/header.view.php";
-   if (file_exists($headerPath)) {
-      require_once $headerPath;
-   }
-   ?>
-    <div class="container-fluid py-4">
-        <div class="row">
-           <?php if (isset($data['page'])) {
-              $folder = _DIR_ROOT . "/app/views/admin/pages/" . $data['page'] . ".view.php";
-              if (file_exists($folder)) {
-                 require_once $folder;
-              } else {
-                 require_once _DIR_ROOT . "/app/views/admin/pages/404/404.view.php";
-              }
-           } ?>
+    <div class="min-height-300 bg-dark position-absolute w-100"></div>
+    <?php
+    $sidebarPath = _DIR_ROOT . "/app/views/admin/blocks/sidebar.view.php";
+    if (file_exists($sidebarPath)) {
+        require_once $sidebarPath;
+    }
+    ?>
+    <main class="main-content position-relative border-radius-lg ">
+        <?php
+        $headerPath = _DIR_ROOT . "/app/views/admin/blocks/header.view.php";
+        if (file_exists($headerPath)) {
+            require_once $headerPath;
+        }
+        ?>
+        <div class="container-fluid py-4">
+            <div class="row">
+                <?php if (isset($data['page'])) {
+                    $folder = _DIR_ROOT . "/app/views/admin/pages/" . $data['page'] . ".view.php";
+                    if (file_exists($folder)) {
+                        require_once $folder;
+                    }
+                } ?>
+            </div>
+        </div>
+
+    </main>
+    <!-- Overlay loading -->
+    <style>
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+    </style>
+    <div id="loading-overlay">
+        <div class="spinner-border text-success " role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
     </div>
+    <script>
+        let iconNav = document.getElementById("iconNavbarSidenav");
+        let mainContent = document.querySelector(".main-content");
+        let sideNav = document.querySelector(".sidenav");
+        iconNav.addEventListener("click", function(e) {
+            mainContent.classList.toggle("ms-0");
+            sideNav.classList.toggle("d-none");
+        })
+    </script>
 
-</main>
-<!-- Overlay loading -->
-<style>
-    #loading-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        display: none;
-    }
-
-</style>
-<div id="loading-overlay">
-    <div class="spinner-border text-success " role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-</div>
-<script>
-    let iconNav = document.getElementById("iconNavbarSidenav");
-    let mainContent = document.querySelector(".main-content");
-    let sideNav = document.querySelector(".sidenav");
-    iconNav.addEventListener("click", function (e) {
-        mainContent.classList.toggle("ms-0");
-        sideNav.classList.toggle("d-none");
-    })
-</script>
-
-<script>
-    function showImage(image, show) {
-        let img = document.getElementById(`${image}`);
-        if (img) {
-            img.addEventListener('change', function (event) {
-                const file = event.target.files[0];
-                const reader = new FileReader();
-                reader.onload = function () {
-                    document.getElementById(`${show}`).src = reader.result;
-                }
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
-                document.getElementById(`${show}`).style.height = `100%`;
-                document.getElementById(`${show}`).style.width = `100%`;
-            });
-        }
-    }
-
-    showImage("image", "previewImage");
-    showImage("imageCreateBlog", "previewImageBlog");
-</script>
-<!--   Core JS Files   -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const footerFunction = document.querySelector('.footer-function');
-        const span = document.querySelector('.footer-text-content');
-        const closeBtn = document.querySelector('.footer-btn');
-        const tableBody = document.querySelector('.table-body');
-
-        function countCheckedCheckboxes() {
-            const checkboxes = tableBody.querySelectorAll('.input-checkbox');
-            let checkedCount = 0;
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    checkedCount += 1;
-                }
-            });
-            return checkedCount;
-        }
-
-        function updateFooterFunction() {
-            const checkedCount = countCheckedCheckboxes();
-            if (checkedCount > 0) {
-                footerFunction.classList.add("d-flex");
-                footerFunction.classList.remove("d-none")
-
-                span.textContent = `${checkedCount}`;
-            } else {
-                footerFunction.classList.toggle("d-none")
-                footerFunction.classList.remove("d-flex")
+    <script>
+        function showImage(image, show) {
+            let img = document.getElementById(`${image}`);
+            if (img) {
+                img.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = function() {
+                        document.getElementById(`${show}`).src = reader.result;
+                    }
+                    if (file) {
+                        reader.readAsDataURL(file);
+                    }
+                    document.getElementById(`${show}`).style.height = `100%`;
+                    document.getElementById(`${show}`).style.width = `100%`;
+                });
             }
         }
-        if (tableBody) {
-            tableBody.addEventListener('change', function (e) {
-                if (e.target && e.target.matches('.input-checkbox')) {
-                    updateFooterFunction();
-                }
-            });
-        }
 
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function () {
+        showImage("image", "previewImage");
+        showImage("imageCreateBlog", "previewImageBlog");
+    </script>
+    <!--   Core JS Files   -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const footerFunction = document.querySelector('.footer-function');
+            const span = document.querySelector('.footer-text-content');
+            const closeBtn = document.querySelector('.footer-btn');
+            const tableBody = document.querySelector('.table-body');
+
+            function countCheckedCheckboxes() {
                 const checkboxes = tableBody.querySelectorAll('.input-checkbox');
+                let checkedCount = 0;
                 checkboxes.forEach(checkbox => {
-                    checkbox.checked = false;
+                    if (checkbox.checked) {
+                        checkedCount += 1;
+                    }
                 });
-                updateFooterFunction();
-            });
-        }
-    });
-</script>
-<script src="<?php echo ASSET ?>/admin/js/core/popper.min.js"></script>
-<script src="<?php echo ASSET ?>/admin/js/core/bootstrap.min.js"></script>
-<script src="<?php echo ASSET ?>/admin/js/app.js"></script>
+                return checkedCount;
+            }
+
+            function updateFooterFunction() {
+                const checkedCount = countCheckedCheckboxes();
+                if (checkedCount > 0) {
+                    footerFunction.classList.add("d-flex");
+                    footerFunction.classList.remove("d-none")
+
+                    span.textContent = `${checkedCount}`;
+                } else {
+                    footerFunction.classList.toggle("d-none")
+                    footerFunction.classList.remove("d-flex")
+                }
+            }
+            if (tableBody) {
+                tableBody.addEventListener('change', function(e) {
+                    if (e.target && e.target.matches('.input-checkbox')) {
+                        updateFooterFunction();
+                    }
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    const checkboxes = tableBody.querySelectorAll('.input-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    updateFooterFunction();
+                });
+            }
+        });
+    </script>
+    <script src="<?php echo ASSET ?>/admin/js/core/popper.min.js"></script>
+    <script src="<?php echo ASSET ?>/admin/js/core/bootstrap.min.js"></script>
+    <script src="<?php echo ASSET ?>/admin/js/app.js"></script>
 
 </body>
 
