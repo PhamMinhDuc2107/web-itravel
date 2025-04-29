@@ -101,6 +101,82 @@
                         });
                      </script>
                   </div>
+                  <?php
+                  $amenityCategories = $data['amenityCategories'] ?? [];
+                  ?>
+                  <div class="mb-3">
+                     <label for="parent" class="form-label">Danh mục của tiện ích</label>
+                     <div class="dropdown">
+                        <input class="form-control" type="text" value="" id="dropdownMenuButton1"
+                           data-bs-toggle="dropdown" aria-expanded="true" placeholder="Chọn danh mục" readonly
+                           data-fetch-ajax="true" />
+                        <input type="hidden" name="category" class="parentId  amenityCategory" value="">
+                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1"
+                           style="max-height: 250px;overflow-y:scroll">
+                           <?php if (!empty($amenityCategories)) : ?>
+                              <?php foreach ($amenityCategories as $item): ?>
+                                 <li><a class="dropdown-item"
+                                       data-value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></a></li>
+                              <?php endforeach; ?>
+                           <?php endif; ?>
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="mb-3">
+                     <label for="price_range" class="form-label">Tiện ích của khách sạn</label>
+                     <input type="hidden" name="selected_amenities" id="selected_amenities" value="">
+                     <div class="amenity">
+                        Vui lòng chọn Danh mục tiện ích trước
+                     </div>
+                     <div id="selected-amenities-list" style="margin-top: 10px;"></div>
+                     <style>
+                        #selected-amenities-list {
+                           display: flex;
+                           align-items: center;
+                           gap: 1rem;
+                           flex-wrap: wrap;
+
+                           div {
+                              padding: 5px 10px;
+                              border-radius: 20px;
+                              border: 0.1rem solid rgb(45, 217, 223);
+                              color: rgb(45, 217, 223);
+                           }
+                        }
+
+                        .amenity-checkbox {
+                           position: relative;
+                           display: inline-flex;
+                           align-items: center;
+                           background: #f8f9fa;
+                           border: 1px solid #dee2e6;
+                           border-radius: 20px;
+                           cursor: pointer;
+                           user-select: none;
+                           transition: background 0.2s, border-color 0.2s;
+                           font-size: 14px;
+                        }
+
+                        .amenity-checkbox input[type="checkbox"] {
+                           display: none;
+                        }
+
+                        .amenity-checkbox span {
+                           padding: 5px 10px;
+                           width: 100%;
+                           height: 100%;
+                           border-radius: 20px;
+                           border: 0.1rem solid transparent;
+                           transition: all 0.3s linear;
+                        }
+
+                        .amenity-checkbox input[type="checkbox"]:checked+span {
+                           color: #fff;
+                           background: rgb(45, 217, 223);
+                           border-color: rgb(45, 217, 223);
+                        }
+                     </style>
+                  </div>
                   <div class="mb-3">
                      <label for="address" class="form-label">Địa chỉ</label>
                      <input type="text" class="form-control" id="address" name="address"
@@ -135,6 +211,13 @@
 </div>
 
 <script>
+   let selectedAmenities = <?php echo json_encode($data['hotelAmenities']); ?>;
+   const container = document.getElementById("selected-amenities-list");
+   if (Array.isArray(selectedAmenities) && selectedAmenities.length > 0) {
+      updateSelectedAmenities()
+   } else {
+      container.innerHTML = "<em>Chưa có tiện ích nào được chọn.</em>";
+   }
    document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll(".dropdown").forEach((dropdown) => {
          let input = dropdown.querySelector('input');
@@ -145,9 +228,99 @@
                if (e.target.classList.contains('dropdown-item')) {
                   inputParent.value = e.target.dataset.value;
                   input.value = e.target.textContent;
+                  if (input.dataset.fetchAjax === "true") {
+                     fetchChildAmenities(inputParent.value);
+                  }
                }
             });
          }
       });
-   })
+   });
+
+   function fetchChildAmenities(categoryId) {
+      if (!categoryId) return;
+
+      $.ajax({
+         url: '<?php echo _WEB_ROOT ?>/dashboard/hotelAmenity/get-amenity-ajax',
+         method: 'POST',
+         dataType: 'json',
+         data: {
+            amenityCategoryId: categoryId,
+            csrf_token: "<?php echo Session::get('csrf_token'); ?>"
+         },
+         success: function(res) {
+            const data = res.data;
+            if (res.type === 'success') {
+               renderAmenities(data);
+            }
+         },
+         error: function(xhr, status, error) {
+            console.error('Có lỗi xảy ra:', error);
+         }
+      });
+   }
+
+
+   function renderAmenities(amenities) {
+      const amenity = document.querySelector('.amenity');
+      if (!amenity) return;
+
+      amenity.innerHTML = '';
+
+      if (amenities.length > 0) {
+         amenities.forEach(item => {
+            const label = document.createElement('label');
+            label.classList.add('amenity-checkbox');
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.value = item.id;
+            input.dataset.name = item.name;
+
+            const alreadySelected = selectedAmenities.find(a => parseInt(a.id) === parseInt(item.id));
+            if (alreadySelected) {
+               input.checked = true;
+            }
+
+            input.addEventListener('change', function() {
+               if (this.checked) {
+                  if (!selectedAmenities.some(a => parseInt(a.id) === parseInt(this.value))) {
+                     selectedAmenities.push({
+                        id: this.value,
+                        name: this.dataset.name
+                     });
+                  }
+               } else {
+                  selectedAmenities = selectedAmenities.filter(a => parseInt(a.id) !== parseInt(this.value));
+               }
+               updateSelectedAmenities();
+            });
+
+            const span = document.createElement('span');
+            span.textContent = item.name;
+            label.appendChild(input);
+            label.appendChild(span);
+
+            amenity.appendChild(label);
+         });
+      } else {
+         amenity.innerHTML = "Không có tiện ích con của danh mục này";
+      }
+
+      updateSelectedAmenities();
+   }
+
+
+   function updateSelectedAmenities() {
+      const inputHidden = document.getElementById('selected_amenities');
+      inputHidden.value = selectedAmenities.map(a => a.id).join(',');
+      const list = document.getElementById('selected-amenities-list');
+      list.innerHTML = '';
+
+      selectedAmenities.forEach(a => {
+         const div = document.createElement('div');
+         div.classList.add('selected-amenity-item');
+         div.textContent = a.name;
+         list.appendChild(div);
+      });
+   }
 </script>

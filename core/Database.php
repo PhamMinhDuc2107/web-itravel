@@ -1,22 +1,25 @@
 <?php
 
-class Database {
+class Database
+{
    protected $_con;
 
-   public function __construct() {
+   public function __construct()
+   {
       $this->_con = Connection::getInstance();
       if (!$this->_con) {
          throw new Exception("Database connection failed");
       }
    }
-   public function _query($sql, $params = []) {
+   public function _query($sql, $params = [])
+   {
       if ($this->_con === null) {
          die("Database connection is not initialized.");
       }
       $stmt = $this->_con->prepare($sql);
       if ($stmt && !empty($params)) {
-         foreach ($params as $key=>$value) {
-            $stmt->bindValue($key, $value,PDO::PARAM_STR);
+         foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value, PDO::PARAM_STR);
          }
       }
       if ($stmt) {
@@ -25,9 +28,22 @@ class Database {
       }
       return false;
    }
-   public function lastInsertId(): int {
+   public function lastInsertId(): int
+   {
       return $this->_con->lastInsertId();
    }
+   public function beginTransaction()
+   {
+      $this->_con->beginTransaction();
+   }
 
+   public function commit()
+   {
+      $this->_con->commit();
+   }
 
+   public function rollBack()
+   {
+      $this->_con->rollBack();
+   }
 }

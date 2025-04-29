@@ -85,43 +85,61 @@ class Tour  extends Controller
    public function updatePost()
    {
       if (!Request::isMethod("POST")) {
-         Util::redirect("dashboard/hotel", Response::methodNotAllowed("Phương thức không được chấp nhận"));
+         Util::redirect("dashboard/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
       }
+
       $id = (int)(Request::input("id") ?? 0);
       $tour = $this->TourModel->find($id);
       if (!$tour) {
          Util::redirect("dashboard/tour", Response::notFound("Không tìm thấy tour có id là " . $id));
       }
-      $dataTour = $this->prepareTourData();
 
-      $res = $this->TourModel->update($dataTour, $id);
-      if (!$res) {
-         Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật không thành công"));
-      }
+      $this->TourModel->beginTransaction();
 
-      if (
-         !empty(Request::input("date")[0]) && !empty(Request::input("price_adult")[0]) &&
-         !empty(Request::input("price_baby")[0]) && !empty(Request::input("price_children")[0])
-      ) {
-         $dataPrice = $this->prepareTourPriceData();
-         $checkInsertPrice = $this->processTourPrice($id, $dataPrice, true);
-         if (!$checkInsertPrice['success']) {
-            Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng " . $checkInsertPrice['msg']));
+      try {
+         $dataTour = $this->prepareTourData();
+         $res = $this->TourModel->update($dataTour, $id);
+         $updateTourSuccess = $res ? true : false;
+         $updateImageSuccess = false;
+         $updatePriceSuccess = false;
+
+         if (
+            !empty(Request::input("date")[0]) &&
+            !empty(Request::input("price_adult")[0]) &&
+            !empty(Request::input("price_baby")[0]) &&
+            !empty(Request::input("price_children")[0])
+         ) {
+            $dataPrice = $this->prepareTourPriceData();
+            $checkInsertPrice = $this->processTourPrice($id, $dataPrice, true);
+            if (!$checkInsertPrice['success']) {
+               throw new Exception("Cập nhật giá thất bại: " . $checkInsertPrice['msg']);
+            }
+            $updatePriceSuccess = true;
          }
-      }
 
-      if (
-         isset($_FILES['image']['tmp_name'][0]) &&
-         $_FILES['image']['error'][0] !== UPLOAD_ERR_NO_FILE
-      ) {
-         $checkInsertImg = $this->processTourImg($id, true);
-         if (!$checkInsertImg['success']) {
-            Util::redirect("dashboard/tour", Response::internalServerError("Cập nhật thành công nhưng " . $checkInsertImg['msg']));
+         if (
+            isset($_FILES['image']['tmp_name'][0]) &&
+            $_FILES['image']['error'][0] !== UPLOAD_ERR_NO_FILE
+         ) {
+            $checkInsertImg = $this->processTourImg($id, true);
+            if (!$checkInsertImg['success']) {
+               throw new Exception("Cập nhật ảnh thất bại: " . $checkInsertImg['msg']);
+            }
+            $updateImageSuccess = true;
          }
-      }
+         if (!$updateTourSuccess && !$updateImageSuccess && ! $updatePriceSuccess) {
+            $this->TourModel->rollBack();
+            Util::redirect("dashboard/tour", Response::internalServerError("Không có thay đổi nào để cập nhật"));
+         }
+         $this->TourModel->commit();
 
-      Util::redirect('dashboard/tour', Response::success("Cập nhật thành công"));
+         Util::redirect('dashboard/tour', Response::success("Cập nhật thành công"));
+      } catch (Exception $e) {
+         $this->TourModel->rollBack();
+         Util::redirect('dashboard/tour', Response::internalServerError($e->getMessage()));
+      }
    }
+
    public function delete()
    {
       if (!Request::isMethod("POST")) {

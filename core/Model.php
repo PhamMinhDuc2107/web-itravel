@@ -100,6 +100,11 @@ class Model extends Database
          if (empty($data)) {
             return false;
          }
+         foreach (array_keys($data) as $key) {
+            if (!$this->isAllowedColumn($key)) {
+               throw new Exception("Invalid column: $key");
+            }
+         }
          $params = [];
          $columns = implode(",", array_keys($data));
          $placeholders = ":" . implode(",:", array_keys($data));
@@ -141,7 +146,7 @@ class Model extends Database
    public function delete($id, $col = "id"): bool
    {
       try {
-         $sql = "DELETE FROM $this->table WHERE $col = :id";
+         $sql = "DELETE FROM $this->table WHERE $col = :$col";
          $params = [":$col" => $id];
          $stmt = $this->_query($sql, $params);
          return (bool)$stmt;

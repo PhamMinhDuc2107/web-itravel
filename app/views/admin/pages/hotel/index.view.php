@@ -48,9 +48,9 @@
                   </button>
                </div>
                <?php if (Request::input("msg") !== null) : ?>
-               <span
-                  class="<?php echo Request::input('type') === "error" ? "text-warning" : "text-success" ?> card-header"
-                  style="padding-top: 5px; padding-bottom:5px"><?php echo htmlspecialchars(Request::input('msg')) ?></span>
+                  <span
+                     class="<?php echo Request::input('type') === "error" ? "text-warning" : "text-success" ?> card-header"
+                     style="padding-top: 5px; padding-bottom:5px"><?php echo htmlspecialchars(Request::input('msg')) ?></span>
                <?php endif; ?>
                <div class="card-body px-0 pt-0 pb-2">
                   <div class="table-responsive p-0">
@@ -80,6 +80,9 @@
                                  Email
                               </th>
                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
+                                 Giá
+                              </th>
+                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
                                  Sao
                               </th>
 
@@ -94,71 +97,77 @@
                            $hotels = $data['hotels'] ?? [];
                            ?>
                            <?php if (!empty($hotels)) : ?>
-                           <?php foreach ($hotels as $item): ?>
-                           <tr>
-                              <td class="text-center" style="width: 10px;">
-                                 <input type="checkbox" name="id[]" class="mx-auto input-checkbox"
-                                    value="<?php echo $item['id'] ?>" style="width: 15px; height:15px">
-                              </td>
-                              <td class='col-2'>
-                                 <div class="d-flex px-2 py-1">
-                                    <h6 class="mb-0 text-sm hiddenText"><?php echo $item["name"] ?></h6>
-                                 </div>
-                              </td>
-                              <td class='col-2'>
-                                 <div class="d-flex px-2 py-1">
-                                    <h6 class="mb-0 text-sm hiddenText"><?php echo $item["slug"] ?></h6>
-                                 </div>
-                              </td>
-                              <td class='col-3 '>
-                                 <div class="d-flex px-2 py-1 overflow-hidden">
-                                    <div class="mb-0 text-sm hiddenText"><?php echo $item["description"] ?></div>
-                                 </div>
-                              </td>
-                              <td class=''>
-                                 <div class="px-2 py-1 text-center">
-                                    <div class="mb-0 text-sm">
-                                       <?php echo $item["address"] . ", " . $item['city'] . ", " . $item['country'] ?>
-                                    </div>
-                                 </div>
-                              </td>
+                              <?php foreach ($hotels as $item): ?>
+                                 <tr>
+                                    <td class="text-center" style="width: 10px;">
+                                       <input type="checkbox" name="id[]" class="mx-auto input-checkbox"
+                                          value="<?php echo $item['id'] ?>" style="width: 15px; height:15px">
+                                    </td>
+                                    <td class='col-2'>
+                                       <div class="d-flex px-2 py-1">
+                                          <h6 class="mb-0 text-sm hiddenText"><?php echo $item["name"] ?></h6>
+                                       </div>
+                                    </td>
+                                    <td class='col-2'>
+                                       <div class="d-flex px-2 py-1">
+                                          <h6 class="mb-0 text-sm hiddenText"><?php echo $item["slug"] ?></h6>
+                                       </div>
+                                    </td>
+                                    <td class='col-3 '>
+                                       <div class="d-flex px-2 py-1 overflow-hidden">
+                                          <div class="mb-0 text-sm hiddenText"><?php echo $item["description"] ?></div>
+                                       </div>
+                                    </td>
+                                    <td class=''>
+                                       <div class="px-2 py-1 text-center">
+                                          <div class="mb-0 text-sm">
+                                             <?php echo $item["address"] . ", " . $item['city'] . ", " . $item['country'] ?>
+                                          </div>
+                                       </div>
+                                    </td>
 
-                              <td class=''>
-                                 <div class="px-2 py-1 text-center">
-                                    <div class="mb-0 text-sm">
-                                       <?php echo $item["phone_number"] ?></div>
-                                 </div>
-                              </td>
-                              <td class=''>
-                                 <div class="px-2 py-1 text-center">
-                                    <div class="mb-0 text-sm">
-                                       <?php echo $item["email"] ?></div>
-                                 </div>
-                              </td>
-                              <td class=''>
-                                 <div class="px-2 py-1 text-center">
-                                    <div class="mb-0 text-sm">
-                                       <?php echo $item["rating"] ?></div>
-                                 </div>
-                              </td>
-                              <td class=''>
-                                 <div class="px-2 py-1 text-center">
-                                    <div class="mb-0 text-sm">
-                                       <?php echo $item["hotel_type_id"] ?></div>
-                                 </div>
-                              </td>
+                                    <td class=''>
+                                       <div class="px-2 py-1 text-center">
+                                          <div class="mb-0 text-sm">
+                                             <?php echo $item["phone_number"] ?></div>
+                                       </div>
+                                    </td>
+                                    <td class=''>
+                                       <div class="px-2 py-1 text-center">
+                                          <div class="mb-0 text-sm">
+                                             <?php echo $item["email"] ?></div>
+                                       </div>
+                                    </td>
+                                    <td class=''>
+                                       <div class="px-2 py-1 text-center">
+                                          <div class="mb-0 text-sm">
+                                             <?php echo $item["price_range"] ?></div>
+                                       </div>
+                                    </td>
+                                    <td class=''>
+                                       <div class="px-2 py-1 text-center">
+                                          <div class="mb-0 text-sm">
+                                             <?php echo $item["rating"] ?></div>
+                                       </div>
+                                    </td>
+                                    <td class=''>
+                                       <div class="px-2 py-1 text-center">
+                                          <div class="mb-0 text-sm">
+                                             <?php echo $item["hotel_type_id"] ?></div>
+                                       </div>
+                                    </td>
 
-                              <td class="align-middle text-center">
-                                 <a href="<?php echo _WEB_ROOT . "/dashboard/hotel-update/" . $item['id'] ?>"
-                                    class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
-                                    id="btnEdit">
-                                    Edit
-                                 </a>
+                                    <td class="align-middle text-center">
+                                       <a href="<?php echo _WEB_ROOT . "/dashboard/hotel-update/" . $item['id'] ?>"
+                                          class="text-secondary font-weight-bold text-xs " style="margin-bottom: 0;"
+                                          id="btnEdit">
+                                          Edit
+                                       </a>
 
-                              </td>
-                           </tr>
-                           </tr>
-                           <?php endforeach; ?>
+                                    </td>
+                                 </tr>
+                                 </tr>
+                              <?php endforeach; ?>
                            <?php endif; ?>
                         </tbody>
                      </table>
@@ -198,9 +207,9 @@
                      </a>
                   </li>
                   <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                  <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
-                     <a class="page-link" href="<?php echo Util::buildPageUrl($i); ?>"><?php echo $i; ?></a>
-                  </li>
+                     <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
+                        <a class="page-link" href="<?php echo Util::buildPageUrl($i); ?>"><?php echo $i; ?></a>
+                     </li>
                   <?php endfor; ?>
                   <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
                      <a class="page-link" href="<?php echo Util::buildPageUrl(min($totalPages, $page + 1)); ?>"
@@ -264,25 +273,25 @@
                </label>
                <div id="imagePreview" class="d-flex  gap-1 flex-wrap"></div>
                <script>
-               const imageInput = document.getElementById('imageCreate');
-               const imagePreview = document.getElementById('imagePreview');
-               imageInput.addEventListener('change', function() {
-                  imagePreview.innerHTML = '';
-                  const files = this.files;
-                  if (files.length > 0) {
-                     for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                           const img = document.createElement('img');
-                           img.src = e.target.result;
-                           img.style.maxWidth = '150px';
-                           imagePreview.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
+                  const imageInput = document.getElementById('imageCreate');
+                  const imagePreview = document.getElementById('imagePreview');
+                  imageInput.addEventListener('change', function() {
+                     imagePreview.innerHTML = '';
+                     const files = this.files;
+                     if (files.length > 0) {
+                        for (let i = 0; i < files.length; i++) {
+                           const file = files[i];
+                           const reader = new FileReader();
+                           reader.onload = function(e) {
+                              const img = document.createElement('img');
+                              img.src = e.target.result;
+                              img.style.maxWidth = '150px';
+                              imagePreview.appendChild(img);
+                           };
+                           reader.readAsDataURL(file);
+                        }
                      }
-                  }
-               });
+                  });
                </script>
             </div>
             <?php
@@ -298,10 +307,10 @@
                   <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1"
                      style="max-height: 250px;overflow-y:scroll">
                      <?php if (!empty($hotelTypes)) : ?>
-                     <?php foreach ($hotelTypes as $item): ?>
-                     <li><a class="dropdown-item" href="#"
-                           data-value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></a></li>
-                     <?php endforeach; ?>
+                        <?php foreach ($hotelTypes as $item): ?>
+                           <li><a class="dropdown-item" href="#"
+                                 data-value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></a></li>
+                        <?php endforeach; ?>
                      <?php endif; ?>
                   </ul>
                </div>
@@ -319,51 +328,67 @@
                   <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1"
                      style="max-height: 250px;overflow-y:scroll">
                      <?php if (!empty($amenityCategories)) : ?>
-                     <?php foreach ($amenityCategories as $item): ?>
-                     <li><a class="dropdown-item" href="#"
-                           data-value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></a></li>
-                     <?php endforeach; ?>
+                        <?php foreach ($amenityCategories as $item): ?>
+                           <li><a class="dropdown-item" href="#"
+                                 data-value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></a></li>
+                        <?php endforeach; ?>
                      <?php endif; ?>
                   </ul>
                </div>
             </div>
             <div class="mb-3">
                <label for="price_range" class="form-label">Tiện ích của khách sạn</label>
+               <input type="hidden" name="selected_amenities" id="selected_amenities" value="">
                <div class="amenity">
                   Vui lòng chọn Danh mục tiện ích trước
                </div>
+               <div id="selected-amenities-list" style="margin-top: 10px;"></div>
                <style>
-               .amenity-checkbox {
-                  position: relative;
-                  display: inline-flex;
-                  align-items: center;
-                  background: #f8f9fa;
-                  border: 1px solid #dee2e6;
-                  border-radius: 20px;
-                  cursor: pointer;
-                  user-select: none;
-                  transition: background 0.2s, border-color 0.2s;
-                  font-size: 14px;
-               }
+                  #selected-amenities-list {
+                     display: flex;
+                     align-items: center;
+                     gap: 1rem;
+                     flex-wrap: wrap;
 
-               .amenity-checkbox input[type="checkbox"] {
-                  display: none;
-               }
+                     div {
+                        padding: 5px 10px;
+                        border-radius: 20px;
+                        border: 0.1rem solid rgb(45, 217, 223);
+                        color: rgb(45, 217, 223);
+                     }
+                  }
 
-               .amenity-checkbox span {
-                  padding: 5px 10px;
-                  width: 100%;
-                  height: 100%;
-                  border-radius: 20px;
-                  border: 0.1rem solid transparent;
-                  transition: all 0.3s linear;
-               }
+                  .amenity-checkbox {
+                     position: relative;
+                     display: inline-flex;
+                     align-items: center;
+                     background: #f8f9fa;
+                     border: 1px solid #dee2e6;
+                     border-radius: 20px;
+                     cursor: pointer;
+                     user-select: none;
+                     transition: background 0.2s, border-color 0.2s;
+                     font-size: 14px;
+                  }
 
-               .amenity-checkbox input[type="checkbox"]:checked+span {
-                  color: #fff;
-                  background: rgb(17, 204, 218);
-                  border-color: rgb(17, 204, 218);
-               }
+                  .amenity-checkbox input[type="checkbox"] {
+                     display: none;
+                  }
+
+                  .amenity-checkbox span {
+                     padding: 5px 10px;
+                     width: 100%;
+                     height: 100%;
+                     border-radius: 20px;
+                     border: 0.1rem solid transparent;
+                     transition: all 0.3s linear;
+                  }
+
+                  .amenity-checkbox input[type="checkbox"]:checked+span {
+                     color: #fff;
+                     background: rgb(45, 217, 223);
+                     border-color: rgb(45, 217, 223);
+                  }
                </style>
             </div>
             <div class="mb-3">
@@ -404,77 +429,116 @@
          </div>
    </form>
 </div>
+
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-   document.querySelectorAll(".dropdown").forEach((dropdown) => {
-      let input = dropdown.querySelector('input');
-      let dropdownMenu = dropdown.querySelector(".dropdown-menu");
-      let inputParent = dropdown.querySelector('.parentId');
-      if (dropdownMenu) {
-         dropdownMenu.addEventListener('click', (e) => {
-            if (e.target.classList.contains('dropdown-item')) {
-               inputParent.value = e.target.dataset.value;
-               input.value = e.target.textContent;
-               if (input.dataset.fetchAjax === "true") {
-                  fetchChildAmenities(inputParent.value);
+   let selectedAmenities = [];
+   document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll(".dropdown").forEach((dropdown) => {
+         let input = dropdown.querySelector('input');
+         let dropdownMenu = dropdown.querySelector(".dropdown-menu");
+         let inputParent = dropdown.querySelector('.parentId');
+         if (dropdownMenu) {
+            dropdownMenu.addEventListener('click', (e) => {
+               if (e.target.classList.contains('dropdown-item')) {
+                  inputParent.value = e.target.dataset.value;
+                  input.value = e.target.textContent;
+                  if (input.dataset.fetchAjax === "true") {
+                     fetchChildAmenities(inputParent.value);
+                  }
                }
-            }
-         });
-      }
-   });
-})
-</script>
-
-<script>
-function fetchChildAmenities(categoryId) {
-   if (!categoryId) return;
-
-   $.ajax({
-      url: '<?php echo _WEB_ROOT ?>/dashboard/hotelAmenity/get-amenity-ajax',
-      method: 'POST',
-      dataType: 'json',
-      data: {
-         amenityCategoryId: categoryId,
-         csrf_token: "<?php echo Session::get('csrf_token'); ?>"
-      },
-      success: function(res) {
-         const data = res.data;
-         if (res.type === 'success') {
-            renderAmenities(data);
+            });
          }
-      },
-      error: function(xhr, status, error) {
-         console.error('Có lỗi xảy ra:', error);
-      }
-   });
-}
-
-function renderAmenities(amenities) {
-   const amenity = document.querySelector('.amenity');
-   if (!amenity) return;
-
-   amenity.innerHTML = '';
-
-   if (amenities.length > 0) {
-      amenities.forEach(item => {
-         const label = document.createElement('label');
-         label.classList.add('amenity-checkbox');
-
-         const input = document.createElement('input');
-         input.type = 'checkbox';
-         input.name = 'amenities[]';
-         input.value = item.id;
-
-         const span = document.createElement('span');
-         span.textContent = item.name;
-
-         label.appendChild(input);
-         label.appendChild(span);
-
-         amenity.appendChild(label);
       });
-   } else {
-      amenity.innerHTML = "Không có tiện ích con của danh mục này";
+   });
+
+   function fetchChildAmenities(categoryId) {
+      if (!categoryId) return;
+
+      $.ajax({
+         url: '<?php echo _WEB_ROOT ?>/dashboard/hotelAmenity/get-amenity-ajax',
+         method: 'POST',
+         dataType: 'json',
+         data: {
+            amenityCategoryId: categoryId,
+            csrf_token: "<?php echo Session::get('csrf_token'); ?>"
+         },
+         success: function(res) {
+            const data = res.data;
+            if (res.type === 'success') {
+               renderAmenities(data); // Không reset selectedAmenities nữa!
+            }
+         },
+         error: function(xhr, status, error) {
+            console.error('Có lỗi xảy ra:', error);
+         }
+      });
    }
-}
+
+
+   function renderAmenities(amenities) {
+      const amenity = document.querySelector('.amenity');
+      if (!amenity) return;
+
+      amenity.innerHTML = '';
+
+      if (amenities.length > 0) {
+         amenities.forEach(item => {
+            const label = document.createElement('label');
+            label.classList.add('amenity-checkbox');
+
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.value = item.id;
+            input.dataset.name = item.name;
+
+            const alreadySelected = selectedAmenities.find(a => a.id === item.id.toString());
+            if (alreadySelected) {
+               input.checked = true;
+            }
+
+            input.addEventListener('change', function() {
+               if (this.checked) {
+                  if (!selectedAmenities.some(a => a.id === this.value)) {
+                     selectedAmenities.push({
+                        id: this.value,
+                        name: this.dataset.name
+                     });
+                  }
+               } else {
+                  selectedAmenities = selectedAmenities.filter(a => a.id !== this.value);
+               }
+               updateSelectedAmenities();
+            });
+
+            const span = document.createElement('span');
+            span.textContent = item.name;
+
+            label.appendChild(input);
+            label.appendChild(span);
+
+            amenity.appendChild(label);
+         });
+      } else {
+         amenity.innerHTML = "Không có tiện ích con của danh mục này";
+      }
+
+      updateSelectedAmenities();
+   }
+
+
+   function updateSelectedAmenities() {
+      const inputHidden = document.getElementById('selected_amenities');
+      inputHidden.value = selectedAmenities.map(a => a.id).join(',');
+
+      const list = document.getElementById('selected-amenities-list');
+      list.innerHTML = '';
+
+      selectedAmenities.forEach(a => {
+         const div = document.createElement('div');
+         div.classList.add('selected-amenity-item');
+         div.textContent = a.name;
+         list.appendChild(div);
+      });
+   }
 </script>

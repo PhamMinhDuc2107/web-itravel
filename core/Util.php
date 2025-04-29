@@ -428,4 +428,12 @@ class Util
       }
       return $files;
    }
+   public static function removeUploadedImages($files)
+   {
+      foreach ($files['tmp_name'] as $tmpFile) {
+         if (file_exists($tmpFile)) {
+            unlink($tmpFile); // Xóa file tạm
+         }
+      }
+   }
 }
