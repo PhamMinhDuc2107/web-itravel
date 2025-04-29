@@ -26,6 +26,7 @@ class ComposerStaticInit8b48f68a31c146ea8c50e12326b4e9d2
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Predis\\' => 7,
@@ -34,6 +35,7 @@ class ComposerStaticInit8b48f68a31c146ea8c50e12326b4e9d2
         ),
         'M' => 
         array (
+            'Monolog\\' => 8,
             'Matrix\\' => 7,
         ),
         'G' => 
@@ -76,6 +78,10 @@ class ComposerStaticInit8b48f68a31c146ea8c50e12326b4e9d2
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
@@ -96,6 +102,10 @@ class ComposerStaticInit8b48f68a31c146ea8c50e12326b4e9d2
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Matrix\\' => 
         array (

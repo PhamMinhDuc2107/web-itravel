@@ -91,18 +91,19 @@ class Tour  extends Controller
       $id = (int)(Request::input("id") ?? 0);
       $tour = $this->TourModel->find($id);
       if (!$tour) {
-         Util::redirect("dashboard/tour", Response::notFound("Không tìm thấy tour có id là " . $id));
+         Util::redirect("dashboard/tour", Response::notFound("Không tìm thấy tour có ID " . $id));
       }
 
       $this->TourModel->beginTransaction();
+      $this->TourImgModel->beginTransaction();
+      $this->TourPriceCalendarModel->beginTransaction();
 
       try {
          $dataTour = $this->prepareTourData();
          $res = $this->TourModel->update($dataTour, $id);
          $updateTourSuccess = $res ? true : false;
-         $updateImageSuccess = false;
-         $updatePriceSuccess = false;
 
+         $updatePriceSuccess = false;
          if (
             !empty(Request::input("date")[0]) &&
             !empty(Request::input("price_adult")[0]) &&
@@ -117,57 +118,79 @@ class Tour  extends Controller
             $updatePriceSuccess = true;
          }
 
-         if (
-            isset($_FILES['image']['tmp_name'][0]) &&
-            $_FILES['image']['error'][0] !== UPLOAD_ERR_NO_FILE
-         ) {
+         $updateImageSuccess = false;
+         if (isset($_FILES['image']['tmp_name'][0]) && $_FILES['image']['error'][0] !== UPLOAD_ERR_NO_FILE) {
             $checkInsertImg = $this->processTourImg($id, true);
             if (!$checkInsertImg['success']) {
                throw new Exception("Cập nhật ảnh thất bại: " . $checkInsertImg['msg']);
             }
             $updateImageSuccess = true;
          }
-         if (!$updateTourSuccess && !$updateImageSuccess && ! $updatePriceSuccess) {
-            $this->TourModel->rollBack();
-            Util::redirect("dashboard/tour", Response::internalServerError("Không có thay đổi nào để cập nhật"));
+
+         if (!$updateTourSuccess && !$updateImageSuccess && !$updatePriceSuccess) {
+            throw new Exception("Không có thay đổi nào để cập nhật");
          }
+
          $this->TourModel->commit();
+         $this->TourImgModel->commit();
+         $this->TourPriceCalendarModel->commit();
 
          Util::redirect('dashboard/tour', Response::success("Cập nhật thành công"));
       } catch (Exception $e) {
          $this->TourModel->rollBack();
+         $this->TourImgModel->rollBack();
+         $this->TourPriceCalendarModel->rollBack();
          Util::redirect('dashboard/tour', Response::internalServerError($e->getMessage()));
       }
    }
+
 
    public function delete()
    {
       if (!Request::isMethod("POST")) {
          Util::redirect("dashboard/tour", Response::methodNotAllowed("Phương thức không được chấp nhận"));
       }
+
       $listID = Request::input("id") ?? [];
       if (empty($listID)) {
          Util::redirect("dashboard/tour", Response::badRequest("ID không hợp lệ"));
       }
+
       foreach ($listID as $id) {
          if (!is_numeric($id) || $id < 0) {
             Util::redirect("dashboard/tour", Response::badRequest("ID không hợp lệ"));
          }
       }
-      foreach ($listID as $id) {
-         $tourImgs = $this->TourImgModel->where($id, "tour_id");
-         foreach ($tourImgs as $img) {
-            $pathImg = _DIR_ROOT . $img["image"];
-            $checkDeleteImg = Util::deleteImage($pathImg);
-            if (!$checkDeleteImg['success']) {
-               Util::redirect("dashboard/tour", Response::badRequest($checkDeleteImg['msg']));
+      $this->TourModel->beginTransaction();
+
+      try {
+         foreach ($listID as $id) {
+            $tourImgs = $this->TourImgModel->where($id, "tour_id");
+            foreach ($tourImgs as $img) {
+               $pathImg = _DIR_ROOT . $img["image"];
+               $checkDeleteImg = Util::deleteImage($pathImg);
+               if (!$checkDeleteImg['success']) {
+                  throw new Exception("Lỗi khi xóa ảnh ID {$img['id']}: " . $checkDeleteImg['msg']);
+               }
+
+               if (!$this->TourImgModel->delete($img['id'])) {
+                  throw new Exception("Lỗi khi xóa dữ liệu ảnh ID {$img['id']} trong database");
+               }
             }
-            $this->TourImgModel->delete($img['id']);
+
+            if (!$this->TourModel->delete($id)) {
+               throw new Exception("Lỗi khi xóa tour ID {$id}");
+            }
          }
-         $this->TourModel->delete($id);
+
+         $this->TourModel->commit();
+         Util::redirect('dashboard/tour', Response::success("Xóa thành công"));
+      } catch (Exception $e) {
+         $this->TourModel->rollBack();
+         Util::redirect('dashboard/tour', Response::internalServerError($e->getMessage()));
       }
-      Util::redirect('dashboard/tour', Response::success("Xóa thành công"));
    }
+
 
    private function prepareTourData($isUpdate = false): array
    {

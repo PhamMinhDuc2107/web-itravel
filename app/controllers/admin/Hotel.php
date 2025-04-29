@@ -111,7 +111,7 @@ class Hotel extends Controller
             $checkProcessHotelAmenity = $this->processHotelAmenity($id, true);
             if (!$checkProcessHotelAmenity['success']) {
                $this->HotelModel->rollBack();
-               Util::redirect("dashboard/hotel", Response::internalServerError($checkProcessHotelAmenity['msg']));
+               throw new \Exception($checkProcessHotelAmenity['msg']);
             }
             $updateHotelAmenitySuccess = true;
          }
@@ -119,14 +119,14 @@ class Hotel extends Controller
             $checkInsertImg = $this->processHotelImg($id, true);
             if (!$checkInsertImg['success']) {
                $this->HotelModel->rollBack();
-               Util::redirect("dashboard/hotel", Response::internalServerError($checkInsertImg['msg']));
+               throw new \Exception($checkInsertImg['msg']);
             }
             $updateImageSuccess = true;
          }
 
          if (!$updateHotelSuccess && !$updateImageSuccess && !$updateHotelAmenitySuccess) {
             $this->HotelModel->rollBack();
-            Util::redirect("dashboard/hotel", Response::internalServerError("Không có thay đổi nào để cập nhật"));
+            throw new \Exception("Không có thay đổi nào để cập nhật");
          }
 
          $this->HotelModel->commit();

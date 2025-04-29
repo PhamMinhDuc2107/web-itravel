@@ -34,16 +34,22 @@ class Database
    }
    public function beginTransaction()
    {
-      $this->_con->beginTransaction();
+      if (!$this->_con->inTransaction()) {
+         $this->_con->beginTransaction();
+      }
    }
 
    public function commit()
    {
-      $this->_con->commit();
+      if ($this->_con->inTransaction()) {
+         $this->_con->commit();
+      }
    }
 
    public function rollBack()
    {
-      $this->_con->rollBack();
+      if ($this->_con->inTransaction()) {
+         $this->_con->rollBack();
+      }
    }
 }
