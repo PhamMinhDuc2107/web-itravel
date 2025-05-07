@@ -27,6 +27,14 @@ class Util
 
       return implode(', ', $translated);
    }
+   public static function processSearchStringMap($value) {
+      $arr_value = explode(',', trim($value));
+      $result = [];
+      foreach ($arr_value as $key => $item) {
+         $result[$key] = implode('+', explode(" ", trim($item)));
+      }
+      return implode(', ', $result);
+   }
    public static function renderTransportationIcons($transportation)
    {
       if ($transportation === '') {

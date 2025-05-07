@@ -66,7 +66,6 @@ class Hotel extends Controller
    }
    public function update($id)
    {
-
       $imgs = $this->HotelImageModel->where(["hotel_id" => $id]);
       $hotel = $this->HotelModel->find($id);
       if (!$hotel) {
@@ -204,7 +203,7 @@ class Hotel extends Controller
       $name = htmlspecialchars(Request::input("name", ""));
       $slug = Util::generateSlug($name);
       $description = htmlspecialchars(Request::input("desc", ''));
-      $hotel_type_id = Request::input("category", 0);
+      $hotel_type_id = (int)Request::input("category", 0);
       $address = htmlspecialchars(Request::input("address", ""));
       $city = htmlspecialchars(Request::input("city", ""));
       $country = htmlspecialchars(Request::input("country", ""));

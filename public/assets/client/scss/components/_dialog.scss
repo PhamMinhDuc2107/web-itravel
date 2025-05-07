@@ -18,11 +18,18 @@
       transform: translate(-50%,100%) scale(0.2);
       z-index:999999;
       border-radius: 0.6rem;
-      @include size(160rem, 80rem);
+      @include size(80vw, 80vh);
       transition: all 0.5s ease-in-out;
       overflow: hidden;
+      background-color: $white-color;
+      padding: 2rem;
    }
-   
+   &__title {
+      font-size: 2.4rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 2rem 0;
+   }
    &__close {
       position: absolute;
       @include size(4rem);
@@ -41,5 +48,43 @@
       .dialog__content {
          transform: translate(-50%,-50%) scale(1);
       }
+   }
+   &__slider {
+      &--wrap {
+         @include flex(center,center);
+      }
+   }
+   img {
+      border-radius: 0.6rem;
+   }
+   .sliderImage {
+      height: 50rem;
+      width: 80rem;
+      img {
+         height: 100%;
+      }
+      .swiper-slide {
+         @include flex(center,center);
+         
+      }
+   }
+   .thumbarSilderImage {
+      margin-top: 2rem;
+      img {
+         width: 10rem;
+         height: 10rem;
+         object-fit: cover;
+      }
+      .swiper-slide {
+         width: 25%;
+         height: 100%;
+         opacity: 0.5;
+      }
+      .swiper-slide-thumb-active {
+         opacity: 1;
+      }
+   }
+   .swiper-pagination-fraction {
+      color: $white-color;
    }
 }

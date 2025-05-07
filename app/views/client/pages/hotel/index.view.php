@@ -93,67 +93,39 @@
                </ul>
             </div>
             <div class="hotel__list">
-               <div class="hotel__item">
+               <?php $hotels = $data['hotels'] ?? []?>
+               <?php if(!empty($hotels)): ?>
+                  <?php foreach($hotels as $hotel):?>
+                     <div class="hotel__item">
                   <section class="hotel__item--img swiper">
                      <div class="swiper-button-prev"></div>
                      <ul class="hotel__img--list swiper-wrapper">
-                        <li class="hotel__img--item swiper-slide">
-                           <img
-                              src="<?php echo _WEB_ROOT ?>/public/uploads/tour/caobang_c1e707afd11949ec50d5177ea17c59d4.webp"
-                              alt="">
-                        </li>
-                        <li class="hotel__img--item swiper-slide">
-                           <img
-                              src="<?php echo _WEB_ROOT ?>/public/uploads/tour/trungquoc_13cb41164322476f65a5f8928c663ecd.webp"
-                              alt="">
-                        </li>
-                        <li class="hotel__img--item swiper-slide">
-                           <img
-                              src="<?php echo _WEB_ROOT ?>/public/uploads/tour/caobang_c1e707afd11949ec50d5177ea17c59d4.webp"
-                              alt="">
-                        </li>
-                        <li class="hotel__img--item swiper-slide">
-                           <img
-                              src="<?php echo _WEB_ROOT ?>/public/uploads/tour/trungquoc_13cb41164322476f65a5f8928c663ecd.webp"
-                              alt="">
-                        </li>
-                        <li class="hotel__img--item swiper-slide">
-                           <img
-                              src="<?php echo _WEB_ROOT ?>/public/uploads/tour/caobang_c1e707afd11949ec50d5177ea17c59d4.webp"
-                              alt="">
-                        </li>
-                        <li class="hotel__img--item swiper-slide">
-                           <img
-                              src="<?php echo _WEB_ROOT ?>/public/uploads/tour/trungquoc_13cb41164322476f65a5f8928c663ecd.webp"
-                              alt="">
-                        </li>
-                        <li class="hotel__img--item swiper-slide">
-                           <img
-                              src="<?php echo _WEB_ROOT ?>/public/uploads/tour/caobang_c1e707afd11949ec50d5177ea17c59d4.webp"
-                              alt="">
-                        </li>
-                        <li class="hotel__img--item swiper-slide">
-                           <img
-                              src="<?php echo _WEB_ROOT ?>/public/uploads/tour/trungquoc_13cb41164322476f65a5f8928c663ecd.webp"
-                              alt="">
-                        </li>
+                        <?php $images = $hotel['images'] ?? []?>
+                        <?php if(!empty($images)): ?>
+                           <?php foreach($images as $image):?>
+                              <li class="hotel__img--item swiper-slide">
+                                 <img
+                                    src="<?php echo _WEB_ROOT.$image['image'] ?>"
+                                    alt="">
+                              </li>
+                           <?php endforeach;?>
+                        <?php endif; ?>
                      </ul>
                      <div class="swiper-pagination"></div>
                      <div class="swiper-button-next"></div>
                   </section>
                   <div class="hotel__item--info">
                      <div class="info__name">
-                        <a href="">Khách Sạn Huy Hoàng</a>
+                        <a href=""><?php echo $hotel['name']?></a>
                         <div class="info__rating">
-                           <i class="fa fa-star"></i>
-                           <i class="fa fa-star"></i>
-                           <i class="fa fa-star"></i>
-                           <i class="fa fa-star"></i>
+                           <?php for($i = 0; $i < $hotel['rating']; $i++):?>
+                              <i class="fa fa-star"></i>
+                           <?php endfor;?>
                         </div>
                      </div>
                      <div class="info__category">
                         <i class="fa-solid fa-hotel"></i>
-                        <span>Khách sạn căn hộ</span>
+                        <span><?php echo $hotel['hotel_type_name']?></span>
                      </div>
                      <div class="info__review">
                         <span class="info__review--number">8.9</span>
@@ -177,51 +149,53 @@
                               </g>
                            </g>
                         </svg>
-                        <span>Nam Dinh,Dong Son</span>
-                        <span class="info__location--link">Xem bản đồ</span>
+                        <span><?php echo $hotel['address'].", ".$hotel['city']?></span>
+                        <span class="info__location--link dialog__btn" data-type="map" data-id = "<?php echo $hotel['id']?>">Xem bản đồ</span>
+                        <?php 
+                        $adrress = $hotel["name"].', '.$hotel['address'].", ".$hotel['city'].", ".$hotel["country"];
+                        $stringAdress = Util::processSearchStringMap($adrress);
+                        ?>
+                        <div class="dialog" data-type ="map" data-id = "<?php echo $hotel['id']?>">
+                           <div id="map" class="dialog__content">
+                              <iframe width="100%" height="100%" style="border-radius:16px" loading="lazy" allowfullscreen
+                                 referrerpolicy="no-referrer-when-downgrade"
+                                 src="https://www.google.com/maps?q=<?php echo $stringAdress?>&output=embed">
+                              </iframe>
+                              <i class="fa fa-close dialog__close"></i>
+
+                           </div>
+                        </div>
                      </div>
                      <div class="info__service">
                         <ul class="info__service--list">
-                           <li class="info__service--item">
-                              Các tiện ích ngoài trời
-                           </li>
-                           <li class="info__service--item">
-                              Giữ xe đạp
-                           </li>
-                           <li class="info__service--item">
-                              Máy sấy quần áo
-                           </li>
+                           <?php $amenities = $hotel['amenities'] ?? []?>
+                           <?php if(!empty($amenities)) :?>
+                              <?php foreach($amenities as $key =>$amenity):?>
+                                 <?php 
+                                 if($key > 2) {
+                                       break;
+                                    }
+                                 ?>
+                                 <li class="info__service--item">
+                                    <?php echo $amenity['name']?>
+                                 </li>
+                              <?php endforeach;?>
+                           <?php endif;?>
                         </ul>
                         <span class="info__service--item info__service--more">
-                           3
+                           <?php echo (count($amenities) - 3)?>
                            <div class="more__wrap">
                               <h6>Dịch vụ: </h6>
                               <ul class="more__list">
-                                 <li class="more__item">
-                                    <i class="fa fa-check"></i>
-                                    Các tiện ích ngoài trời
-                                 </li>
-                                 <li class="more__item">
-                                    <i class="fa fa-check"></i>
-
-                                    Các tiện ích ngoài trời
-                                 </li>
-                                 <li class="more__item">
-                                    <i class="fa fa-check"></i>
-                                    Các tiện ích ngoài trời
-                                 </li>
-                                 <li class="more__item">
-                                    <i class="fa fa-check"></i>
-                                    Các tiện ích ngoài trời
-                                 </li>
-                                 <li class="more__item">
-                                    <i class="fa fa-check"></i>
-                                    Các tiện ích ngoài trời
-                                 </li>
-                                 <li class="more__item">
-                                    <i class="fa fa-check"></i>
-                                    Các tiện ích ngoài trời
-                                 </li>
+                              <?php if(!empty($amenities)) :?>
+                                 <?php foreach($amenities as $key =>$amenity):?>
+                                    <li class="more__item">
+                                       <i class="fa fa-check"></i>
+                                       <?php echo $amenity['name']?>
+                                    </li>
+                                 <?php endforeach;?>
+                              <?php endif;?>
+                                 
                               </ul>
                            </div>
                         </span>
@@ -249,34 +223,27 @@
                            </div>
                            <div class="info__price--number">
                               <span class="info__price--old">1.000.000đ</span>
-                              <span class="info__price--new">800.000đ</span>
+                              <span class="info__price--new"><?php echo $hotel["price_range"]?></span>
                            </div>
                            <div class="info__price--tax">
                               Giá chưa bao gồm thuế và phí
                            </div>
-                           <a href="" class="info__btn btn">
+                           <a href="<?php echo _WEB_ROOT.'/khach-san/'.$hotel['slug']?>" class="info__btn btn">
                               Xem phòng
                               <i class="fa fa-angle-right"></i>
                            </a>
                         </div>
                      </div>
+                     </div>
                   </div>
-               </div>
+                  <?php endforeach;?>
+               <?php endif;?>
             </div>
          </div>
       </div>
    </div>
 </section>
-<div class="dialog">
-   <div id="map" class="dialog__content">
-      <iframe width="100%" height="100%" style="border-radius:16px" loading="lazy" allowfullscreen
-         referrerpolicy="no-referrer-when-downgrade"
-         src="https://www.google.com/maps?q=Khách+sạn+đại+nam+nam+định&output=embed">
-      </iframe>
-      <i class="fa fa-close dialog__close"></i>
 
-   </div>
-</div>
 <script type="text/javascript">
    document.addEventListener("DOMContentLoaded", () => {
       const hotelSortBarList = document.querySelector('.hotel__sortbar--list')

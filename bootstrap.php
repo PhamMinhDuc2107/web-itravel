@@ -27,5 +27,4 @@ spl_autoload_register(function ($class) {
 foreach (glob(__DIR__ . "/routers/*.php") as $file) {
    require_once $file;
 }
-
 require_once __DIR__ . '/logger/AppLogger.php';

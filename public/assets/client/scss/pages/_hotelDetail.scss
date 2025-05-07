@@ -1,0 +1,120 @@
+.hotelDetail {
+   &__title {
+      font-size: 2.4rem;
+      font-weight:600;
+      margin-bottom: 0.5rem;
+   }
+   &__info {
+      @include flex(end, space-between);
+      &--right {
+         @include flex(start, start, column);
+      }
+      &--left {
+         @include flex(start, start, column);
+      }
+      margin-bottom: 2rem;
+   }
+   &__price {
+      gap: 1rem;
+      @include flex(center);
+      &--wrap {
+         @include flex(end, end, column);
+         gap: 0.2rem;
+      }
+      &--text {
+         color: rgba(104,113,118,1.00);
+         font-size: 1.2rem;
+      }
+      &--number {
+         font-size: 2rem;
+         font-weight: bold;
+         font-weight: bold;
+      }
+      &--btn  {
+         padding: 1.6rem;
+         background-color: $primary-color;
+         color: $white-color;
+         border-radius: 0.8rem;
+         cursor: pointer;
+      }
+   }
+   &__rating {
+      color: $yellow-color;
+      @include size(1.4rem);
+      @include flex();
+      margin-bottom: 0.5rem;
+      gap: 0.2rem;
+
+   }
+   &__review {
+      margin-bottom: 0.5rem;
+      @include flex(center, start);
+      
+      &--number {
+         background-color: $primary-light-color;
+         color: $primary-color;
+         padding: 0.2rem 0.5rem;
+         margin-right: 0.2rem;
+         border-radius: 0.6rem;
+         @include flex(center, center);
+         font-weight: 500;
+         gap: 0.2rem;
+      }
+      &--text {
+         color: #4A5568;
+         margin-left: 0.3rem;
+      }
+   }
+   &__location {
+      @include flex(center);
+      gap: 0.2rem;
+   }
+   &__images {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-auto-rows: 16.2rem;
+      gap: 0.5rem;
+      height: 33.2rem;
+      &--item {
+         overflow: hidden;
+         position: relative;
+         cursor: pointer;
+         border-radius: 0.6rem;
+         &:hover {
+            img {
+               transform: scale(1.3);
+            }
+         }
+         img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.2s linear;
+         }
+         .overplay {
+            position: absolute;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            @include flex(center, center, column);
+            gap: 0.5rem;
+            color: $white-color;
+            i {
+               font-size: 1.6rem;
+            }
+         }
+      }
+      .item-large{
+         grid-row: span 2;
+         grid-column: span 2;
+      }
+   }
+   .hotelDetail--btn {
+      color: $primary-color;
+      margin-left: 0.3rem;
+      cursor: pointer;
+   }
+}
