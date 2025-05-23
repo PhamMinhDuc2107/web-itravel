@@ -18,11 +18,12 @@
       transform: translate(-50%,100%) scale(0.2);
       z-index:999999;
       border-radius: 0.6rem;
-      @include size(80vw, 80vh);
+      @include size(80vw, 82vh);
       transition: all 0.5s ease-in-out;
       overflow: hidden;
       background-color: $white-color;
       padding: 2rem;
+      overflow-y: scroll;
    }
    &__title {
       font-size: 2.4rem;
@@ -87,4 +88,26 @@
    .swiper-pagination-fraction {
       color: $white-color;
    }
+   // hotel detail amenity
+   &__amenity {
+      &--wrap {
+         margin-bottom: 2rem;
+      }
+      &--title {
+         font-size: 2.4rem;
+         font-weight: bold;
+         margin-bottom: 2rem;
+         @include flex(center, start);
+         gap: 1rem;
+      }
+      &--list {
+         @include flex(center, start, row, wrap);
+         gap: 10rem;
+      }
+      &--item {
+         @include flex(center, start);
+         gap: 1rem;
+      }
+   }
+
 }

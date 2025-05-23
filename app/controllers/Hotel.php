@@ -68,6 +68,7 @@ class Hotel extends Controller
       $categories = $this->CategoryModel->all();
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
+      $res = $this->HotelAmenityModel->getHotelAmenityCategoryNames($hotel["id"]);
       $breadcrumbs = [
          ['name' => "Khách sạn", "link" => "khach-san"],
          ['name' => $hotel["name"], "link" => "khach-san/".$hotel["slug"]],

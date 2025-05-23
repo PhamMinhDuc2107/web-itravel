@@ -360,19 +360,20 @@ class Util
       }
       return '?' . htmlspecialchars(http_build_query($queryParams), ENT_QUOTES, 'UTF-8');
    }
-   public static function checkImage(array $file, array $allowedTypes = ['webp'], int $maxSize = 5 * 1024 * 1024): array
+
+   public static function checkImage(array $file): array
    {
       if (empty($file) || $file['error'] !== UPLOAD_ERR_OK) {
          return ['success' => false, 'msg' => 'Lỗi tải file lên.'];
       }
-      if ($file['size'] > $maxSize) {
+      if ($file['size'] > $_ENV['MAX_FILE_SIZE']) {
          return ['success' => false, 'msg' => 'File quá lớn.'];
       }
 
       $fileInfo = pathinfo($file['name']);
       $fileExtension = strtolower($fileInfo['extension']);
-      if (!in_array($fileExtension, $allowedTypes)) {
-         return ['success' => false, 'msg' => 'Loại file không được hỗ trợ.Chỉ hỗ trợ webp'];
+      if (!in_array($fileExtension, explode(',', $_ENV['ALLOWED_TYPES']))) {
+         return ['success' => false, 'msg' => 'Loại file không được hỗ trợ'];
       }
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
       $mime = finfo_file($finfo, $file['tmp_name']);
@@ -440,7 +441,7 @@ class Util
    {
       foreach ($files['tmp_name'] as $tmpFile) {
          if (file_exists($tmpFile)) {
-            unlink($tmpFile); // Xóa file tạm
+            unlink($tmpFile); 
          }
       }
    }

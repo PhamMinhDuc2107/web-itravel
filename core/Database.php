@@ -8,14 +8,11 @@ class Database
    {
       $this->_con = Connection::getInstance();
       if (!$this->_con) {
-         throw new Exception("Database connection failed");
+         Util::loadError('500', 500);
       }
    }
    public function _query($sql, $params = [])
    {
-      if ($this->_con === null) {
-         die("Database connection is not initialized.");
-      }
       $stmt = $this->_con->prepare($sql);
       if ($stmt && !empty($params)) {
          foreach ($params as $key => $value) {

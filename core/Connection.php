@@ -4,7 +4,7 @@ class Connection {
    private static function connect() {
       try {
          if (!isset($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USERNAME'])) {
-            Util::loadError('500', 500);
+           
          }
          $dsn = 'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'];
          self::$con = new PDO($dsn, $_ENV["DB_USERNAME"], $_ENV["DB_PASSWORD"] ?? "");

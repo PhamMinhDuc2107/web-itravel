@@ -27,4 +27,16 @@ class HotelAmenityModel extends Model
       $stmt = $this->_query($sql);
       return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
    }
+   public function getHotelAmenityCategoryNames($hotel_id) {
+      $sql = "
+         SELECT DISTINCT ac.name
+         FROM hotel_amenities ha
+         JOIN amenities a ON ha.amenity_id = a.id
+         JOIN amenity_categories ac ON a.category_id = ac.id
+         WHERE ha.hotel_id = :hotel_id
+      ";
+      $stmt = $this->_query($sql, ['hotel_id' => $hotel_id]);
+      return $stmt ? array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'name') : [];
+   }
+
 }

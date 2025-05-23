@@ -58,7 +58,7 @@ class Home extends Controller
       $listLocationCate = array_reverse($listLocationCate);
       $firstLocationCate = reset($listLocationCate);
       $lastLocationCate = end($listLocationCate);
-      $listBlogHot = $this->BlogModel->where(['status' => 1, 'status' => "published"]);
+      $listBlogHot = $this->BlogModel->where(['status_hot' => 1, 'status' => "published"]);
       $this->data["firstLocationCate"] = $firstLocationCate;
       $this->data["lastLocationCate"] = $lastLocationCate;
       $this->data["page"] = "home/index";

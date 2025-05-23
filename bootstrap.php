@@ -1,21 +1,22 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
-
 function loadEnv()
 {
    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
    $dotenv->load();
 }
 loadEnv();
+$app_env  = $_ENV['APP_ENV'] ?? 'local';
+
 
 const _DIR_ROOT = __DIR__;
 define("_WEB_ROOT", ((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . "/" . basename(_DIR_ROOT));
 define("ASSET", _WEB_ROOT . "/public/assets");
 define("UPLOAD", _WEB_ROOT . "/public/uploads");
-
+// load core, app, routers
 spl_autoload_register(function ($class) {
-   $paths = ['core', 'app', 'routers', 'logger'];
+   $paths = ['core', 'logger'];
    foreach ($paths as $path) {
       $file = __DIR__ . "/$path/" . $class . ".php";
       if (file_exists($file)) {
@@ -23,8 +24,13 @@ spl_autoload_register(function ($class) {
       }
    }
 });
-
-foreach (glob(__DIR__ . "/routers/*.php") as $file) {
-   require_once $file;
+// check AppEnv
+if($app_env === 'maintenance') {
+   Util::loadError('503', "503");
 }
-require_once __DIR__ . '/logger/AppLogger.php';
+// load routers
+require_once __DIR__ . "/routers/routers.php";
+// load app
+require_once __DIR__ . "/app/App.php";
+
+
