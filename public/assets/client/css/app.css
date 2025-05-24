@@ -80,6 +80,15 @@ body {
   height: 3rem;
 }
 
+.error {
+  display: inline-block;
+  color: #da2128 !important;
+}
+
+.input-error {
+  border-color: #da2128 !important;
+}
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(62, 142, 255, 0.7), 0 0 0 0 rgba(62, 142, 255, 0.5), 0 0 0 0 rgba(62, 142, 255, 0.3);
@@ -266,11 +275,23 @@ body {
   border-radius: 0.6rem;
   width: 80vw;
   height: 82vh;
+  max-height: 82vh;
   transition: all 0.5s ease-in-out;
   overflow: hidden;
   background-color: #fff;
   padding: 2rem;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+.dialog__content::-webkit-scrollbar {
+  width: 0.5rem;
+}
+.dialog__content::-webkit-scrollbar-track {
+  background: #c7c7c7;
+  border-radius: 1rem;
+}
+.dialog__content::-webkit-scrollbar-thumb {
+  background: #23bda4;
+  border-radius: 1rem;
 }
 .dialog__title {
   font-size: 2.4rem;

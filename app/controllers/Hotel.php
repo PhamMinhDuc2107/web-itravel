@@ -69,6 +69,8 @@ class Hotel extends Controller
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
       $res = $this->HotelAmenityModel->getHotelAmenityCategoryNames($hotel["id"]);
+      $hotelImages = $this->HotelImageModel->where(["hotel_id" => $hotel['id']]);
+      $hotel['images'] = $hotelImages;
       $breadcrumbs = [
          ['name' => "Khách sạn", "link" => "khach-san"],
          ['name' => $hotel["name"], "link" => "khach-san/".$hotel["slug"]],
@@ -78,8 +80,12 @@ class Hotel extends Controller
       $this->data["departure"] = $departure;
       $this->data["categories"] = $categories;
       $this->data['breadcrumbs'] = $breadcrumbs;
+      $this->data['hotel'] = $hotel;
       $this->data['title'] = $hotel['name'];
       $this->data['heading'] = $hotel['name'];
       $this->render('layouts/client_layout', $this->data);
+   }
+   public function createdHotelReview() {
+
    }
 }

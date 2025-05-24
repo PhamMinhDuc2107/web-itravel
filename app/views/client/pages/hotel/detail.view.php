@@ -1,14 +1,15 @@
 <!-- detail hotel -->
+<?php $hotel = $data['hotel'] ?? []?>
 <section class="hotelDetail">
    <div class="container">
       <div class="hotelDetail__container">
          <div class="hotelDetail__info">
             <div class="hotelDetail__info--right">
-               <div class="hotelDetail__title">Khách sạn Đại name</div>
+               <div class="hotelDetail__title"><?php echo $hotel['name']?></div>
                <div class="hotelDetail__rating">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
+                  <?php for($i = 0; $i < $hotel['rating'];$i++):?>
+                     <i class="fa fa-star"></i>
+                  <?php endfor;?>
                </div>
                <div class="hotelDetail__review">
                   <span class="hotelDetail__review--number">
@@ -17,6 +18,7 @@
                   <span class="hotelDetail__review--text"> (123 đánh giá)</span>
                   <span class="hotelDetail--btn dialog__btn" data-type ="review" data-id="1">Xem đánh giá</span>
                </div>
+               <?php $address = $hotel["address"].', '.$hotel['city'].', '.$hotel['country']?>
                <div class="hotelDetail__location">
                <svg fill="#333" height="20px" width="20px" version="1.1" id="Capa_1"
                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -34,7 +36,7 @@
                               </g>
                            </g>
                         </svg>
-                  <span>117, Thuỳ Vân, Thành Phố Vũng Tàu, Bà Rịa Vũng Tàu, Việt Nam
+                  <span><?php echo $address?>
                   </span>
                   <span class="hotelDetail--btn dialog__btn" data-type ="map" data-id ="1">Xem bản đồ</span>
                </div>
@@ -51,31 +53,17 @@
             </div>
          </div>
          <div class="hotelDetail__images">
-            <div class="hotelDetail__images--item item-large dialog__btn" data-type="image" data-id="1">
-               <img src="http://localhost/web-itravel/public/uploads/tour/hanquoc_03d3c4c976149beb56bdb3cad6491180.webp" alt="" class="">
-            </div>
-            <div class="hotelDetail__images--item dialog__btn" data-type="image" data-id="1">
-               <img src="http://localhost/web-itravel/public/uploads/tour/hanquoc_03d3c4c976149beb56bdb3cad6491180.webp" alt="" class="">
-            </div>
-            <div class="hotelDetail__images--item dialog__btn" data-type="image" data-id="1">
-               <img src="http://localhost/web-itravel/public/uploads/tour/hanquoc_03d3c4c976149beb56bdb3cad6491180.webp" alt="" class="">
-            </div>
-            <div class="hotelDetail__images--item dialog__btn" data-type="image" data-id="1">
-               <img src="http://localhost/web-itravel/public/uploads/tour/hanquoc_03d3c4c976149beb56bdb3cad6491180.webp" alt="" class="">
-            </div>
-            <div class="hotelDetail__images--item dialog__btn" data-type="image" data-id="1">
-               <img src="http://localhost/web-itravel/public/uploads/tour/hanquoc_03d3c4c976149beb56bdb3cad6491180.webp" alt="" class="">
-            </div>
-            <div class="hotelDetail__images--item dialog__btn" data-type="image" data-id="1">
-               <img src="http://localhost/web-itravel/public/uploads/tour/hanquoc_03d3c4c976149beb56bdb3cad6491180.webp" alt="" class="">
-            </div>
-            <div class="hotelDetail__images--item dialog__btn" data-type="image" data-id="1">
-               <img src="http://localhost/web-itravel/public/uploads/tour/hanquoc_03d3c4c976149beb56bdb3cad6491180.webp" alt="" class="">
-               <div class="overplay image-overpay">
-                  <i class="fa-solid fa-images"></i>
-                  <div class="overplay__text ">Xem tất cả ảnh</div>
+            <?php foreach($hotel['images'] as $index => $image):?>
+               <div class="hotelDetail__images--item <?php echo  $index === 0 ? "item-large" :""?> dialog__btn" data-type="image" data-id="1">
+                  <img src="<?php echo _WEB_ROOT.$image['image']?>" alt="<?php echo $hotel['name']?>" class="">
+                  <?php if($index === count($hotel['images']) - 1):?>
+                     <div class="overplay image-overpay">
+                        <i class="fa-solid fa-images"></i>
+                        <div class="overplay__text ">Xem tất cả ảnh</div>
+                     </div>
+                  <?php endif?>
                </div>
-            </div>
+            <?php endforeach?>
          </div>
          <div class="section__info">
             <div class="section__info--left">
@@ -83,22 +71,7 @@
                   Mô tả khách sạn
                </h4>
                <div class="section__info--desc">
-                  Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                   Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                    Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                     Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                      Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                      Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                   Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                    Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                     Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                      Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                      Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                   Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                    Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                     Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                      Lưu trú tại Leaf Beachfront Hotel Đà Nẵng là một lựa chọn tốt khi bạn đến thăm Phường Mân Thái. Lễ tân phục vụ 24 giờ để phục vụ bạn, từ khi nhận phòng đến khi trả phòng, hoặc bất kỳ sự hỗ trợ nào bạn cần. Nếu bạn muốn thêm, đừng ngần ngại hỏi lễ tân, chúng tôi luôn sẵn sàng phục vụ bạn.
-                     
+                  <?php echo $hotel['description']?>
                </div>
                <button class="btn btn-1">Xem thêm</button>
             </div>
@@ -389,7 +362,7 @@
    <div id="map" class="dialog__content">
       <iframe width="100%" height="100%" style="border-radius:16px" loading="lazy" allowfullscreen
          referrerpolicy="no-referrer-when-downgrade"
-         src="https://www.google.com/maps?q=HaNoi&output=embed">
+         src="https://www.google.com/maps?q=<?php echo Util::processSearchStringMap($address)?>&output=embed">
       </iframe>
       <i class="fa fa-close dialog__close"></i>
 
@@ -403,37 +376,11 @@
       </h4>
       <div class="swiper sliderImage">
          <div class="swiper-wrapper">
+            <?php foreach($hotel['images'] as $item):?>
             <div class="swiper-slide">
-            <img src="http://localhost/web-itravel/public/uploads/hotel/tq_e95db0c5e88d1c650daefe63454db12b_d172c9ada7cbabd80d9ffd2123239c89.webp" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-            
-            </div>
+               <img src="<?php echo _WEB_ROOT."/".$item['image']?>" alt="<?php echo $hotel['name']?>" />
+            </div> 
+            <?php endforeach; ?>
          </div>
          <div class="swiper-button-next"></div>
          <div class="swiper-button-prev"></div>
@@ -441,36 +388,11 @@
       </div>
       <div thumbsSlider="" class="swiper thumbarSilderImage">
          <div class="swiper-wrapper">
+            <?php foreach($hotel['images'] as $item):?>
             <div class="swiper-slide">
-            <img src="http://localhost/web-itravel/public/uploads/hotel/tq_e95db0c5e88d1c650daefe63454db12b_d172c9ada7cbabd80d9ffd2123239c89.webp" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-            </div>
-            <div class="swiper-slide">
-            <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-            </div>
+               <img src="<?php echo _WEB_ROOT."/".$item['image']?>" alt="<?php echo $hotel['name']?>" />
+            </div> 
+            <?php endforeach; ?>
          </div>
       </div>
       <i class="fa fa-close dialog__close"></i>
@@ -574,9 +496,6 @@
                   <span class="item__score">9.0</span>
             </div>
          </section>
-         </div>
-         <div class="review__btn dialog__btn" data-id="1" data-type="createdReview">
-            <button class="btn">Đánh giá khách sạn</button>
          </div>
          <div class="review__header">
             <div class="review__tag--list">
@@ -751,23 +670,30 @@
 <div class="dialog" data-type="createdReview" data-id="1">
    <div class="dialog__content">
       <h4 class="dialog__title">Đánh giá khách sạn</h4>
-      <form action="" class="review__form">
+      <form action="" class="review__form"  enctype="multipart/form-data">
+         <input type="hidden" name="csrf_totken" value="<?php echo Session::get("csrf_token")?>">
+         <input type="hidden" name="hotelId" value="">
          <div class="review__form--field">
             <label for="review__form--text" class="review__form--label">Họ và tên</label>
-            <input id="review__form--text" class="review__form--input "></input>
+            <input id="review__form--text" class="review__form--input" name="name"></input>
+            <span class="error"></span>
          </div>
          <div class="review__form--field">
             <label for="review__form--text" class="review__form--label">Số điện thoại</label>
-            <input id="review__form--text" class="review__form--input "></input>
+            <input id="review__form--text" class="review__form--input" name="phone"></input>
+            <span class="error"></span>
          </div>
          <div class="review__form--field">
             <label for="review__form--text" class="review__form--label">Số ngày đi</label>
-            <input id="review__form--text" class="review__form--input "></input>
+            <input id="review__form--text" class="review__form--input" name="day"></input>
+            <span class="error"></span>
          </div>
          <div class="review__form--field">
             <label for="review__form--text" class="review__form--label">Đi</label>
             <div class="dropdown">
-               <input type="text" name="reference" class="dropdown_input review__form--input" placeholder="Chọn kiểu du lịch" readonly>
+               <input type="text" name="tripType" class="dropdown_input review__form--input" placeholder="Chọn kiểu du lịch" readonly>
+               <span class="error"></span>
+
                <ul class="dropdown_list">
                   <li class="dropdown_item">Công tác</li>
                   <li class="dropdown_item">Gia đình</li>
@@ -833,26 +759,27 @@
                   <div class="progress__track"></div>
                   <div class="progress__bar"></div>
                   <div class="progress__thumb">
-                     <input type="text" value="10" class="progress__value" name="location_rating"/>
+                     <input type="text" value="10" class="progress__value" name="amenity_rating"/>
                   </div>
                </div>
             </div>
          </div>
          <div class="review__form--field review__form__field--full">
             <label for="review__form--text" class="review__form--label">Nội dung đánh giá</label>
-            <textarea id="review__form--text" class="review__form--input "></textarea>
+            <textarea id="review__form--text" name="reviewText" class="review__form--input "></textarea>
+            <span class="error"></span>
          </div>
          <div class="review__form--field review__form__field--full">
             <label for="review__form--text" class="review__form--label">Thêm ảnh</label>
             <label for="review__image" class="review__form--image">
                <i class="fa fa-plus"></i>
-               <input type="file" accept="image/*" id="review__image" multiple hidden>
-               
+               <input type="file" name="images[]" accept="image/*" id="review__image" multiple hidden>
+               <span class="error"></span>
             </label>
             <div class="review__image--list">
             </div>
          </div>
-         <button type="button" class="btn btn-submit-contact" style="margin:0 auto">Đánh giá</button>
+         <button type="submit" class="btn btn-submit-contact" style="margin:0 auto">Đánh giá</button>
       </form>
       <i class="fa fa-close dialog__close"></i>
    </div>
@@ -904,7 +831,6 @@
    reviewSearch.forEach((parent) => {
       // review tag name
       const reviewTagItems = parent.querySelectorAll('.review__tag--item');
-      console.log(reviewTagItems);
       reviewTagItems.forEach(item => {
          item.addEventListener("click", (e) => {
             reviewTagItems.forEach(item => {
@@ -933,7 +859,7 @@
 <script type="text/javascript">
    const progress = document.querySelectorAll('.progress__wrap');
    progress.forEach((item) => {
-      const thumb = item.querySelector('.progress__thumb');
+   const thumb = item.querySelector('.progress__thumb');
    const progress = item.querySelector('.progress__bar');
    const valueLabel = item.querySelector('.progress__value');
    const min = 1;
@@ -1002,3 +928,96 @@
    })
 </script>
 <!-- submit ajax -->
+<script type="text/javascript">
+   const reviewForm = document.querySelector(".review__form");
+   let valid = true;
+   // show err
+   const showErr = (name, msg) => {
+      const input = reviewForm.querySelector(`[name="${name}"]`);
+      const spanErr = input?.parentElement.querySelector(".error");
+      if (spanErr) {
+         spanErr.textContent = msg;
+         input.classList.add("input-error");
+         
+      }
+      valid = false;
+   }
+   // clear error
+   const clearErrors = () => {
+      reviewForm.querySelectorAll(".error").forEach(span => (span.textContent = ""));
+      reviewForm.querySelectorAll(".input-error").forEach(input => input.classList.remove("input-error"));
+   };
+   // validate image
+   const validateImage = (images) => {
+      const allowedTypes = <?php echo $_ENV["ALLOWED_TYPES"]; ?>;
+      const maxSize = <?php echo $_ENV['MAX_FILE_SIZE']?>;
+      let isValid = true;
+      let msgs = [];
+      [...images].forEach((image,index) => {
+         if(!allowedTypes.includes(image.type.split("/")?.pop())) {
+            msgs.push(`Ảnh thứ ${index + 1} có định dạng không hợp lệ: ${image.type}`);
+            isValid = false;
+         }
+
+         if(image.size > maxSize) {
+            msgs.push(`Ảnh thứ ${index + 1} có size không hợp lệ: max size ${maxSize / 1024 / 1024}MB`);
+            isValid = false;
+         }
+      })
+      return {
+         isValid, msg: msgs.join(", ")
+      }
+   }
+   const submitHotelReview = ($data) => {
+
+   }
+   reviewForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // clear err
+      clearErrors();
+      // data form
+      const formData = new FormData(reviewForm);
+      const name = formData.get("name")?.trim();
+      const phone = formData.get("phone")?.trim();
+      const nightStayed	= formData.get("day")?.trim();
+      const tripType = formData.get("tripType")?.trim();
+      const locationRating = formData.get("location_rating");
+      const priceRating = formData.get("price_rating");
+      const serviceRating = formData.get("service_rating");
+      const cleanlinessRating = formData.get("cleanliness_rating");
+      const amenityRating = formData.get("amenity_rating");
+      const reviewText = formData.get("reviewText")?.trim();
+      const reviewImages = formData.getAll("images[]");
+      const hotelId = formData.get("hotelId");
+      const csrfToken = formData.get("csrf_token");
+      // validate
+      const checkImage = validateImage(reviewImages);
+      if(!checkImage.isValid) showErr("images[]", checkImage.msg)
+      if (!name) showErr("name", "Vui lòng nhập họ và tên");
+      if (!phone || !/^\d{9,11}$/.test(phone)) showErr("phone", "Số điện thoại không hợp lệ");
+      if (!nightStayed || isNaN(nightStayed) || Number(nightStayed) <= 0) showErr("day", "Số đêm không hợp lệ");
+      if (!tripType) showErr("tripType", "Vui lòng nhập kiểu chuyến đi");
+      if (!reviewText || reviewText.length < 10) showErr("reviewText", "Đánh giá phải có ít nhất 10 ký tự");
+
+      // scroll first error input
+      if (!valid) {
+         const firstErrorInput = reviewForm.querySelector(".input-error");
+         
+         if (firstErrorInput) {
+            firstErrorInput.scrollIntoView({
+               behavior: "smooth",
+               block: "center",
+            });
+            firstErrorInput.focus();
+         }
+         return;
+      }
+      // $data = {
+      //    csrf_token:csrfToken,
+      //    data:{
+            
+      //    }
+      // }
+      // call ajax
+   })
+</script>

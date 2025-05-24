@@ -19,8 +19,8 @@
           <div class="swiper-wrapper">
             <?php if (isset($data['listImg'])): ?>
             <?php foreach ($data['listImg'] as $index => $img): ?>
-            <div class="swiper-slide">
-              <img src="<?php echo _WEB_ROOT . $img['image'] ?>" alt="<?php echo $data['tour']['name'] ?>">
+            <div class="swiper-slide" style="flex-shrink: 1;">
+              <img src="<?php echo _WEB_ROOT . $img['image'] ?>" alt="<?php echo $data['tour']['name'] ?>" style="width:100%;height:150px;object-fit:cover">
             </div>
             <?php endforeach; ?>
             <?php endif; ?>

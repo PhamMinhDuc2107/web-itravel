@@ -59,6 +59,15 @@ body {
    }
 
 }
+// error 
+.error {
+   display: inline-block;
+   color: $red-color!important;
+
+}
+.input-error {
+   border-color: $red-color!important;
+}
 @keyframes pulse {
    0% {
       box-shadow: 0 0 0 0 rgba(62, 142, 255, 0.7),

@@ -116,7 +116,7 @@
                   </section>
                   <div class="hotel__item--info">
                      <div class="info__name">
-                        <a href=""><?php echo $hotel['name']?></a>
+                        <a href="<?php echo _WEB_ROOT.'/khach-san/'.$hotel['slug']?>"><?php echo $hotel['name']?></a>
                         <div class="info__rating">
                            <?php for($i = 0; $i < $hotel['rating']; $i++):?>
                               <i class="fa fa-star"></i>
