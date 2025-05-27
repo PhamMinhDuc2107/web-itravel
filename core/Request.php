@@ -33,8 +33,15 @@ class Request
    public static function all(string $type = 'post'): array
    {
       $type = strtolower($type);
-      return $type === 'get' ? $_GET : ($_POST ?? []);
+
+      return match ($type) {
+         'get'  => $_GET,
+         'post' => $_POST,
+         'file' => $_FILES,
+         default => [],
+      };
    }
+
 
 
    public static function file(string $key)

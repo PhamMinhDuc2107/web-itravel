@@ -53,7 +53,7 @@ class Model extends Database
          return null;
       }
    }
-   public function where($conditions)
+   public function where($conditions,$pagi = false)
    {
       try {
          if (!is_array($conditions) || empty($conditions)) {
@@ -85,11 +85,40 @@ class Model extends Database
          }
 
          $sql .= implode(" AND ", $clauses);
-         $sql .= " ORDER BY {$this->table}.{$this->colOrderBy} {$this->order}";
+         $sql .= " ORDER BY {$this->colOrderBy} {$this->order}";
+         if ($pagi) {
+            $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
+         }
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (Exception $e) {
          error_log("Error: " . $e->getMessage());
+         return null;
+      }
+   }
+   public function whereIn(string $column, array $values)
+   {
+      try {
+         if (!$this->isAllowedColumn($column)) {
+               throw new Exception("Invalid column: $column");
+         }
+         if (empty($values)) {
+               return [];
+         }
+
+         $placeholders = rtrim(str_repeat('?,', count($values)), ',');
+
+         $sql = "SELECT * FROM $this->table WHERE $column IN ($placeholders) ORDER BY {$this->colOrderBy} {$this->order}";
+         $stmt = $this->_con->prepare($sql);
+
+         foreach ($values as $k => $val) {
+               $stmt->bindValue($k + 1, $val);
+         }
+
+         $stmt->execute();
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      } catch (Exception $e) {
+         error_log("whereIn Error: " . $e->getMessage());
          return null;
       }
    }
@@ -189,13 +218,13 @@ class Model extends Database
          $limit = (int)htmlspecialchars(Request::input("limit")) ?? 10;
          $this->setLimit($limit);
       }
-      if (Request::has("sortBy", "get")) {
-         $order = htmlspecialchars(Request::input("sortBy"));
-         $this->setOrderBy($order);
+      if (Request::has("sortOrder", "get")) {
+         $order = htmlspecialchars(Request::input("sortOrder"));
+         $this->setOrder($order);
       }
-      if (Request::has("sortCol", "get")) {
-         $orderCol = htmlspecialchars(Request::input("sortCol"));
-         $this->setColOrderBy($orderCol);
+      if (Request::has("sortBy", "get")) {
+         $orderCol = htmlspecialchars(Request::input("sortBy"));
+         $this->setOrderBy($orderCol);
       }
    }
    public function like(array $data)
@@ -236,12 +265,12 @@ class Model extends Database
       $this->offset = ($offset - 1) * $this->limit;
    }
 
-   public function setColOrderBy(string $colOrderBy)
+   public function setOrderBy(string $colOrderBy)
    {
       $this->colOrderBy = $colOrderBy;
    }
 
-   public function setOrderBy(string $orderBy)
+   public function setOrder(string $orderBy)
    {
       $this->order = $orderBy;
    }

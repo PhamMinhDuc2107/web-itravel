@@ -405,7 +405,7 @@ function updateToursWithFilters() {
 
          if (res.type === 'success' && res.data.tours && res.data.tours.length > 0) {
             const data = res.data;
-            console.log(data)
+            
             const tours = data.tours;
             const totalPage = data.totalPage;
             const webRoot = "<?php echo _WEB_ROOT; ?>";

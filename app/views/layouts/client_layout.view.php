@@ -66,9 +66,10 @@
 		<script type="text/javascript" src="<?php echo ASSET ?>/utils/flatpickr.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js">
 		</script>
-
+		<!-- jquery -->
 		<script type="text/javascript" src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js"></script>
-
+		<!-- toast -->
+		<script  src="<?php echo ASSET ?>/client/js/toast.js"></script>
 		<!-- css -->
 		<link rel="stylesheet" href="<?php echo ASSET ?>/client/css/reset.css">
 		<link rel="stylesheet" href="<?php echo ASSET ?>/client/css/app.css" />
@@ -92,6 +93,7 @@
 		<?php require_once _DIR_ROOT . "/app/views/client/blocks/menu.view.php" ?>
 		<?php require_once _DIR_ROOT . "/app/views/client/blocks/hotline.view.php" ?>
 		<?php require_once _DIR_ROOT . "/app/views/client/blocks/social.view.php" ?>
+		<div id="toast"></div>
 	</div>
 
 </body>

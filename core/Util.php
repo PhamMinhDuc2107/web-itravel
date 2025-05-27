@@ -61,21 +61,26 @@ class Util
       return $output;
    }
 
-   public static function checkCsrfToken(): bool
+   public static function checkCsrfToken($token = null): bool
    {
+      if ($token === null) {
+         $token = Request::input("csrf_token", "");
+      }
       if (in_array(Request::method(), ['POST', 'PUT', 'PATCH', 'DELETE'])) {
-         $token = Request::input("csrf_token") ?? "";
          $csrf_session = Session::get('csrf_token');
 
          if ($csrf_session === null || !hash_equals($csrf_session, $token)) {
-            return false;
+               return false;
          }
          $csrf_token_new = Util::generateCsrfToken();
          Session::set('csrf_token', $csrf_token_new);
+
          return true;
       }
-      return true;
+
+      return true; 
    }
+
 
    public static function redirect($url, $params = [])
    {
@@ -363,6 +368,8 @@ class Util
 
    public static function checkImage(array $file): array
    {
+      $allowedTypes = json_decode($_ENV['ALLOWED_TYPES'] ?:'["webp","jpeg","jpg","png"]' , true);
+      $maxFileSize = $_ENV['MAX_FILE_SIZE'] ?: 5242880;
       if (empty($file) || $file['error'] !== UPLOAD_ERR_OK) {
          return ['success' => false, 'msg' => 'Lỗi tải file lên.'];
       }
@@ -372,7 +379,7 @@ class Util
 
       $fileInfo = pathinfo($file['name']);
       $fileExtension = strtolower($fileInfo['extension']);
-      if (!in_array($fileExtension, explode(',', $_ENV['ALLOWED_TYPES']))) {
+      if (!in_array($fileExtension, $allowedTypes)) {
          return ['success' => false, 'msg' => 'Loại file không được hỗ trợ'];
       }
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -445,4 +452,31 @@ class Util
          }
       }
    }
+   public static function getNameInitials($fullName) {
+      $parts = preg_split('/\s+/', trim($fullName));
+      if (count($parts) < 2) {
+         return strtoupper(mb_substr($parts[0], 0, 1));
+      }
+      $first = mb_substr($parts[0], 0, 1);
+      $last = mb_substr(end($parts), 0, 1);
+      return strtoupper($first . $last);
+   }
+   public static function classifyScore($score) {
+      switch (true) {
+         case ($score >= 9 && $score <= 10):
+               return "Tuyệt vời";
+         case ($score >= 8 && $score < 9):
+               return "Xuất sắc";
+         case ($score >= 6.5 && $score < 8):
+               return "Tốt";
+         case ($score >= 5 && $score < 6.5):
+               return "Trung bình";
+         case ($score >= 1 && $score < 5):
+               return "Kém";
+         default:
+            return "Điểm không hợp lệ";
+      }
+   }
+
+
 }

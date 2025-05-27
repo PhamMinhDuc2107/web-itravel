@@ -53,7 +53,6 @@ class Banner extends Controller
       $status = (int)htmlspecialchars(Request::input("status") === "1" ? 1 : 0);
       $order = (int)htmlspecialchars(Request::input("order")?? "");
       $data =["image" => $thumb, "title" => $title, "status" => $status, "sort_order" => $order];
-      var_dump($data);
       $res = $this->BannerModel->insert($data);
       if (!$res) {
          Util::redirect("dashboard/banner", Response::internalServerError("Thêm không thành công"));

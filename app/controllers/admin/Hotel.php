@@ -72,7 +72,7 @@ class Hotel extends Controller
          Util::redirect("dashboard/hotel", Response::notFound("Không tìm thấy hotel có id là " . $id));
       }
       $hotelTypes = $this->HotelTypeModel->all();
-      $this->HotelAmenityModel->setColOrderBy("hotel_id");
+      $this->HotelAmenityModel->setOrder("hotel_id");
       $hotelAmenities = $this->HotelAmenityModel->getAmenitiesByHotelId($id);
       $amenityCategories = $this->AmenityCategoryModel->all();
       $this->data['title'] = "Chỉnh sửa thông tin khách sạn";

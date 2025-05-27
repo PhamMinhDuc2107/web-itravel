@@ -8,7 +8,8 @@ class Hotel extends Controller
    private $HotelModel;
    private $HotelAmenityModel;
    private $HotelImageModel;
-
+   private $HotelReviewModel;
+   private $HotelReviewImageModel;
    
    public function __construct()
    {
@@ -17,6 +18,8 @@ class Hotel extends Controller
       $this->HotelModel = $this->model("HotelModel");
       $this->HotelAmenityModel = $this->model("HotelAmenityModel");
       $this->HotelImageModel = $this->model("HotelImageModel");
+      $this->HotelReviewModel = $this->model("HotelReviewModel");
+      $this->HotelReviewImageModel = $this->model("HotelReviewImageModel");
    }
    public function index()
    {
@@ -71,10 +74,32 @@ class Hotel extends Controller
       $res = $this->HotelAmenityModel->getHotelAmenityCategoryNames($hotel["id"]);
       $hotelImages = $this->HotelImageModel->where(["hotel_id" => $hotel['id']]);
       $hotel['images'] = $hotelImages;
+      $this->HotelReviewModel->setLimit(5);
+      $this->HotelReviewModel->setOrderBy("review_date");
+      $this->HotelReviewModel->setOrder("DESC");
+      $this->HotelReviewModel->setBaseModel();
+      $reviews = $this->HotelReviewModel->where(['hotel_id'=> $hotel['id']], true);
+      if(!empty($reviews)) {
+         $reviewIds = array_column($reviews, 'id');
+         $reviewImages = $this->HotelReviewImageModel->whereIn('review_id', $reviewIds);
+         $reviewData = [];
+         foreach ($reviews as $review) {
+            foreach ($reviewImages as $image) {
+               if($review['id'] === $image['review_id']) {
+                  $review['images'][] = $image;
+               }
+            }
+            $reviewData[] = $review;
+         }
+      }
+      $page = ceil($this->HotelReviewModel->getReviewCount(['hotel_id' => $hotel['id']]) / $this->HotelReviewModel->getLimit());
+      // pointer
+      $reviewAverageRatings  = $this->HotelReviewModel->getReviewAverageRatings($hotel['id']);
       $breadcrumbs = [
          ['name' => "Khách sạn", "link" => "khach-san"],
          ['name' => $hotel["name"], "link" => "khach-san/".$hotel["slug"]],
       ];
+      $this->data['totalPages'] = $page;
       $this->data['page'] ="hotel/detail";
       $this->data["destination"] = $destination;
       $this->data["departure"] = $departure;
@@ -83,9 +108,109 @@ class Hotel extends Controller
       $this->data['hotel'] = $hotel;
       $this->data['title'] = $hotel['name'];
       $this->data['heading'] = $hotel['name'];
+      $this->data['reviewData'] = $reviewData ?? $reviews;
+      $this->data['reviewAverageRatings'] = $reviewAverageRatings;
       $this->render('layouts/client_layout', $this->data);
    }
    public function createdHotelReview() {
+      if (!Request::isMethod("post")) {
+         echo json_encode(Response::badRequest("Phương thức không hợp lệ", []));
+         exit;
+      }
+      $data = Request::all("post");
+      if (!Util::checkCsrfToken($data['csrf_token'])) {
+         echo json_encode(Response::badRequest('Thất bại! Token không hợp lệ', []));
+         exit;
+      }
+      unset($data['csrf_token']);
+      $data['review_date'] = date("Y-m-d H:i:s");
+      $data['departure_date'] = Util::formatDate($data['departure_date'], "y-m-d");
+      $res = $this->HotelReviewModel->insert($data);
+      if (!$res) {
+         echo json_encode(Response::internalServerError('Thêm không thành công', []));
+         exit;
+      }
+      $idLastInsert = $this->HotelReviewModel->getLastInsertId();
+      $images = Request::all("file")['review_images'] ?? [];
+      if(!empty($images) && isset($images['size'][0]) && $images['size'][0] > 0) {
+         $checkImages = $this->processImages($idLastInsert,$images);
+         if (!$checkImages['success']) {
+            echo json_encode(Response::internalServerError($checkImages['msg'],[]));
+            exit;
+         }
+      }
+      echo json_encode(Response::success(("Thêm thành công")));
+   }
+   public function getHotelReviewAjax()  {
+      $hotelId= htmlspecialchars(Request::input("hotel_id", ""));
+      $tripType = htmlspecialchars(Request::input("tag", ""));
+      $sortOrder = htmlspecialchars(Request::input("sortOrder", "DESC"));
+      $sortBy = htmlspecialchars(Request::input("sortBy", "review_date"));
+      $page = (int)htmlspecialchars(Request::input("page", "1"));
+      $this->HotelReviewModel->setLimit(5);
+      $this->HotelReviewModel->setOffset($page);
+      $this->HotelReviewModel->setOrderBy($sortBy);   
+      $this->HotelReviewModel->setOrder($sortOrder);
+      $conditions = ['hotel_id' => $hotelId, "trip_type" => $tripType];
+      foreach ($conditions as $key => $value) {
+         if (empty($value)) {
+            unset($conditions[$key]);
+         }
+      }
+      $data = $this->HotelReviewModel->where($conditions, true);
+      
+      if(empty($data)) {
+         echo json_encode(Response::notFound("Không có đánh giá nào", []));
+         exit;
+      }
+      foreach ($data as $key => $review) {
+         $scoreString = Util::classifyScore($review['overall_rating']);
+         $data[$key]['scoreString'] = $scoreString;
+      }
+      $reviewIds = array_column($data, 'id');
+      $reviewImages = $this->HotelReviewImageModel->whereIn('review_id', $reviewIds);
+      // reviewData
+      $totalPages = ceil($this->HotelReviewModel->getReviewCount($conditions) / $this->HotelReviewModel->getLimit()); 
+      $reviewData = [];
+      foreach ($data as $review) {
+         foreach ($reviewImages as $image) {
+            if($review['id'] === $image['review_id']) {
+               $review['images'][] = $image;
+            }
+         }
+         $reviewData[] = $review;
+      }
+      $reviewData = [
+         'totalPages' => $totalPages,
+         'reviews' => $reviewData
+      ];
+      echo json_encode(Response::success("Lấy dữ liệu thành công",$reviewData));
+   }
+   public function editHotelReview() {
 
+   }
+   private function processImages($review_id, $images) {
+      
+      $pathAsset = '/public/uploads/review/';
+      $files = Util::convertListImgToArr($images);
+
+      foreach ($files as $file) {
+         $data = ["review_id" => $review_id];
+         $checkCreateImgPath = Util::createImagePath($file, $pathAsset);
+         if (!$checkCreateImgPath['success']) {
+            return ['success' => false, 'msg' => $checkCreateImgPath['msg']];
+         }
+         $newImgName = $checkCreateImgPath['name'];
+         $data['image'] = $newImgName;
+         $res = $this->HotelReviewImageModel->insert($data);
+         if (!$res) {
+            return ['success' => false, 'msg' => "Cập nhật ảnh cho tour không thành công"];
+         }
+         $checkUploadImg = Util::uploadImage($file, $newImgName);
+         if (!$checkUploadImg["success"]) {
+            return ['success' => false, 'msg' => $checkUploadImg['msg']];
+         }
+      }
+      return ["success" => true, "msg" => "Ok"];
    }
 }

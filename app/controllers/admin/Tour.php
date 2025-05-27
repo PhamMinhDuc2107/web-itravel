@@ -110,7 +110,7 @@ class Tour  extends Controller
             !empty(Request::input("price_baby")[0]) &&
             !empty(Request::input("price_children")[0])
          ) {
-            $dataPrice = $this->prepareTourPriceData();
+         $dataPrice = $this->prepareTourPriceData();
             $checkInsertPrice = $this->processTourPrice($id, $dataPrice, true);
             if (!$checkInsertPrice['success']) {
                throw new Exception("Cập nhật giá thất bại: " . $checkInsertPrice['msg']);

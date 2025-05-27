@@ -81,10 +81,10 @@ class Tour extends Controller
       $listImg = $this->TourImgModel->where(['tour_id' => $tour["id"]]);
       $listPriceCalendar = $this->TourPriceCalendarModel->where(['tour_id' => $tour["id"]]);
 
-      $this->TourItineraryModel->setColOrderBy("day_number");
+      $this->TourItineraryModel->setOrderBy("day_number");
       $tourItinerary = $this->TourItineraryModel->where(['tour_id' => $tour['id']]);
 
-      $this->TourNoteModel->setColOrderBy("number");
+      $this->TourNoteModel->setOrderBy("number");
       $tourNotes = $this->TourNoteModel->where(['tour_id' => $tour['id']]);
 
       $this->data['tourItinerary'] = $tourItinerary;
