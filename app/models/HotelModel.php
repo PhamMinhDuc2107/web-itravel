@@ -9,9 +9,12 @@ class HotelModel extends Model
       $sql = "
          SELECT 
             $this->table.*,
-            ht.name AS hotel_type_name
-            FROM hotels
+            ht.name AS hotel_type_name,
+            AVG(hr.overall_rating) as avg_overall_rating,
+            count(hr.overall_rating) as total_review
+            FROM $this->table
             LEFT JOIN hotel_types ht ON $this->table.hotel_type_id = ht.id
+            LEFT JOIN hotel_reviews hr ON $this->table.id = hr.hotel_id 
       ";
       $sql .= " GROUP BY {$this->table}.{$this->colOrderBy}";
       $sql .= " ORDER BY {$this->colOrderBy} {$this->order} ";

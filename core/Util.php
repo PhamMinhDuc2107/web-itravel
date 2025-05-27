@@ -467,9 +467,9 @@ class Util
                return "Tuyệt vời";
          case ($score >= 8 && $score < 9):
                return "Xuất sắc";
-         case ($score >= 6.5 && $score < 8):
+         case ($score >= 7 && $score < 8):
                return "Tốt";
-         case ($score >= 5 && $score < 6.5):
+         case ($score >= 5 && $score < 7):
                return "Trung bình";
          case ($score >= 1 && $score < 5):
                return "Kém";

@@ -188,6 +188,7 @@
          padding: 1rem;
          border-radius: 0.6rem;
          border: 0.1rem solid rgba(126, 122, 122, 0.1);
+         min-height: 20rem;
          .amenity__list {
             @include flex(start, start, row, wrap);
             gap: 1rem;
@@ -196,7 +197,11 @@
          .amenity__item {
             width: calc(50% - 1rem);
             @include flex(center, start);
-            gap: 0.5rem;
+            gap: 1rem;
+            img {
+               @include size(2rem);
+               object-fit: cover;
+            }
          }
          .amenity__head {
             @include flex(center, space-between);

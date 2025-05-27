@@ -9,6 +9,17 @@
       border-radius: 0.6rem;
       background-color: #f8f8f8;
       padding:0  1rem;
+      &--top {
+         @include flex(center, space-between);
+         
+      }
+      .sidebar__btn--remove {
+         color: $primary-color;
+         font-weight: bold;
+         display: none;
+         cursor: pointer;
+      }
+
       &--title {
          font-size: 1.8rem;
          font-weight: bold;
@@ -30,7 +41,6 @@
          }
          .filter__item {
             position: relative;
-
             label {
                cursor: pointer;
                &:after {

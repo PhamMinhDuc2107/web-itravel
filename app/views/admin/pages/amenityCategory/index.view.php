@@ -57,6 +57,8 @@
                               </th>
                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên
                               </th>
+                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Icon
+                              </th>
                               <th
                                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                  Ngày tạo</th>
@@ -74,10 +76,20 @@
                                        <input type="checkbox" name="id[]" class="mx-auto input-checkbox"
                                           value="<?php echo $item['id'] ?>" style="width: 15px; height:15px">
                                     </td>
+                                    
                                     <td>
                                        <div class="d-flex px-2 py-1">
                                           <div class="d-flex flex-column justify-content-center">
                                              <h6 class="mb-0 text-sm"><?php echo $item["name"] ?></h6>
+                                          </div>
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <div class="d-flex px-2 py-1">
+                                          <div class="d-flex flex-column justify-content-center">
+                                             <img src="<?php echo _WEB_ROOT .$item['image'] ?>"
+                                                alt="<?php echo $item['name'] ?>" class="rounded-circle"
+                                                style="width: 50px; height: 50px; object-fit: cover;">
                                           </div>
                                        </div>
                                     </td>
@@ -175,7 +187,7 @@
    </div>
 </div>
 <div class="modal fade" id="modalCreated" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <form method="post" action="<?php echo _WEB_ROOT . "/dashboard/amenityCategory-create" ?>" class="modal-dialog">
+   <form method="post" action="<?php echo _WEB_ROOT . "/dashboard/amenityCategory-create" ?>" class="modal-dialog" enctype="multipart/form-data">
       <div class="modal-content">
          <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm danh mục</h1>
@@ -186,6 +198,16 @@
                <label for="title" class="form-label">Danh mục</label>
                <input type="text" class="form-control" id="title" name="title" aria-describedby="usernameHelp" value="">
             </div>
+             <div class="mb-3">
+                    <label for="images" class="form-label d-block">Hình ảnh</label>
+                    <input type="file" class="form-control" id="imageCreateBlog" name="image"
+                           aria-describedby="usernameHelp" value="" style="display: none">
+                    <label for="imageCreateBlog" style=" width: 250px;height: 250px;"
+                           class="d-flex justify-content-center align-items-center flex-column circle text-primary border border-2 rounded-2 position-relative">
+                        <img src="<?php echo ASSET ?>/admin/img/upload-6699084_640.webp" id="previewImageBlog" alt=""
+                             style="height: 100px; object-fit: cover;">
+                    </label>
+                </div>
             <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
          </div>
          <div class="modal-footer">

@@ -10,6 +10,7 @@ class Hotel extends Controller
    private $HotelImageModel;
    private $HotelReviewModel;
    private $HotelReviewImageModel;
+   private $HotelTypeModel;
    
    public function __construct()
    {
@@ -20,6 +21,7 @@ class Hotel extends Controller
       $this->HotelImageModel = $this->model("HotelImageModel");
       $this->HotelReviewModel = $this->model("HotelReviewModel");
       $this->HotelReviewImageModel = $this->model("HotelReviewImageModel");
+      $this->HotelTypeModel = $this->model("HotelTypeModel");
    }
    public function index()
    {
@@ -50,6 +52,8 @@ class Hotel extends Controller
          $dataHotels[$hotel['id']]['images'] = $dataImages;
          $dataHotels[$hotel['id']]['amenities'] = $dataHotelAmenities;
       }
+      $hotelTyes = $this->HotelTypeModel->all(); 
+
       $breadcrumbs = [
          ['name' => "Đặt phòng khách sạn", "link" => "dat-phong-khach-san"],
       ];
@@ -61,6 +65,7 @@ class Hotel extends Controller
       $this->data["categories"] = $categories;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['hotels'] = $dataHotels;
+      $this->data['hotelTypes'] = $hotelTyes;
       $this->render("layouts/client_layout", $this->data);
    }
    public function detail($slug) {
@@ -71,7 +76,9 @@ class Hotel extends Controller
       $categories = $this->CategoryModel->all();
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
-      $res = $this->HotelAmenityModel->getHotelAmenityCategoryNames($hotel["id"]);
+      $amenityCategories = $this->HotelAmenityModel->getHotelAmenityCategory(["hotel_id" => $hotel["id"]]);
+      $hotelAmenities = $this->HotelAmenityModel->getAmenitiesByHotelId($hotel["id"]);
+
       $hotelImages = $this->HotelImageModel->where(["hotel_id" => $hotel['id']]);
       $hotel['images'] = $hotelImages;
       $this->HotelReviewModel->setLimit(5);
@@ -99,6 +106,9 @@ class Hotel extends Controller
          ['name' => "Khách sạn", "link" => "khach-san"],
          ['name' => $hotel["name"], "link" => "khach-san/".$hotel["slug"]],
       ];
+      $this->data['amenityCategories'] = $amenityCategories;
+      $this->data['hotelAmenities'] = $hotelAmenities;
+
       $this->data['totalPages'] = $page;
       $this->data['page'] ="hotel/detail";
       $this->data["destination"] = $destination;

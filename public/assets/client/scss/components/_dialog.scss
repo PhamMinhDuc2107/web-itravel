@@ -5,7 +5,6 @@
    right: 0;
    left: 0;
    border-radius: 0.8rem;
-   overflow: hidden;
    z-index: 99999;
    background-color: transparent;
    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
@@ -103,22 +102,28 @@
    // hotel detail amenity
    &__amenity {
       &--wrap {
-         margin-bottom: 2rem;
+         margin-bottom: 3rem;
+         img {
+            @include size(2rem);
+         }
       }
       &--title {
          font-size: 2.4rem;
          font-weight: bold;
-         margin-bottom: 2rem;
+         margin-bottom: 3rem;
          @include flex(center, start);
          gap: 1rem;
       }
       &--list {
          @include flex(center, start, row, wrap);
-         gap: 10rem;
+         column-gap: 10rem;
+         row-gap: 2rem;
       }
       &--item {
          @include flex(center, start);
          gap: 1rem;
+         width: calc(33.3333% - 6.75rem);
+         
       }
    }
 

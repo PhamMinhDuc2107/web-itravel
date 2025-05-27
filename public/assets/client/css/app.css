@@ -340,7 +340,6 @@ body {
   right: 0;
   left: 0;
   border-radius: 0.8rem;
-  overflow: hidden;
   z-index: 99999;
   background-color: transparent;
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
@@ -448,12 +447,16 @@ body {
   color: #fff;
 }
 .dialog__amenity--wrap {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+}
+.dialog__amenity--wrap img {
+  width: 2rem;
+  height: 2rem;
 }
 .dialog__amenity--title {
   font-size: 2.4rem;
   font-weight: bold;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   display: flex;
   align-items: center;
   justify-content: start;
@@ -467,7 +470,8 @@ body {
   justify-content: start;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 10rem;
+  column-gap: 10rem;
+  row-gap: 2rem;
 }
 .dialog__amenity--item {
   display: flex;
@@ -476,6 +480,7 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 1rem;
+  width: calc(33.3333% - 6.75rem);
 }
 
 .loader {
@@ -3613,6 +3618,19 @@ body {
   background-color: #f8f8f8;
   padding: 0 1rem;
 }
+.hotel__sidebar--top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.hotel__sidebar .sidebar__btn--remove {
+  color: #23bda4;
+  font-weight: bold;
+  display: none;
+  cursor: pointer;
+}
 .hotel__sidebar--title {
   font-size: 1.8rem;
   font-weight: bold;
@@ -4235,6 +4253,7 @@ body {
   padding: 1rem;
   border-radius: 0.6rem;
   border: 0.1rem solid rgba(126, 122, 122, 0.1);
+  min-height: 20rem;
 }
 .hotelDetail .section__info--amenity .amenity__list {
   display: flex;
@@ -4252,7 +4271,12 @@ body {
   justify-content: start;
   flex-direction: row;
   flex-wrap: nowrap;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+.hotelDetail .section__info--amenity .amenity__item img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
 }
 .hotelDetail .section__info--amenity .amenity__head {
   display: flex;

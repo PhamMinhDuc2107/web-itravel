@@ -7,7 +7,7 @@ class HotelAmenityModel extends Model
    public function getAmenitiesByHotelId($hotel_id)
    {
       $sql = "
-         SELECT $this->table.*, a.name,a.id 
+         SELECT $this->table.*, a.name,a.id, a.category_id
          FROM $this->table
          JOIN amenities a ON $this->table.amenity_id = a.id
          WHERE $this->table.hotel_id = :hotel_id
@@ -27,16 +27,21 @@ class HotelAmenityModel extends Model
       $stmt = $this->_query($sql);
       return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
    }
-   public function getHotelAmenityCategoryNames($hotel_id) {
+   public function getHotelAmenityCategory($conditions) {
       $sql = "
-         SELECT DISTINCT ac.name
+         SELECT DISTINCT ac.name, ac.image as image, ac.id
          FROM hotel_amenities ha
          JOIN amenities a ON ha.amenity_id = a.id
          JOIN amenity_categories ac ON a.category_id = ac.id
-         WHERE ha.hotel_id = :hotel_id
       ";
-      $stmt = $this->_query($sql, ['hotel_id' => $hotel_id]);
-      return $stmt ? array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'name') : [];
+      $params = [];
+      foreach ($conditions as $key => $value) {
+         $sql .= "WHERE $key = :$key AND";
+         $params[":$key"] = $value;
+      }
+      $sql = trim($sql," AND");
+      $stmt = $this->_query($sql, $params);
+      return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
    }
 
 }

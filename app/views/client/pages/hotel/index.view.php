@@ -2,28 +2,31 @@
    <div class="container">
       <div class="hotel__container">
          <div class="hotel__sidebar">
-            <h3 class="hotel__sidebar--title">Bộ lọc</h3>
+            <div class="hotel__sidebar--top">
+               <h3 class="hotel__sidebar--title">Bộ lọc</h3>
+               <span class="sidebar__btn--remove">Xóa lọc</span>
+            </div>
             <div class="hotel__sidebar--list">
                <div class="hotel__sidebar--item">
-                  <h5 class="item__title">
-                     Giá mỗi đêm
-                  </h5>
+                     <h5 class="item__title">
+                        Giá mỗi đêm
+                     </h5>
                   <div class="filter__list">
-                     <div class="filter__item">
+                     <div class="filter__item" data-type="budgetId" data-value="1">
                         <input type="checkbox" id="price1">
-                        <label for="price1">Dưới 5 triệu</label>
+                        <label for="price1" >Dưới 5 triệu</label>
                      </div>
-                     <div class="filter__item">
+                     <div class="filter__item" data-type="budgetId" data-value="2">
                         <input type="checkbox" id="price2">
-                        <label for="price2">Từ 5 - 10 triệu </label>
+                        <label for="price2" >Từ 5 - 10 triệu </label>
                      </div>
-                     <div class="filter__item">
+                     <div class="filter__item" data-type="budgetId" data-value="3">
                         <input type="checkbox" id="price3">
-                        <label for="price3">Từ 10 - 20 triệu </label>
+                        <label for="price3" >Từ 10 - 20 triệu </label>
                      </div>
-                     <div class="filter__item">
+                     <div class="filter__item" data-type="budgetId" data-value="4">
                         <input type="checkbox" id="price4">
-                        <label for="price4">Trên 20 triệu </label>
+                        <label for="price4" >Trên 20 triệu </label>
                      </div>
                   </div>
                </div>
@@ -32,40 +35,43 @@
                      Loại khách sạn
                   </h5>
                   <div class="filter__list">
-                     <div class="filter__item">
-                        <input type="checkbox" id="1">
-                        <label for="1">Khách sạn</label>
-                     </div>
-                     <div class="filter__item">
-                        <input type="checkbox" id="2">
-                        <label for="2">Khách sạn căn hộ </label>
-                     </div>
-                     <div class="filter__item">
-                        <input type="checkbox" id="3">
-                        <label for="3">Khu nghỉ dưỡng </label>
-                     </div>
-                     <div class="filter__item">
-                        <input type="checkbox" id="4">
-                        <label for="4">Căn hộ cao cấp</label>
-                     </div>
-                  </div>
+                     <?php $hotelTypes = $data['hotelTypes'] ?? [];
+                     ?>
+                     <?php if(!empty($hotelTypes)): ?>
+                        <?php foreach($hotelTypes as $hotelType): ?>
+                           <div class="filter__item" data-type="hotelType" data-value="<?php echo $hotelType['id']?>">
+                              <input type="checkbox" id="<?php echo "ht".$hotelType['id']?>">
+                              <label for="<?php echo "ht".$hotelType['id']?>" ><?php
+                              echo $hotelType['name']?></label>
+                           </div>
+                        <?php endforeach?>
+                     <?php endif?>
+                        </div>
                </div>
                <div class="hotel__sidebar--item">
                   <h5 class="item__title">
                      Đánh giá của khách hàng
                   </h5>
                   <div class="filter__list">
-                     <div class="filter__item">
+                     <div class="filter__item" data-type="sortRating" data-value="9,10">
                         <input type="checkbox" id="01">
                         <label for="01">Tuyệt vời(9.0+)</label>
                      </div>
-                     <div class="filter__item">
+                     <div class="filter__item" data-type="sortRating" data-value="8,9">
                         <input type="checkbox" id="02">
                         <label for="02">Rất tốt(8.0+)</label>
                      </div>
-                     <div class="filter__item">
+                     <div class="filter__item" data-type="sortRating" data-value="7,8">
                         <input type="checkbox" id="03">
-                        <label for="03">Tốt(7.0+) </label>
+                        <label for="03">Tốt(7.0+)</label>
+                     </div>
+                     <div class="filter__item" data-type="sortRating" data-value="5,7">
+                        <input type="checkbox" id="04">
+                        <label for="04">Trung bình(5.0+)</label>
+                     </div>
+                     <div class="filter__item" data-type="sortRating" data-value="1,5">
+                        <input type="checkbox" id="05">
+                        <label for="05">Kém(1.0+)</label>
                      </div>
                   </div>
                </div>
@@ -75,19 +81,19 @@
             <div class="hotel__sortbar">
                <span>Sắp xếp:</span>
                <ul class="hotel__sortbar--list">
-                  <li class="hotel__sortbar--item hotel__sortbar--active">
+                  <li class="hotel__sortbar--item hotel__sortbar--active" data-order="default" data-orderBy="default">
                      Mặc định
                   </li>
-                  <li class="hotel__sortbar--item">
+                  <li class="hotel__sortbar--item" data-order="asc" data-orderBy="price">
                      Rẻ nhất
                   </li>
-                  <li class="hotel__sortbar--item">
+                  <li class="hotel__sortbar--item" data-order="desc" data-orderBy="price">
                      Đắt nhất
                   </li>
-                  <li class="hotel__sortbar--item">
+                  <li class="hotel__sortbar--item" data-order="desc" data-orderBy="rating">
                      Hạng sao
                   </li>
-                  <li class="hotel__sortbar--item">
+                  <li class="hotel__sortbar--item" data-order="desc" data-orderBy="overall_rating">
                      Đánh giá
                   </li>
                </ul>
@@ -128,9 +134,9 @@
                         <span><?php echo $hotel['hotel_type_name']?></span>
                      </div>
                      <div class="info__review">
-                        <span class="info__review--number">8.9</span>
-                        <span class="info__review--text">Rất tốt</span>
-                        <span class="info__review--quantity">(50 đánh giá)</span>
+                        <span class="info__review--number"><?php echo round($hotel['avg_overall_rating'],1)?></span>
+                        <span class="info__review--text"><?php echo Util::classifyScore($hotel['avg_overall_rating'])?></span>
+                        <span class="info__review--quantity">(<?php echo $hotel["total_review"]?> đánh giá)</span>
                      </div>
                      <div class="info__location">
                         <svg fill="#333" height="20px" width="20px" version="1.1" id="Capa_1"
@@ -245,16 +251,98 @@
 </section>
 
 <script type="text/javascript">
-   document.addEventListener("DOMContentLoaded", () => {
-      const hotelSortBarList = document.querySelector('.hotel__sortbar--list')
-      const hotelSortBarItems = document.querySelectorAll(".hotel__sortbar--item")
-      hotelSortBarList.addEventListener("click", (e) => {
-         if (e.target.classList.contains("hotel__sortbar--item")) {
-            hotelSortBarItems.forEach((item) => item.classList.remove("hotel__sortbar--active"))
-            e.target.classList.add("hotel__sortbar--active")
+   const requestData = {
+            budgetId:[],
+            hotelType:[],
+            sortRating:[],
          }
-      })
-   })
+      const buildUrl = (param, value) => {
+         const url = new URL(window.location);
+         url.searchParams.set(param, value);
+         window.history.pushState({}, '', url);
+      }
+      const deleteParam = (params) => {
+         const url = new URL(window.location);
+         params.forEach(param => {
+            url.searchParams.delete(param);
+         });
+         window.history.pushState({}, '', url);
+      }
+      // check input
+      const btnRemove  = document.querySelector(".sidebar__btn--remove")
+
+      const checkInput = () => {
+         const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+         if (checkboxes.length > 0) {
+            btnRemove.style.display= "block";
+         }else {
+            btnRemove.style.display= "none";
+
+         }
+      }
+         // clear input checked
+      const clearCheckedInput = () => {
+         const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+         checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+         });
+         btnRemove.style.display= "none";
+
+         requestData['budgetId'] = [];
+         requestData['hotelType'] = [];
+         requestData['sortRating'] = [];
+         deleteParam(['budgetId', "hotelType", "sortRating"])
+      };
+      // handleClickRemoveChecked
+      btnRemove.addEventListener("click", clearCheckedInput)
+      document.addEventListener("DOMContentLoaded", function() { 
+         
+         const inputs = document.querySelectorAll(".filter__item input[type='checkbox']");
+         
+         Array.from(inputs).forEach(input => {
+               input.addEventListener("change", (e) => {
+                  const filterItem = e.target.parentNode;
+                  if (filterItem) {
+                     const dataType = filterItem.dataset.type; 
+                     const dataValue = filterItem.dataset.value;
+                        if(!(dataType in requestData)) {
+                        requestData[dataType] = dataValue;
+                        return;
+                     }
+                     requestData[dataType].push(dataValue);
+                     buildUrl(dataType, requestData[dataType].length <= 1 ? requestData[dataType][0] : requestData[dataType].join(","))
+                     checkInput()
+                  }
+               });
+         });
+         
+         // sortbar
+         const hotelSortBarList = document.querySelector('.hotel__sortbar--list')
+         const hotelSortBarItems = document.querySelectorAll(".hotel__sortbar--item")
+         hotelSortBarList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("hotel__sortbar--item")) {
+               hotelSortBarItems.forEach((item) => item.classList.remove("hotel__sortbar--active"))
+               e.target.classList.add("hotel__sortbar--active")
+               const order = e.target.dataset.order;
+               const orderBy = e.target.dataset.orderby;
+               if(order === "default" || orderBy === "default") {
+                  deleteParam(['order', "orderBy"])
+                  delete requestData['order']
+                  delete requestData['orderBy']
+                  return;
+               }
+               requestData['order'] = order
+               requestData['orderBy'] = orderBy
+               buildUrl("order",order)
+               buildUrl("orderBy",orderBy)
+               console.log(requestData)
+            }
+         })
+         // const fetchHotel = () => {
+         //    const url = 
+         // }
+      });
+
 </script>
 
 <script type="text/javascript">

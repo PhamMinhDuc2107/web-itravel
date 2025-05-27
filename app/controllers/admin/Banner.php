@@ -144,7 +144,7 @@ class Banner extends Controller
       }
       foreach ($listID as $id) {
          $blog = $this->BannerModel->find($id);
-         $pathImg = _DIR_ROOT . '/' . $blog["image"];
+         $pathImg = _DIR_ROOT  . $blog["image"];
          $checkDeleteImg = Util::deleteImage($pathImg);
          if (!$checkDeleteImg['success']) {
             Util::redirect("dashboard/banner", Response::badRequest($checkDeleteImg['message']));

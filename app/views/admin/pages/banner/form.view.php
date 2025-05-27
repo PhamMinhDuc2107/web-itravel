@@ -17,7 +17,7 @@
                         <div class="mb-3">
                             <label for="title" class="form-label">Tiêu đề ảnh</label>
                             <input type="text" class="form-control" id="title" name="title"
-                                   aria-describedby="usernameHelp" value="<?php echo $banner['title'] ?>">
+                            aria-describedby="usernameHelp" value="<?php echo $banner['title'] ?>">
                         </div>
                         <div class="mb-3">
                             <label for="sort_order" class="form-label">Số thứ tự</label>

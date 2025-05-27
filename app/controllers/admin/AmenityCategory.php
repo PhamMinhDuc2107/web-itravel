@@ -36,10 +36,28 @@ class AmenityCategory extends Controller
       if ($name === "") {
          Util::Redirect("dashboard/amenityCategory", Response::badRequest("Vui lòng điền đẩy đủ thông tin"));
       }
-      $data = ["name" => $name];
+      $file = Request::file("image") ?? [];
+      if (!$file || empty($file['name'])) {
+         Util::redirect("dashboard/amenityCategory", Response::badRequest("Vui lòng điền đầy đủ thông tin"));
+      }
+      $pathAsset = '/public/uploads/amenity/';
+      $checkCreateImgPath = Util::createImagePath($file, $pathAsset);
+      if (!$checkCreateImgPath["success"]) {
+         Util::redirect('dashboard/banner', Response::badRequest($checkCreateImgPath['msg']));
+      }
+
+      $thumb = $checkCreateImgPath['name'];
+      $data = ["name" => $name, "image" => $thumb];
       $res =  $this->AmenityCategoryModel->insert($data);
+
       if (!$res) {
          Util::Redirect("dashboard/amenityCategory", Response::internalServerError("Tạo không thành công"));
+      }
+      $id = $this->AmenityCategoryModel->getLastInsertId();
+      $checkUpload = Util::uploadImage($file, $thumb);
+      if (!$checkUpload["success"]) {
+         $this->AmenityCategoryModel->delete($id);
+         Util::redirect('dashboard/amenityCategory', Response::badRequest($checkUpload['msg']));
       }
       Util::redirect("dashboard/amenityCategory", Response::success("Tạo thành công"));
    }
@@ -61,17 +79,45 @@ class AmenityCategory extends Controller
          Util::redirect("dashboard/amenityCategory", Response::methodNotAllowed("Phương thức không hợp lệ"));
       }
       $id = htmlspecialchars(Request::input("id"));
+      $amenityCategory = $this->AmenityCategoryModel->find($id);
       if ($id <= 0 || !is_numeric($id)) {
          Util::Redirect("dashboard/amenityCategory", Response::badRequest("Id không hợp lệ"));
       }
       $name = htmlspecialchars(Request::input("title"));
       if ($name === "") {
-         Util::redirect('cpanel/category', Response::badRequest("vui lòng điền đẩy đủ thông tin"));
+         Util::redirect('cpanel/amenityCategory', Response::badRequest("vui lòng điền đẩy đủ thông tin"));
       }
       $data = ["name" => $name];
+      $img = Request::file("image");
+      $oldImagePath = $amenityCategory['image'];
+      $newImagePath = null;
+      if ($img && !empty($img['name'])) {
+         $pathAsset = '/public/uploads/amenity/';
+         $checkCreateImgPath = Util::createImagePath($img, $pathAsset);
+
+         if (!$checkCreateImgPath["success"]) {
+            Util::redirect('dashboard/amenityCategory', Response::badRequest($checkCreateImgPath['msg']));
+         }
+         $newImagePath = $checkCreateImgPath['name'];
+
+         $data['image'] = $newImagePath;
+      }
       $res = $this->AmenityCategoryModel->update($data, $id);
       if (!$res) {
          Util::Redirect("dashboard/amenityCategory", Response::internalServerError("Cập nhật không thành công"));
+      }
+      if ($newImagePath !== null) {
+         $uploadSuccess = Util::uploadImage($img, $newImagePath);
+         if (!$uploadSuccess["success"]) {
+            Util::redirect('dashboard/amenityCategory', Response::badRequest($uploadSuccess['msg']));
+         }
+         if(!empty($oldImagePath) && $oldImagePath !== null) {
+            $checkDeleteImg = Util::deleteImage(_DIR_ROOT . $oldImagePath);
+            if (!$checkDeleteImg["success"]) {
+               Util::redirect('dashboard/amenityCategory', Response::badRequest($checkDeleteImg['msg']));
+            }
+         } 
+         
       }
       Util::redirect("dashboard/amenityCategory", Response::success("cập nhật thành cồng"));
    }
@@ -90,7 +136,17 @@ class AmenityCategory extends Controller
          }
       }
       foreach ($listID as $id) {
+         $amenity = $this->AmenityCategoryModel->find($id);
+         if(!empty($amenity['image']) && $amenity['image'] !== null) {
+            echo 1;
+            $pathImg = _DIR_ROOT . $amenity["image"];
+            $checkDeleteImg = Util::deleteImage($pathImg);
+            if (!$checkDeleteImg['success']) {
+               Util::redirect("dashboard/amenityCategory", Response::badRequest($checkDeleteImg['message']));
+            }
+         } 
          $this->AmenityCategoryModel->delete($id);
+         
       }
       Util::redirect("dashboard/amenityCategory", Response::success("Xóa thành công"));
    }
