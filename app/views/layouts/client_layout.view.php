@@ -10,27 +10,27 @@
 		</title>
 		<meta name="robots" content="index, follow" />
 		<meta name="description"
-			content="<?php echo $data['desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất. Đặt tour ngay hôm nay để nhận ưu đãi đặc biệt và trải nghiệm dịch vụ chuyên nghiệp." ?>" />
+			content="<?php echo $data['seo_desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất. Đặt tour ngay hôm nay để nhận ưu đãi đặc biệt và trải nghiệm dịch vụ chuyên nghiệp." ?>" />
 		<meta name=" keywords"
-			content="<?php echo $data['kw'] ?? "tour du lịch, tour du lịch trong nước, tour du lịch quốc tế, tour du lịch giá rẻ, đặt tour du lịch, đặt tour du lịch trong nước, đặt tour du lịch quốc tế, giá tour du lịch" ?>" />
+			content="<?php echo $data['seo_kw'] ?? "tour du lịch, tour du lịch trong nước, tour du lịch quốc tế, tour du lịch giá rẻ, đặt tour du lịch, đặt tour du lịch trong nước, đặt tour du lịch quốc tế, giá tour du lịch" ?>" />
 		<meta name="author" content="ITravel" />
 		<!-- Tags  -->
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="<?php echo _WEB_ROOT . $_SERVER['REQUEST_URI']; ?>" />
 		<meta property="og:title"
-			content="<?php echo $data['og_title'] ?? $data['title'] ?? "Tour du lịch trong nước và quốc tế | ITravel"; ?>" />
+			content="<?php echo $data['seo_og_title'] ?? $data['title'] ?? "Tour du lịch trong nước và quốc tế | ITravel"; ?>" />
 		<meta property="og:description"
-			content="<?php echo $data['og_desc'] ?? $data['desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất. Đặt tour ngay hôm nay để nhận ưu đãi đặc biệt."; ?>" />
-		<meta property="og:image" content="<?php echo $data['og_image'] ?? ASSET . "/client/images/itravel.png"; ?>" />
+			content="<?php echo $data['seo_og_desc'] ?? $data['desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất. Đặt tour ngay hôm nay để nhận ưu đãi đặc biệt."; ?>" />
+		<meta property="og:image" content="<?php echo $data['seo_og_image'] ?? ASSET . "/client/images/itravel.png"; ?>" />
 		<meta property="og:locale" content="vi_VN" />
-		<meta property="og:site_name" content="<?php echo _WEB_ROOT ?> - Tour du lịch" />
+		<meta property="og:site_name" content="<?= _WEB_ROOT ?> - Tour du lịch" />
 
 		<!-- Twitter Tags -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title"
-			content="<?php echo $data['title'] ?? "Tour du lịch trong nước và quốc tế | ITravel"; ?>" />
+			content="<?php echo $data['seo_og_title'] ?? "Tour du lịch trong nước và quốc tế | ITravel"; ?>" />
 		<meta name="twitter:description"
-			content="<?php echo $data['desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất."; ?>" />
+			content="<?php echo $data['seo_og_desc'] ?? "Itravel cung cấp các tour du lịch trong nước và quốc tế với giá tốt nhất."; ?>" />
 		<meta name="twitter:image" content="<?php echo $data['og_image'] ?? ASSET . "/client/images/itravel.png"; ?>" />
 
 		<link id="metaCanonical" rel='canonical' href="

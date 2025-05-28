@@ -73,6 +73,11 @@ class Home extends Controller
       $this->data["listTourCate"] = $listTourCate;
       $this->data["listLocationCate"] = $listLocationCate;
       $this->data["listBlogHot"] = $listBlogHot;
+      // seo
+      $this->data['seo_desc'] = "Hệ thống đặt tour du lịch, khách sạn online, visa,hộ chiếu";
+      $this->data["seo_kw"] = "Itravel, Du lịch, Tour du lịch, Khách sạn, Combo, Itravel.io.vn, Đặt tour du lịch, Đặt khách sạn, visa, hộ chiếu";
+      $this->data['seo_og_title'] = "Hệ thống bán tour hàng đầu Việt Nam | Du lịch Itravel";
+      $this->data["seo_og_desc"] = "Khám phá hàng trăm tour du lịch hấp dẫn, đặt khách sạn giá tốt, làm visa - hộ chiếu tiện lợi chỉ với vài bước tại Itravel.";
       $this->data["js"] = "home";
       $this->render("layouts/client_layout", $this->data);
    }

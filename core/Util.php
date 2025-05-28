@@ -474,7 +474,37 @@ class Util
          case ($score >= 1 && $score < 5):
                return "Kém";
          default:
-            return "Điểm không hợp lệ";
+            return "Chưa có đánh giá";
+      }
+   }
+   public static function getPriceRange($price)
+   {
+      switch ($price) {
+         case 1:
+            return ['start' => 0, 'end' => 4999999];
+         case 2:
+            return ['start' => 5000000, 'end' => 9999999];
+         case 3:
+            return ['start' => 10000000, 'end' => 19999999];
+         case 4:
+            return ['start' => 20000000, 'end' => 1000000000];
+         default:
+            return null;
+      }
+   }
+   public static function getOverallRating($rating)
+   {
+      switch ($rating) {
+         case 1:
+            return ['start' => 9, 'end' => 10];
+         case 2:
+            return ['start' => 8, 'end' => 9];
+         case 3:
+            return ['start' => 7, 'end' => 8];
+         case 4:
+            return ['start' => 5, 'end' => 7];
+         case 5:
+            return ['start' => 0, 'end' => 5];
       }
    }
 

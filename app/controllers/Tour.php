@@ -54,7 +54,11 @@ class Tour extends Controller
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['totalPages'] = $totalPages;
       $this->data['tours'] = $tours;
-
+      // seo
+      $this->data['seo_desc'] = "Khám phá tour du lịch hấp dẫn trong và ngoài nước với giá ưu đãi. Đặt tour dễ dàng, khởi hành linh hoạt, dịch vụ chuyên nghiệp từ Itravel.";
+      $this->data["seo_kw"] = "tour du lịch, đặt tour, tour trong nước, tour nước ngoài, tour giá rẻ, tour cao cấp, Itravel, du lịch trọn gói, tour theo yêu cầu";
+      $this->data['seo_og_title'] = "Đặt Tour Du Lịch Trọn Gói Giá Tốt | Itravel.com";
+      $this->data["seo_og_desc"] = "Itravel cung cấp hàng trăm tour du lịch trong và ngoài nước, khởi hành hàng ngày. Dễ dàng đặt tour, giá hợp lý, hỗ trợ tận tâm.";
       $this->render("layouts/client_layout", $this->data);
    }
 
@@ -68,7 +72,6 @@ class Tour extends Controller
       if (empty($tour) && !is_array($tour)) {
          Util::loadError();
       }
-
       $breadcrumbs = [
          ['name' => "Du lịch", "link" => "/du-lich"],
 
@@ -88,7 +91,6 @@ class Tour extends Controller
       $tourNotes = $this->TourNoteModel->where(['tour_id' => $tour['id']]);
 
       $this->data['tourItinerary'] = $tourItinerary;
-      $this->data["title"] = $tour['name'];
       $this->data['heading'] = $tour['name'];
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['tour'] = $tour;
@@ -97,6 +99,24 @@ class Tour extends Controller
       $this->data['relatedTour'] = $relatedTour;
       $this->data['tourNotes'] = $tourNotes;
       $this->data["page"] = "tour/detail";
+      // seo
+      $this->data['title'] = $tour['name'] . ' từ ' . $tour['departure_name'] . ' | Itravel';
+      $this->data['seo_desc'] = 'Khám phá tour ' . $tour['name'] . ' khởi hành từ ' . $tour['departure_name'] . ', giá chỉ ' . number_format($tour['adult_price'], 0, ',', '.') . 'đ. Hành trình ' . $tour['duration'] . ', khám phá thiên nhiên hùng vĩ ' .$tour["destination_name"].".";
+      $this->data['seo_kw'] = implode(', ', [
+         $tour['name'],
+         'tour ' . strtolower($tour['destination_name']),
+         'tour ' . strtolower($tour['departure_name']),
+         'du lịch ' . strtolower($tour['destination_name']),
+         'tour giá rẻ',
+         'tour ' . strtolower($tour['duration']),
+         'Itravel',
+      ]);
+
+      $this->data['seo_og_title'] = $tour['name'] . ' | Tour ' . $tour['duration'] . ' | Itravel';
+
+      $this->data['seo_og_desc'] = $tour['description'] ?? $this->data['seo_desc'];
+
+      $this->data['seo_og_image'] = $tour['image'];
 
       $this->render("layouts/client_layout", $this->data);
    }
@@ -144,14 +164,30 @@ class Tour extends Controller
          ['name' => $categoryName, 'link' => "{$category['slug']}"]
       ];
       $title = $categoryName;
-      if (in_array($slug, ['tour-trong-nuoc', 'tour-nuoc-ngoai'])) {
+      if (in_array($slug, ['tour-trong-nuoc', 'tour-nuoc-ngoai',"tour-cao-cap","tour-combo-gia-re"])) {
          $this->data['typeTour'] = $filters['typeTour'];
       }
-      $this->data["title"] = "ITravel | " . $title;
+      $seo = $this->generateSeoForCategory($category['slug']);
+      $this->data["title"] = $seo['title'];
       $this->data['heading'] = $title;
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['totalPages'] = $totalPages;
       $this->data['tours'] = $tours;
+      // seo 
+      
+      $this->data['seo_desc'] = $seo['desc'];
+      $this->data["seo_kw"] = $seo['keywords'];
+      $this->data['seo_og_title'] = $seo['og_title'];
+      $this->data["seo_og_desc"] = $seo['og_desc'];
+      if (Request::has("destination", "get")) {
+         $destination = htmlspecialchars(Request::input("destination", ""));
+         $destination = $this->LocationModel->find($destination,"slug");
+         $this->data["title"] = "Tour du lịch ". $destination['name']. " hấp dẫn - Itravel";
+         $this->data['seo_desc'] = $destination['description'];
+         $this->data["seo_kw"] = "Tour du lịch ". $destination['name'].", du lịch ".$destination['name'].", tour " .$destination['name'].", Tour du lịch ". $destination['name'] ." giá rẻ, đặt tour ".$destination['name']. " trực tuyến";
+         $this->data['seo_og_title'] = "Tour du lịch ". $destination['name']. " hấp dẫn - Itravel";
+         $this->data["seo_og_desc"] =$destination['description'];
+      }
       $this->data["page"] = "tour/index";
       $this->render("layouts/client_layout", $this->data);
    }
@@ -244,23 +280,6 @@ class Tour extends Controller
 
       echo json_encode($data);
    }
-
-   public function getPriceRange($price)
-   {
-      switch ($price) {
-         case 1:
-            return ['start' => 0, 'end' => 5000000];
-         case 2:
-            return ['start' => 5000000, 'end' => 10000000];
-         case 3:
-            return ['start' => 10000000, 'end' => 20000000];
-         case 4:
-            return ['start' => 20000000, 'end' => null];
-         default:
-            return null;
-      }
-   }
-
    public function getSort($name)
    {
       $res = [];
@@ -292,6 +311,7 @@ class Tour extends Controller
    }
 
 
+
    private function processFilters()
    {
       $filters = [];
@@ -317,7 +337,7 @@ class Tour extends Controller
       }
 
       if (Request::has("budgetId", "get")) {
-         $priceList = $this->getPriceRange((int)htmlspecialchars(Request::input("budgetId")));
+         $priceList = Util::getPriceRange((int)htmlspecialchars(Request::input("budgetId")));
          if ($priceList !== null) {
             $filters['priceStart'] = $priceList['start'];
             $filters['priceEnd'] = $priceList['end'];
@@ -331,4 +351,56 @@ class Tour extends Controller
 
       return $filters;
    }
+  private function generateSeoForCategory($category) {
+      $category = strtolower(trim($category));
+      
+      switch ($category) {
+         case 'tour-trong-nuoc':
+               return [
+                  'title' => 'Tour Du Lịch Trong Nước Độc Đáo, Giá Tốt | ITravel',
+                  'desc' => 'Khám phá hàng trăm tour du lịch trong nước đa dạng, từ Bắc vào Nam với giá hấp dẫn, dịch vụ chất lượng tại ITravel.',
+                  'keywords' => 'tour trong nước, du lịch trong nước, tour giá rẻ trong nước, đặt tour du lịch trong nước, ITravel',
+                  'og_title' => 'Tour Du Lịch Trong Nước Độc Đáo, Giá Tốt | ITravel',
+                  'og_desc' => 'Hàng trăm tour du lịch trong nước, điểm đến hấp dẫn, giá ưu đãi và dịch vụ chuyên nghiệp tại ITravel.',
+               ];
+
+         case 'tour-nuoc-ngoai':
+               return [
+                  'title' => 'Tour Du Lịch Nước Ngoài Giá Tốt, Điểm Đến Hấp Dẫn | ITravel',
+                  'desc' => 'Trải nghiệm tour du lịch nước ngoài đa dạng điểm đến nổi tiếng với giá cạnh tranh, dịch vụ chuẩn 5 sao tại ITravel.',
+                  'keywords' => 'tour nước ngoài, du lịch nước ngoài, tour quốc tế giá tốt, đặt tour quốc tế, ITravel',
+                  'og_title' => 'Tour Du Lịch Nước Ngoài Giá Tốt, Điểm Đến Hấp Dẫn | ITravel',
+                  'og_desc' => 'Khám phá các tour quốc tế hấp dẫn, nhiều ưu đãi và dịch vụ hoàn hảo tại ITravel.',
+               ];
+
+         case 'tour-cao-cap':
+               return [
+                  'title' => 'Tour Du Lịch Cao Cấp Sang Trọng, Trải Nghiệm Đẳng Cấp | ITravel',
+                  'desc' => 'Đặt tour cao cấp với dịch vụ sang trọng, tiện nghi hàng đầu, trải nghiệm du lịch đẳng cấp cùng ITravel.',
+                  'keywords' => 'tour cao cấp, tour sang trọng, tour du lịch đẳng cấp, dịch vụ cao cấp, ITravel',
+                  'og_title' => 'Tour Du Lịch Cao Cấp Sang Trọng, Trải Nghiệm Đẳng Cấp | ITravel',
+                  'og_desc' => 'Tour du lịch cao cấp với chất lượng dịch vụ tuyệt vời, trải nghiệm tiện nghi và sang trọng tại ITravel.',
+               ];
+
+         case 'tour-combo-gia-re':
+               return [
+                  'title' => 'Tour Combo Giá Rẻ, Ưu Đãi Hấp Dẫn Cho Gia Đình | ITravel',
+                  'desc' => 'Tiết kiệm với tour combo giá rẻ, ưu đãi hấp dẫn dành cho gia đình, nhóm bạn tại ITravel. Đặt ngay hôm nay!',
+                  'keywords' => 'tour combo giá rẻ, tour ưu đãi, tour tiết kiệm, đặt tour giá rẻ, ITravel',
+                  'og_title' => 'Tour Combo Giá Rẻ, Ưu Đãi Hấp Dẫn Cho Gia Đình | ITravel',
+                  'og_desc' => 'Tour combo giá rẻ, ưu đãi nhiều gói hấp dẫn, phù hợp cho gia đình và nhóm bạn tại ITravel.',
+               ];
+
+         default:
+               return [
+                  'title' => 'Tour Du Lịch Đa Dạng Trong Và Ngoài Nước | ITravel',
+                  'desc' => 'Khám phá các tour du lịch trong và ngoài nước đa dạng, hấp dẫn với giá tốt cùng ITravel.',
+                  'keywords' => 'tour du lịch, đặt tour, tour trong nước, tour nước ngoài, ITravel',
+                  'og_title' => 'Tour Du Lịch Đa Dạng Trong Và Ngoài Nước | ITravel',
+                  'og_desc' => 'Khám phá nhiều lựa chọn tour du lịch trong và ngoài nước với giá hấp dẫn và dịch vụ chất lượng.',
+               ];
+      }
+   }
+
+
 }

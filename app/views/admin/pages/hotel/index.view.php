@@ -85,7 +85,9 @@
                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
                                  Sao
                               </th>
-
+                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
+                                 Điểm đánh giá
+                              </th>
                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-1">
                                  Danh mục khách sạn
                               </th>
@@ -141,7 +143,7 @@
                                     <td class=''>
                                        <div class="px-2 py-1 text-center">
                                           <div class="mb-0 text-sm">
-                                             <?php echo $item["price_range"] ?></div>
+                                             <?php echo $item["price"] ?></div>
                                        </div>
                                     </td>
                                     <td class=''>
@@ -153,7 +155,13 @@
                                     <td class=''>
                                        <div class="px-2 py-1 text-center">
                                           <div class="mb-0 text-sm">
-                                             <?php echo $item["hotel_type_id"] ?></div>
+                                             <?php echo round($item["avg_overall_rating"], 1) ?></div>
+                                       </div>
+                                    </td>
+                                    <td class=''>
+                                       <div class="px-2 py-1 text-center">
+                                          <div class="mb-0 text-sm">
+                                             <?php echo $item["hotel_type_name"] ?></div>
                                        </div>
                                     </td>
 

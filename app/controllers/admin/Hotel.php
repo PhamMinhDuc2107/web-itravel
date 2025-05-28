@@ -29,7 +29,7 @@ class Hotel extends Controller
    public function index()
    {
       $this->HotelModel->setBaseModel();
-      $hotels = $this->HotelModel->get();
+      $hotels = $this->HotelModel->getHotels();
       $hotelTypes = $this->HotelTypeModel->all();
       $amenityCategories = $this->AmenityCategoryModel->all();
       $this->data['title'] = "Khách sạn";
@@ -47,7 +47,6 @@ class Hotel extends Controller
       }
       $dataHotel = $this->prepareHotelData();
       $res = $this->HotelModel->insert($dataHotel);
-
       if (!$res) {
          Util::redirect("dashboard/hotel", Response::internalServerError("Thêm không thành công"));
       }
@@ -210,7 +209,7 @@ class Hotel extends Controller
       $phone_number = htmlspecialchars(Request::input("phone_number", ""));
       $rating = htmlspecialchars(Request::input("rating", ""));
       $email = htmlspecialchars(Request::input("email", ""));
-      $price_range = htmlspecialchars(Request::input("price_range", ""));
+      $price = htmlspecialchars(Request::input("price_range", ""));
 
       $data = [
          "name" => $name,
@@ -223,7 +222,7 @@ class Hotel extends Controller
          "phone_number" => $phone_number,
          "rating" => $rating,
          "email" => $email,
-         "price_range" => $price_range
+         "price" => $price
       ];
       if ($isUpdate) {
          $data = Util::removeEmptyValues($data);
@@ -257,7 +256,7 @@ class Hotel extends Controller
          $data['image'] = $newImgName;
          $res = $this->HotelImageModel->insert($data);
          if (!$res) {
-            return ['success' => false, 'msg' => "Cập nhật ảnh cho tour không thành công"];
+            return ['success' => false, 'msg' => "tải ảnh cho khách sạn không thành công"];
          }
          $checkUploadImg = Util::uploadImage($file, $newImgName);
          if (!$checkUploadImg["success"]) {

@@ -452,31 +452,31 @@
                <div class="item">
                      <span class="item__label">Vị trí</span>
                      <div class="process">
-                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_location_rating'], 1)/10 * 100  ?>%">
+                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_location_rating'], 1)/10 * 100  ?>%">
                         </div>
                      </div>
-                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_location_rating'], 1)  ?></span>
+                     <span class="item__score"><?php echo round($reviewAvgRating['avg_location_rating'], 1)  ?></span>
                </div>
                <div class="item">
                      <span class="item__label">Giá cả</span>
                      <div class="process">
-                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_price_rating'], 1)/10 * 100  ?>%">
+                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_price_rating'], 1)/10 * 100  ?>%">
                         </div>
                      </div>
-                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_price_rating'], 1)  ?></span>
+                     <span class="item__score"><?php echo round($reviewAvgRating['avg_price_rating'], 1)?></span>
                </div>
                <div class="item">
                      <span class="item__label">Phục vụ</span>
                      <div class="process">
-                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_service_rating'], 1)/10 * 100  ?>%">
+                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_service_rating'], 1)/10 * 100  ?>%">
                         </div>
                      </div>
-                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_service_rating'], 1)?></span>
+                     <span class="item__score"><?php echo round($reviewAvgRating['avg_service_rating'], 1)?></span>
                </div>
                <div class="item">
                      <span class="item__label">Vệ sinh</span>
                      <div class="process">
-                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_cleanliness_rating'], 1)/10 * 100  ?>%">
+                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_cleanliness_rating'], 1)/10 * 100  ?>%">
                         </div>
                      </div>
                      <span class="item__score"><?php echo round($reviewAvgRating['avg_cleanliness_rating'], 1)?></span>

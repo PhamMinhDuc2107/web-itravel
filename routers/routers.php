@@ -15,10 +15,13 @@ $routes['(tour-trong-nuoc|tour-nuoc-ngoai|tour-cao-cap|tour-combo-gia-re)(?:/([a
 $routes['visa'] = 'visa/index';
 $routes['ho-chieu'] = 'passport/index';
 $routes['ve-may-bay'] = 'bookingFilght/index';
+
 $routes['khach-san'] = 'hotel/index';
 $routes['khach-san/(.+)'] = 'hotel/detail/$1';
+$routes['khach-san/tim-kiem'] = 'hotel/filterHotelAjax';
 $routes['khach-san/gui-danh-gia'] = "hotel/createdHotelReview";
 $routes['khach-san/danh-gia'] = "hotel/getHotelReviewAjax";
+
 $routes['thue-xe-du-lich'] = 'bookingVehicle/index';
 $routes['to-chuc-su-kien'] = 'bookingEvent/index';
 $routes['can-cuoc-cong-dan'] = 'identityCard/index';

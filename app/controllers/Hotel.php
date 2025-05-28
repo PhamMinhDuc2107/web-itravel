@@ -29,6 +29,7 @@ class Hotel extends Controller
       $categories = $this->CategoryModel->all();
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
+      $this->HotelModel->setLimit(1);
       $hotels =$this->HotelModel->getHotels();
       $hotelImages = $this->HotelImageModel->all();
       $hotelAmenities = $this->HotelAmenityModel->getAmenities();
@@ -40,7 +41,7 @@ class Hotel extends Controller
             if($hotel['id'] !== $hotelImage['hotel_id']) {
                continue;
             }
-            $dataImages[] = $hotelImage;
+            $dataImages[] = $hotelImage['image'];
          }
          $dataHotelAmenities = [];
          foreach($hotelAmenities as $hotelAmenity) {
@@ -53,7 +54,6 @@ class Hotel extends Controller
          $dataHotels[$hotel['id']]['amenities'] = $dataHotelAmenities;
       }
       $hotelTyes = $this->HotelTypeModel->all(); 
-
       $breadcrumbs = [
          ['name' => "Đặt phòng khách sạn", "link" => "dat-phong-khach-san"],
       ];
@@ -66,6 +66,13 @@ class Hotel extends Controller
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['hotels'] = $dataHotels;
       $this->data['hotelTypes'] = $hotelTyes;
+      // seo
+      $this->data['seo_desc'] = "Đặt phòng khách sạn giá rẻ tại Việt Nam và quốc tế với nhiều ưu đãi hấp dẫn. Itravel - lựa chọn lý tưởng cho kỳ nghỉ thoải mái và tiện nghi của bạn.";
+      $this->data['seo_og_title'] = "Đặt Phòng Khách Sạn Giá Tốt, Tiện Nghi, Gần Trung Tâm | Itravel.com";
+      $this->data['seo_og_desc'] = "Itravel cung cấp hàng ngàn khách sạn trong và ngoài nước, đặt phòng nhanh chóng, giá ưu đãi, dịch vụ chuyên nghiệp, hỗ trợ 24/7.";
+      $this->data['seo_kw'] = "khách sạn Việt Nam, đặt khách sạn giá rẻ, khách sạn tiện nghi, đặt phòng khách sạn online, khách sạn gần trung tâm, ưu đãi khách sạn";
+
+      
       $this->render("layouts/client_layout", $this->data);
    }
    public function detail($slug) {
@@ -199,6 +206,84 @@ class Hotel extends Controller
    public function editHotelReview() {
 
    }
+   public function filterHotelAjax() {
+      if(Request::has("GET")) {
+         echo json_encode(Response::methodNotAllowed("Phương thức không hợp lệ", []));
+         exit;
+      }
+      $data = [];
+      $budgetId = Request::input('budgetId', []);
+      $hotelType = Request::input('hotelType', []);
+      $sortRating = Request::input('sortRating', []);
+
+      $budgetId = is_array($budgetId) ? array_map('intval', $budgetId) : [];
+      $hotelType = is_array($hotelType) ? array_map('intval', $hotelType) : [];
+      $sortRating = is_array($sortRating) ? array_map('intval', $sortRating) : [];
+      
+      foreach($budgetId as $item) {
+         $data["budget"][] = Util::getPriceRange($item);
+      }
+      foreach($sortRating as $item) {
+         $data["sortRating"][] = Util::getOverallRating($item);
+      }
+      $data['hotelType'] = $hotelType;
+      $allowedOrders = ['asc', 'desc'];
+      $allowedOrderBy = ['price', 'rating', 'overall_rating'];
+      $order = 'asc';
+      if (Request::has("order", "get")) {
+         $inputOrder = strtolower(Request::input("order", ""));
+         if (in_array($inputOrder, $allowedOrders)) {
+            $order = $inputOrder;
+         }
+      }
+
+      $orderBy = 'price';
+      if (Request::has("orderBy", "get")) {
+         $inputOrderBy = Request::input("orderBy", "");
+         if (in_array($inputOrderBy, $allowedOrderBy)) {
+            $orderBy = $inputOrderBy;
+         }
+      }
+      
+      $this->HotelModel->setOrder($order);
+      $this->HotelModel->setOrderBy($orderBy);
+      $this->HotelModel->setLimit(1);
+      if(Request::has("page" , "get"))  {
+         $inputPage = strtolower(Request::input("page", "get"));
+         $this->HotelModel->setLimit($inputPage * $this->HotelModel->getLimit());
+      }
+      $hotels = $this->HotelModel->filterHotelsByRange($data);
+      if(empty($hotels)) {
+         echo json_encode(Response::notFound("Không tìm thấy khách sạn nào phù hợp",["hotels"=>[],"limit"=>$this->HotelModel->getLimit()]));
+         exit;
+      }
+
+      $ids = array_column($hotels, 'id');
+      $conditionHotelImage = [];
+      foreach($ids as $id) {
+         $conditionHotelImage["hotel_id"][] = $id;
+      }
+      $hotelImages = $this->HotelImageModel->where($conditionHotelImage);
+      $hotelAmenities = $this->HotelAmenityModel->getAmenities();
+
+      foreach($hotels as &$hotel) {
+         foreach($hotelImages as $hotelImage) {
+               if($hotel['id'] === $hotelImage['hotel_id']) {
+                  $hotel['images'][] = $hotelImage;
+               }
+         }
+         foreach($hotelAmenities as $hotelAmenity) {
+               if($hotel['id'] === $hotelAmenity['hotel_id']) {
+                  $hotel['amenties'][] = $hotelAmenity;
+               }
+         }
+         $hotel['scoreString'] = Util::classifyScore($hotel['avg_overall_rating']);
+      }
+      $responseData = [];
+      $responseData['hotels'] = $hotels;
+      $responseData['limit'] = $this->HotelModel->getLimit();
+      echo json_encode(Response::success("Thành công", $responseData));
+   }
    private function processImages($review_id, $images) {
       
       $pathAsset = '/public/uploads/review/';
@@ -223,4 +308,6 @@ class Hotel extends Controller
       }
       return ["success" => true, "msg" => "Ok"];
    }
+
+
 }
