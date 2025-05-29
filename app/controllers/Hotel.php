@@ -29,11 +29,15 @@ class Hotel extends Controller
       $categories = $this->CategoryModel->all();
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
-      $this->HotelModel->setLimit(1);
+      $this->HotelModel->setLimit(10);
       $hotels =$this->HotelModel->getHotels();
       $hotelImages = $this->HotelImageModel->all();
       $hotelAmenities = $this->HotelAmenityModel->getAmenities();
       $dataHotels = [];
+      $checkHotels  = true;
+      if(count($hotels) < $this->HotelModel->getLimit()) {
+         $checkHotels = false;
+      }
       foreach($hotels as $key => $hotel) {
          $dataHotels[$hotel['id']] = $hotel;
          $dataImages = [];
@@ -66,6 +70,7 @@ class Hotel extends Controller
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['hotels'] = $dataHotels;
       $this->data['hotelTypes'] = $hotelTyes;
+      $this->data['checkHotel'] = $checkHotels;
       // seo
       $this->data['seo_desc'] = "Đặt phòng khách sạn giá rẻ tại Việt Nam và quốc tế với nhiều ưu đãi hấp dẫn. Itravel - lựa chọn lý tưởng cho kỳ nghỉ thoải mái và tiện nghi của bạn.";
       $this->data['seo_og_title'] = "Đặt Phòng Khách Sạn Giá Tốt, Tiện Nghi, Gần Trung Tâm | Itravel.com";
@@ -247,7 +252,7 @@ class Hotel extends Controller
       
       $this->HotelModel->setOrder($order);
       $this->HotelModel->setOrderBy($orderBy);
-      $this->HotelModel->setLimit(1);
+      $this->HotelModel->setLimit(10);
       if(Request::has("page" , "get"))  {
          $inputPage = strtolower(Request::input("page", "get"));
          $this->HotelModel->setLimit($inputPage * $this->HotelModel->getLimit());

@@ -142,7 +142,7 @@ class Model extends Database
             $params[":$key"] = $value;
          }
          $stmt = $this->_query($sql, $params);
-         return (bool)$stmt;
+         return (bool)$stmt->rowCount();
       } catch (PDOException $e) {
          error_log("Insert Error: " . $e->getMessage());
          return false;
@@ -218,12 +218,12 @@ class Model extends Database
          $limit = (int)htmlspecialchars(Request::input("limit")) ?? 10;
          $this->setLimit($limit);
       }
-      if (Request::has("sortOrder", "get")) {
-         $order = htmlspecialchars(Request::input("sortOrder"));
+      if (Request::has("order", "get")) {
+         $order = htmlspecialchars(Request::input("order"));
          $this->setOrder($order);
       }
-      if (Request::has("sortBy", "get")) {
-         $orderCol = htmlspecialchars(Request::input("sortBy"));
+      if (Request::has("orderBy", "get")) {
+         $orderCol = htmlspecialchars(Request::input("orderBy"));
          $this->setOrderBy($orderCol);
       }
    }
@@ -241,7 +241,7 @@ class Model extends Database
          $sql = rtrim($sql, "OR ");
          $sql .= " ORDER BY {$this->colOrderBy} {$this->order} 
                   LIMIT {$this->limit} OFFSET {$this->offset}";
-         $stmt = $this->_query($sql, $params);
+                  $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (PDOException $e) {
          error_log("Query Error: " . $e->getMessage());
@@ -293,5 +293,8 @@ class Model extends Database
    public function getOrderBy(): string
    {
       return $this->order;
+   }
+   public function getColumns(): array {
+      return $this->allowedColumns;
    }
 }

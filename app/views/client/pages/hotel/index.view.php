@@ -263,7 +263,9 @@
                   <?php endforeach;?>
                <?php endif;?>
             </div>
-            <button  type="button" class="btn btn-more hotel_page--btn" style="border-radius:8px" data-type="page">Xem thêm</button>
+            <?php if($data['checkHotel']):?>
+               <button  type="button" class="btn btn-more hotel_page--btn" style="border-radius:8px" data-type="page">Xem thêm</button>
+            <?php endif?>
          </div>
       </div>
    </div>
@@ -293,7 +295,7 @@
 </script>
 <script type="text/javascript">
    let currentPage = 1;
-   let limit = 1;
+   let limit = 10;
    const btnLoadMore = document.querySelector('.hotel_page--btn');
    const requestData = {
             budgetId:[],
@@ -329,6 +331,9 @@
             
             if(hotels.length === 0) {
                $(".hotel__list").html(`<div style="text-align:center;font-size:20px;margin:0 auto">${response.msg}</div>`)
+               $(".hotel_page--btn").css("display", "none");
+            }
+            if(hotels.length < currentPage * limit) {
                $(".hotel_page--btn").css("display", "none");
             }
             hotels.forEach(hotel=> {
@@ -456,11 +461,9 @@
                      </div>
                   </div>
                `)
-               intiSwiper()
-               
-
             })
-
+            intiSwiper()
+            dialog()
             if (hotels.length < limit) {
                btnLoadMore.style.display = 'none';
             } else {
@@ -540,7 +543,7 @@
                hasValues 
                   ? buildUrl(dataType, urlValue)
                   : deleteParam([dataType]);
-
+               requestData['page'] = 1;
                checkInput();
                fetchHotel();
             });
@@ -570,11 +573,13 @@
       })
       // page
       const btnPage = document.querySelector(".hotel_page--btn")
-      btnPage.addEventListener("click", (e) => {
+      if(btnPage) {
+         btnPage.addEventListener("click", (e) => {
          currentPage++;
          requestData['page'] = currentPage
          fetchHotel();
       })
+      }
    });
 
 </script>

@@ -55,7 +55,7 @@
                   <div class="hotelDetail__price--wrap">
                      <span class="hotelDetail__price--text">Giá/phòng/đêm từ
                      </span>
-                     <span class="hotelDetail__price--number">1.500.000 đ</span>
+                     <span class="hotelDetail__price--number"><?= number_format($hotel['price'],0, "",".")?>đ</span>
                   </div>
                   <a href="https:\\m.me/539690369869651" class="hotelDetail__price--btn" target="_blank">Liên hệ đặt phòng</a>
                </div>
@@ -128,273 +128,6 @@
             </div>
          </div>
          <div class="review">
-         <h4 class="review__title">
-            Đánh giá của khách hàng
-         </h4>
-         
-         <div class="review__wrap">
-            <div class="review__score">
-             <svg width="200" height="200"
-              viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                  <circle
-                     cx="100"
-                     cy="100"
-                     r="70"
-                     stroke-width="10"
-                     fill="transparent"
-                     stroke="#e0e0e0" 
-                  />
-                  <circle
-                     class="review__circle_progress"
-                     cx="100"
-                     cy="100"
-                     r="70"
-                     stroke-width="10"
-                     fill="transparent"
-                     stroke="#23bda4" 
-                     stroke-linecap="round"
-                     stroke-dasharray="439.82" 
-                     stroke-dashoffset="<?php echo 439.82 * (1 - $avgTotal / 10) ?>" 
-                     style="transform: rotate(-90deg); transform-origin: center;"
-                  />
-
-                  <text
-                     x="100"
-                     y="90"
-                     style="font-size: 40px; font-weight: bold;"
-                     fill="#23bda4" 
-                     text-anchor="middle"
-                     dominant-baseline="central"
-                  >
-                     <?php echo $avgTotal?>
-                  </text>
-
-                  <text
-                     x="100"
-                     y="120"
-                     style="font-size:16px;"
-                     fill="#333" 
-                     text-anchor="middle"
-                     dominant-baseline="central"
-                  >
-                     <?php echo Util::classifyScore($avgTotal)?>
-                  </text>
-               </svg>
-         </div>
-         <section class="review__score--detail">
-            <div class="item">
-                  <span class="item__label">Vị trí</span>
-                  <div class="process">
-                     <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_location_rating'], 1)/10 * 100  ?>%">
-                     </div>
-                  </div>
-                  <span class="item__score"><?php echo number_format($reviewAvgRating['avg_location_rating'], 1)  ?></span>
-            </div>
-            <div class="item">
-                  <span class="item__label">Giá cả</span>
-                  <div class="process">
-                     <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_price_rating'], 1)/10 * 100  ?>%">
-                     </div>
-                  </div>
-                  <span class="item__score"><?php echo number_format($reviewAvgRating['avg_price_rating'], 1)  ?></span>
-            </div>
-            <div class="item">
-                  <span class="item__label">Phục vụ</span>
-                  <div class="process">
-                     <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_service_rating'], 1)/10 * 100  ?>%">
-                     </div>
-                  </div>
-                  <span class="item__score"><?php echo number_format($reviewAvgRating['avg_service_rating'], 1)?></span>
-            </div>
-            <div class="item">
-                  <span class="item__label">Vệ sinh</span>
-                  <div class="process">
-                     <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_cleanliness_rating'], 1)/10 * 100  ?>%">
-                     </div>
-                  </div>
-                  <span class="item__score"><?php echo round($reviewAvgRating['avg_cleanliness_rating'], 1)?></span>
-            </div>
-            <div class="item">
-                  <span class="item__label">Tiện nghi</span>
-                  <div class="process">
-                     <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_amenities_rating'], 1)/10 * 100  ?>%">
-                     </div>
-                  </div>
-                  <span class="item__score"><?php echo round($reviewAvgRating['avg_amenities_rating'], 1)?></span>
-            </div>
-         </section>
-         </div>
-         <div class="review__btn dialog__btn" data-id="1" data-type="createdReview">
-            <button  class="btn">Đánh giá khách sạn</button>
-         </div>
-         <div class="review__header">
-            <div class="review__tag--list">
-               <div class="review__tag--item review__tag--active" data-type="tag" data-value="default">
-                  Tất cả
-               </div>
-               <div class="review__tag--item" data-type="tag" data-value="Công tác">
-                  Công tác
-               </div>
-               <div class="review__tag--item" data-type="tag" data-value="Gia đình">
-                  Gia đình
-               </div>
-               <div class="review__tag--item" data-type="tag" data-value="Một mình">
-                  Một mình
-               </div>
-               <div class="review__tag--item" data-type="tag" data-value="Vợ chồng">
-                  Vợ chồng 
-               </div>
-               <div class="review__tag--item" data-type="tag" data-value="Bạn bè">
-                  Bạn bè 
-               </div>
-               <div class="review__tag--item" data-type="tag" data-value="Khác">
-                  Khác 
-               </div>
-            </div>
-            <div class="review__search">
-               <span>Phân loại: </span>
-               
-               <div class="review__search--text" > 
-                  Mặc định
-               </div>
-               <div class="review__search--list">
-                  <div class="review__search--item" data-sortOrder="default" data-sortBy="default">
-                     Mặc định
-                  </div>
-                  <div class="review__search--item" data-sortOrder="desc"  data-sortBy="review_date">
-                     Mới nhất
-                  </div>
-                  <div class="review__search--item" data-sortOrder="asc"  data-sortBy="review_date">
-                     Cũ nhất
-                  </div>
-                  <div class="review__search--item" data-sortOrder="desc"  data-sortBy="overall_rating">
-                     Đánh giá cao nhất
-                  </div>
-                  <div class="review__search--item" data-sortOrder="asc"  data-sortBy="overall_rating">
-                     Đánh giá thấp nhất
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="review__list">
-            <?php if(isset($data['reviewData']) && !empty($data['reviewData'])):?>
-            <?php foreach($data['reviewData'] as $review):?>
-               <div class="review__item">
-                  <div class="review__item--left">
-                     <div class="review__item--avatar"><?php echo Util::getNameInitials($review['user_name'])?></div>
-                     <div class="review__item--info">
-                        <div class="review__item--name"><?php echo $review['user_name']?></div>
-                        <div class="review__item--row">
-                        <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="icomoon-ignore"> </g> <path d="M3.205 3.205v25.59h25.59v-25.59h-25.59zM27.729 4.271v4.798h-23.457v-4.798h23.457zM4.271 27.729v-17.593h23.457v17.593h-23.457z" fill="#5c5c5c"> </path> <path d="M11.201 5.871h1.6v1.599h-1.6v-1.599z" fill="#5c5c5c"> </path> <path d="M19.199 5.871h1.599v1.599h-1.599v-1.599z" fill="#5c5c5c"> </path> <path d="M12.348 13.929c-0.191 1.297-0.808 1.32-2.050 1.365l-0.193 0.007v0.904h2.104v5.914h1.116v-8.361h-0.953l-0.025 0.171z" fill="#5c5c5c"> </path> <path d="M18.642 16.442c-0.496 0-1.005 0.162-1.408 0.433l0.38-1.955h3.515v-1.060h-4.347l-0.848 4.528h0.965l0.059-0.092c0.337-0.525 0.952-0.852 1.606-0.852 1.064 0 1.836 0.787 1.836 1.87 0 0.98-0.615 1.972-1.79 1.972-1.004 0-1.726-0.678-1.756-1.649l-0.006-0.194h-1.115l0.005 0.205c0.036 1.58 1.167 2.641 2.816 2.641 1.662 0 2.963-1.272 2.963-2.895-0-1.766-1.154-2.953-2.872-2.953z" fill="#5c5c5c"> </path> </g></svg>
-                        <span><?php echo $review['nights_stayed'] ."đêm, ". Util::formatDate($review['departure_date'])?></span>
-                     </div>
-                     <div class="review__item--row">
-                        <svg fill="#000000" height="20px" width="20px" viewBox="0 0 100 100" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="backpack"></g> <g id="camping"></g> <g id="transportation"></g> <g id="navigation"></g> <g id="hotel"></g> <g id="money"></g> <g id="signpost"></g> <g id="ticket"></g> <g id="schedule"></g> <g id="beach"></g> <g id="mountain"> <path d="M95.6,31.2L74.3,13.3c-1.2-1-2.7-1.4-4.2-1.2c-1.5,0.2-2.9,1-3.8,2.3l-6.7,9.4l-11.8-10c-1.3-1.1-2.9-1.6-4.5-1.7 c-0.1,0-0.2,0-0.3,0c-1.8,0-3.5,0.6-4.9,1.9L4.3,44.3c0,0,0,0,0,0c0,0-0.1,0.1-0.1,0.1c0,0.1-0.1,0.1-0.1,0.2c0,0,0,0.1,0,0.1 c0,0.1,0,0.2,0,0.2c0,0,0,0,0,0v17v25c0,0.1,0,0.2,0.1,0.3c0,0,0,0.1,0,0.1c0,0.1,0.1,0.2,0.2,0.2c0,0,0,0,0.1,0.1 c0.1,0.1,0.2,0.1,0.3,0.2c0,0,0,0,0,0C4.7,88,4.9,88,5,88h90c0.6,0,1-0.4,1-1V67c0,0,0,0,0,0s0,0,0,0v-5V45V32 C96,31.7,95.9,31.4,95.6,31.2z M45,55c1.6,0,3.1,0.6,4.3,1.8c0.4,0.4,1.1,0.4,1.4,0c1.1-1.2,2.7-1.8,4.3-1.8c1.3,0,2.5,0.4,3.6,1.2 c0.3,0.2,0.6,0.3,1,0.1c0.3-0.1,0.6-0.4,0.6-0.8c0.7-3.8,4-6.6,7.9-6.6c2.5,0,4.9,1.2,6.5,3.3c0.2,0.3,0.5,0.4,0.8,0.4 c0.3,0,0.6-0.2,0.8-0.5c1.3-2,3.5-3.2,5.9-3.2c1.5,0,2.9,0.5,4.1,1.3c0.2,0.2,0.5,0.2,0.8,0.2c0.3,0,0.5-0.2,0.7-0.4 c1.5-2.3,3.9-3.7,6.5-4V61H6V46.1c2.6,0.3,5,1.7,6.5,4c0.1,0.2,0.4,0.4,0.7,0.4c0.3,0,0.5,0,0.8-0.2c1.2-0.9,2.6-1.3,4.1-1.3 c2.4,0,4.6,1.2,5.9,3.2c0.2,0.3,0.5,0.5,0.8,0.5c0.3,0,0.6-0.1,0.8-0.4c1.5-2.1,3.9-3.3,6.5-3.3c3.9,0,7.2,2.8,7.9,6.6 c0.1,0.3,0.3,0.6,0.6,0.8c0.3,0.1,0.7,0.1,1-0.1C42.5,55.4,43.7,55,45,55z M6,63.1c5.1,0.4,26.9,2.5,37.1,8 C21.6,75.7,10,82.4,6,85.1V63.1z M21.8,63H94v3c-19.6,0.1-35.5,1.9-48.2,4.5c-0.1-0.1-0.2-0.2-0.3-0.3C40,66.7,30.3,64.4,21.8,63z M94,32.4v11.6c-2.5,0.2-4.8,1.3-6.6,3l-11.5-9.7c0-0.1,0.1-0.1,0.1-0.2l1-5.9c0.3-3-0.9-5.9-3.3-7.8c-2.2-1.8-3.1-4.5-2.4-7.1 l0.6-2.3c0.5,0.1,0.9,0.4,1.3,0.7L94,32.4z M68,15.5c0.4-0.6,1-1,1.7-1.3l-0.5,1.7c-0.9,3.4,0.3,6.9,3.1,9.1c1.9,1.5,2.8,3.8,2.6,6 l-0.8,4.9L61.2,25L68,15.5z M84.8,47.5C83.9,47.2,83,47,82,47c-2.6,0-5.1,1.1-6.8,3.1c-1.9-2-4.5-3.1-7.2-3.1 c-4.3,0-8.1,2.8-9.5,6.8C57.4,53.3,56.2,53,55,53c-1.8,0-3.6,0.6-5,1.8c-1.2-0.9-2.6-1.5-4-1.7l-2.4-3.2c-2.1-2.8-1.8-6.5,0.7-9 c3.4-3.4,3.6-8.4,0.6-12l-2.2-2.7c-1.7-2.1-2.1-4.7-1.1-7.1l2.2-5c1,0.1,2,0.5,2.8,1.2L84.8,47.5z M39.5,15.4 c0.6-0.5,1.3-0.9,2-1.1l-1.8,3.9c-1.4,3.1-0.8,6.6,1.4,9.2l2.2,2.7c2.3,2.8,2.1,6.7-0.5,9.3c-3.2,3.2-3.6,8-0.9,11.6l1.6,2.1 c-0.7,0.1-1.4,0.4-2,0.7c-1.3-4-5.1-6.8-9.5-6.8c-2.7,0-5.3,1.1-7.2,3.1c-1.7-2-4.1-3.1-6.8-3.1c-1.6,0-3.1,0.4-4.4,1.2 c-1.6-2-3.8-3.4-6.3-3.9L39.5,15.4z M8.3,86c7.9-4.8,34-17.8,85.7-18v18H8.3z"></path> </g> <g id="location"></g> <g id="traveling"></g> <g id="bonfire"></g> <g id="camera"></g> <g id="medicine"></g> <g id="drink"></g> <g id="canned_food"></g> <g id="nature"></g> <g id="map"></g> </g></svg>
-                        <span><?php echo $review['trip_type']?></span>
-                     </div>
-                     </div>
-                  </div>
-                  <?php $pointer = number_format(
-                        ($review['location_rating'] 
-                        + $review['price_rating'] 
-                        + $review['service_rating'] 
-                        + $review['cleanliness_rating'] 
-                        + $review['amenities_rating']) / 5,
-                        1
-                     );
-                  ?>
-                  <div class="review__item--right">
-                     <div class="review__item--header">
-                        <div>
-                           <div class="review__number"><?php echo $pointer?><span>/10</span></div>   
-                           <span class="review__number--text">
-                              <?php echo Util::classifyScore($pointer)?>
-                           </span>
-                        </div>
-                        <div class="review__item--date">
-                           <?php echo "Đăng vào ". Util::formatDate($review['review_date'], "H:m, d-m-y")?>
-                        </div>
-                     </div>
-                     <div class="review__item--content">
-                        <p><?php echo $review['review_text']?></p>
-                     </div>
-                     <?php if(!empty($review['images'])):?>
-                     <div class="review__item--images">
-                        <?php foreach($review['images'] as $image):?>
-                           <img src="<?php echo _WEB_ROOT.$image['image']?>" alt="<?php echo $review['user_name']?>">
-                        <?php endforeach;?>
-                        </div>
-                     <?php endif?>
-                  </div>
-               </div>
-            <?php endforeach?>
-            <?php else :?>
-            <div class="review__empty">
-               <p>Chưa có đánh giá nào cho khách sạn này</p>
-            </div>
-            <?php endif?>
-         
-         </div>
-         <div class="pagi review_pagi">
-            <ul class="pagi__list">
-               <?php $totalPages = $data['totalPages'] ?? 1;
-                  $page = Request::has("page", "get") ? Request::input("page") : 1;
-                  ?>
-               <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-               <li class="pagi__item"><span
-                     class="pagi__item--link <?php echo $i === (int)htmlspecialchars($page) ? "active" : "" ?>"
-                     data-param="page" data-value="<?php echo $i ?>"><?php echo $i ?></span>
-               </li>
-               <?php endfor; ?>
-            </ul>
-         </div>
-         </div>
-   </div>
-   <!-- dialog map -->
-   <div class="dialog" data-type ="map" data-id = "1">
-      <div id="map" class="dialog__content">
-         <iframe width="100%" height="100%" style="border-radius:16px" loading="lazy" allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=<?php echo Util::processSearchStringMap($address)?>&output=embed">
-         </iframe>
-         <i class="fa fa-close dialog__close"></i>
-
-      </div>
-   </div>
-   <!-- dialog image -->
-   <div class="dialog" data-type="image" data-id="1">
-      <div class="dialog__content">
-         <h4 class="dialog__title">
-            Hình ảnh của khách sạn
-         </h4>
-         <div class="swiper sliderImage">
-            <div class="swiper-wrapper">
-               <?php foreach($hotel['images'] as $item):?>
-               <div class="swiper-slide">
-                  <img src="<?php echo _WEB_ROOT."/".$item['image']?>" alt="<?php echo $hotel['name']?>" />
-               </div> 
-               <?php endforeach; ?>
-            </div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-pagination"></div>
-         </div>
-         <div thumbsSlider="" class="swiper thumbarSilderImage">
-            <div class="swiper-wrapper">
-               <?php foreach($hotel['images'] as $item):?>
-               <div class="swiper-slide">
-                  <img src="<?php echo _WEB_ROOT."/".$item['image']?>" alt="<?php echo $hotel['name']?>" />
-               </div> 
-               <?php endforeach; ?>
-            </div>
-         </div>
-         <i class="fa fa-close dialog__close"></i>
-      </div>
-   </div>
-   <!-- dialog review -->
-   <div class="dialog" data-type="review" data-id="1">
-      <div class="dialog__content">
-         <div class="review">
             <h4 class="review__title">
                Đánh giá của khách hàng
             </h4>
@@ -452,31 +185,31 @@
                <div class="item">
                      <span class="item__label">Vị trí</span>
                      <div class="process">
-                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_location_rating'], 1)/10 * 100  ?>%">
+                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_location_rating'], 1)/10 * 100  ?>%">
                         </div>
                      </div>
-                     <span class="item__score"><?php echo round($reviewAvgRating['avg_location_rating'], 1)  ?></span>
+                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_location_rating'], 1)  ?></span>
                </div>
                <div class="item">
                      <span class="item__label">Giá cả</span>
                      <div class="process">
-                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_price_rating'], 1)/10 * 100  ?>%">
+                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_price_rating'], 1)/10 * 100  ?>%">
                         </div>
                      </div>
-                     <span class="item__score"><?php echo round($reviewAvgRating['avg_price_rating'], 1)?></span>
+                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_price_rating'], 1)  ?></span>
                </div>
                <div class="item">
                      <span class="item__label">Phục vụ</span>
                      <div class="process">
-                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_service_rating'], 1)/10 * 100  ?>%">
+                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_service_rating'], 1)/10 * 100  ?>%">
                         </div>
                      </div>
-                     <span class="item__score"><?php echo round($reviewAvgRating['avg_service_rating'], 1)?></span>
+                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_service_rating'], 1)?></span>
                </div>
                <div class="item">
                      <span class="item__label">Vệ sinh</span>
                      <div class="process">
-                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_cleanliness_rating'], 1)/10 * 100  ?>%">
+                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_cleanliness_rating'], 1)/10 * 100  ?>%">
                         </div>
                      </div>
                      <span class="item__score"><?php echo round($reviewAvgRating['avg_cleanliness_rating'], 1)?></span>
@@ -490,6 +223,9 @@
                      <span class="item__score"><?php echo round($reviewAvgRating['avg_amenities_rating'], 1)?></span>
                </div>
             </section>
+            </div>
+            <div class="review__btn dialog__btn" data-id="1" data-type="createdReview">
+               <button  class="btn">Đánh giá khách sạn</button>
             </div>
             <div class="review__header">
                <div class="review__tag--list">
@@ -598,22 +334,290 @@
                </div>
                <?php endif?>
             
-            </div>
-            <div class="pagi review_pagi">
-               <ul class="pagi__list">
-                  <?php $totalPages = $data['totalPages'] ?? 1;
-                     $page = Request::has("page", "get") ? Request::input("page") : 1;
-                     ?>
-                  <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                  <li class="pagi__item"><span
-                        class="pagi__item--link <?php echo $i === (int)htmlspecialchars($page) ? "active" : "" ?>"
-                        data-param="page" data-value="<?php echo $i ?>"><?php echo $i ?></span>
-                  </li>
-                  <?php endfor; ?>
-               </ul>
-            </div>
-            </div>
+               </div>
+               <div class="pagi review_pagi">
+                  <ul class="pagi__list">
+                     <?php $totalPages = $data['totalPages'] ?? 1;
+                        $page = Request::has("page", "get") ? Request::input("page") : 1;
+                        ?>
+                     <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                     <li class="pagi__item"><span
+                           class="pagi__item--link <?php echo $i === (int)htmlspecialchars($page) ? "active" : "" ?>"
+                           data-param="page" data-value="<?php echo $i ?>"><?php echo $i ?></span>
+                     </li>
+                     <?php endfor; ?>
+                  </ul>
+               </div>
+         </div>
    </div>
+   <!-- dialog map -->
+   <div class="dialog" data-type ="map" data-id = "1">
+      <div id="map" class="dialog__content">
+         <iframe width="100%" height="100%" style="border-radius:16px" loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=<?php echo Util::processSearchStringMap($address)?>&output=embed">
+         </iframe>
+         <i class="fa fa-close dialog__close"></i>
+
+      </div>
+   </div>
+   <!-- dialog image -->
+   <div class="dialog" data-type="image" data-id="1">
+      <div class="dialog__content">
+         <h4 class="dialog__title">
+            Hình ảnh của khách sạn
+         </h4>
+         <div class="swiper sliderImage">
+            <div class="swiper-wrapper">
+               <?php foreach($hotel['images'] as $item):?>
+               <div class="swiper-slide">
+                  <img src="<?php echo _WEB_ROOT."/".$item['image']?>" alt="<?php echo $hotel['name']?>" />
+               </div> 
+               <?php endforeach; ?>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+         </div>
+         <div thumbsSlider="" class="swiper thumbarSilderImage">
+            <div class="swiper-wrapper">
+               <?php foreach($hotel['images'] as $item):?>
+               <div class="swiper-slide">
+                  <img src="<?php echo _WEB_ROOT."/".$item['image']?>" alt="<?php echo $hotel['name']?>" />
+               </div> 
+               <?php endforeach; ?>
+            </div>
+         </div>
+         <i class="fa fa-close dialog__close"></i>
+      </div>
+   </div>
+   <!-- dialog review -->
+   <div class="dialog" data-type="image" data-id="1">
+      <div class="dialog__content">
+         <div class="review">
+            <h4 class="review__title">
+               Đánh giá của khách hàng
+            </h4>
+            
+            <div class="review__wrap">
+               <div class="review__score">
+               <svg width="200" height="200"
+               viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                     <circle
+                        cx="100"
+                        cy="100"
+                        r="70"
+                        stroke-width="10"
+                        fill="transparent"
+                        stroke="#e0e0e0" 
+                     />
+                     <circle
+                        class="review__circle_progress"
+                        cx="100"
+                        cy="100"
+                        r="70"
+                        stroke-width="10"
+                        fill="transparent"
+                        stroke="#23bda4" 
+                        stroke-linecap="round"
+                        stroke-dasharray="439.82" 
+                        stroke-dashoffset="<?php echo 439.82 * (1 - $avgTotal / 10) ?>" 
+                        style="transform: rotate(-90deg); transform-origin: center;"
+                     />
+
+                     <text
+                        x="100"
+                        y="90"
+                        style="font-size: 40px; font-weight: bold;"
+                        fill="#23bda4" 
+                        text-anchor="middle"
+                        dominant-baseline="central"
+                     >
+                        <?php echo $avgTotal?>
+                     </text>
+
+                     <text
+                        x="100"
+                        y="120"
+                        style="font-size:16px;"
+                        fill="#333" 
+                        text-anchor="middle"
+                        dominant-baseline="central"
+                     >
+                        <?php echo Util::classifyScore($avgTotal)?>
+                     </text>
+                  </svg>
+            </div>
+            <section class="review__score--detail">
+               <div class="item">
+                     <span class="item__label">Vị trí</span>
+                     <div class="process">
+                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_location_rating'], 1)/10 * 100  ?>%">
+                        </div>
+                     </div>
+                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_location_rating'], 1)  ?></span>
+               </div>
+               <div class="item">
+                     <span class="item__label">Giá cả</span>
+                     <div class="process">
+                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_price_rating'], 1)/10 * 100  ?>%">
+                        </div>
+                     </div>
+                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_price_rating'], 1)  ?></span>
+               </div>
+               <div class="item">
+                     <span class="item__label">Phục vụ</span>
+                     <div class="process">
+                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_service_rating'], 1)/10 * 100  ?>%">
+                        </div>
+                     </div>
+                     <span class="item__score"><?php echo number_format($reviewAvgRating['avg_service_rating'], 1)?></span>
+               </div>
+               <div class="item">
+                     <span class="item__label">Vệ sinh</span>
+                     <div class="process">
+                        <div class="process__bar" style="width:<?php echo number_format($reviewAvgRating['avg_cleanliness_rating'], 1)/10 * 100  ?>%">
+                        </div>
+                     </div>
+                     <span class="item__score"><?php echo round($reviewAvgRating['avg_cleanliness_rating'], 1)?></span>
+               </div>
+               <div class="item">
+                     <span class="item__label">Tiện nghi</span>
+                     <div class="process">
+                        <div class="process__bar" style="width:<?php echo round($reviewAvgRating['avg_amenities_rating'], 1)/10 * 100  ?>%">
+                        </div>
+                     </div>
+                     <span class="item__score"><?php echo round($reviewAvgRating['avg_amenities_rating'], 1)?></span>
+               </div>
+            </section>
+            </div>
+            <div class="review__btn dialog__btn" data-id="1" data-type="createdReview">
+               <button  class="btn">Đánh giá khách sạn</button>
+            </div>
+            <div class="review__header">
+               <div class="review__tag--list">
+                  <div class="review__tag--item review__tag--active" data-type="tag" data-value="default">
+                     Tất cả
+                  </div>
+                  <div class="review__tag--item" data-type="tag" data-value="Công tác">
+                     Công tác
+                  </div>
+                  <div class="review__tag--item" data-type="tag" data-value="Gia đình">
+                     Gia đình
+                  </div>
+                  <div class="review__tag--item" data-type="tag" data-value="Một mình">
+                     Một mình
+                  </div>
+                  <div class="review__tag--item" data-type="tag" data-value="Vợ chồng">
+                     Vợ chồng 
+                  </div>
+                  <div class="review__tag--item" data-type="tag" data-value="Bạn bè">
+                     Bạn bè 
+                  </div>
+                  <div class="review__tag--item" data-type="tag" data-value="Khác">
+                     Khác 
+                  </div>
+               </div>
+               <div class="review__search">
+                  <span>Phân loại: </span>
+                  
+                  <div class="review__search--text" > 
+                     Mặc định
+                  </div>
+                  <div class="review__search--list">
+                     <div class="review__search--item" data-sortOrder="default" data-sortBy="default">
+                        Mặc định
+                     </div>
+                     <div class="review__search--item" data-sortOrder="desc"  data-sortBy="review_date">
+                        Mới nhất
+                     </div>
+                     <div class="review__search--item" data-sortOrder="asc"  data-sortBy="review_date">
+                        Cũ nhất
+                     </div>
+                     <div class="review__search--item" data-sortOrder="desc"  data-sortBy="overall_rating">
+                        Đánh giá cao nhất
+                     </div>
+                     <div class="review__search--item" data-sortOrder="asc"  data-sortBy="overall_rating">
+                        Đánh giá thấp nhất
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="review__list">
+               <?php if(isset($data['reviewData']) && !empty($data['reviewData'])):?>
+               <?php foreach($data['reviewData'] as $review):?>
+                  <div class="review__item">
+                     <div class="review__item--left">
+                        <div class="review__item--avatar"><?php echo Util::getNameInitials($review['user_name'])?></div>
+                        <div class="review__item--info">
+                           <div class="review__item--name"><?php echo $review['user_name']?></div>
+                           <div class="review__item--row">
+                           <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="icomoon-ignore"> </g> <path d="M3.205 3.205v25.59h25.59v-25.59h-25.59zM27.729 4.271v4.798h-23.457v-4.798h23.457zM4.271 27.729v-17.593h23.457v17.593h-23.457z" fill="#5c5c5c"> </path> <path d="M11.201 5.871h1.6v1.599h-1.6v-1.599z" fill="#5c5c5c"> </path> <path d="M19.199 5.871h1.599v1.599h-1.599v-1.599z" fill="#5c5c5c"> </path> <path d="M12.348 13.929c-0.191 1.297-0.808 1.32-2.050 1.365l-0.193 0.007v0.904h2.104v5.914h1.116v-8.361h-0.953l-0.025 0.171z" fill="#5c5c5c"> </path> <path d="M18.642 16.442c-0.496 0-1.005 0.162-1.408 0.433l0.38-1.955h3.515v-1.060h-4.347l-0.848 4.528h0.965l0.059-0.092c0.337-0.525 0.952-0.852 1.606-0.852 1.064 0 1.836 0.787 1.836 1.87 0 0.98-0.615 1.972-1.79 1.972-1.004 0-1.726-0.678-1.756-1.649l-0.006-0.194h-1.115l0.005 0.205c0.036 1.58 1.167 2.641 2.816 2.641 1.662 0 2.963-1.272 2.963-2.895-0-1.766-1.154-2.953-2.872-2.953z" fill="#5c5c5c"> </path> </g></svg>
+                           <span><?php echo $review['nights_stayed'] ."đêm, ". Util::formatDate($review['departure_date'])?></span>
+                        </div>
+                        <div class="review__item--row">
+                           <svg fill="#000000" height="20px" width="20px" viewBox="0 0 100 100" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="backpack"></g> <g id="camping"></g> <g id="transportation"></g> <g id="navigation"></g> <g id="hotel"></g> <g id="money"></g> <g id="signpost"></g> <g id="ticket"></g> <g id="schedule"></g> <g id="beach"></g> <g id="mountain"> <path d="M95.6,31.2L74.3,13.3c-1.2-1-2.7-1.4-4.2-1.2c-1.5,0.2-2.9,1-3.8,2.3l-6.7,9.4l-11.8-10c-1.3-1.1-2.9-1.6-4.5-1.7 c-0.1,0-0.2,0-0.3,0c-1.8,0-3.5,0.6-4.9,1.9L4.3,44.3c0,0,0,0,0,0c0,0-0.1,0.1-0.1,0.1c0,0.1-0.1,0.1-0.1,0.2c0,0,0,0.1,0,0.1 c0,0.1,0,0.2,0,0.2c0,0,0,0,0,0v17v25c0,0.1,0,0.2,0.1,0.3c0,0,0,0.1,0,0.1c0,0.1,0.1,0.2,0.2,0.2c0,0,0,0,0.1,0.1 c0.1,0.1,0.2,0.1,0.3,0.2c0,0,0,0,0,0C4.7,88,4.9,88,5,88h90c0.6,0,1-0.4,1-1V67c0,0,0,0,0,0s0,0,0,0v-5V45V32 C96,31.7,95.9,31.4,95.6,31.2z M45,55c1.6,0,3.1,0.6,4.3,1.8c0.4,0.4,1.1,0.4,1.4,0c1.1-1.2,2.7-1.8,4.3-1.8c1.3,0,2.5,0.4,3.6,1.2 c0.3,0.2,0.6,0.3,1,0.1c0.3-0.1,0.6-0.4,0.6-0.8c0.7-3.8,4-6.6,7.9-6.6c2.5,0,4.9,1.2,6.5,3.3c0.2,0.3,0.5,0.4,0.8,0.4 c0.3,0,0.6-0.2,0.8-0.5c1.3-2,3.5-3.2,5.9-3.2c1.5,0,2.9,0.5,4.1,1.3c0.2,0.2,0.5,0.2,0.8,0.2c0.3,0,0.5-0.2,0.7-0.4 c1.5-2.3,3.9-3.7,6.5-4V61H6V46.1c2.6,0.3,5,1.7,6.5,4c0.1,0.2,0.4,0.4,0.7,0.4c0.3,0,0.5,0,0.8-0.2c1.2-0.9,2.6-1.3,4.1-1.3 c2.4,0,4.6,1.2,5.9,3.2c0.2,0.3,0.5,0.5,0.8,0.5c0.3,0,0.6-0.1,0.8-0.4c1.5-2.1,3.9-3.3,6.5-3.3c3.9,0,7.2,2.8,7.9,6.6 c0.1,0.3,0.3,0.6,0.6,0.8c0.3,0.1,0.7,0.1,1-0.1C42.5,55.4,43.7,55,45,55z M6,63.1c5.1,0.4,26.9,2.5,37.1,8 C21.6,75.7,10,82.4,6,85.1V63.1z M21.8,63H94v3c-19.6,0.1-35.5,1.9-48.2,4.5c-0.1-0.1-0.2-0.2-0.3-0.3C40,66.7,30.3,64.4,21.8,63z M94,32.4v11.6c-2.5,0.2-4.8,1.3-6.6,3l-11.5-9.7c0-0.1,0.1-0.1,0.1-0.2l1-5.9c0.3-3-0.9-5.9-3.3-7.8c-2.2-1.8-3.1-4.5-2.4-7.1 l0.6-2.3c0.5,0.1,0.9,0.4,1.3,0.7L94,32.4z M68,15.5c0.4-0.6,1-1,1.7-1.3l-0.5,1.7c-0.9,3.4,0.3,6.9,3.1,9.1c1.9,1.5,2.8,3.8,2.6,6 l-0.8,4.9L61.2,25L68,15.5z M84.8,47.5C83.9,47.2,83,47,82,47c-2.6,0-5.1,1.1-6.8,3.1c-1.9-2-4.5-3.1-7.2-3.1 c-4.3,0-8.1,2.8-9.5,6.8C57.4,53.3,56.2,53,55,53c-1.8,0-3.6,0.6-5,1.8c-1.2-0.9-2.6-1.5-4-1.7l-2.4-3.2c-2.1-2.8-1.8-6.5,0.7-9 c3.4-3.4,3.6-8.4,0.6-12l-2.2-2.7c-1.7-2.1-2.1-4.7-1.1-7.1l2.2-5c1,0.1,2,0.5,2.8,1.2L84.8,47.5z M39.5,15.4 c0.6-0.5,1.3-0.9,2-1.1l-1.8,3.9c-1.4,3.1-0.8,6.6,1.4,9.2l2.2,2.7c2.3,2.8,2.1,6.7-0.5,9.3c-3.2,3.2-3.6,8-0.9,11.6l1.6,2.1 c-0.7,0.1-1.4,0.4-2,0.7c-1.3-4-5.1-6.8-9.5-6.8c-2.7,0-5.3,1.1-7.2,3.1c-1.7-2-4.1-3.1-6.8-3.1c-1.6,0-3.1,0.4-4.4,1.2 c-1.6-2-3.8-3.4-6.3-3.9L39.5,15.4z M8.3,86c7.9-4.8,34-17.8,85.7-18v18H8.3z"></path> </g> <g id="location"></g> <g id="traveling"></g> <g id="bonfire"></g> <g id="camera"></g> <g id="medicine"></g> <g id="drink"></g> <g id="canned_food"></g> <g id="nature"></g> <g id="map"></g> </g></svg>
+                           <span><?php echo $review['trip_type']?></span>
+                        </div>
+                        </div>
+                     </div>
+                     <?php $pointer = number_format(
+                           ($review['location_rating'] 
+                           + $review['price_rating'] 
+                           + $review['service_rating'] 
+                           + $review['cleanliness_rating'] 
+                           + $review['amenities_rating']) / 5,
+                           1
+                        );
+                     ?>
+                     <div class="review__item--right">
+                        <div class="review__item--header">
+                           <div>
+                              <div class="review__number"><?php echo $pointer?><span>/10</span></div>   
+                              <span class="review__number--text">
+                                 <?php echo Util::classifyScore($pointer)?>
+                              </span>
+                           </div>
+                           <div class="review__item--date">
+                              <?php echo "Đăng vào ". Util::formatDate($review['review_date'], "H:m, d-m-y")?>
+                           </div>
+                        </div>
+                        <div class="review__item--content">
+                           <p><?php echo $review['review_text']?></p>
+                        </div>
+                        <?php if(!empty($review['images'])):?>
+                        <div class="review__item--images">
+                           <?php foreach($review['images'] as $image):?>
+                              <img src="<?php echo _WEB_ROOT.$image['image']?>" alt="<?php echo $review['user_name']?>">
+                           <?php endforeach;?>
+                           </div>
+                        <?php endif?>
+                     </div>
+                  </div>
+               <?php endforeach?>
+               <?php else :?>
+               <div class="review__empty">
+                  <p>Chưa có đánh giá nào cho khách sạn này</p>
+               </div>
+               <?php endif?>
+            
+               </div>
+               <div class="pagi review_pagi">
+                  <ul class="pagi__list">
+                     <?php $totalPages = $data['totalPages'] ?? 1;
+                        $page = Request::has("page", "get") ? Request::input("page") : 1;
+                        ?>
+                     <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                     <li class="pagi__item"><span
+                           class="pagi__item--link <?php echo $i === (int)htmlspecialchars($page) ? "active" : "" ?>"
+                           data-param="page" data-value="<?php echo $i ?>"><?php echo $i ?></span>
+                     </li>
+                     <?php endfor; ?>
+                  </ul>
+               </div>
+         </div>
+         <i class="fa fa-close"></i>
+      </div>
    </div>
    <?php $hotelAmenities = $data['hotelAmenities'] ?? []?>
    <!-- dialog amenity -->
@@ -992,10 +996,13 @@
       const searchInput  = parent.querySelector('.review__search--text');
       const searchList = parent.querySelector('.review__search--list');
       const searchItems = parent.querySelectorAll('.review__search--item');
-      searchInput.addEventListener("click", (e) => {
-         searchList.classList.toggle('review__search--active');
-      })
-      searchItems.forEach(searchItem => {
+      if(searchInput) {
+         searchInput.addEventListener("click", (e) => {
+            searchList.classList.toggle('review__search--active');
+         })
+      }
+      if(searchItems) {
+         searchItems.forEach(searchItem => {
             searchItem.addEventListener("click", (e) => {
                searchInput.innerHTML = searchItem.innerHTML;
                searchList.classList.remove('review__search--active');
@@ -1007,6 +1014,7 @@
                fetchReview()
             })
          })
+      }
    })
    // pagination
    const pagis = document.querySelectorAll('.review_pagi');

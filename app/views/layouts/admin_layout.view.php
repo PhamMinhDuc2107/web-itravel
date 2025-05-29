@@ -46,7 +46,7 @@
             };
         };
     </script>
-    <script src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js" defer></script>
+    <script src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js"></script>
 
     <style>
         .pagination {

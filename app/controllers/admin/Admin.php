@@ -21,13 +21,21 @@ class Admin extends Controller
    public function index()
    {
       $this->AdminModel->setBaseModel();
+      $search = htmlspecialchars(Request::input("search", ""));
+      
       $data = $this->AdminModel->get();
+      if($search !== "") {
+         $col =htmlspecialchars(Request::input("orderBy",""));
+         $dataSearch = [$col => "%$search%"];
+         $data = $this->AdminModel->like($dataSearch);
+      }
       $totalPages = $this->AdminModel->getTotalPages();
       $this->data['title'] = "Quản lý admin";
       $this->data['heading'] = "Admin";
       $this->data['page'] = "admin/index";
       $this->data['totalPages'] = $totalPages;
       $this->data['admins'] = $data;
+      $this->data['col'] = $this->AdminModel->getColumns();
       $this->render("layouts/admin_layout", $this->data);
    }
    public function create()

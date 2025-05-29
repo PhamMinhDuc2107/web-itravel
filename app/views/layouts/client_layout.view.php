@@ -97,7 +97,7 @@
 	</div>
 
 </body>
-<script src="<?php echo ASSET ?>/client/js/app.js"></script>
+<script src="<?php echo ASSET ?>/client/js/app.js"> </script>
 
 <?php
 if (isset($data['js'])) {

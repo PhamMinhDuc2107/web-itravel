@@ -86,11 +86,14 @@
   //     hotline
   let hotline = document.querySelector(".hotline");
   let hotlintBtn = document.querySelector(".hotline-btn");
-  hotlintBtn.addEventListener("click", function (e) {
+  if(hotlintBtn) {
+    hotlintBtn.addEventListener("click", function (e) {
     hotline.classList.toggle("active");
   });
+  }
   // dialog
-  document.addEventListener("DOMContentLoaded", () => {
+  const dialog =() => {
+    document.addEventListener("DOMContentLoaded", () => {
     const dialogBtns = document.querySelectorAll(".dialog__btn");
     const dialogs = document.querySelectorAll(".dialog");
 
@@ -116,4 +119,7 @@
       });
     });
   });
+  }
+  dialog();
 })();
+
