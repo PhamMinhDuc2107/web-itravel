@@ -16,8 +16,8 @@ class HotelModel extends Model
             LEFT JOIN hotel_types ht ON $this->table.hotel_type_id = ht.id
             LEFT JOIN hotel_reviews hr ON $this->table.id = hr.hotel_id 
       ";
-      $sql .= " GROUP BY {$this->table}.{$this->colOrderBy}";
-      $sql .= " ORDER BY {$this->colOrderBy} {$this->order} ";
+      $sql .= " GROUP BY {$this->table}.{$this->orderBy}";
+      $sql .= " ORDER BY {$this->orderBy} {$this->order} ";
       $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
       $stmt = $this->_query($sql);
       return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
@@ -80,7 +80,7 @@ class HotelModel extends Model
             $sql .= " HAVING  " .'(' . implode(' OR ', $ratingConditions) . ')';
          };
       }
-      $sql .= " ORDER BY {$this->colOrderBy} {$this->order} ";
+      $sql .= " ORDER BY {$this->orderBy} {$this->order} ";
       $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
       $stmt = $this->_query($sql, $params);
       return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];

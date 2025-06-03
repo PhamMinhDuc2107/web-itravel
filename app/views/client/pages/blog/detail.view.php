@@ -1,7 +1,7 @@
 <div class="blogDetail">
     <div class="container">
         <h3 class="blogDetail__title">
-           <?php echo $data['title'] ?? "" ?>
+           <?php echo $data['blog']['title'] ?? "" ?>
         </h3>
         <div class="blogDetail__info">
             <div class="blogDetail__info--date">

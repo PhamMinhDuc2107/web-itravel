@@ -724,6 +724,8 @@
 </section>
 <!-- feedback -->
 <!-- blog -->
+<?php if (isset($data['listBlogHot']) && is_array($data['listBlogHot']) && !empty($data['listBlogHot'])) : ?>
+
 <section class="blog home-page">
    <div class="container">
       <div class="blog__container">
@@ -734,7 +736,6 @@
             </a>
          </div>
          <div class="blog__wrap">
-            <?php if (isset($data['listBlogHot']) && is_array($data['listBlogHot'])): ?>
             <div class="blog__list">
                <?php $firstBlog = reset($data['listBlogHot']) ?>
                <div class="blog__item blog__item--full">
@@ -793,11 +794,11 @@
                </script>
                <?php endforeach; ?>
             </div>
-            <?php endif; ?>
          </div>
       </div>
    </div>
 </section>
+<?php endif; ?>
 <!-- /blog -->
 <!-- brand -->
 <section class="brand">

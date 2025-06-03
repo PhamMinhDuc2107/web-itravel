@@ -36,7 +36,7 @@ class BlogModel extends Model
          }
 
          if (!empty($keyword)) {
-            $whereClauses[] = "$this->table.title LIKE :keyword";
+            $whereClauses[] = "$this->table.$this->orderBy LIKE :keyword";
             $params[':keyword'] = '%' . $keyword . '%';
          }
 
@@ -44,7 +44,7 @@ class BlogModel extends Model
             $sql .= " WHERE " . implode(" AND ", $whereClauses);
          }
 
-         $sql .= " ORDER BY $this->table" . "." . "{$this->colOrderBy} {$this->order}";
+         $sql .= " ORDER BY $this->table" . "." . "{$this->orderBy} {$this->order}";
 
          if (!$getAll) {
             $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";

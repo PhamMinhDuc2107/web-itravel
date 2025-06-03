@@ -12,6 +12,7 @@ $app_env  = $_ENV['APP_ENV'] ?? 'local';
 
 const _DIR_ROOT = __DIR__;
 define("_WEB_ROOT", ((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . "/" . basename(_DIR_ROOT));
+
 define("ASSET", _WEB_ROOT . "/public/assets");
 define("UPLOAD", _WEB_ROOT . "/public/uploads");
 // load core, app, routers

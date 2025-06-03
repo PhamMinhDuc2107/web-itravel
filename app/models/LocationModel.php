@@ -10,7 +10,7 @@ class LocationModel extends Model
          $sql = "SELECT $this->table.*, categories.name AS category_name
                 FROM {$this->table}
                 LEFT JOIN categories ON $this->table.category = categories.id
-                ORDER BY {$this->colOrderBy} {$this->order}
+                ORDER BY {$this->orderBy} {$this->order}
                 LIMIT {$this->limit} OFFSET {$this->offset}";
          $params = [];
          $stmt = $this->_query($sql, $params);

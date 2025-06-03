@@ -22,14 +22,15 @@ class Admin extends Controller
    {
       $this->AdminModel->setBaseModel();
       $search = htmlspecialchars(Request::input("search", ""));
-      
       $data = $this->AdminModel->get();
+       $totalPages = $this->AdminModel->getTotalPages();
       if($search !== "") {
          $col =htmlspecialchars(Request::input("orderBy",""));
          $dataSearch = [$col => "%$search%"];
          $data = $this->AdminModel->like($dataSearch);
+         $totalPages = ceil($this->AdminModel->countLike($dataSearch)/$this->AdminModel->getLimit());
       }
-      $totalPages = $this->AdminModel->getTotalPages();
+
       $this->data['title'] = "Quản lý admin";
       $this->data['heading'] = "Admin";
       $this->data['page'] = "admin/index";

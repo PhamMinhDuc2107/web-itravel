@@ -61,3 +61,5 @@ $routes["dashboard/hotelReview"] = "admin/hotelReview/index";
 $routes["dashboard/hotelAmenity/get-amenity-ajax"] = "admin/hotelAmenity/getHotelAmenityAjax";
 $routes['dashboard/booking-export-data'] = 'admin/booking/exportBookingToExcel';
 $routes['dashboard/consultation-export-excel'] = 'admin/consultation/exportConsultationToExcel';
+$routes['dashboard/blog-upload-image'] = 'admin/blog/uploadImage';
+$routes['dashboard/hotel-upload-image'] = 'admin/hotel/uploadImage';

@@ -60,8 +60,8 @@ class TourModel extends Model
 				$sql .= " WHERE " . implode(" AND ", $whereClauses);
 			}
 
-			$sql .= " GROUP BY {$this->table}.{$this->colOrderBy}";
-			$sql .= " ORDER BY {$this->colOrderBy} {$this->order} ";
+			$sql .= " GROUP BY {$this->table}.{$this->orderBy}";
+			$sql .= " ORDER BY {$this->orderBy} {$this->order} ";
 			$sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
 			$stmt = $this->_query($sql, $params);
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -175,7 +175,7 @@ class TourModel extends Model
 			}
 
 			$sql .= " GROUP BY $this->table.id ";
-			$sql .= " ORDER BY {$this->colOrderBy} {$this->order} ";
+			$sql .= " ORDER BY {$this->orderBy} {$this->order} ";
 			$sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
 
 			$stmt = $this->_query($sql, $params);
@@ -316,7 +316,7 @@ class TourModel extends Model
 			if (!empty($filters['priceSort']) && in_array($filters['priceSort'], ['asc', "desc"])) {
 				$sql .= " ORDER BY tpc.adult_price " . htmlspecialchars($filters["priceSort"]) . "";
 			} else {
-				$sql .= " ORDER BY {$this->table}.{$this->colOrderBy} {$this->order} ";
+				$sql .= " ORDER BY {$this->table}.{$this->orderBy} {$this->order} ";
 			}
 			$page = isset($filters['page']) ? max(1, intval($filters['page'])) : 1;
 			$offset = ($page - 1) * $this->limit;
@@ -411,7 +411,7 @@ class TourModel extends Model
 				FROM $this->table
 				GROUP BY
 					{$this->table}.id
-				ORDER BY {$this->colOrderBy} {$this->order}
+				ORDER BY {$this->orderBy} {$this->order}
       ";
 			$params = [];
 			$stmt = $this->_query($sql, $params);

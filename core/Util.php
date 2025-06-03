@@ -508,5 +508,17 @@ class Util
       }
    }
 
-
+    public static function deleteImageDetail($content) {
+        preg_match_all('/<img[^>]+src=["\']([^"\']+)["\']/i', $content, $matches);
+        $imgUrls = $matches[1];
+        foreach ($imgUrls as $imgUrl) {
+            $parsedUrl = parse_url($imgUrl);
+            if (isset($parsedUrl['path'])) {
+                $filePath = $_SERVER['DOCUMENT_ROOT'] . $parsedUrl['path'];
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+        }
+    }
 }

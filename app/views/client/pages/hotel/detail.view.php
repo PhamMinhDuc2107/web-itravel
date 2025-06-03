@@ -80,7 +80,7 @@
                   Mô tả khách sạn
                </h4>
                <div class="section__info--desc">
-                  <?php echo $hotel['description']?>
+                  <?= $hotel['description']?>
                </div>
                <button class="btn btn-1 dialog__btn" data-type="content_more" data-id="1">Xem thêm</button>
             </div>
@@ -792,6 +792,7 @@
    <div class="dialog" data-type="content_more" data-id="1">
       <div class="dialog__content">
          <h4 class="dialog__title">Mô tả khách sạn</h4>
+          <?= $hotel['description'] ?>
          <i class="fa fa-close dialog__close"></i>
       </div>
    </div>

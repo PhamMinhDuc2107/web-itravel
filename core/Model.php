@@ -5,7 +5,7 @@ class Model extends Database
    protected $table;
    protected $allowedColumns = [];
    protected  $limit = 10;
-   protected  $colOrderBy = "id";
+   protected  $orderBy = "id";
    protected $order = "ASC";
    protected $offset = 0;
    public function __construct()
@@ -16,7 +16,7 @@ class Model extends Database
    public function all()
    {
       try {
-         $sql = "SELECT * FROM $this->table ORDER BY $this->colOrderBy $this->order";
+         $sql = "SELECT * FROM $this->table ORDER BY $this->orderBy $this->order";
          $params = [];
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -29,7 +29,7 @@ class Model extends Database
    public function get()
    {
       try {
-         $sql = "SELECT * FROM $this->table ORDER BY $this->colOrderBy $this->order LIMIT $this->limit OFFSET $this->offset";
+         $sql = "SELECT * FROM $this->table ORDER BY $this->orderBy $this->order LIMIT $this->limit OFFSET $this->offset";
          $params = [];
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -85,7 +85,7 @@ class Model extends Database
          }
 
          $sql .= implode(" AND ", $clauses);
-         $sql .= " ORDER BY {$this->colOrderBy} {$this->order}";
+         $sql .= " ORDER BY {$this->orderBy} {$this->order}";
          if ($pagi) {
             $sql .= " LIMIT {$this->limit} OFFSET {$this->offset}";
          }
@@ -108,7 +108,7 @@ class Model extends Database
 
          $placeholders = rtrim(str_repeat('?,', count($values)), ',');
 
-         $sql = "SELECT * FROM $this->table WHERE $column IN ($placeholders) ORDER BY {$this->colOrderBy} {$this->order}";
+         $sql = "SELECT * FROM $this->table WHERE $column IN ($placeholders) ORDER BY {$this->orderBy} {$this->order}";
          $stmt = $this->_con->prepare($sql);
 
          foreach ($values as $k => $val) {
@@ -215,7 +215,7 @@ class Model extends Database
          $this->setOffset($page);
       }
       if (Request::has("limit", "get")) {
-         $limit = (int)htmlspecialchars(Request::input("limit")) ?? 10;
+         $limit = (int)htmlspecialchars(Request::input("limit")) ?? $this->limit ?? 10;
          $this->setLimit($limit);
       }
       if (Request::has("order", "get")) {
@@ -239,18 +239,39 @@ class Model extends Database
          }
 
          $sql = rtrim($sql, "OR ");
-         $sql .= " ORDER BY {$this->colOrderBy} {$this->order} 
-                  LIMIT {$this->limit} OFFSET {$this->offset}";
-                  $stmt = $this->_query($sql, $params);
+         $sql .= " ORDER BY {$this->orderBy} {$this->order} 
+                   LIMIT {$this->limit} OFFSET {$this->offset}";
+         echo $sql;
+         $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (PDOException $e) {
          error_log("Query Error: " . $e->getMessage());
          return false;
       }
    }
+    public function countLike(array $data)
+    {
+        try {
+            $sql = "SELECT count(*) as total FROM $this->table WHERE ";
+            $params = [];
+
+            foreach ($data as $key => $value) {
+                $sql .= " $key LIKE :$key OR ";
+                $params[":$key"] = $value;
+            }
+            $sql = rtrim($sql, "OR ");
+            $stmt = $this->_query($sql, $params);
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $res["total"] ?? 0;
+        } catch (PDOException $e) {
+            error_log("Query Error: " . $e->getMessage());
+            return 0;
+        }
+    }
 
 
-   public function getTotalPages($where = false, $params = [], $condi = ""): int
+
+    public function getTotalPages($where = false, $params = [], $condi = ""): int
    {
       $count = $this->getCount($where, $params, $condi);
       return ceil($count / $this->limit);
@@ -262,12 +283,12 @@ class Model extends Database
 
    public function setOffset(int $offset)
    {
-      $this->offset = ($offset - 1) * $this->limit;
+      $this->offset = ($offset - 1) * $this->getLimit();
    }
 
-   public function setOrderBy(string $colOrderBy)
+   public function setOrderBy(string $orderBy)
    {
-      $this->colOrderBy = $colOrderBy;
+      $this->orderBy = $orderBy;
    }
 
    public function setOrder(string $orderBy)
@@ -287,7 +308,7 @@ class Model extends Database
 
    public function getColOrderBy(): string
    {
-      return $this->colOrderBy;
+      return $this->orderBy;
    }
 
    public function getOrderBy(): string

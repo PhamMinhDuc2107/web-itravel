@@ -20,9 +20,92 @@
                      <input type="text" class="form-control" id="name" name="name" value="<?php echo $hotel['name'] ?>">
                   </div>
                   <div class="mb-3">
-                     <label for="description" class="form-label">Mô tả</label>
-                     <input type="text" class="form-control" id="description" name="description"
-                        value="<?php echo $hotel['description'] ?>">
+                     <textarea class="tinymce" name="desc">
+                        <?=  $hotel['description'] ?? "" ?>
+                    </textarea>
+                      <script>
+                          const handlerProcessImage = (blobInfo, progress) => new Promise((resolve, reject) => {
+                              const formData = new FormData();
+                              formData.append('file', blobInfo.blob(), blobInfo.filename());
+                              formData.append("csrf_token", "<?= Session::get("csrf_token")?>");
+
+                              const xhr = new XMLHttpRequest();
+                              xhr.open('POST', '<?php echo _WEB_ROOT ?>/dashboard/hotel-upload-image', true);
+
+                              xhr.upload.onprogress = (e) => {
+                                  if (e.lengthComputable && progress) {
+                                      progress(e.loaded / e.total * 100);
+                                  }
+                              };
+
+                              xhr.onload = () => {
+                                  if (xhr.status < 200 || xhr.status >= 300) {
+                                      reject('HTTP Error: ' + xhr.status);
+                                      return;
+                                  }
+
+                                  let json;
+                                  try {
+                                      json = JSON.parse(xhr.responseText);
+                                  } catch (err) {
+                                      reject('Invalid JSON: ' + xhr.responseText);
+                                      return;
+                                  }
+
+                                  if (json && typeof json.location === 'string') {
+                                      resolve(json.location);
+                                  } else {
+                                      reject('Không nhận được đường dẫn ảnh.');
+                                  }
+                              };
+
+                              xhr.onerror = () => {
+                                  reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+                              };
+
+                              xhr.send(formData);
+                          });
+
+                          tinymce.init({
+                              selector: '.tinymce',
+                              plugins: [
+                                  'advlist', 'anchor', 'autolink', 'autosave', 'charmap', 'code', 'codesample',
+                                  'directionality', 'emoticons', 'fullscreen', 'help', 'image', 'importcss',
+                                  'insertdatetime', 'link', 'lists', 'media', 'nonbreaking', 'pagebreak', 'preview',
+                                  'print', 'quickbars', 'save', 'searchreplace', 'table', 'template', 'visualblocks',
+                                  'visualchars', 'wordcount', 'checklist', 'mediaembed', 'casechange', 'formatpainter',
+                                  'pageembed', 'footnotes',
+                                  'mergetags', 'typography', 'markdown'
+                              ],
+                              toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | \
+                        link image media table | align lineheight | checklist numlist bullist indent outdent | \
+                        emoticons charmap | removeformat | preview  fullscreen | code visualblocks visualchars | \
+                        searchreplace a11ycheck typography markdown | insertdatetime template pagebreak',
+                              height: 500,
+                              relative_urls: false,
+                              remove_script_host:false,
+                              document_base_url: 'http://localhost/web-itravel/',
+                              images_upload_handler: handlerProcessImage,
+                              file_picker_callback: function (cb, value, meta) {
+                                  if (meta.filetype === 'image') {
+                                      var input = document.createElement('input');
+                                      input.setAttribute('type', 'file');
+                                      input.setAttribute('accept', 'image/*');
+
+                                      input.onchange = function () {
+                                          var file = this.files[0];
+                                          var reader = new FileReader();
+                                          reader.onload = function () {
+                                              cb(reader.result, {title: file.name});
+                                          };
+                                          reader.readAsDataURL(file);
+                                      };
+
+                                      input.click();
+                                  }
+                              }
+                          });
+                      </script>
                   </div>
                   <div class="mb-3">
                      <label for="phone_number" class="form-label">Điện thoại</label>
@@ -204,6 +287,12 @@
                   </div>
             </div>
             </form>
+             <script>
+                 function beforeSubmit() {
+                     tinymce.triggerSave();
+                     return true;
+                 }
+             </script>
          </div>
       </div>
    </div>

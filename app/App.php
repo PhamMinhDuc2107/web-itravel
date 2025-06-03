@@ -93,5 +93,3 @@ class App
       return $url;
    }
 }
-
-?>

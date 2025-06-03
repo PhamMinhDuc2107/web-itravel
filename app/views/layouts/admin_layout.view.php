@@ -32,8 +32,6 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="<?php echo ASSET ?>/admin/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
 
-    <link href="<?php echo ASSET ?>/admin/css/froala_editor.pkgd.min.css" rel="stylesheet">
-    <script src="<?php echo ASSET ?>/admin/js/froala_editor.pkgd.min.js"></script>
     <!-- Flatpickr -->
     <link rel="stylesheet" href="<?php echo ASSET ?>/utils/flatpickr.min.css">
     <script src="<?php echo ASSET ?>/utils/flatpickr.min.js"></script>
@@ -46,6 +44,10 @@
             };
         };
     </script>
+    <!-- tinyMCE -->
+    <script src="<?= ASSET ?>/utils/tinymce/tinymce.min.js" ></script>
+
+
     <script src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js"></script>
 
     <style>
@@ -78,7 +80,7 @@
 
         .hiddenText {
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;

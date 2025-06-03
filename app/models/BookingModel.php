@@ -36,7 +36,7 @@ class BookingModel extends Model
                   JOIN
                       tours ON $this->table.tour_id = tours.id";;
          if ($isSort) {
-            $sql .= " ORDER BY {$this->colOrderBy} {$this->order}
+            $sql .= " ORDER BY {$this->orderBy} {$this->order}
                    LIMIT {$this->limit} OFFSET {$this->offset}";
          }
          $params = [];

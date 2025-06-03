@@ -15,9 +15,9 @@
                             <div class="d-flex gap-1 flex-column col-3 form__dropdown">
                                 <div class="dropdown border-radius-md border border-1 py-1 px-2 ">
                                     <span class=" dropdown-toggle mb-0 justify-content-between d-flex align-items-center" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <?= Request::input("orderBy") !== "" ? Request::input("orderBy","") : "Chọn cột" ?> 
+                                        <?= Request::input("orderBy") !== "" ? Request::input("orderBy","Chọn cột") : "Chọn cột" ?> 
                                     </span>
-                                    <input type="hidden" name="orderBy">
+                                    <input type="hidden" name="orderBy" value="<?= Request::input("orderBy","")?>">
                                     <ul class="dropdown-menu mt-1" aria-labelledby="dropdownMenuButton1">
                                         <?php if($data['col']):?>
                                         <?php foreach($data['col'] as $col):?>
@@ -33,7 +33,7 @@
                                     <span class="dropdown-toggle mb-0 justify-content-between d-flex align-items-center" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <?= Request::input("order") === "asc" ? "Tăng dần":( Request::input("order") === "desc" ?"Giảm dần" :"Sắp xếp")?> 
                                     </span>
-                                    <input type="hidden" name="order">
+                                    <input type="hidden" name="order" value="<?= Request::input("order","")?>">
                                     <ul class="dropdown-menu mt-1" aria-labelledby="dropdownMenuButton1">
                                         <li class="dropdown-item" data-value="asc">Tăng dần</li>
                                         <li class="dropdown-item" data-value="desc">Giảm dần</li>

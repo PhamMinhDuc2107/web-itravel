@@ -11,21 +11,40 @@
                      <h5 class="item__title">
                         Giá mỗi đêm
                      </h5>
+                   <?php
+                   $isParamPrice = false;
+                    $budgetId = Request::input("budgetId","");
+                    $budgetId= explode("_",$budgetId);
+                    if($budgetId[0] !== ""){
+                        $isParamPrice = true;
+                    }
+                   ?>
                   <div class="filter__list">
                      <div class="filter__item" data-type="budgetId" data-value="1">
-                        <input type="checkbox" id="price1">
+                        <input type="checkbox" id="price1" <?= $isParamPrice && in_array("1", $budgetId) ?
+                            "checked" : ""
+                        ?>>
                         <label for="price1" >Dưới 5 triệu</label>
                      </div>
-                     <div class="filter__item" data-type="budgetId" data-value="2">
-                        <input type="checkbox" id="price2">
+                     <div class="filter__item" data-type="budgetId" data-value="2" >
+                        <input type="checkbox" id="price2" <?=
+                        $isParamPrice && in_array("2", $budgetId) ?
+                            "checked" : ""
+                        ?>>
                         <label for="price2" >Từ 5 - 10 triệu </label>
                      </div>
                      <div class="filter__item" data-type="budgetId" data-value="3">
-                        <input type="checkbox" id="price3">
+                        <input type="checkbox" id="price3"  <?=
+                        $isParamPrice && in_array("3", $budgetId) ?
+                            "checked" : ""
+                        ?>>
                         <label for="price3" >Từ 10 - 20 triệu </label>
                      </div>
-                     <div class="filter__item" data-type="budgetId" data-value="4">
-                        <input type="checkbox" id="price4">
+                     <div class="filter__item" data-type="budgetId" data-value="4" >
+                        <input type="checkbox" id="price4" <?=
+                        $isParamPrice && in_array("4", $budgetId) ?
+                            "checked" : ""
+                        ?>>
                         <label for="price4" >Trên 20 triệu </label>
                      </div>
                   </div>
@@ -40,7 +59,12 @@
                      <?php if(!empty($hotelTypes)): ?>
                         <?php foreach($hotelTypes as $hotelType): ?>
                            <div class="filter__item" data-type="hotelType" data-value="<?php echo $hotelType['id']?>">
-                              <input type="checkbox" id="<?php echo "ht".$hotelType['id']?>">
+                              <input type="checkbox" id="<?php echo "ht".$hotelType['id']?>" <?=
+                              Request::has("hotelType", "get") &&
+                              in_array($hotelType['id'], explode("_",Request::input("hotelType",[])
+                              )) ?
+                                  "checked" : ""
+                              ?>>
                               <label for="<?php echo "ht".$hotelType['id']?>" ><?php
                               echo $hotelType['name']?></label>
                            </div>
@@ -48,29 +72,51 @@
                      <?php endif?>
                         </div>
                </div>
+                <?php
+                $isParamRating = false;
+                $sortRating = Request::input("sortRating","");
+                $sortRating= explode("_",$sortRating);
+                if($sortRating[0] !== ""){
+                    $isParamRating = true;
+                }
+                ?>
                <div class="hotel__sidebar--item">
                   <h5 class="item__title">
                      Đánh giá của khách hàng
                   </h5>
                   <div class="filter__list">
                      <div class="filter__item" data-type="sortRating" data-value="1">
-                        <input type="checkbox" id="01">
-                        <label for="01">Tuyệt vời(9.0+)</label>
+                        <input type="checkbox" id="1" <?= $isParamRating && in_array("1", $sortRating) ?
+                            "checked" : ""
+                        ?>>
+                        <label for="1">Tuyệt vời(9.0+)</label>
                      </div>
                      <div class="filter__item" data-type="sortRating" data-value="2">
-                        <input type="checkbox" id="02">
+                        <input type="checkbox" id="02" <?= $isParamRating && in_array("2",
+                            $sortRating) ?
+                            "checked" : ""
+                        ?>>
                         <label for="02">Rất tốt(8.0+)</label>
                      </div>
                      <div class="filter__item" data-type="sortRating" data-value="3">
-                        <input type="checkbox" id="03">
+                        <input type="checkbox" id="03" <?= $isParamRating && in_array("3",
+                            $sortRating) ?
+                            "checked" : ""
+                        ?>>
                         <label for="03">Tốt(7.0+)</label>
                      </div>
-                     <div class="filter__item" data-type="sortRating" data-value="4">
-                        <input type="checkbox" id="04">
+                     <div class="filter__item" data-type="sortRating" data-value="4" >
+                        <input type="checkbox" id="04" <?= $isParamRating && in_array("4",
+                            $sortRating) ?
+                            "checked" : ""
+                        ?>>
                         <label for="04">Trung bình(5.0+)</label>
                      </div>
                      <div class="filter__item" data-type="sortRating" data-value="5">
-                        <input type="checkbox" id="05">
+                        <input type="checkbox" id="05" <?= $isParamRating && in_array("5",
+                            $sortRating) ?
+                            "checked" : ""
+                        ?>>
                         <label for="05">Kém(1.0+)</label>
                      </div>
                   </div>
@@ -81,19 +127,31 @@
             <div class="hotel__sortbar">
                <span>Sắp xếp:</span>
                <ul class="hotel__sortbar--list">
-                  <li class="hotel__sortbar--item hotel__sortbar--active" data-order="default" data-orderBy="default">
+                  <li class="hotel__sortbar--item <?= Request::has("order") && Request::has
+                  ("orderBy") ? "hotel__sortbar--active" :""?>"
+                      data-order="default"
+                  data-orderBy="default">
                      Mặc định
                   </li>
-                  <li class="hotel__sortbar--item" data-order="asc" data-orderBy="price">
+                  <li class="hotel__sortbar--item <?= Request::input("order") === "asc" &&
+                  Request::input
+                  ("orderBy") === "price"? "hotel__sortbar--active" :""?>" data-order="asc"
+                      data-orderBy="price">
                      Rẻ nhất
                   </li>
-                  <li class="hotel__sortbar--item" data-order="desc" data-orderBy="price">
+                  <li class="hotel__sortbar--item <?= Request::input("order") === "desc" &&
+                  Request::input
+                  ("orderBy") === "price"? "hotel__sortbar--active" :""?>" data-order="desc" data-orderBy="price">
                      Đắt nhất
                   </li>
-                  <li class="hotel__sortbar--item" data-order="desc" data-orderBy="rating">
+                  <li class="hotel__sortbar--item <?= Request::input("order") === "desc" &&
+                  Request::input
+                  ("orderBy") === "rating"? "hotel__sortbar--active" :""?>" data-order="desc" data-orderBy="rating">
                      Hạng sao
                   </li>
-                  <li class="hotel__sortbar--item" data-order="desc" data-orderBy="overall_rating">
+                  <li class="hotel__sortbar--item <?= Request::input("order") === "desc" &&
+                  Request::input
+                  ("orderBy") === "overall_rating"? "hotel__sortbar--active" :""?>" data-order="desc" data-orderBy="overall_rating">
                      Đánh giá
                   </li>
                </ul>
@@ -263,9 +321,6 @@
                   <?php endforeach;?>
                <?php endif;?>
             </div>
-            <?php if($data['checkHotel']):?>
-               <button  type="button" class="btn btn-more hotel_page--btn" style="border-radius:8px" data-type="page">Xem thêm</button>
-            <?php endif?>
          </div>
       </div>
    </div>
@@ -294,21 +349,23 @@
    document.addEventListener('DOMContentLoaded', intiSwiper);
 </script>
 <script type="text/javascript">
-   let currentPage = 1;
-   let limit = 10;
-   const btnLoadMore = document.querySelector('.hotel_page--btn');
-   const requestData = {
-            budgetId:[],
-            hotelType:[],
-            sortRating:[],
-            page: <?php echo Request::input("page", "0") === "0" ? 1 : Request::input("page")?>,
-            order: <?php echo Request::input("order", "null")?>,
-            orderBy: <?php echo Request::input("orderBy", "null")?>,
-         }
+    const url = new URL(window.location);
+    const parseParam = (param) => {
+        const value = url.searchParams.get(param);
+        return value ? value.split('_').map(Number) : [];
+    };
+    const requestData = {
+        budgetId: parseParam('budgetId'),
+        hotelType: parseParam('hotelType'),
+        sortRating: parseParam('sortRating'),
+        order: "<?php echo Request::input("order", "null")?>",
+        orderBy: "<?php echo Request::input("orderBy", "null")?>"
+    }
+    console.log(requestData);
    const fetchHotel = () => {
       const webRoot = "<?php echo _WEB_ROOT?>";
       $(".loader").css("display", "flex")
-      $(".hotel__list").html("")
+       $(".hotel__list").html("");
       Object.keys(requestData).forEach(key => {
          const value = requestData[key];
          if (
@@ -324,18 +381,15 @@
          data: requestData,
          dataType: "json",
          success: function(response) {
+            console.log(response);
             $(".loader").css("display", "none")
             const webRoot = "<?php echo _WEB_ROOT?>";
             const hotels = response.data?.hotels;
-            let limit = response.data?.limit;
-            
-            if(hotels.length === 0) {
-               $(".hotel__list").html(`<div style="text-align:center;font-size:20px;margin:0 auto">${response.msg}</div>`)
-               $(".hotel_page--btn").css("display", "none");
+
+            if(hotels.length === 0)  {
+                $(".hotel__list").html(`<div style="text-align:center;font-size:20px;margin:0 auto">${response.msg}</div>`);
             }
-            if(hotels.length < currentPage * limit) {
-               $(".hotel_page--btn").css("display", "none");
-            }
+
             hotels.forEach(hotel=> {
                const hotelImages = hotel.images
                const hotelAmenities = hotel.amenties
@@ -391,7 +445,7 @@
                         </svg>
                         <span>${hotel.address + ', ' + hotel.city}</span>
                         <span class="info__location--link dialog__btn" data-type="map" data-id = "${hotel.id}">Xem bản đồ</span>
-                     
+
                         <div class="dialog" data-type ="map" data-id = "${hotel.id}">
                            <div id="map" class="dialog__content">
                               <iframe width="100%" height="100%" style="border-radius:16px" loading="lazy" allowfullscreen
@@ -463,13 +517,6 @@
                `)
             })
             intiSwiper()
-            dialog()
-            if (hotels.length < limit) {
-               btnLoadMore.style.display = 'none';
-            } else {
-               btnLoadMore.style.display = 'block';
-            }
-
          },
          error: function(xhr, status, error) {
             $(".hotel__list").html(`<span style="color:red">Lỗi khi gọi fetchHotel</span>`)
@@ -477,12 +524,10 @@
       });
    }
    const buildUrl = (param, value) => {
-      const url = new URL(window.location);
       url.searchParams.set(param, value);
       window.history.pushState({}, '', url);
    }
    const deleteParam = (params) => {
-      const url = new URL(window.location);
       params.forEach(param => {
          url.searchParams.delete(param);
       });
@@ -532,7 +577,8 @@
                      requestData[dataType].push(dataValue);
                   }
                } else {
-                  requestData[dataType] = requestData[dataType].filter(value => value !== dataValue);
+                  requestData[dataType] = requestData[dataType].filter(value => value !==
+                      Number(dataValue));
                }
 
                const hasValues = requestData[dataType].length > 0;
@@ -543,7 +589,6 @@
                hasValues 
                   ? buildUrl(dataType, urlValue)
                   : deleteParam([dataType]);
-               requestData['page'] = 1;
                checkInput();
                fetchHotel();
             });
@@ -576,6 +621,7 @@
       if(btnPage) {
          btnPage.addEventListener("click", (e) => {
          currentPage++;
+         buildUrl("page",currentPage)
          requestData['page'] = currentPage
          fetchHotel();
       })

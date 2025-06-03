@@ -25,18 +25,20 @@ class Hotel extends Controller
    }
    public function index()
    {
+      $this->HotelModel->setLimit(100);
       $this->HotelModel->setBaseModel();
       $categories = $this->CategoryModel->all();
       $destination = $this->LocationModel->where(['is_destination' => 1]);
       $departure = $this->LocationModel->where(['is_departure' => 1]);
-      $this->HotelModel->setLimit(10);
-      $hotels =$this->HotelModel->getHotels();
       $hotelImages = $this->HotelImageModel->all();
       $hotelAmenities = $this->HotelAmenityModel->getAmenities();
+
       $dataHotels = [];
-      $checkHotels  = true;
-      if(count($hotels) < $this->HotelModel->getLimit()) {
-         $checkHotels = false;
+      if(Request::has("hotelType", "get") || Request::has("budgetId", "get") || Request::has("sortRating", "get") || Request::has("orderBy", "get")) {
+          $dataParam = $this->filterData();
+          $hotels = $this->HotelModel->filterHotelsByRange($dataParam);
+      }else {
+          $hotels =$this->HotelModel->getHotels();
       }
       foreach($hotels as $key => $hotel) {
          $dataHotels[$hotel['id']] = $hotel;
@@ -70,14 +72,11 @@ class Hotel extends Controller
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['hotels'] = $dataHotels;
       $this->data['hotelTypes'] = $hotelTyes;
-      $this->data['checkHotel'] = $checkHotels;
       // seo
       $this->data['seo_desc'] = "Đặt phòng khách sạn giá rẻ tại Việt Nam và quốc tế với nhiều ưu đãi hấp dẫn. Itravel - lựa chọn lý tưởng cho kỳ nghỉ thoải mái và tiện nghi của bạn.";
       $this->data['seo_og_title'] = "Đặt Phòng Khách Sạn Giá Tốt, Tiện Nghi, Gần Trung Tâm | Itravel.com";
       $this->data['seo_og_desc'] = "Itravel cung cấp hàng ngàn khách sạn trong và ngoài nước, đặt phòng nhanh chóng, giá ưu đãi, dịch vụ chuyên nghiệp, hỗ trợ 24/7.";
       $this->data['seo_kw'] = "khách sạn Việt Nam, đặt khách sạn giá rẻ, khách sạn tiện nghi, đặt phòng khách sạn online, khách sạn gần trung tâm, ưu đãi khách sạn";
-
-      
       $this->render("layouts/client_layout", $this->data);
    }
    public function detail($slug) {
@@ -216,50 +215,12 @@ class Hotel extends Controller
          echo json_encode(Response::methodNotAllowed("Phương thức không hợp lệ", []));
          exit;
       }
-      $data = [];
-      $budgetId = Request::input('budgetId', []);
-      $hotelType = Request::input('hotelType', []);
-      $sortRating = Request::input('sortRating', []);
+       $this->HotelModel->setLimit(100);
+      $data = $this->filterData();
 
-      $budgetId = is_array($budgetId) ? array_map('intval', $budgetId) : [];
-      $hotelType = is_array($hotelType) ? array_map('intval', $hotelType) : [];
-      $sortRating = is_array($sortRating) ? array_map('intval', $sortRating) : [];
-      
-      foreach($budgetId as $item) {
-         $data["budget"][] = Util::getPriceRange($item);
-      }
-      foreach($sortRating as $item) {
-         $data["sortRating"][] = Util::getOverallRating($item);
-      }
-      $data['hotelType'] = $hotelType;
-      $allowedOrders = ['asc', 'desc'];
-      $allowedOrderBy = ['price', 'rating', 'overall_rating'];
-      $order = 'asc';
-      if (Request::has("order", "get")) {
-         $inputOrder = strtolower(Request::input("order", ""));
-         if (in_array($inputOrder, $allowedOrders)) {
-            $order = $inputOrder;
-         }
-      }
-
-      $orderBy = 'price';
-      if (Request::has("orderBy", "get")) {
-         $inputOrderBy = Request::input("orderBy", "");
-         if (in_array($inputOrderBy, $allowedOrderBy)) {
-            $orderBy = $inputOrderBy;
-         }
-      }
-      
-      $this->HotelModel->setOrder($order);
-      $this->HotelModel->setOrderBy($orderBy);
-      $this->HotelModel->setLimit(10);
-      if(Request::has("page" , "get"))  {
-         $inputPage = strtolower(Request::input("page", "get"));
-         $this->HotelModel->setLimit($inputPage * $this->HotelModel->getLimit());
-      }
       $hotels = $this->HotelModel->filterHotelsByRange($data);
       if(empty($hotels)) {
-         echo json_encode(Response::notFound("Không tìm thấy khách sạn nào phù hợp",["hotels"=>[],"limit"=>$this->HotelModel->getLimit()]));
+         echo json_encode(Response::notFound("Không tìm thấy khách sạn nào phù hợp",["hotels"=>[]]));
          exit;
       }
 
@@ -289,7 +250,8 @@ class Hotel extends Controller
       $responseData['limit'] = $this->HotelModel->getLimit();
       echo json_encode(Response::success("Thành công", $responseData));
    }
-   private function processImages($review_id, $images) {
+   private function processImages($review_id, $images): array
+   {
       
       $pathAsset = '/public/uploads/review/';
       $files = Util::convertListImgToArr($images);
@@ -313,6 +275,57 @@ class Hotel extends Controller
       }
       return ["success" => true, "msg" => "Ok"];
    }
+    private function filterData(): array
+    {
+        $dataParam = [];
+        $budgetId = Request::input('budgetId', []);
+        $hotelType = Request::input('hotelType', []);
+        $sortRating = Request::input('sortRating', []);
 
+        $budgetId = is_array($budgetId) ? $budgetId : explode('_', $budgetId);
+        $budgetId = array_map('intval', $budgetId);
+
+        $hotelType = is_array($hotelType) ? $hotelType : explode('_', $hotelType);
+        $hotelType = array_map('intval', $hotelType);
+
+        $sortRating = is_array($sortRating) ? $sortRating : explode('_', $sortRating);
+        $sortRating = array_map('intval', $sortRating);
+
+
+        foreach($budgetId as $item) {
+            $dataParam["budget"][] = Util::getPriceRange($item);
+        }
+        foreach($sortRating as $item) {
+            $dataParam["sortRating"][] = Util::getOverallRating($item);
+        }
+        $dataParam['hotelType'] = $hotelType;
+        $allowedOrders = ['asc', 'desc'];
+        $allowedOrderBy = ['price', 'rating', 'overall_rating'];
+        $order = 'asc';
+        if (Request::has("order", "get")) {
+            $inputOrder = strtolower(Request::input("order", ""));
+            if (in_array($inputOrder, $allowedOrders)) {
+                $order = $inputOrder;
+            }
+        }
+
+        $orderBy = 'price';
+        if (Request::has("orderBy", "get")) {
+            $inputOrderBy = Request::input("orderBy", "");
+            if (in_array($inputOrderBy, $allowedOrderBy)) {
+                $orderBy = $inputOrderBy;
+            }
+        }
+
+        $this->HotelModel->setOrder($order);
+        $this->HotelModel->setOrderBy($orderBy);
+
+        if(Request::has("page" , "get"))  {
+            $limitDefault = 1;
+            $inputPage = strtolower(Request::input("page", "get"));
+            $this->HotelModel->setLimit($inputPage * $limitDefault);
+        }
+        return $dataParam;
+    }
 
 }
