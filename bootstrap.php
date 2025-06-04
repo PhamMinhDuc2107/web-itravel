@@ -25,6 +25,12 @@ spl_autoload_register(function ($class) {
       }
    }
 });
+// require mailer
+require_once __DIR__ . "/mailer/MailerInterface.php";
+require_once __DIR__ . "/mailer/Mailable.php";
+require_once __DIR__ . "/mailer/Mailer.php";
+require_once __DIR__ . "/mailer/OrderMail.php";
+
 // check AppEnv
 if($app_env === 'maintenance') {
    Util::loadError('503', "503");

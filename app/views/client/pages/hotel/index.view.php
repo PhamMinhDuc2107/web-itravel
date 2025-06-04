@@ -127,8 +127,8 @@
             <div class="hotel__sortbar">
                <span>Sắp xếp:</span>
                <ul class="hotel__sortbar--list">
-                  <li class="hotel__sortbar--item <?= Request::has("order") && Request::has
-                  ("orderBy") ? "hotel__sortbar--active" :""?>"
+                  <li class="hotel__sortbar--item <?= !Request::has("order","get") && !Request::has
+                  ("orderBy","get") ? "hotel__sortbar--active" :""?>"
                       data-order="default"
                   data-orderBy="default">
                      Mặc định
@@ -325,47 +325,25 @@
       </div>
    </div>
 </section>
+
 <script type="text/javascript">
-   const intiSwiper = () => {
-      if (window.swiper && typeof window.swiper.destroy === 'function') {
-         window.swiper.destroy(true, true); 
-      } 
-      window.swiper = new Swiper('.hotel__item--img', {
-      loop: true,
-      navigation: {
-         nextEl: '.swiper-button-next',
-         prevEl: '.swiper-button-prev',
-      },
-      autoplay: {
-         delay: 3000,
-      },
-      pagination: {
-         el: '.swiper-pagination',
-         clickable: true,
-      },
-      effect: "slider",
-   });
-   }
-   document.addEventListener('DOMContentLoaded', intiSwiper);
-</script>
-<script type="text/javascript">
-    const url = new URL(window.location);
-    const parseParam = (param) => {
-        const value = url.searchParams.get(param);
-        return value ? value.split('_').map(Number) : [];
-    };
-    const requestData = {
-        budgetId: parseParam('budgetId'),
-        hotelType: parseParam('hotelType'),
-        sortRating: parseParam('sortRating'),
-        order: "<?php echo Request::input("order", "null")?>",
-        orderBy: "<?php echo Request::input("orderBy", "null")?>"
-    }
-    console.log(requestData);
+      const url = new URL(window.location.href);
+      const parseParam = (param) => {
+         const value = url.searchParams.get(param);
+         return value ? value.split('_').map(Number) : [];
+      };
+      const requestData = {
+         budgetId: parseParam('budgetId'),
+         hotelType: parseParam('hotelType'),
+         sortRating: parseParam('sortRating'),
+         order: "<?php echo Request::input("order", "null")?>",
+         orderBy: "<?php echo Request::input("orderBy", "null")?>"
+      }
    const fetchHotel = () => {
       const webRoot = "<?php echo _WEB_ROOT?>";
+      
       $(".loader").css("display", "flex")
-       $(".hotel__list").html("");
+      $(".hotel__list").html("");
       Object.keys(requestData).forEach(key => {
          const value = requestData[key];
          if (
@@ -388,6 +366,7 @@
 
             if(hotels.length === 0)  {
                 $(".hotel__list").html(`<div style="text-align:center;font-size:20px;margin:0 auto">${response.msg}</div>`);
+                return;
             }
 
             hotels.forEach(hotel=> {
@@ -571,6 +550,7 @@
                if (!filterItem) return;
 
                const { type: dataType, value: dataValue } = filterItem.dataset;
+               console.log(dataType, dataValue, e.target.checked);
                requestData[dataType] = requestData[dataType] || [];
                if (e.target.checked) {
                   if (!requestData[dataType].includes(dataValue)) {
@@ -578,7 +558,7 @@
                   }
                } else {
                   requestData[dataType] = requestData[dataType].filter(value => value !==
-                      Number(dataValue));
+                     dataValue);
                }
 
                const hasValues = requestData[dataType].length > 0;
@@ -616,17 +596,30 @@
             fetchHotel()
          }
       })
-      // page
-      const btnPage = document.querySelector(".hotel_page--btn")
-      if(btnPage) {
-         btnPage.addEventListener("click", (e) => {
-         currentPage++;
-         buildUrl("page",currentPage)
-         requestData['page'] = currentPage
-         fetchHotel();
-      })
-      }
+     
    });
 
 </script>
-
+<script type="text/javascript">
+   const intiSwiper = () => {
+      if (window.swiper && typeof window.swiper.destroy === 'function') {
+         swiper.destroy(true, true); 
+      } 
+      window.swiper = new Swiper('.hotel__item--img', {
+      loop: true,
+      navigation: {
+         nextEl: '.swiper-button-next',
+         prevEl: '.swiper-button-prev',
+      },
+      autoplay: {
+         delay: 3000,
+      },
+      pagination: {
+         el: '.swiper-pagination',
+         clickable: true,
+      },
+      effect: "slider",
+   });
+   }
+   document.addEventListener('DOMContentLoaded', intiSwiper);
+</script>

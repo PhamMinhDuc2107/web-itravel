@@ -45,4 +45,8 @@ class Response
    {
       return self::get($message, $data,"error");
    }
+   public static function error(string $message,array $data=[]): array
+   {
+      return self::get($message, $data,"error");
+   }
 }

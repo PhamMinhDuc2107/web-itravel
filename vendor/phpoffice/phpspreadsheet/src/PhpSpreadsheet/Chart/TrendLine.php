@@ -79,12 +79,12 @@ class TrendLine extends Properties
 
     public function getOrder(): int
     {
-        return $this->getOrder();
+        return $this->order;
     }
 
     public function setOrder(int $order): self
     {
-        $this->getOrder() = $order;
+        $this->order = $order;
 
         return $this;
     }

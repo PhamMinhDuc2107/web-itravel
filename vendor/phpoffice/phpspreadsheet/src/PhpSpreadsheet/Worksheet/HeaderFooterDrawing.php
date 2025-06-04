@@ -13,12 +13,12 @@ class HeaderFooterDrawing extends Drawing
     {
         return md5(
             $this->getPath()
-                . $this->name
-                . $this->offsetX
-                . $this->offsetY
-                . $this->width
-                . $this->height
-                . __CLASS__
+            . $this->name
+            . $this->offsetX
+            . $this->offsetY
+            . $this->width
+            . $this->height
+            . __CLASS__
         );
     }
 }

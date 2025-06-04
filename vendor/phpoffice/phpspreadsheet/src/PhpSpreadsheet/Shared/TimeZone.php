@@ -70,6 +70,6 @@ class TimeZone
         }
         $dtobj->setTimeZone(new DateTimeZone($timezoneName));
 
-        return $dtobj->offset;
+        return $dtobj->getOffset();
     }
 }

@@ -26,7 +26,7 @@
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14896.234495186189!2d105.81507806171341!3d21.030340193851536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab8088d28687%3A0x2c41619cb734a241!2zQ8OUTkcgVFkgVE5ISCBUSMavxqBORyBN4bqgSSBWw4AgROG7ikNIIFbhu6QgSVRSQVZFTCBWSeG7hlQgTkFN!5e0!3m2!1svi!2s!4v1738839130004!5m2!1svi!2s"
             width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
-         <form action="<?php echo _WEB_ROOT . 'gui-thong-tin-lien-he' ?>" method="post" class="contact__form">
+         <form action="<?php echo _WEB_ROOT . '/gui-thong-tin-lien-he' ?>" method="post" class="contact__form">
             <input type="hidden" name="csrf_token" value="<?php echo Session::get("csrf_token") ?>">
             <div>
                <input type="text" name="name" placeholder="Họ và tên">

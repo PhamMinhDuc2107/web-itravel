@@ -1,5 +1,5 @@
 {
-    "name": "web_itravel",
+    "name": "web/itravel",
     "type": "web",
     "license": "MIT",
     "authors": [
@@ -11,6 +11,7 @@
         "phpoffice/phpspreadsheet": "^4.0",
         "predis/predis": "^2.3",
         "monolog/monolog": "^3.9",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+        "phpmailer/phpmailer": "^6.10"
     }
 }

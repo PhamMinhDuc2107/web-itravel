@@ -421,19 +421,19 @@ class BaseDrawing implements IComparable
     {
         return md5(
             $this->name
-                . $this->description
-                . (($this->worksheet === null) ? '' : (string) $this->worksheet->getHashInt())
-                . $this->coordinates
-                . $this->offsetX
-                . $this->offsetY
-                . $this->coordinates2
-                . $this->offsetX2
-                . $this->offsetY2
-                . $this->width
-                . $this->height
-                . $this->rotation
-                . $this->shadow->getHashCode()
-                . __CLASS__
+            . $this->description
+            . (($this->worksheet === null) ? '' : (string) $this->worksheet->getHashInt())
+            . $this->coordinates
+            . $this->offsetX
+            . $this->offsetY
+            . $this->coordinates2
+            . $this->offsetX2
+            . $this->offsetY2
+            . $this->width
+            . $this->height
+            . $this->rotation
+            . $this->shadow->getHashCode()
+            . __CLASS__
         );
     }
 

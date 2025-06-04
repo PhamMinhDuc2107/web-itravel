@@ -27,7 +27,7 @@ class PageSetup
             if (isset($attributes['percentage'])) {
                 $setup->setScale((int) $attributes['percentage']);
             }
-            $pageOrder = (string) $printInformation->getOrder();
+            $pageOrder = (string) $printInformation->order;
             if ($pageOrder === 'r_then_d') {
                 $setup->setPageOrder(WorksheetPageSetup::PAGEORDER_OVER_THEN_DOWN);
             } elseif ($pageOrder === 'd_then_r') {
@@ -70,6 +70,11 @@ class PageSetup
         return $this;
     }
 
+    /**
+     * @param float[] $marginSet
+     *
+     * @return float[]
+     */
     private function buildMarginSet(SimpleXMLElement $sheet, array $marginSet): array
     {
         foreach ($sheet->PrintInformation->Margins->children(Gnumeric::NAMESPACE_GNM) as $key => $margin) {
@@ -83,6 +88,7 @@ class PageSetup
         return $marginSet;
     }
 
+    /** @param float[] $marginSet */
     private function adjustMargins(array $marginSet): void
     {
         foreach ($marginSet as $key => $marginSize) {

@@ -7,11 +7,12 @@ $routes['gioi-thieu'] = 'introduce/index';
 $routes['du-lich'] = 'tour/index';
 $routes['du-lich/([a-zA-Z0-9-]+)'] = 'tour/detail/$1';
 $routes['du-lich/get-price'] = 'tour/getPrice';
+$routes['(tour-trong-nuoc|tour-nuoc-ngoai|tour-cao-cap|tour-combo-gia-re)(?:/([a-zA-Z0-9-]+))?'] = 'tour/getToursByCategory/$1';
 
 $routes['tim-kiem'] = 'tour/search';
 $routes['tim-kiem-tour-du-lich'] = 'tour/searchProductAjax';
 $routes['tim-kiem-ajax'] = 'tour/searchProductAndBlogAjax';
-$routes['(tour-trong-nuoc|tour-nuoc-ngoai|tour-cao-cap|tour-combo-gia-re)(?:/([a-zA-Z0-9-]+))?'] = 'tour/getToursByCategory/$1';
+
 $routes['visa'] = 'visa/index';
 $routes['ho-chieu'] = 'passport/index';
 $routes['ve-may-bay'] = 'bookingFilght/index';

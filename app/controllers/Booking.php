@@ -1,4 +1,7 @@
 <?php
+use Mailer\Mailer;
+use Mailer\OrderMail;
+
 class Booking extends Controller
 {
    private $data;
@@ -8,6 +11,7 @@ class Booking extends Controller
    private $TourPriceCalendarModel;
    private $BookingModel;
    private $jwt;
+   private $mailer;
    public function __construct()
    {
       $this->jwt = new JwtUtil();
@@ -16,6 +20,7 @@ class Booking extends Controller
       $this->CategoryModel = $this->model("CategoryModel");
       $this->TourPriceCalendarModel = $this->model("TourPriceCalendarModel");
       $this->BookingModel = $this->model("BookingModel");
+      $this->mailer = new Mailer();
    }
    public function index($code)
    {
@@ -87,6 +92,12 @@ class Booking extends Controller
       if (!$res) {
          Util::redirect("", Response::internalServerError("Thất bại"));
       }
-      Util::redirect("checkout/thankyou", Response::success("Thành công", [base64_encode(json_encode(["bookingCode" => $bookingCode]))]));
+      $tour  = $this->TourModel->find($tourId);
+      $data['tour'] = $tour['name'];
+      $orerMail = (new OrderMail($data))->to($email)->subject("Xác nhận đặt Tour - ". $tour['name']);
+      if(!$this->mailer->send($orerMail)) {
+         Util::redirect("checkout/thankyou", Response::error("Không thể gửi email xác nhận. Vui lòng thử lại sau."));
+      }
+      Util::redirect("checkout/thankyou", Response::success("Thành công" ));
    }
 }

@@ -92,34 +92,35 @@
   });
   }
   // dialog
-  const dialog =() => {
-    document.addEventListener("DOMContentLoaded", () => {
-    const dialogBtns = document.querySelectorAll(".dialog__btn");
-    const dialogs = document.querySelectorAll(".dialog");
+  const dialogHandler = () => {
+  document.addEventListener("click", function (e) {
+    const dialogBtn = e.target.closest(".dialog__btn");
+    console.log(dialogBtn);
+    if (!dialogBtn) return;
 
-    dialogBtns.forEach((dialogBtn) => {
-      const buttonType = dialogBtn.dataset.type;
-      const buttonId = dialogBtn.dataset.id;
-      dialogBtn.addEventListener("click", (e) => {
-        dialogs.forEach((dialog) => {
-          const dialogType = dialog.dataset.type;
-          const dialogId = dialog.dataset.id;
-          if (buttonType === dialogType && buttonId === dialogId) {
-            dialog.classList.add("dialog__active");
-            dialog.addEventListener("click", (e) => {
-              if (
-                e.target.classList.contains("dialog__close") ||
-                e.target === dialog
-              ) {
-                dialog.classList.remove("dialog__active");
-              }
-            });
+    const buttonType = dialogBtn.dataset.type;
+    const buttonId = dialogBtn.dataset.id;
+    document.querySelectorAll(".dialog").forEach((dialog) => {
+      const dialogType = dialog.dataset.type;
+      const dialogId = dialog.dataset.id;
+
+      if (buttonType === dialogType && buttonId === dialogId) {
+        dialog.classList.add("dialog__active");
+        const closeHandler = (e) => {
+          if (
+            e.target.classList.contains("dialog__close") ||
+            e.target === dialog
+          ) {
+            dialog.classList.remove("dialog__active");
+            dialog.removeEventListener("click", closeHandler);
           }
-        });
-      });
+        };
+
+        dialog.addEventListener("click", closeHandler);
+      }
     });
   });
-  }
-  dialog();
+};
+  dialogHandler();
 })();
 

@@ -392,7 +392,7 @@
       </div>
    </div>
    <!-- dialog review -->
-   <div class="dialog" data-type="image" data-id="1">
+   <div class="dialog" data-type="review" data-id="1">
       <div class="dialog__content">
          <div class="review">
             <h4 class="review__title">

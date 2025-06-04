@@ -163,6 +163,13 @@ class Tour extends Controller
          ['name' => "Du lịch", "link" => "du-lich"],
          ['name' => $categoryName, 'link' => "{$category['slug']}"]
       ];
+      if( Request::has("destination", "get")) {
+         $destination = htmlspecialchars(Request::input("destination", ""));
+         $destination = $this->LocationModel->find($destination, "slug");
+         if ($destination) {
+            $breadcrumbs[] = ['name' => $destination['name'], 'link' => "{$category['slug']}?destination={$destination['slug']}"];
+         }
+      }
       $title = $categoryName;
       if (in_array($slug, ['tour-trong-nuoc', 'tour-nuoc-ngoai',"tour-cao-cap","tour-combo-gia-re"])) {
          $this->data['typeTour'] = $filters['typeTour'];
