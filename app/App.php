@@ -39,7 +39,7 @@ class App
             if (!empty($urlArr[$key - 1])) {
                unset($urlArr[$key - 1]);
             }
-            $a= "app/controllers/".$filterCheck.".php";
+
             if (file_exists("app/controllers/".$filterArr.".php")) {
                $urlCheck = $filterArr;
                break;

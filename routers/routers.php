@@ -38,7 +38,8 @@ $routes['lien-he-tu-van-([a-zA-Z0-9-]+)'] = 'ContactService/index/$1';
 $routes['gui-thong-tin-lien-he'] = 'contact/handleContactForm';
 $routes['404'] = "errors/NotFound/index";
 $routes['500'] = "errors/InternalServer/index";
-
+//sitemap
+$routes['sm'] = "sitemap/index";
 
 
 

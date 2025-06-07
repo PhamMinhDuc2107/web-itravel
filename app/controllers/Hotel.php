@@ -130,6 +130,7 @@ class Hotel extends Controller
       $this->data['title'] = $hotel['name'];
       $this->data['heading'] = $hotel['name'];
       $this->data['reviewData'] = $reviewData ?? $reviews;
+      $this->data['totalReview'] = $this->HotelReviewModel->getReviewCount(['hotel_id' => $hotel['id']]);
       $this->data['reviewAverageRatings'] = $reviewAverageRatings;
       $this->render('layouts/client_layout', $this->data);
    }
