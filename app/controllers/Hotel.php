@@ -25,7 +25,7 @@ class Hotel extends Controller
    }
    public function index()
    {
-      $this->HotelModel->setLimit(100);
+      $this->HotelModel->setLimit(1);
       $this->HotelModel->setBaseModel();
       $categories = $this->CategoryModel->all();
       $destination = $this->LocationModel->where(['is_destination' => 1]);
@@ -216,7 +216,7 @@ class Hotel extends Controller
          echo json_encode(Response::methodNotAllowed("Phương thức không hợp lệ", []));
          exit;
       }
-       $this->HotelModel->setLimit(100);
+       $this->HotelModel->setLimit(1);
       $data = $this->filterData();
 
       $hotels = $this->HotelModel->filterHotelsByRange($data);
@@ -248,7 +248,6 @@ class Hotel extends Controller
       }
       $responseData = [];
       $responseData['hotels'] = $hotels;
-      $responseData['limit'] = $this->HotelModel->getLimit();
       echo json_encode(Response::success("Thành công", $responseData));
    }
    private function processImages($review_id, $images): array
@@ -322,9 +321,9 @@ class Hotel extends Controller
         $this->HotelModel->setOrderBy($orderBy);
 
         if(Request::has("page" , "get"))  {
-            $limitDefault = 1;
             $inputPage = strtolower(Request::input("page", "get"));
-            $this->HotelModel->setLimit($inputPage * $limitDefault);
+            $inputPage = max(1, (int)$inputPage);
+            $this->HotelModel->setOffset($inputPage);
         }
         return $dataParam;
     }

@@ -344,6 +344,10 @@
 
 <script type="text/javascript">
     const url = new URL(window.location.href);
+    const webRoot = "<?php echo _WEB_ROOT?>";
+    let lastScrollY = window.scrollY;
+    let isLoading = false;
+    let noMoreData = false;
     const parseParam = (param) => {
         const value = url.searchParams.get(param);
         return value ? value.split('_').map(String) : [];
@@ -352,30 +356,35 @@
         budgetId: parseParam('budgetId'),
         hotelType: parseParam('hotelType'),
         sortRating: parseParam('sortRating'),
-        order: "<?php echo Request::input("order", "null")?>",
-        orderBy: "<?php echo Request::input("orderBy", "null")?>"
+        order: "<?php echo Request::input("order", null)?>" || null,
+        orderBy: "<?php echo Request::input("orderBy", null)?>" || null,
+        page:1,
+    }
+    const clearRequestData = (arr) => {
+        Object.keys(arr).forEach(key => {
+            const value = arr[key];
+            if (
+                value === null || value === undefined ||
+                (Array.isArray(value) && value.length === 0)
+            ) {
+                delete arr[key];
+            }
+        });
     }
     const fetchHotel = () => {
-        const webRoot = "<?php echo _WEB_ROOT?>";
 
         $(".loader").css("display", "flex")
         $(".hotel__list").html("");
-        Object.keys(requestData).forEach(key => {
-            const value = requestData[key];
-            if (
-                value == null ||
-                (Array.isArray(value) && value.length === 0)
-            ) {
-                delete requestData[key];
-            }
-        });
+        clearRequestData(requestData);
+        requestData["page"] = 1;
+        isLoading  = false;
+        noMoreData = false;
         $.ajax({
             url: webRoot + "/khach-san/tim-kiem",
             method: "GET",
             data: requestData,
             dataType: "json",
             success: function (response) {
-                console.log(response);
                 $(".loader").css("display", "none")
                 const webRoot = "<?php echo _WEB_ROOT?>";
                 const hotels = response.data?.hotels;
@@ -384,11 +393,173 @@
                     $(".hotel__list").html(`<div style="text-align:center;font-size:20px;margin:0 auto">${response.msg}</div>`);
                     return;
                 }
+                renderHotel(hotels)
+                intiSwiper()
+            },
+            error: function (xhr, status, error) {
+                $(".hotel__list").html(`<span style="color:red">Lỗi khi gọi fetchHotel</span>`)
+            }
+        });
+    }
+    const buildUrl = (param, value) => {
+        url.searchParams.set(param, value);
+        window.history.pushState({}, '', url);
+    }
+    const deleteParam = (params) => {
+        params.forEach(param => {
+            url.searchParams.delete(param);
+        });
+        window.history.pushState({}, '', url);
+    }
+    // check input
+    const btnRemove = document.querySelector(".sidebar__btn--remove")
 
-                hotels.forEach(hotel => {
-                    const hotelImages = hotel.images
-                    const hotelAmenities = hotel.amenties
-                    $(".hotel__list").append(`
+    const checkInput = () => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        if (checkboxes.length > 0) {
+            btnRemove.style.display = "block";
+        } else {
+            btnRemove.style.display = "none";
+        }
+    }
+    // clear input checked
+    const clearCheckedInput = () => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        btnRemove.style.display = "none";
+
+        requestData['budgetId'] = [];
+        requestData['hotelType'] = [];
+        requestData['sortRating'] = [];
+        deleteParam(['budgetId', "hotelType", "sortRating"])
+        fetchHotel()
+    };
+    // handleClickRemoveChecked
+    btnRemove.addEventListener("click", clearCheckedInput)
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const inputs = document.querySelectorAll(".filter__item input[type='checkbox']");
+
+        Array.from(inputs).forEach(input => {
+            input.addEventListener("change", (e) => {
+                const filterItem = e.target.parentNode;
+                if (!filterItem) return;
+
+                const {type: dataType, value: dataValue} = filterItem.dataset;
+                console.log(dataType, dataValue, e.target.checked);
+                requestData[dataType] = requestData[dataType] || [];
+                if (e.target.checked) {
+                    if (!requestData[dataType].includes(dataValue)) {
+                        requestData[dataType].push(dataValue);
+                    }
+                } else {
+                    requestData[dataType] = requestData[dataType].filter(value => value !==
+                        dataValue);
+                }
+
+                const hasValues = requestData[dataType].length > 0;
+                const urlValue = requestData[dataType].length === 1
+                    ? requestData[dataType][0]
+                    : requestData[dataType].join("_");
+                hasValues
+                    ? buildUrl(dataType, urlValue)
+                    : deleteParam([dataType]);
+                checkInput();
+                fetchHotel();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // sortbar
+        const hotelSortBarList = document.querySelector('.hotel__sortbar--list')
+        const hotelSortBarItems = document.querySelectorAll(".hotel__sortbar--item")
+        hotelSortBarList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("hotel__sortbar--item")) {
+                hotelSortBarItems.forEach((item) => item.classList.remove("hotel__sortbar--active"))
+                e.target.classList.add("hotel__sortbar--active")
+                const {order, orderby: orderBy} = e.target.dataset
+                if (order === "default" || orderBy === "default") {
+                    deleteParam(['order', "orderBy"])
+                    delete requestData['order']
+                    delete requestData['orderBy']
+
+                    fetchHotel()
+                    return;
+                }
+                requestData['order'] = order
+                requestData['orderBy'] = orderBy
+                buildUrl("order", order)
+                buildUrl("orderBy", orderBy)
+                fetchHotel()
+            }
+        })
+
+    });
+    // loadMore
+
+    const loadMoreHotel = () => {
+        if(noMoreData) {
+            return;
+        }
+        isLoading = true;
+        $(".loader").css("display", "flex");
+        clearRequestData(requestData);
+        requestData['page']++;
+        $.ajax({
+            url: webRoot + "/khach-san/tim-kiem",
+            method: "GET",
+            data: requestData,
+            dataType: "json",
+            success: function (result) {
+                $(".loader").css("display", "none");
+                let hotels = result.data.hotels;
+                if (hotels.length === 0) {
+                    noMoreData = true;
+                    return;
+                }
+                renderHotel(hotels)
+                isLoading = false;
+            },
+            error: function (xhr, status, error) {
+                $(".hotel__list").html(`<span style="color:red">Lỗi khi gọi fetchHotel</span>`)
+                console.log(xhr.responseText);
+                isLoading = false;
+            }
+        })
+    }
+    function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    }
+    window.addEventListener('scroll', debounce(() => {
+        const currentScrollY = window.scrollY;
+        console.log(noMoreData)
+
+        if (currentScrollY > lastScrollY ) {
+            const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight
+                - 300;
+            if(nearBottom && !isLoading) {
+                isLoading = true;
+                loadMoreHotel();
+            }
+        }
+        lastScrollY = currentScrollY;
+    }, 200));
+    const renderHotel = (hotels) => {
+        hotels.forEach(hotel => {
+            const hotelImages = hotel.images
+            const hotelAmenities = hotel.amenties
+            $(".hotel__list").append(`
                   <div class="hotel__item">
                   <section class="hotel__item--img swiper">
                      <div class="swiper-button-prev"></div>
@@ -397,7 +568,7 @@
                            <li class="hotel__img--item swiper-slide">
                               <img src="${webRoot}${image.image}" alt="${image.id}" />
                            </li>`
-                    ).join("") : ""}
+            ).join("") : ""}
                      </ul>
                      <div class="swiper-pagination"></div>
                      <div class="swiper-button-next"></div>
@@ -407,9 +578,9 @@
                         <a href="${webRoot + '/khach-san/' + hotel['slug']}">${hotel.name}</a>
                         <div class="info__rating">
                         ${Array(Math.round(hotel.rating))
-                        .fill()
-                        .map(() => '<i class="fa fa-star"></i>')
-                        .join('')}
+                .fill()
+                .map(() => '<i class="fa fa-star"></i>')
+                .join('')}
                         </div>
                      </div>
                      <div class="info__category">
@@ -454,9 +625,9 @@
                      <div class="info__service">
                         <ul class="info__service--list">
                            ${hotelAmenities && hotelAmenities
-                        .slice(0, 3)
-                        .map(item => `<li class="info__service--item">${item.name}</li>`)
-                        .join('')}
+                .slice(0, 3)
+                .map(item => `<li class="info__service--item">${item.name}</li>`)
+                .join('')}
                         </ul>
                         <span class="info__service--item info__service--more">
                            ${hotelAmenities.length - 3}+
@@ -464,11 +635,11 @@
                               <h6>Dịch vụ: </h6>
                               <ul class="more__list">
                               ${hotelAmenities && hotelAmenities
-                        .map(item => `<li class="more__item">
+                .map(item => `<li class="more__item">
                                        <i class="fa fa-check"></i>
                                        ${item.name}
                                     </li>`)
-                        .join('')}
+                .join('')}
                               </ul>
                            </div>
                         </span>
@@ -510,111 +681,9 @@
                      </div>
                   </div>
                `)
-                })
-                intiSwiper()
-            },
-            error: function (xhr, status, error) {
-                $(".hotel__list").html(`<span style="color:red">Lỗi khi gọi fetchHotel</span>`)
-            }
-        });
-    }
-    const buildUrl = (param, value) => {
-        url.searchParams.set(param, value);
-        window.history.pushState({}, '', url);
-    }
-    const deleteParam = (params) => {
-        params.forEach(param => {
-            url.searchParams.delete(param);
-        });
-        window.history.pushState({}, '', url);
-    }
-    // check input
-    const btnRemove = document.querySelector(".sidebar__btn--remove")
-
-    const checkInput = () => {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        if (checkboxes.length > 0) {
-            btnRemove.style.display = "block";
-        } else {
-            btnRemove.style.display = "none";
-
-        }
-    }
-    // clear input checked
-    const clearCheckedInput = () => {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        btnRemove.style.display = "none";
-
-        requestData['budgetId'] = [];
-        requestData['hotelType'] = [];
-        requestData['sortRating'] = [];
-        deleteParam(['budgetId', "hotelType", "sortRating"])
-        fetchHotel()
-    };
-    // handleClickRemoveChecked
-    btnRemove.addEventListener("click", clearCheckedInput)
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const inputs = document.querySelectorAll(".filter__item input[type='checkbox']");
-
-        Array.from(inputs).forEach(input => {
-            input.addEventListener("change", (e) => {
-                const filterItem = e.target.parentNode;
-                if (!filterItem) return;
-
-                const {type: dataType, value: dataValue} = filterItem.dataset;
-                console.log(dataType, dataValue, e.target.checked);
-                requestData[dataType] = requestData[dataType] || [];
-                if (e.target.checked) {
-                    if (!requestData[dataType].includes(dataValue)) {
-                        requestData[dataType].push(dataValue);
-                    }
-                } else {
-                    requestData[dataType] = requestData[dataType].filter(value => value !==
-                        dataValue);
-                }
-
-                const hasValues = requestData[dataType].length > 0;
-                const urlValue = requestData[dataType].length === 1
-                    ? requestData[dataType][0]
-                    : requestData[dataType].join("_");
-
-                hasValues
-                    ? buildUrl(dataType, urlValue)
-                    : deleteParam([dataType]);
-                checkInput();
-                fetchHotel();
-            });
-        });
-
-        // sortbar
-        const hotelSortBarList = document.querySelector('.hotel__sortbar--list')
-        const hotelSortBarItems = document.querySelectorAll(".hotel__sortbar--item")
-        hotelSortBarList.addEventListener("click", (e) => {
-            if (e.target.classList.contains("hotel__sortbar--item")) {
-                hotelSortBarItems.forEach((item) => item.classList.remove("hotel__sortbar--active"))
-                e.target.classList.add("hotel__sortbar--active")
-                const {order, orderby: orderBy} = e.target.dataset
-                if (order === "default" || orderBy === "default") {
-                    deleteParam(['order', "orderBy"])
-                    delete requestData['order']
-                    delete requestData['orderBy']
-                    fetchHotel()
-                    return;
-                }
-                requestData['order'] = order
-                requestData['orderBy'] = orderBy
-                buildUrl("order", order)
-                buildUrl("orderBy", orderBy)
-                fetchHotel()
-            }
         })
-
-    });
-
+        intiSwiper()
+    }
 </script>
 <script type="text/javascript">
     const intiSwiper = () => {
