@@ -25,6 +25,12 @@ class BookingVehicle extends Controller
       $this->data["departure"] = $departure;
       $this->data["categories"] = $categories;
       $this->data['breadcrumbs'] = $breadcrumbs;
-      $this->render("layouts/client_layout", $this->data);
+       $this->data['seo_title'] = "Thuê Xe Du Lịch Giá Rẻ, Đưa Đón Sân Bay | Itravel";
+       $this->data['seo_desc'] = "Cho thuê xe du lịch 4-45 chỗ, xe tự lái, xe đưa đón sân bay, hợp đồng dài hạn. Giá cạnh tranh, tài xế chuyên nghiệp.";
+       $this->data['seo_og_title'] = "Thuê Xe Du Lịch Uy Tín - Itravel";
+       $this->data['seo_og_desc'] = "Thuê xe tiện lợi, đặt xe nhanh, đa dạng dòng xe, phục vụ 24/7.";
+       $this->data['seo_kw'] = "thuê xe du lịch, thuê xe giá rẻ, xe đưa đón sân bay, thuê xe tự lái, xe 7 chỗ, xe 16 chỗ";
+
+       $this->render("layouts/client_layout", $this->data);
    }
 }

@@ -34,7 +34,12 @@ class Blog extends Controller
       $this->data['destination'] = $destination;
       $this->data['departure'] = $departure;
       $this->data['page'] = "blog/index";
-      $this->render("layouts/client_layout", $this->data);
+       $this->data['seo_title'] = "Tin Tức Du Lịch Mới Nhất, Kinh Nghiệm & Ưu Đãi Hấp Dẫn | Itravel.com";
+       $this->data['seo_desc'] = "Cập nhật các tin tức du lịch mới nhất, chia sẻ kinh nghiệm đặt phòng, điểm đến nổi bật và ưu đãi khách sạn hấp dẫn mỗi ngày.";
+       $this->data['seo_og_title'] = "Tin Tức Du Lịch, Mẹo Hay & Ưu Đãi Hàng Tuần | Itravel.com";
+       $this->data['seo_og_desc'] = "Khám phá cẩm nang du lịch, bí kíp tiết kiệm khi đặt phòng, tin tức địa điểm hot và khuyến mãi đặc biệt từ Itravel.";
+       $this->data['seo_kw'] = "tin tức du lịch, blog du lịch, mẹo đặt phòng, ưu đãi khách sạn, kinh nghiệm du lịch, điểm đến nổi bật";
+       $this->render("layouts/client_layout", $this->data);
    }
    function detail($slug): void
    {
@@ -57,7 +62,7 @@ class Blog extends Controller
          ['name' => "Tin tức", "link" => "tin-tuc"],
          ['name' => $blog['title'], "link" => "tin-tuc/$slug"],
       ];
-      $this->data["title"] = "Trang tin tức chi tiết | " . $blog['title'];
+      $this->data["title"] = $blog['title'] . " | Itravel Blog Du Lịch";
       $this->data['breadcrumbs'] = $breadcrumbs;
       $this->data['blog'] = $blog;
       $this->data["destination"] = $destination;
@@ -65,6 +70,11 @@ class Blog extends Controller
       $this->data["categories"] = $categories;
       $this->data['relatedNews'] = $relatedNews;
       $this->data['page'] = "blog/detail";
-      $this->render("layouts/client_layout", $this->data);
+       $this->data['seo_title'] = $blog['title'] . " | Itravel Blog Du Lịch";
+       $this->data['seo_desc'] = strip_tags($blog['content']);
+       $this->data['seo_og_title'] = $blog['title'];
+       $this->data['seo_og_desc'] = strip_tags($blog['content']);
+       $this->data['seo_kw'] = "tin tức du lịch, blog du lịch, mẹo đặt phòng, ưu đãi khách sạn, kinh nghiệm du lịch, điểm đến nổi bật";
+       $this->render("layouts/client_layout", $this->data);
    }
 }
