@@ -7,4 +7,5 @@ class BlogCategoryModel extends Model
       [
          "id", "name","slug"
       ];
+   protected $hiddenColumns = ['created_at','updated_at','deleted_at'];
 }

@@ -4,6 +4,7 @@ class ConsultationModel extends Model
 {
    protected $table = 'consultations';
    protected $allowedColumns = ['id', 'customer_name', 'customer_email', "customer_phone", "tour_preference", "message","status", "created_at"];
+   protected $hiddenColumns = ['created_at','updated_at','deleted_at'];
    public function getTotalConsultation() {
       try {
          $sql = "SELECT  COUNT(id) as total FROM $this->table WHERE status = 0";

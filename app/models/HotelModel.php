@@ -4,6 +4,7 @@ class HotelModel extends Model
 {
    protected $table = 'hotels';
    protected $allowedColumns = ['id', 'name', "slug", "address", "city", "country", "phone_number", "email", "rating", "price", "description", "hotel_type_id", "created_at", "updated_at", "deleted_at"];
+   protected $hiddenColumns = ['created_at','updated_at','deleted_at'];
    public function getHotels()
    {
       $sql = "

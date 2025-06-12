@@ -4,6 +4,7 @@ class TourModel extends Model
 {
 	protected $table = 'tours';
 	protected $allowedColumns = ['id', "code_tour", 'name', 'slug', "description", "duration", "destinations", "meals", "suitable_for", "ideal_time", "transportation", "promotion", "status", "category_id", "status_hot", "created_at", "updated_at", 'delete_at'];
+	protected $hiddenColumns = ['created_at','updated_at','deleted_at'];
 
 	public function getTours($condition = [], $where = false, $keyword = null)
 	{

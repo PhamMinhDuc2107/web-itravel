@@ -79,9 +79,6 @@
                                         Tiêu đề
                                     </th>
                                     <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-1">
-                                        slug
-                                    </th>
-                                    <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-1">
                                         hình ảnh
                                     </th>
                                     <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-3">
@@ -122,11 +119,6 @@
                                                 </div>
                                             </td>
                                             <td class='col-1'>
-                                                <div class="d-flex px-2 py-1">
-                                                    <h6 class="mb-0 text-sm hiddenText"><?php echo $item["slug"] ?></h6>
-                                                </div>
-                                            </td>
-                                            <td class='col-1'>
                                                 <div class="d-flex px-2 py-1 align-items-center justify-content-center">
                                                     <img src="<?php echo _WEB_ROOT . "/" . $item["thumbnail"] ?>"
                                                          alt="<?php echo $item['slug'] ?>" class="rounded-3"
@@ -154,7 +146,7 @@
                                             </td>
                                             <td class="d-flex align-items-center justify-content-center" style="width: 80px;">
                                                 <span class="text-secondary text-xs font-weight-bold">
-                                                <i class='<?php echo $item["hot"] === 1 ? "fa-solid fa-circle-check" : "" ?>'
+                                                <i class='<?php echo $item["status_hot"] ===  1 ? "fa-solid fa-circle-check" : "" ?>'
                                                    style="display: block; font-size: 20px; color:#83f28f;"
                                                 ></i>
                                                 </span>

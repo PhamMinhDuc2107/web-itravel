@@ -34,6 +34,12 @@ class SiteMap extends Controller
             ['loc' => $baseUrl . '/gioi-thieu', 'priority' => '1.0', 'changefreq' => 'monthly', 'lastmod' => date('Y-m-d')],
             ['loc' => $baseUrl . '/tin-tuc', 'priority' => '1.0', 'changefreq' => 'daily', 'lastmod' => date('Y-m-d')],
             ['loc' => $baseUrl . '/lien-he', 'priority' => '1.0', 'changefreq' => 'monthly', 'lastmod' => date('Y-m-d')],
+            ['loc' => $baseUrl . '/du-lich', 'priority' => '8.0', 'changefreq' => 'weekly', 'lastmod' => date('Y-m-d')],
+            ['loc' => $baseUrl . '/visa', 'priority' => '6.0', 'changefreq' => 'monthly', 'lastmod' => date('Y-m-d')],
+            ['loc' => $baseUrl . '/ho-chieu', 'priority' => '6.0', 'changefreq' => 'monthly', 'lastmod' => date('Y-m-d')],
+            ['loc' => $baseUrl . '/thue-xe-du-lich', 'priority' => '6.0', 'changefreq' => 'monthly', 'lastmod' => date('Y-m-d')], 
+            ['loc' => $baseUrl . '/to-chuc-su-kien', 'priority' => '6.0', 'changefreq' => 'monthly', 'lastmod' => date('Y-m-d')],
+            ['loc' => $baseUrl . '/can-cuoc-cong-dan', 'priority' => '6.0', 'changefreq' => 'monthly', 'lastmod' => date('Y-m-d')],
         ];
 
         foreach ($pages as $page) {

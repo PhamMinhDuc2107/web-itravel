@@ -4,6 +4,7 @@ class HotelAmenityModel extends Model
 {
    protected $table = 'hotel_amenities';
    protected $allowedColumns = ['hotel_id', 'amenity_id', "created_at"];
+   protected $hiddenColumns = ['created_at','updated_at','deleted_at'];
    public function getAmenitiesByHotelId($hotel_id)
    {
       $sql = "

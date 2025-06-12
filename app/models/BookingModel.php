@@ -24,6 +24,7 @@ class BookingModel extends Model
       "created_at",
       "updated_at"
    ];
+   protected $hiddenColumns = ['created_at','updated_at'];
 
    public function getBookings($isSort = true)
    {

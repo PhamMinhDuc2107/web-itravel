@@ -4,6 +4,7 @@ class Model extends Database
 {
    protected $table;
    protected $allowedColumns = [];
+   protected $hiddenColumns = [];
    protected  $limit = 10;
    protected  $orderBy = "id";
    protected $order = "ASC";
@@ -241,7 +242,6 @@ class Model extends Database
          $sql = rtrim($sql, "OR ");
          $sql .= " ORDER BY {$this->orderBy} {$this->order} 
                    LIMIT {$this->limit} OFFSET {$this->offset}";
-         echo $sql;
          $stmt = $this->_query($sql, $params);
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
       } catch (PDOException $e) {
@@ -316,6 +316,6 @@ class Model extends Database
       return $this->order;
    }
    public function getColumns(): array {
-      return $this->allowedColumns;
+      return array_diff($this->allowedColumns, $this->hiddenColumns);
    }
 }

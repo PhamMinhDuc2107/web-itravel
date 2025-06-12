@@ -244,7 +244,7 @@ class Tour extends Controller
 
          default:
             $filters = $this->processFilters();
-            if ($filters['destination']) {
+            if (isset($filters['destination']) && $filters['destination']) {
                $filters['destination'] = Util::generateSlug($filters['destination']);
             }
             $tours = $this->TourModel->searchTours($filters);

@@ -4,7 +4,7 @@ class HotelReviewModel extends Model
 {
    protected $table = 'hotel_reviews';
    protected $allowedColumns = ['id', "hotel_id", "user_name", "phone",'location_rating', "price_rating", "service_rating", "cleanliness_rating", "amenities_rating","overall_rating", "nights_stayed", "trip_type", "review_text", "review_date","departure_date", "created_at", "updated_at", "deleted_at"];
-
+   protected $hiddenColumns = ['created_at','updated_at','deleted_at'];
 
 
    public function getReviewAverageRatings($id)
