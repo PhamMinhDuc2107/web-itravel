@@ -1,6 +1,6 @@
 <?php
 
-class WebhookController extends Controller
+class Webhook extends Controller
 {
     private string $logDir;
 

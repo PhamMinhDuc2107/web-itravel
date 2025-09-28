@@ -4,7 +4,7 @@ class AdminCreateRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'username'    => 'required|string',
+            'username'    => 'required|string|user:exits',
             'password' => 'required|string',
             'email' => 'required|email',
             "phone" => 'required|phone',
