@@ -40,6 +40,7 @@ $routes['404'] = "errors/NotFound/index";
 $routes['500'] = "errors/InternalServer/index";
 //sitemap
 $routes['sm'] = "sitemap/index";
+$routes['git-hook'] = "webhook/git";
 
 
 
