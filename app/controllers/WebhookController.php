@@ -5,7 +5,7 @@ class WebhookController extends Controller
     private string $logDir;
 
     public function __construct() {
-        $this->logDir = '/home/ukjmczll/public_html/storage/logs';
+        $this->logDir = $_ENV['GIT_HOOK_LOG_DIR'];
         if (!is_dir($this->logDir)) {
             mkdir($this->logDir, 0755, true);
         }
