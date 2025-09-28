@@ -13,45 +13,57 @@ class WebhookController extends Controller
         file_put_contents($this->logFile, "[$time] $msg\n", FILE_APPEND);
     }
 
-    public function git(): void {
-        // Xác thực GitHub webhook nếu cần
-        $secret = 'your_secret_here';
-        $payload = file_get_contents('php://input');
-        $headerSignature = $_SERVER['HTTP_X_HUB_SIGNATURE'] ?? '';
+   public function git(): void {
+      // Xác thực GitHub webhook nếu cần
+      $secret = $_ENV['SERECT_KEY_GIT_HOOK'];
+      $payload = file_get_contents('php://input');
+      $headerSignature = $_SERVER['HTTP_X_HUB_SIGNATURE'] ?? '';
 
-        if (!$headerSignature) {
-            $this->logMsg('No signature');
-            http_response_code(403);
-            exit('No signature');
-        }
+      if (!$headerSignature) {
+         $this->logMsg('No signature');
+         http_response_code(403);
+         exit('No signature');
+      }
 
-        list($algo, $hash) = explode('=', $headerSignature, 2);
-        $payloadHash = hash_hmac($algo, $payload, $secret);
-        if (!hash_equals($hash, $payloadHash)) {
-            $this->logMsg('Invalid signature');
-            http_response_code(403);
-            exit('Invalid signature');
-        }
+      list($algo, $hash) = explode('=', $headerSignature, 2);
+      $payloadHash = hash_hmac($algo, $payload, $secret);
+      if (!hash_equals($hash, $payloadHash)) {
+         $this->logMsg('Invalid signature');
+         http_response_code(403);
+         exit('Invalid signature');
+      }
 
-        $this->logMsg('Valid webhook received. Starting git pull...');
+      $this->logMsg('Valid webhook received. Starting git pull...');
 
-        // Chạy git pull
-        $output = [];
-        $returnVar = 0;
-        // Chú ý đổi đường dẫn repo của bạn
-        exec('cd /home/username/public_html && git reset --hard && git pull 2>&1', $output, $returnVar);
+      $repoPath = '/home/username/public_html'; // đường dẫn repo trên server
 
-        foreach ($output as $line) {
-            $this->logMsg($line);
-        }
+      // 1. Git reset & pull
+      $output = [];
+      $returnVar = 0;
+      exec("cd $repoPath && git reset --hard && git pull 2>&1", $output, $returnVar);
+      foreach ($output as $line) $this->logMsg($line);
 
-        if ($returnVar !== 0) {
-            $this->logMsg("Git pull exited with code $returnVar");
-            http_response_code(500);
-            exit("Git pull failed. Check log.");
-        }
+      if ($returnVar !== 0) {
+         $this->logMsg("Git pull exited with code $returnVar");
+         http_response_code(500);
+         exit("Git pull failed. Check log.");
+      }
 
-        $this->logMsg('Git pull completed successfully.');
-        echo "Git pull done.\n";
-    }
+      // 2. Composer install
+      $this->logMsg('Running composer install...');
+      $output = [];
+      $returnVar = 0;
+      exec("cd $repoPath && composer install --no-dev --optimize-autoloader 2>&1", $output, $returnVar);
+      foreach ($output as $line) $this->logMsg($line);
+
+      if ($returnVar !== 0) {
+         $this->logMsg("Composer install exited with code $returnVar");
+         http_response_code(500);
+         exit("Composer install failed. Check log.");
+      }
+
+      $this->logMsg('Git pull & composer install completed successfully.');
+      echo "Deployment done.\n";
+   }
+
 }
