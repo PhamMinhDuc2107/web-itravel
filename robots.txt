@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: https://dulichitravel.com.vn/sitemap.xml
