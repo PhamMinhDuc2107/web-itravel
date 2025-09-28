@@ -12,6 +12,9 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
+<?php
+    require_once __DIR__."/../components/alert.view.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,15 +34,19 @@
     <!-- Font Awesome Icons -->
     <!-- CSS Files -->
     <link id="pagestyle" href="<?php echo ASSET?>/admin/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
+    <link rel="stylesheet" href="<?= ASSET?>/utils/alert/app.css">
+    <script src="<?= ASSET?>/utils/alert/app.js"></script>
 
 </head>
 
 <body class="">
+<?php render_flash_alerts(); ?>
 <main class="main-content  mt-0">
     <section>
         <div class="page-header min-vh-100">
             <div class="container">
                 <div class="row">
+                    <?php FlashMessage::render('auth'); ?>
                     <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
                         <div class="card card-plain">
                             <div class="card-header pb-0 text-start">

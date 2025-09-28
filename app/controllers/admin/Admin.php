@@ -42,34 +42,40 @@ class Admin extends Controller
    public function create()
    {
       if (!Request::isMethod("POST")) {
-         Util::redirect("dashboard/admin", Response::methodNotAllowed("Phương thức không hợp lệ"));
+         FlashMessage::error("admin", CrudEnum::INVALID_METHOD->value);
+         Util::redirect("dashboard/admin");
       }
-      $username = htmlspecialchars(Request::input("username") ?? "");
-      $password = htmlspecialchars(Request::input("password") ?? "");
-
+      $request = new AdminCreateRequest($_POST);
+      if ($request->fails()) {
+         FlashMessage::error("admin",$request->errors());
+         Util::redirect("dashboard/admin");
+      }
+      $data = $request->validated();
+      $username = $data['username'];
+      $password = password_hash($data['password'], PASSWORD_DEFAULT);
+      $email = $data['email'];
+      $phone = $data['phone'];
+      $status = (int)$data['status'];
       $userExit = $this->AdminModel->find($username, "username");
       if ($userExit) {
-         Util::Redirect("dashboard/admin", Response::badRequest("Tài khoản đã tồn tại"));
-      }
-      $password = password_hash($password, PASSWORD_DEFAULT);
-      $email = htmlspecialchars(Request::input("email"));
-      $status = (int)htmlspecialchars(Request::input("status"));
-      $phone = htmlspecialchars(Request::input("phone")) ?? null;
-      if ($username == "" || $password == "" || $status == "") {
-         Util::Redirect("dashboard/admin", Response::badRequest("Vui lòng điền đầy đủ thông tin"));
+         FlashMessage::error("admin", CrudEnum::EXISTS->addMessage("username: ".$username));
+         Util::redirect("dashboard/admin");
       }
       $data = ["username" => $username, "password" => $password, "email" => $email, "phone" => $phone, "status" => $status];
       $res =  $this->AdminModel->insert($data);
       if (!$res) {
-         Util::Redirect("dashboard/admin", Response::badRequest("Tạo không thành công"));
+         FlashMessage::error("admin",CrudEnum::CREATE_FAIL->withEntity("admin"));
+         Util::redirect("dashboard/admin");
       }
-      Util::redirect("dashboard/admin", Response::success("Tạo thành công"));
+      FlashMessage::success("admin",CrudEnum::CREATE_SUCCESS->withEntity("admin"));
+      Util::redirect("dashboard/admin");
    }
    public function update($id)
    {
-      $admin = $this->AdminModel->find(htmlspecialchars($id));
+      $admin = $this->AdminModel->find($id);
       if (!$admin) {
-         Util::redirect("dashboard/admin", Response::notFound("Không tìm thấy Id"));
+         FlashMessage::warning("admin", CrudEnum::NOT_FOUND->addMessage("Id: ".$id));
+         Util::redirect("dashboard/admin");
       }
       $this->data['title'] = "Chỉnh sửa thông tin admin";
       $this->data['heading'] = "Chỉnh sửa thông tin admin";
@@ -80,30 +86,26 @@ class Admin extends Controller
    public function updatePost()
    {
       if (!Request::isMethod("POST")) {
-         Util::Redirect("dashboard/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
+         FlashMessage::error("admin", CrudEnum::INVALID_METHOD->value);
+         Util::redirect("dashboard/admin");
       }
-      $id = htmlspecialchars(Request::input("id"));
-      if ($id <= 0 || !is_numeric($id)) {
-         Util::Redirect("dashboard/category", Response::badRequest("ID không hợp lệ"));
+      $request = new AdminUpdateRequest($_POST);
+      if ($request->fails()) {
+         FlashMessage::error("admin",$request->errors());
+         Util::redirect("dashboard/admin");
       }
-      $username = htmlspecialchars(Request::input("username"));
-      $password = htmlspecialchars(Request::input("password"));
-      $email = htmlspecialchars(Request::input("email"));
-      $phone  = htmlspecialchars(Request::input("phone"));
-      $status = (int)htmlspecialchars(Request::input("status"));
-      $update_at = Util::formatTimeFull(time());
-
-      $data = ["username" => $username, "email" => $email, "phone" => $phone, "status" => $status, "updated_at" => $update_at];
-      var_dump($data);
-      if ($password !== "") {
-         $password = password_hash($password, PASSWORD_DEFAULT);
-         $data['password'] = $password;
+      $data = $request->validated();
+      $id = (int)$data['id'];
+      if($data['password']) {
+         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
       }
       $res = $this->AdminModel->update($data, $id);
       if (!$res) {
-         Util::Redirect("dashboard/admin", Response::internalServerError("Tạo không thành công"));
+         FlashMessage::error("admin", CrudEnum::UPDATE_FAIL->withEntity("admin"));
+         Util::Redirect("dashboard/admin");
       }
-      Util::redirect("dashboard/admin", Response::success("Tạo thành công"));
+      FlashMessage::success("admin", CrudEnum::UPDATE_SUCCESS->withEntity("admin"));
+      Util::redirect("dashboard/admin");
    }
 
    public function delete()

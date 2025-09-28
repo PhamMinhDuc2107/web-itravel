@@ -17,7 +17,7 @@ define("ASSET", _WEB_ROOT . "/public/assets");
 define("UPLOAD", _WEB_ROOT . "/public/uploads");
 // load core, app, routers
 spl_autoload_register(function ($class) {
-   $paths = ['core', 'logger'];
+   $paths = ['core', 'logger',];
    foreach ($paths as $path) {
       $file = __DIR__ . "/$path/" . $class . ".php";
       if (file_exists($file)) {
@@ -25,6 +25,32 @@ spl_autoload_register(function ($class) {
       }
    }
 });
+spl_autoload_register(function ($class) {
+    $directories = [
+        __DIR__ . '/app/enums/',
+        __DIR__ . '/app/requests/',
+    ];
+
+    foreach ($directories as $dir) {
+        if (!is_dir($dir)) continue;
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir)
+        );
+
+        foreach ($iterator as $file) {
+            if ($file->isFile()) {
+                $filename = $file->getBasename('.php');
+
+                if ($filename === $class) {
+                    require_once $file->getPathname();
+                    return;
+                }
+            }
+        }
+    }
+});
+
 // require mailer
 require_once __DIR__ . "/mailer/MailerInterface.php";
 require_once __DIR__ . "/mailer/Mailable.php";

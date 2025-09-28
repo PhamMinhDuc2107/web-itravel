@@ -9,6 +9,7 @@ class Dashboard extends Controller
    private $BookingModel;
    private $ConsultationModel;
    private $jwt;
+   private $error = [];
    public function __construct()
    {
       $this->AdminModel = $this->model("AdminModel");
@@ -23,7 +24,8 @@ class Dashboard extends Controller
    {
       $admin = $this->jwt->checkAuth("token_auth");
       if (!$admin['success']) {
-         Util::redirect("dashboard/login", Response::unauthorized($admin['msg']));
+         FlashMessage::warning("auth","Vui lòng đăng nhập lại");
+         Util::redirect("dashboard/login");
       }
       $month = htmlspecialchars(Request::input("month"));
       if ($month > date('m') || !is_numeric($month)) {
@@ -53,15 +55,24 @@ class Dashboard extends Controller
    public function loginPost()
    {
       if (Request::isMethod("POST")) {
-         $username = Request::input("username", "");
-         $password = Request::input("password", "");
-         $remember = isset($_POST['remember']) ? 1 : 0;
+         $request = new LoginRequest($_POST);
+
+         if ($request->fails()) {
+            FlashMessage::error("auth",$request->errors());
+            Util::redirect("dashboard/login");
+         }
+         $data = $request->validated();
+         $username = $data['username'];
+         $password = $data['password'];
+         $remember = $data['remember'] ? 1 : 0;
          $admin = $this->AdminModel->find($username, "username");
          if ($admin['status'] != 1) {
-            Util::redirect("dashboard/login", Response::badRequest("Tài khoản của bạn chưa kích hoạt vui lòng liên hệ admin"));
+            FlashMessage::warning("auth","Tài khoản chưa được kích hoạt. Vui lòng liên hệ admin");
+            Util::redirect("dashboard/login");
          }
          if (empty($admin) || !password_verify($password, $admin['password'])) {
-            Util::redirect("dashboard/login", Response::badRequest("Tài khoản hoặc mật khẩu sai"));
+            FlashMessage::error("auth","Mật khẩu hoặc tài khoản sai");
+            Util::redirect("dashboard/login");
          }
          $payload = $this->jwt->generatePayload($admin, $remember);
          $token = $this->jwt->encode($payload);
@@ -74,13 +85,14 @@ class Dashboard extends Controller
             true,
             false
          );
-
+         FlashMessage::success("auth","Đăng nhập thành công");
          Util::redirect("dashboard");
       }
    }
    public function logout()
    {
       setcookie('token_auth', '', time() - 30 * 24 * 60 * 60, '/', "", true, true);
+      FlashMessage::success("auth","Đăng xuất thành công");
       Util::redirect("dashboard/login");
    }
 }

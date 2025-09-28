@@ -1,3 +1,6 @@
+<?php
+    require_once __DIR__."/../components/alert.view.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,6 +73,8 @@
 		<script type="text/javascript" src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js"></script>
 		<!-- toast -->
 		<script  src="<?php echo ASSET ?>/client/js/toast.js"></script>
+		<link rel="stylesheet" href="<?= ASSET?>/utils/alert/app.css">
+    	<script src="<?= ASSET?>/utils/alert/app.js"></script>
 		<!-- css -->
 		<link rel="stylesheet" href="<?php echo ASSET ?>/client/css/reset.css">
 		<link rel="stylesheet" href="<?php echo ASSET ?>/client/css/app.css" />
@@ -77,6 +82,8 @@
 </head>
 
 <body>
+<?php render_flash_alerts(); ?>
+
 	<div class="wrapper">
 		<?php require_once _DIR_ROOT . "/app/views/client/blocks/header.view.php" ?>
 		<?php

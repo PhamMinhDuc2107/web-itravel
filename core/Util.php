@@ -276,6 +276,7 @@ class Util
       echo "<pre>";
       print_r($arr);
       echo "</pre>";
+      die;
    }
    public static function removeEmptyValues(array $arr): array
    {

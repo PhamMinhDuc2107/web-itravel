@@ -12,6 +12,9 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
+<?php
+    require_once __DIR__."/../components/alert.view.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +52,8 @@
 
 
     <script src="<?php echo ASSET ?>/utils/jquery-3.6.0.min.js"></script>
-
+    <link rel="stylesheet" href="<?= ASSET?>/utils/alert/app.css">
+    <script src="<?= ASSET?>/utils/alert/app.js"></script>
     <style>
         .pagination {
             display: flex;
@@ -93,6 +97,8 @@
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
+<?php render_flash_alerts(); ?>
+
     <div class="min-height-300 bg-dark position-absolute w-100"></div>
     <?php
     $sidebarPath = _DIR_ROOT . "/app/views/admin/blocks/sidebar.view.php";
