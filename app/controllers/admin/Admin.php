@@ -112,22 +112,26 @@ class Admin extends Controller
    {
 
       if (!Request::isMethod("POST")) {
-         Util::Redirect("dashboard/category", Response::methodNotAllowed("Phương thức không hợp lệ"));
+         FlashMessage::error("admin", CrudEnum::INVALID_METHOD->value);
+         Util::redirect("dashboard/admin");
       }
       $listId = Request::input("id") ?? [];
       if (empty($listId)) {
-         Util::redirect("dashboard/admin", Response::badRequest("ID không hợp lẹ"));
+         FlashMessage::error("admin", CrudEnum::INVALID_ID->value);
+         Util::redirect("dashboard/admin");
       }
       $admin = $this->jwt->decode($_COOKIE["token_auth"]);
       $adminId = $admin->data->id;
       foreach ($listId as $id) {
          if ($id == $adminId) {
-            Util::redirect("dashboard/admin", Response::badRequest("Bạn không thể xóa tài khoản đang đăng nhập"));
+            FlashMessage::warning("admin", "Bạn không thể xóa tài khoản đang đăng nhập!");
+            Util::redirect("dashboard/admin");
          }
       }
       foreach ($listId as $id) {
          $this->AdminModel->delete($id);
       }
-      Util::redirect("dashboard/admin", Response::success("Bạn xóa tài khoản thành công"));
+      FlashMessage::success("admin", CrudEnum::DELETE_SUCCESS->withEntity("admin"));
+      Util::redirect("dashboard/admin");
    }
 }

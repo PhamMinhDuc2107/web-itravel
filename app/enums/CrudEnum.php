@@ -13,7 +13,7 @@ enum CrudEnum: string
     case INVALID_METHOD = "Phương thức không hợp lệ";
     case EXISTS         = 'Đã tồn tại';
     case NOT_FOUND      = 'Không tìm thấy';
-
+    case INVALID_ID = "ID không hợp lệ";
     public function withEntity(string $entity): string
     {
         return str_replace(['Tạo','Cập nhật','Xóa'], 
