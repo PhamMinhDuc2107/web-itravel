@@ -283,7 +283,7 @@
                         formData.append("csrf_token", "<?= Session::get("csrf_token")?>");
 
                         const xhr = new XMLHttpRequest();
-                        xhr.open('POST', '<?php echo _WEB_ROOT ?>/dashboard/blog-upload-image', true);
+                        xhr.open('POST', '<?php echo _WEB_ROOT ?>/dashboard/upload-image', true);
 
                         xhr.upload.onprogress = (e) => {
                             if (e.lengthComputable && progress) {

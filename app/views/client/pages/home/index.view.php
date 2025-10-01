@@ -758,7 +758,7 @@
                      <img src="<?php echo _WEB_ROOT . $blog['thumbnail'] ?>" alt="<?php echo $blog['title'] ?>">
                      <div class="info">
                         <a
-                           href="<?php echo _WEB_ROOT . '/tin-tuc/' . $firstBlog['slug'] ?>"><?php echo $blog['title'] ?></a>
+                           href="<?php echo _WEB_ROOT . '/tin-tuc/' . $blog['slug'] ?>"><?php echo $blog['title'] ?></a>
                         <span><?php echo Util::formatDate($blog['created_at']) ?></span>
                      </div>
                   </div>

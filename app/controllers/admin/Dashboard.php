@@ -95,4 +95,35 @@ class Dashboard extends Controller
       FlashMessage::success("auth","Đăng xuất thành công");
       Util::redirect("dashboard/login");
    }
+   public function uploadImage()
+   {
+       $file = Request::file("file");
+       header('Content-Type: application/json');
+
+       if (!$file || empty($file['name']) || ($_FILES['file']['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
+           echo json_encode(['error' => 'Không có ảnh hợp lệ được gửi lên.']);
+           return;
+       }
+       if(!Request::isMethod("POST")) {
+           header( "HTTP/1.1 405 Method Not Allowed" );
+           echo json_encode(Response::methodNotAllowed("Phương thức không hợp lệ"));
+           return;
+       }
+       $pathAsset = '/public/uploads/images/';
+       $checkCreateImgPath = Util::createImagePath($file, $pathAsset);
+       if (!$checkCreateImgPath["success"]) {
+           header( "HTTP/1.1 400 Invalid ". $checkCreateImgPath["msg"]);
+
+           echo json_encode(Response::badRequest($checkCreateImgPath['msg']));
+           return;
+       }
+       $checkUpload = Util::uploadImage($file, $checkCreateImgPath['name']);
+       if (!$checkUpload["success"]) {
+           header( "HTTP/1.1 400 Invalid ".+$checkUpload["msg"]);
+           echo json_encode(Response::badRequest($checkUpload['msg']));
+           return;
+       }
+
+       echo json_encode(array('location' => _WEB_ROOT.$checkCreateImgPath['name']),JSON_UNESCAPED_SLASHES);
+   }
 }

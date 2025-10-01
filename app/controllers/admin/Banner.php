@@ -36,7 +36,8 @@ class Banner extends Controller
    public function create()
    {
       if (!Request::isMethod("post")) {
-         Util::Redirect("dashboard/banner", Response::methodNotAllowed("Phương thức khoogn được phép"));
+         FlashMessage::error("banner", CrudEnum::INVALID_METHOD->value);
+         Util::redirect("dashboard/banner");
       }
       $file = Request::file("image") ?? [];
       if (!$file && empty($file['name'])) {
