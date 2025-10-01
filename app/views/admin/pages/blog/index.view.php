@@ -17,7 +17,7 @@
                                     <span class=" dropdown-toggle mb-0 justify-content-between d-flex align-items-center" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <?= Request::input("orderBy") !== "" ? Request::input("orderBy","Chọn Cột") : "Chọn cột" ?>
                                     </span>
-                                    <input type="hidden" name="orderBy">
+                                    <input type="hidden" name="orderBy" value="<?= Request::input("orderBy","id")?>">
                                     <ul class="dropdown-menu mt-1" aria-labelledby="dropdownMenuButton1">
                                         <?php if(isset($data['col'])):?>
                                             <?php foreach($data['col'] as $col):?>
@@ -32,7 +32,7 @@
                                     <span class="dropdown-toggle mb-0 justify-content-between d-flex align-items-center" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <?= Request::input("order") === "asc" ? "Tăng dần":( Request::input("order") === "desc" ?"Giảm dần" :"Sắp xếp")?>
                                     </span>
-                                    <input type="hidden" name="order">
+                                    <input type="hidden" name="order" value="<?= Request::input("order","asc")?>">
                                     <ul class="dropdown-menu mt-1" aria-labelledby="dropdownMenuButton1">
                                         <li class="dropdown-item" data-value="asc">Tăng dần</li>
                                         <li class="dropdown-item" data-value="desc">Giảm dần</li>
@@ -69,115 +69,135 @@
                     <?php endif; ?>
                     <div class="card-body px-0 pt-0 pb-2">
                         <form action="<?php echo _WEB_ROOT . "/dashboard/blog-delete" ?>" method="post" class="">
-                        <div class="table-responsive p-0 overflow-hidden">
-                            <table class="table align-items-center mb-0 min-vh-50">
-                                <thead>
-                                <tr class="d-flex">
-                                    <th class="" style="width: 20px;">
-                                    </th>
-                                    <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-1">
-                                        Tiêu đề
-                                    </th>
-                                    <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-1">
-                                        hình ảnh
-                                    </th>
-                                    <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-3">
-                                        nội dung
-                                    </th>
-                                    <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7" style="width: 150px;">
-                                        danh mục
-                                    </th>
-                                    <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 " style="width: 80px;">
-                                        tác giả
-                                    </th>
-                                    <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 " style="width: 80px;">
-                                        Hot
-                                    </th>
-                                    <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 " style="width: 100px;">
-                                        trạng thái
-                                    </th>
-                                    <th class="text-secondary px-2 py-1  opacity-7 " style="width: 80px;"></th>
-                                </tr>
-                                </thead>
-                                <tbody class="table-body">
-                                <?php
-                                $blogs = $data['blogs'] ?? [];
-                                ?>
-                                <?php if (!empty($blogs)) : ?>
-                                    <?php foreach ($blogs as $item): ?>
-                                        <tr class="d-flex">
-                                            <td class="text-center" style="width: 20px;">
-                                                <input type="checkbox" name="id[]"
-                                                       class="mx-auto input-checkbox"
-                                                       value="<?php echo $item['id'] ?>"
-                                                       style="width: 15px; height:15px"
-                                                >
-                                            </td>
-                                            <td class='col-1'>
-                                                <div class="d-flex px-2 py-1">
-                                                    <h6 class="mb-0 text-sm hiddenText"><?php echo $item["title"] ?></h6>
-                                                </div>
-                                            </td>
-                                            <td class='col-1'>
-                                                <div class="d-flex px-2 py-1 align-items-center justify-content-center">
-                                                    <img src="<?php echo _WEB_ROOT . "/" . $item["thumbnail"] ?>"
-                                                         alt="<?php echo $item['slug'] ?>" class="rounded-3"
-                                                         style="width:95px; height: 95px;">
-                                                </div>
-                                            </td>
-                                            <td class='col-3'>
-                                                <div class="d-flex px-2 py-1 overflow-hidden" style="height: 62px;">
-                                                    <div class="mb-0 text-sm hiddenText"><?php echo $item["content"] ?></div>
-                                                </div>
-                                            </td>
-                                            <td class='d-flex align-items-center justify-content-center' style="width: 150px;">
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm"><?php echo $item["category_name"] ?></h6>
+                            <input type="hidden" name="csrf_token" value="<?php echo Session::get('csrf_token'); ?>">
+                            <div class="table-responsive p-0 overflow-hidden">
+                                <table class="table align-items-center mb-0 min-vh-50">
+                                    <thead>
+                                    <tr class="d-flex">
+                                        <th class="" style="width: 20px;">
+                                        </th>
+                                        <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-1">
+                                            Tiêu đề
+                                        </th>
+                                        <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-1">
+                                            hình ảnh
+                                        </th>
+                                        <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 col-3">
+                                            nội dung
+                                        </th>
+                                        <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7" style="width: 150px;">
+                                            danh mục
+                                        </th>
+                                        <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 " style="width: 80px;">
+                                            tác giả
+                                        </th>
+                                        <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 " style="width: 80px;">
+                                            Hot
+                                        </th>
+                                        <th class="text-uppercase text-secondary px-2 py-1  text-xxs font-weight-bolder opacity-7 " style="width: 100px;">
+                                            trạng thái
+                                        </th>
+                                        <th class="text-secondary px-2 py-1  opacity-7 " style="width: 80px;"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-body">
+                                    <?php
+                                    $blogs = $data['blogs'] ?? [];
+                                    ?>
+                                    <?php if (!empty($blogs)) : ?>
+                                        <?php foreach ($blogs as $item): ?>
+                                            <tr class="d-flex">
+                                                <td class="text-center" style="width: 20px;">
+                                                    <input type="checkbox" name="id[]"
+                                                        class="mx-auto input-checkbox"
+                                                        value="<?php echo $item['id'] ?>"
+                                                        style="width: 15px; height:15px"
+                                                    >
+                                                </td>
+                                                <td class='col-1'>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <h6 class="mb-0 text-sm hiddenText"><?php echo $item["title"] ?></h6>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td class='d-flex align-items-center justify-content-center' style="width: 80px;">
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm"><?php echo $item["admin_username"] ?></h6>
+                                                </td>
+                                                <td class='col-1'>
+                                                    <div class="d-flex px-2 py-1 align-items-center justify-content-center">
+                                                        <img src="<?php echo _WEB_ROOT . "/" . $item["thumbnail"] ?>"
+                                                            alt="<?php echo $item['slug'] ?>" class="rounded-3"
+                                                            style="width:95px; height: 95px;">
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td class="d-flex align-items-center justify-content-center" style="width: 80px;">
-                                                <span class="text-secondary text-xs font-weight-bold">
-                                                <i class='<?php echo $item["status_hot"] ===  1 ? "fa-solid fa-circle-check" : "" ?>'
-                                                   style="display: block; font-size: 20px; color:#83f28f;"
-                                                ></i>
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center text-sm d-flex align-items-center justify-content-center" style="width: 120px;">
-                                      <span class="badge badge-sm
-                                          <?php
-                                      echo ($item['status'] === 'draft') ? "bg-gradient-warning" :
-                                          (($item['status'] === 'published') ? "bg-gradient-success" : "bg-gradient-secondary");
+                                                </td>
+                                                <td class='col-3'>
+                                                    <div class="d-flex px-2 py-1 overflow-hidden" style="height: 62px;">
+                                                        <div class="mb-0 text-sm hiddenText"><?php echo $item["content"] ?></div>
+                                                    </div>
+                                                </td>
+                                                <td class='d-flex align-items-center justify-content-center' style="width: 150px;">
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <h6 class="mb-0 text-sm"><?php echo $item["category_name"] ?></h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class='d-flex align-items-center justify-content-center' style="width: 80px;">
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <h6 class="mb-0 text-sm"><?php echo $item["admin_username"] ?></h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="d-flex align-items-center justify-content-center" style="width: 80px;">
+                                                    <span class="text-secondary text-xs font-weight-bold">
+                                                    <i class='<?php echo $item["status_hot"] ===  1 ? "fa-solid fa-circle-check" : "" ?>'
+                                                    style="display: block; font-size: 20px; color:#83f28f;"
+                                                    ></i>
+                                                    </span>
+                                                </td>
+                                                <td class="align-middle text-center text-sm d-flex align-items-center justify-content-center" style="width: 120px;">
+                                        <span class="badge badge-sm
+                                            <?php
+                                        echo ($item['status'] === 'draft') ? "bg-gradient-warning" :
+                                            (($item['status'] === 'published') ? "bg-gradient-success" : "bg-gradient-secondary");
 
-                                      ?>
-                                            ">
-                                             <?php echo $item['status'] ?>
-                                      </span>
-                                            </td>
-                                            <td class="align-middle text-center d-flex align-items-center justify-content-center" style="width: 80px;">
-                                                <a href="<?php echo _WEB_ROOT . "/dashboard/blog-update/" . $item['id'] ?>"
-                                                   class="text-secondary font-weight-bold text-xs "
-                                                   style="margin-bottom: 0;"
-                                                   id="btnEdit"
-                                                >
-                                                    Edit
-                                                </a>
+                                        ?>
+                                                ">
+                                                <?php echo $item['status'] ?>
+                                        </span>
+                                                </td>
+                                                <td class="align-middle text-center d-flex align-items-center justify-content-center" style="width: 80px;">
+                                                    <a href="<?php echo _WEB_ROOT . "/dashboard/blog-update/" . $item['id'] ?>"
+                                                    class="text-secondary font-weight-bold text-xs "
+                                                    style="margin-bottom: 0;"
+                                                    id="btnEdit"
+                                                    >
+                                                        Edit
+                                                    </a>
 
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    </tbody>
+                                </table>
+                                <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white d-none">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div class="footer-text w-25 d-flex gap-2 align-items-center">
+                                            <span class="footer-text-content"></span> selected
+                                            <span class="footer-btn d-flex justify-content-center align-items-center rounded-circle"
+                                                style="width: 20px; height: 20px">
+                                                <i class="fa fa-close " style="width: 100%; height: 100%;"></i>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <button type="submit" class=" btn btn-danger text-white font-weight-bold text-xs "
+                                                    style="margin-bottom: 0;" data-toggle="tooltip" data-original-title="Edit user"
+                                                    onclick="alert('Bạn có muốn xóa tài khoản này không?')">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </form>
                     </div>
                 </div>
@@ -232,24 +252,7 @@
                         </li>
                     </ul>
                 </nav>
-                <div class="footer-function gap-2 mt-2 p-2 position-relative bottom-0 bg-white d-none">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <div class="footer-text w-25 d-flex gap-2 align-items-center">
-                            <span class="footer-text-content"></span> selected
-                            <span class="footer-btn d-flex justify-content-center align-items-center rounded-circle"
-                                  style="width: 20px; height: 20px">
-                                <i class="fa fa-close " style="width: 100%; height: 100%;"></i>
-                            </span>
-                        </div>
-                        <div>
-                            <button type="submit" class=" btn btn-danger text-white font-weight-bold text-xs "
-                                    style="margin-bottom: 0;" data-toggle="tooltip" data-original-title="Edit user"
-                                    onclick="alert('Bạn có muốn xóa tài khoản này không?')">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
         </div>
     </div>
 </div>

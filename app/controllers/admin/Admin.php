@@ -21,11 +21,11 @@ class Admin extends Controller
    public function index()
    {
       $this->AdminModel->setBaseModel();
-      $search = htmlspecialchars(Request::input("search", ""));
+      $search = Request::input("search", "");
       $data = $this->AdminModel->get();
-       $totalPages = $this->AdminModel->getTotalPages();
-      if($search !== "") {
-         $col =htmlspecialchars(Request::input("orderBy",""));
+      $totalPages = $this->AdminModel->getTotalPages();
+      if(isset($search) && $search !== "") {
+         $col =Request::input("orderBy","");
          $dataSearch = [$col => "%$search%"];
          $data = $this->AdminModel->like($dataSearch);
          $totalPages = ceil($this->AdminModel->countLike($dataSearch)/$this->AdminModel->getLimit());

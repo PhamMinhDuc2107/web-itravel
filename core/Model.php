@@ -212,7 +212,7 @@ class Model extends Database
    public  function setBaseModel()
    {
       if (Request::has("page", "get")) {
-         $page = (int)htmlspecialchars(Request::input("page"));
+         $page = (int)htmlspecialchars(Request::input("page")) ?? 1;
          $this->setOffset($page);
       }
       if (Request::has("limit", "get")) {
@@ -220,11 +220,11 @@ class Model extends Database
          $this->setLimit($limit);
       }
       if (Request::has("order", "get")) {
-         $order = htmlspecialchars(Request::input("order"));
+         $order = htmlspecialchars(Request::input("order")) ?? "ASC";
          $this->setOrder($order);
       }
       if (Request::has("orderBy", "get")) {
-         $orderCol = htmlspecialchars(Request::input("orderBy"));
+         $orderCol = htmlspecialchars(Request::input("orderBy")) ?? "id";
          $this->setOrderBy($orderCol);
       }
    }
