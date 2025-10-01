@@ -49,7 +49,6 @@ class Tour  extends Controller
          Util::Redirect("dashboard/tour", Response::methodNotAllowed("Phương thức khoogn được phép"));
       }
       $dataTour = $this->prepareTourData();
-
       $res = $this->TourModel->insert($dataTour);
       $idLastInsert = $this->TourModel->getLastInsertId();
       if (!$res) {
