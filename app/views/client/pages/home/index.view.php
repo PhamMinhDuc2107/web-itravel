@@ -534,8 +534,8 @@
          </div>
          <div class="favorite__block">
             <div class="favorite__list row-1">
-               <?php if (isset($data['firstLocationCate']) && is_array($data['firstLocationCate'])): ?>
-               <?php foreach ($data['firstLocationCate'] as $item): ?>
+               <?php if (isset($data['lastLocationCate']) && is_array($data['lastLocationCate'])): ?>
+               <?php foreach ($data['lastLocationCate'] as $item): ?>
                <div class="favorite__item">
                   <div class="favorite__item--text">
                      <?php
@@ -559,8 +559,8 @@
                <?php endif; ?>
             </div>
             <div class="favorite__list row-2">
-               <?php if (isset($data['lastLocationCate']) && is_array($data['lastLocationCate'])): ?>
-               <?php foreach ($data['lastLocationCate'] as $item): ?>
+               <?php if (isset($data['firstLocationCate']) && is_array($data['firstLocationCate'])): ?>
+               <?php foreach ($data['firstLocationCate'] as $item): ?>
                <div class="favorite__item">
                   <div class="favorite__item--text">
                      <?php

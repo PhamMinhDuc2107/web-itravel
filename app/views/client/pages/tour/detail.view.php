@@ -19,7 +19,7 @@
           <div class="swiper-wrapper">
             <?php if (isset($data['listImg'])): ?>
             <?php foreach ($data['listImg'] as $index => $img): ?>
-            <div class="swiper-slide" style="flex-shrink: 1;">
+            <div class="swiper-slide" style="flex-shrink: 0;">
               <img src="<?php echo _WEB_ROOT . $img['image'] ?>" alt="<?php echo $data['tour']['name'] ?>" style="width:100%;height:150px;object-fit:cover">
             </div>
             <?php endforeach; ?>
@@ -29,45 +29,6 @@
           <div class="swiper-button-prev"></div>
         </div>
       </div>
-      <script>
-      var swiperThumb = new Swiper(".pDetail__img--thumb", {
-        spaceBetween: 20,
-        watchSlidesProgress: true,
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        on: {
-          click: function(swiper, event) {
-            swiperThumb.slides.forEach(slide => {
-              slide.classList.remove('swiper-slide-active');
-            });
-            var clickedSlide = swiper.clickedSlide;
-            clickedSlide.classList.add('swiper-slide-active');
-          }
-        },
-        breakpoints: {
-          990: {
-            slidesPerView: 5,
-
-          },
-          765: {
-            slidesPerView: 4,
-
-          },
-          300: {
-            slidesPerView: 3,
-          },
-
-        }
-      });
-      var swiper2 = new Swiper(".pDetail__swiper--img", {
-        allowTouchMove: false,
-        thumbs: {
-          swiper: swiperThumb,
-        },
-      });
-      </script>
       <form method="get" action="<?php echo _WEB_ROOT . '/order-booking/' . $data['tour']['code_tour'] ?>"
         class="pDetail__right">
         <div class="pDetail__price">
@@ -509,3 +470,45 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+<script>
+      var swiperThumb = new Swiper(".pDetail__img--thumb", {
+        spaceBetween: 20,
+        watchSlidesProgress: true,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        on: {
+          click: function(swiper, event) {
+            swiperThumb.slides.forEach(slide => {
+              slide.classList.remove('swiper-slide-active');
+            });
+            var clickedSlide = swiper.clickedSlide;
+            clickedSlide.classList.add('swiper-slide-active');
+          }
+        },
+        breakpoints: {
+    990: {
+      slidesPerColumn: 1,
+      slidesPerView: 4,
+      spaceBetween: 20,
+    },
+    765: {
+      slidesPerColumn: 1,
+      slidesPerView: 3,
+      spaceBetween: 15,
+    },
+    300: {
+      slidesPerColumn: 1,
+      slidesPerView: 1.5,
+      spaceBetween: 10,
+    },
+  },
+});
+      var swiper2 = new Swiper(".pDetail__swiper--img", {
+        allowTouchMove: false,
+        thumbs: {
+          swiper: swiperThumb,
+        },
+      });
+      </script>

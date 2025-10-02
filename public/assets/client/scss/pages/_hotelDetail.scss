@@ -8,6 +8,7 @@
       margin-bottom: 0.5rem;
    }
    &__info {
+      margin-bottom: 2rem;
       @include flex(end, space-between);
       &--right {
          @include flex(start, start, column);
@@ -15,7 +16,6 @@
       &--left {
          @include flex(start, start, column);
       }
-      margin-bottom: 2rem;
    }
    &__price {
       gap: 1rem;

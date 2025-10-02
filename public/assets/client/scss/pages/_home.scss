@@ -326,6 +326,7 @@
     &__list {
         @include flex(center, space-between);
         gap: 2rem;
+        width: 100%;
     }
     &__item {
         width: 100%;
@@ -363,7 +364,11 @@
         .favorite__item {
             width: 33.3333%;
             &--img {
+            img {
                 height: 30rem;
+                width: 100%;
+                object-fit: cover;
+            }
             }
         }
     }

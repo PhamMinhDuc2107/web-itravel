@@ -308,7 +308,7 @@ class Tour  extends Controller
 
    private function convertListPriceDateToArr($date, $priceAdult, $priceChildren, $priceBaby): array
    {
-      $datas = [];
+      $data = [];
       for ($i = 0; $i < count($priceAdult); $i++) {
          $arrDate = explode(",", trim($date[$i], ","));
          for ($j = 0; $j < count($arrDate); $j++) {
@@ -317,10 +317,10 @@ class Tour  extends Controller
             $item["child_price"] = (float)$priceChildren[$i];
             $item["infant_price"] = (float)$priceBaby[$i];
             $item['date'] = $arrDate[$j];
-            array_push($datas, $item);
+            array_push($data, $item);
          }
       }
-      return $datas ?? [];
+      return $data ?? [];
    }
 
    private function getStatus($status): string

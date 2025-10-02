@@ -1214,7 +1214,7 @@ body {
   align-items: center;
   justify-content: start;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 1rem;
   cursor: pointer;
 }
@@ -1651,6 +1651,7 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 2rem;
+  width: 100%;
 }
 .favorite__item {
   width: 100%;
@@ -1687,8 +1688,10 @@ body {
 .favorite .row-1 .favorite__item {
   width: 33.3333%;
 }
-.favorite .row-1 .favorite__item--img {
+.favorite .row-1 .favorite__item--img img {
   height: 30rem;
+  width: 100%;
+  object-fit: cover;
 }
 .favorite .row-2 .favorite__item--img {
   height: 24.5rem;
@@ -4024,12 +4027,12 @@ body {
   margin-bottom: 0.5rem;
 }
 .hotelDetail__info {
+  margin-bottom: 2rem;
   display: flex;
   align-items: end;
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: nowrap;
-  margin-bottom: 2rem;
 }
 .hotelDetail__info--right {
   display: flex;

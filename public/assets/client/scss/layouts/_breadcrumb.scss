@@ -4,7 +4,7 @@
   background-color: $primary-color;
   margin-bottom: 3rem;
   .row {
-    @include flex(center);
+    @include flex(center, start, row, wrap);
     gap: 1rem;
     cursor: pointer;
     a {
