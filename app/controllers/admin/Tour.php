@@ -320,7 +320,7 @@ class Tour  extends Controller
             array_push($datas, $item);
          }
       }
-      return $data ?? [];
+      return $datas ?? [];
    }
 
    private function getStatus($status): string
